@@ -1,6 +1,7 @@
 name = "mcavatar"
-type = "rust"
+type = "webpack"
 account_id = "8c2828956247b0eacdafd33c6d4dcade"
 workers_dev = true
 route = ""
 zone_id = ""
+webpack_config = "webpack.config.js"

@@ -1,3 +1,5 @@
+const crafthead = import('../pkg/crafthead');
+
 addEventListener('fetch', event => {
   event.respondWith(handleRequest(event))
 })
@@ -97,8 +99,7 @@ async function generateHead(uuid, size) {
   const skin = await retrieveSkin(uuid)
 
   console.log("Generating head...")
-  const { get_minecraft_head } = wasm_bindgen;
-  await wasm_bindgen(wasm)
+  const { get_minecraft_head } = await crafthead
   const image = get_minecraft_head(skin, size)
   console.log("Head successfully generated.")
 

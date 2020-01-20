@@ -1,0 +1,14 @@
+{
+  "name": "crafthead",
+  "version": "1.0.0",
+  "main": "worker/index.js",
+  "repository": "git@github.com:astei/crafthead.git",
+  "author": "Andrew Steinborn <git@steinborn.me>",
+  "license": "MIT",
+  "devDependencies": {
+    "@wasm-tool/wasm-pack-plugin": "^1.1.0",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.5",
+    "webpack-cli": "^3.3.10"
+  }
+}

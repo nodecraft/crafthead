@@ -5,3 +5,6 @@ bin/
 pkg/
 wasm-pack.log
 worker/generated/
+worker/*.wasm
+worker/script.js
+node_modules/
