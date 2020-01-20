@@ -1,6 +1,7 @@
 /// <reference path="./mojang.d.ts">
 
 import CloudflareWorkerGlobalScope from 'types-cloudflare-worker';
+import PromiseGatherer from './promise_gather';
 const STEVE_SKIN: ArrayBuffer = require('arraybuffer-loader!./steve.png');
 declare var self: CloudflareWorkerGlobalScope;
 
@@ -30,6 +31,12 @@ interface MojangTextureUrls {
 }
 
 export default class MojangRequestService {
+    promiseGatherer: PromiseGatherer;
+
+    constructor(promiseGatherer: PromiseGatherer) {
+        this.promiseGatherer = promiseGatherer;
+    }
+
     async retrieveSkin(uuid: string): Promise<Response> {
         // See if we already have the skin cached already.
         const cacheUrl = `https://mcavatar.steinborn.workers.dev/skin/${uuid}`
@@ -39,7 +46,7 @@ export default class MojangRequestService {
         }
 
         const retrieved = await this.retrieveSkinFromMojang(uuid)
-        await caches.default.put(new Request(cacheUrl), retrieved.clone())
+        this.promiseGatherer.push(caches.default.put(new Request(cacheUrl), retrieved.clone()))
         return retrieved
     }
 
@@ -56,9 +63,8 @@ export default class MojangRequestService {
                     throw new Error(`Unable to retrieve skin texture from Mojang, http status ${textureResponse.status}`)
                 }
 
-                const buffer = await textureResponse.arrayBuffer()
-                console.log("Successfully retrieved skin texture of ", buffer.byteLength, " bytes.")
-                return new Response(buffer)
+                console.log("Successfully retrieved skin texture")
+                return textureResponse
             }
         }
 
@@ -74,8 +80,8 @@ export default class MojangRequestService {
         const profileResponse = await fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`)
 
         if (profileResponse.status === 200) {
-            const profile: MojangProfile = await profileResponse.json()
-            await this.saveUsernameCache(profile)
+            const profile: MojangProfile = await profileResponse.json();
+            this.promiseGatherer.push(this.saveUsernameCache(profile));
             return profile;
         } else if (profileResponse.status === 206) {
             return null;
@@ -107,17 +113,17 @@ export default class MojangRequestService {
 
     async mapNameToUuid(name: string): Promise<string | undefined> {
         const url = this.getNameCacheUrl(name.toLocaleLowerCase('en-US'));
-        const cachedName = await caches.default.match(url)
+        const cachedName = await caches.default.match(url);
         if (cachedName) {
-            return cachedName.text()
+            return cachedName.text();
         }
 
         const mojangResponse = await this.lookupUsernameFromMojang(name);
         if (mojangResponse) {
-            await this.saveUsernameCache(mojangResponse)
-            return mojangResponse.id
+            this.promiseGatherer.push(this.saveUsernameCache(mojangResponse));
+            return mojangResponse.id;
         } else {
-            return undefined
+            return undefined;
         }
     }
 

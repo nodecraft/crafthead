@@ -37,7 +37,7 @@ export function interpretRequest(request: Request): MineheadRequest | null {
     let [requestedKindString, identity, sizeString] = url.pathname.split('/').slice(1)
     let size = parseInt(sizeString, 10);
     if (!size) {
-        size = 32 // default
+        size = 180 // default, same as Minotar
     } else if (size < 8) {
         size = 8 // minimum size
     } else if (size > 300) {
