@@ -21,17 +21,37 @@ async function handleRequest(event: FetchEvent) {
 
     console.log("Request interpreted as ", interpreted);
 
-    if (interpreted.identityType === IdentityKind.Username) {
-        // Usernames are not yet supported.
-        return new Response('username fetching not yet supported', { status: 400 });
+    // We use a two-layer cache. Our first layer is relatively dumb and acts on the raw request itself
+    // with some mild rewriting. The second layer runs after all remapping is done.
+
+    // Catch most repeated requests
+    const l1CacheUrl = getCacheUrl(request, interpreted);
+    const l1CacheResponse = await caches.default.match(l1CacheUrl);
+    if (l1CacheResponse) {
+        console.log("Request satisified from level 1 cache");
+        return l1CacheResponse;
     }
 
-    // Catch top-level requests 
+    // Remap usernames.
+    if (interpreted.identityType === IdentityKind.Username) {
+        const uuidIdentity = await skinService.mapNameToUuid(interpreted.identity);
+        if (uuidIdentity) {
+            console.log(`Identified ${interpreted.identity} as ${uuidIdentity}`)
+            interpreted.identity = uuidIdentity
+            interpreted.identityType = IdentityKind.Uuid
+        } else {
+            // username is not valid
+            console.log(`${interpreted.identity} isn't a valid username, bailing out now!`)
+            return skinService.getSteveSkin()
+        }
+    }
+
+    // Level 2 caching catches remapped usernames for which we have the UUIDs.
     const cacheUrl = getCacheUrl(request, interpreted);
     const cacheRequest = new Request(cacheUrl);
-    const cachedResponse = await caches.default.match(cacheRequest);
+    const cachedResponse = await caches.default.match(cacheUrl);
     if (cachedResponse) {
-        console.log("Request satisified from cache");
+        console.log("Request satisified from level 2 cache");
         return cachedResponse;
     }
 
@@ -81,5 +101,7 @@ async function generateHead(uuid: string, size: number): Promise<Response> {
 
 function getCacheUrl(request: Request, interpreted: MineheadRequest): string {
     const urlJs = new URL(request.url);
-    return `${urlJs.protocol}//${urlJs.host}/${interpreted.requested}/${interpreted.identity}/${interpreted.size}`;
+
+    // Use a full URL, plus the identity in lowercase (to handle the case-insensitivity of MC usernames)
+    return `${urlJs.protocol}//${urlJs.host}/${interpreted.requested}/${interpreted.identity.toLocaleLowerCase('en-US')}/${interpreted.size}`;
 }

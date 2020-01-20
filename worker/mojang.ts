@@ -10,6 +10,11 @@ interface MojangProfile {
     properties: MojangProfileProperty[];
 }
 
+interface MojangUsernameLookupResult {
+    id: string;
+    name: string;
+}
+
 interface MojangProfileProperty {
     name: string;
     value: string;
@@ -39,33 +44,94 @@ export default class MojangRequestService {
     }
 
     private async retrieveSkinFromMojang(uuid: string): Promise<Response> {
-        const profileResponse = await fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`)
-        if (!profileResponse.ok) {
-            throw new Error(`Unable to retrieve profile from Mojang, http status ${profileResponse.status}`)
-        }
-
-        if (profileResponse.status === 200) {
-            const profile: MojangProfile = await profileResponse.json()
-            if (profile.properties) {
-                const skinTextureUrl = profile.properties
-                    .filter(property => property.name === 'textures')
-                    .map(this.extractUrlFromTexturesProperty)
-                    .pop()
-                if (skinTextureUrl) {
-                    const textureResponse = await fetch(skinTextureUrl)
-                    if (!textureResponse.ok) {
-                        throw new Error(`Unable to retrieve skin texture from Mojang, http status ${textureResponse.status}`)
-                    }
-
-                    const buffer = await textureResponse.arrayBuffer()
-                    console.log("Successfully retrieved skin texture of ", buffer.byteLength, " bytes.")
-                    return new Response(buffer)
+        const profile = await this.fetchMojangProfile(uuid);
+        if (profile && profile.properties) {
+            const skinTextureUrl = profile.properties
+                .filter(property => property.name === 'textures')
+                .map(this.extractUrlFromTexturesProperty)
+                .pop()
+            if (skinTextureUrl) {
+                const textureResponse = await fetch(skinTextureUrl)
+                if (!textureResponse.ok) {
+                    throw new Error(`Unable to retrieve skin texture from Mojang, http status ${textureResponse.status}`)
                 }
+
+                const buffer = await textureResponse.arrayBuffer()
+                console.log("Successfully retrieved skin texture of ", buffer.byteLength, " bytes.")
+                return new Response(buffer)
             }
         }
 
         console.log("Invalid properties found! Falling back to Steve skin.")
+        return this.getSteveSkin()
+    }
+
+    getSteveSkin(): Response {
         return new Response(STEVE_SKIN)
+    }
+
+    async fetchMojangProfile(uuid: string): Promise<MojangProfile | null> {
+        const profileResponse = await fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`)
+
+        if (profileResponse.status === 200) {
+            const profile: MojangProfile = await profileResponse.json()
+            await this.saveUsernameCache(profile)
+            return profile;
+        } else if (profileResponse.status === 206) {
+            return null;
+        } else {
+            throw new Error(`Unable to retrieve profile from Mojang, http status ${profileResponse.status}`);
+        }
+    }
+
+    private async lookupUsernameFromMojang(username: string): Promise<MojangUsernameLookupResult | undefined> {
+        const body = JSON.stringify([username])
+        const lookupResponse = await fetch('https://api.mojang.com/profiles/minecraft', {
+            method: 'POST',
+            body: body,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+
+        if (!lookupResponse.ok) {
+            throw new Error(`Unable to retrieve profile from Mojang, http status ${lookupResponse.status}`);
+        }
+
+        const contents: MojangUsernameLookupResult[] | undefined = await lookupResponse.json();
+        if (typeof contents === 'undefined' || contents.length === 0) {
+            return undefined;
+        }
+        return contents[0];
+    }
+
+    async mapNameToUuid(name: string): Promise<string | undefined> {
+        const url = this.getNameCacheUrl(name.toLocaleLowerCase('en-US'));
+        const cachedName = await caches.default.match(url)
+        if (cachedName) {
+            return cachedName.text()
+        }
+
+        const mojangResponse = await this.lookupUsernameFromMojang(name);
+        if (mojangResponse) {
+            await this.saveUsernameCache(mojangResponse)
+            return mojangResponse.id
+        } else {
+            return undefined
+        }
+    }
+
+    private async saveUsernameCache(profile: MojangUsernameLookupResult | MojangProfile): Promise<undefined> {
+        const url = this.getNameCacheUrl(profile.name.toLocaleLowerCase('en-US'));
+        return caches.default.put(url, new Response(profile.id, {
+            headers: {
+                'Cache-Control': 'max-age=3600'
+            }
+        }))
+    }
+
+    private getNameCacheUrl(name: string): string {
+        return `https://api.mojang.com/profiles/minecraft/lookup-name/${name}`
     }
 
     private extractUrlFromTexturesProperty(property: MojangProfileProperty): string | undefined {

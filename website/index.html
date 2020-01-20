@@ -44,8 +44,12 @@
 
         <h2>Getting started</h2>
         <p>
-            Crafthead supports lookups by UUID (dashed or not) and supports rendering avatars or retrieving skins.
-            The URL layout is compatible with Minotar, making migration simple.
+            Crafthead supports lookups by UUID (dashed or not) and usernames and supports rendering avatars or
+            retrieving skins. The URL layout is compatible with Minotar, making migration simple.
+        </p>
+        <p>
+            <strong>Performance tip</strong>: Use UUIDs when possible. Using a username requires an extra API call,
+            which may not be cached!
         </p>
 
         <h3>Fetch an avatar</h3>

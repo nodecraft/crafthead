@@ -16,7 +16,7 @@ of Crafthead I run.
   * Avatar generation at 64px in ~23ms (compare to 54ms for Minotar and 57ms for Crafatar)
   * Most of the benefit can be given to the fact Craftheads runs near the user
   * Note: the skin the avatar was generated from was always in cache
-* Supports UUID fetching (dashed or not dashed), username lookups coming soon
+* Supports UUID fetching (dashed or not dashed) and username lookups
 * Renders avatars from 8px to 300px
 
 ## Rolling your own
