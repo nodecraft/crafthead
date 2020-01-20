@@ -5,6 +5,10 @@ solution built on [Cloudflare Workers](https://workers.cloudflare.com).
 It runs on any of Cloudflare's 200+ datacenters worldwide with minimal
 latency.
 
+**Note**: if you're a causal browser and wound up you, you probably want
+to go to [Crafthead.net](https://crafthead.net), the public instance
+of Crafthead I run.
+
 ## Features
 
 * **Extremely fast**:
@@ -22,7 +26,7 @@ latency.
 Use the public instance I've made available. You don't have to pay a single
 dime for it. I pick up all the costs.
 
-If, on the other hand, you're looking to _hack_ on Craftheads, then keep reading.
+If, on the other hand, you're looking to _hack_ on Crafthead, then keep reading.
 
 ### Step 2: You want to do it?
 
@@ -39,6 +43,6 @@ All you need is to copy `wrangler.toml.dev` to `wrangler.toml`, fill in your own
 ### Notes on `wrangler preview`
 
 Due to Mojang API rate limits, it is not possible to use `wrangler preview` to
-test Craftheads. You are better off deploying to `workers.dev` instead. In the
+test Crafthead. You are better off deploying to `workers.dev` instead. In the
 future, a "fake" mode may be introduced where only one head can be scaled as
 needed.
