@@ -49,7 +49,7 @@ export default class MojangRequestService {
             if (profile.properties) {
                 const skinTextureUrl = profile.properties
                     .filter(property => property.name === 'textures')
-                    .map(this.readTexturesProperty)
+                    .map(this.extractUrlFromTexturesProperty)
                     .pop()
                 if (skinTextureUrl) {
                     const textureResponse = await fetch(skinTextureUrl)
@@ -68,7 +68,7 @@ export default class MojangRequestService {
         return new Response(STEVE_SKIN)
     }
 
-    private readTexturesProperty(property: MojangProfileProperty) {
+    private extractUrlFromTexturesProperty(property: MojangProfileProperty): string | undefined {
         const rawJson = atob(property.value);
         const decoded: MojangTexturePropertyValue = JSON.parse(rawJson);
         console.log("Raw textures property: ", property);
