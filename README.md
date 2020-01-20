@@ -35,10 +35,13 @@ _strongly_ recommnded you purchase a Cloudflare Workers Unlimited plan, otherwis
 it is possible you could run into CPU limit problems at larger resolutions.
 
 You'll also want the [Rust toolchain](https://www.rust-lang.org/learn/get-started)
-and [wasm-pack](https://rustwasm.github.io/wasm-pack/installer/) too.
+and [wasm-pack](https://rustwasm.github.io/wasm-pack/installer/) too. Also,
+you'll need [Node.js](https://nodejs.org) as well.
 
-All you need is to copy `wrangler.toml.dev` to `wrangler.toml`, fill in your own
-`account_id`, and use `wrangler publish`. That's all there is to it!
+Then:
+* Copy `wrangler.toml.dev` to `wrangler.toml` and fill in your own `account_id`
+* Use `yarn install` to install all the development dependencies
+* Use `wrangler publish`. You're done!
 
 ### Notes on `wrangler preview`
 
