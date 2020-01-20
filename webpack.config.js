@@ -3,7 +3,7 @@ const WasmPackPlugin = require("@wasm-tool/wasm-pack-plugin");
 
 module.exports = {
     target: "webworker",
-    entry: "./worker/index.js",
+    entry: "./worker/index.ts",
     output: {
         filename: "script.js",
         path: path.join(__dirname, 'worker', 'generated')
@@ -17,10 +17,13 @@ module.exports = {
             },
         ],
     },
+    resolve: {
+        extensions: ['.ts', '.js'],
+    },
     plugins: [
         new WasmPackPlugin({
             crateDirectory: __dirname,
-            extraArgs: "--typescript --target bundler",
+            extraArgs: "--target bundler",
             outName: "crafthead"
         }),
     ]

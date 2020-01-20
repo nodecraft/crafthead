@@ -1,7 +1,7 @@
 /// <reference path="./mojang.d.ts">
 
 import CloudflareWorkerGlobalScope from 'types-cloudflare-worker';
-const STEVE_SKIN: ArrayBuffer = require('arraybuffer!./steve.dat');
+const STEVE_SKIN: ArrayBuffer = require('arraybuffer-loader!./steve.png');
 declare var self: CloudflareWorkerGlobalScope;
 
 interface MojangProfile {
@@ -24,7 +24,7 @@ interface MojangTextureUrls {
     CAPE: { url: string } | undefined;
 }
 
-class MojangRequestService {
+export default class MojangRequestService {
     async retrieveSkin(uuid: string): Promise<Response> {
         // See if we already have the skin cached already.
         const cacheUrl = `https://mcavatar.steinborn.workers.dev/skin/${uuid}`
@@ -56,8 +56,10 @@ class MojangRequestService {
                     if (!textureResponse.ok) {
                         throw new Error(`Unable to retrieve skin texture from Mojang, http status ${textureResponse.status}`)
                     }
-                    console.log("Successfully retrieved skin texture.")
-                    return new Response(await textureResponse.arrayBuffer())
+
+                    const buffer = await textureResponse.arrayBuffer()
+                    console.log("Successfully retrieved skin texture of ", buffer.byteLength, " bytes.")
+                    return new Response(buffer)
                 }
             }
         }
@@ -69,7 +71,7 @@ class MojangRequestService {
     private readTexturesProperty(property: MojangProfileProperty) {
         const rawJson = atob(property.value);
         const decoded: MojangTexturePropertyValue = JSON.parse(rawJson);
-        console.log("Raw textures property: " + property);
+        console.log("Raw textures property: ", property);
 
         const textures = decoded.textures;
         return textures.SKIN && textures.SKIN.url;
