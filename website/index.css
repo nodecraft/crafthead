@@ -1,0 +1,61 @@
+html {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+header {
+    background: rgb(37, 33, 33);
+    color: white;
+
+    padding: 4rem 0;
+    text-align: center;
+}
+
+footer {
+    padding: 1rem;
+    margin: 0 auto;
+    text-align: center;
+    max-width: 1200px;
+}
+
+hr {
+    border: 1px solid black;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 3rem;
+}
+
+a, a:visited {
+    color: rgb(37, 33, 33);
+}
+
+article {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+    line-height: 1.5;
+}
+
+.example {
+    background: #eeeeee;
+    display: flex;
+    padding: 1rem;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.example img {
+    align-self: flex-end;
+}
+
+@media screen and (max-width: 600px) {
+    .example {
+        flex-direction: column-reverse;
+    }
+
+    .example code {
+        padding: 0.4rem;
+        display: block;
+    }
+}

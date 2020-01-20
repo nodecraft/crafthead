@@ -1,0 +1,98 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Crafthead</title>
+
+    <link href="normalize.css" rel="stylesheet">
+    <link href="index.css" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <h1>Crafthead</h1>
+        <p>A radically fast Minecraft avatar service.</p>
+
+        <div class="heads">
+            <img src="https://crafthead.net/avatar/652a2bc4e8cd405db7b698156ee2dc09/64" width="64" height="64"
+                alt="Head #1: tuxed (I made this!)">
+            <img src="https://crafthead.net/avatar/c06f89064c8a49119c29ea1dbd1aab82/64" width="64" height="64"
+                alt="Head #2: Steve">
+            <img src="https://crafthead.net/avatar/069a79f444e94726a5befca90e38aaf5/64" width="64" height="64"
+                alt="Head #3: Notch">
+            <img src="https://crafthead.net/avatar/853c80ef3c3749fdaa49938b674adae6/64" width="64" height="64"
+                alt="Head #4: jeb_">
+            <img src="https://crafthead.net/avatar/2f3665cc5e29439bbd14cb6d3a6313a7/64" width="64" height="64"
+                alt="Head #5: Alex">
+        </div>
+    </header>
+
+    <article>
+        <h2>Why use Crafthead?</h2>
+        <ul>
+            <li><strong>Runs on the edge</strong> &ndash; runs fast everywhere, using Cloudflare's 200+ datacenters
+                worldwide</li>
+            <li><strong>Serverless</strong> &ndash; not only does it run fast everywhere, it scales with zero
+                intervention</li>
+            <li><strong>Ridiculously fast</strong> &ndash; depending on if the skin has been cached and the desired
+                avatar size, it can be more than 2x as fast as other services</li>
+            <li><strong>Easy to move to</strong> &ndash; the URL layout is 100% compatible with Minotar's, so it's
+                a quick and easy switch</li>
+        </ul>
+
+        <h2>Getting started</h2>
+        <p>
+            Crafthead supports lookups by UUID (dashed or not) and supports rendering avatars or retrieving skins.
+            The URL layout is compatible with Minotar, making migration simple.
+        </p>
+
+        <h3>Fetch an avatar</h3>
+        <div class="example">
+            <code>
+                GET https://crafthead.net/avatar/652a2bc4e8cd405db7b698156ee2dc09
+            </code>
+            <img src="https://crafthead.net/avatar/652a2bc4e8cd405db7b698156ee2dc09" alt="Default example" width="32"
+                height="32">
+        </div>
+
+        <p>Need something bigger?</p>
+        <div class="example">
+            <code>
+                GET https://crafthead.net/avatar/652a2bc4e8cd405db7b698156ee2dc09/128
+            </code>
+            <img src="https://crafthead.net/avatar/652a2bc4e8cd405db7b698156ee2dc09/128" alt="Default example"
+                width="128" height="128">
+        </div>
+
+        <p>Got a dashed UUID? We will remove them for you.</p>
+        <div class="example">
+            <code>
+                GET https://crafthead.net/avatar/069a79f4-44e9-4726-a5be-fca90e38aaf5
+            </code>
+            <img src="https://crafthead.net/avatar/069a79f4-44e9-4726-a5be-fca90e38aaf5" alt="Default example"
+                width="32" height="32">
+        </div>
+
+        <h3>Fetch a player's skin</h3>
+        <div class="example">
+            <code>
+                GET https://crafthead.net/skin/652a2bc4e8cd405db7b698156ee2dc09
+            </code>
+            <img src="https://crafthead.net/skin/652a2bc4e8cd405db7b698156ee2dc09" alt="Default example" width="64"
+                height="64">
+        </div>
+    </article>
+
+    <footer>
+        <hr />
+        <p>Copyright &copy; 2020 <a href="https://steinborn.me">Andrew Steinborn</a>.
+            Built on <a href="https://workers.cloudflare.com">Cloudflare Workers</a>
+            and <a href="https://rust-lang.org">Rust</a>.
+            Open source on <a href="https://github.com/astei/crafthead">GitHub</a>.
+        </p>
+    </footer>
+</body>
+
+</html>
