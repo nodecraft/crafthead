@@ -59,6 +59,8 @@ async function retrieveSkinAsResponse(uuid: string): Promise<Response> {
     return await skinService.retrieveSkin(uuid);
 }
 
+// This is a hack in order to get webpack to play nice with the included WebAssembly module.
+// See https://github.com/rustwasm/wasm-bindgen/issues/700 for more details.
 async function getRenderer(): Promise<{
     get_minecraft_head(skin_image: any, size: number): any;
 }> {
