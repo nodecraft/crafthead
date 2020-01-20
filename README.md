@@ -5,7 +5,7 @@ solution built on [Cloudflare Workers](https://workers.cloudflare.com).
 It runs on any of Cloudflare's 200+ datacenters worldwide with minimal
 latency.
 
-**Note**: if you're a causal browser and wound up you, you probably want
+**Note**: if you're a causal browser and wound up here, you probably want
 to go to [Crafthead.net](https://crafthead.net), the public instance
 of Crafthead I run.
 
