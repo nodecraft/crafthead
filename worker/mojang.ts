@@ -47,8 +47,15 @@ export default class MojangRequestService {
 
         // Otherwise we'll need to make 2 requests to get it. *sigh*
         const retrieved = await this.retrieveSkinFromMojang(uuid)
-        await caches.default.put(new Request(cacheUrl), retrieved.clone())
-        return retrieved
+
+        // Cache it too
+        const storedRequest = new Response(retrieved.body, {
+            headers: {
+                'Cache-Control': 'public, max-age=172800'
+            }
+        })
+        await caches.default.put(cacheUrl, storedRequest.clone())
+        return storedRequest
     }
 
     private async retrieveSkinFromMojang(uuid: string): Promise<Response> {
