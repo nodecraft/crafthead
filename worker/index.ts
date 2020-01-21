@@ -14,6 +14,12 @@ self.addEventListener('fetch', event => {
 
 async function handleRequest(event: FetchEvent) {
     const request = event.request;
+
+    // a debug endpoint to diagnose high startup times
+    if (request.url.endsWith("/testing1234/ping")) {
+        return new Response("ping")
+    }
+
     const interpreted = interpretRequest(request);
     if (!interpreted) {
         // We don't understand this request. Pass it straight to the origin (Amazon S3).
