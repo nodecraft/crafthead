@@ -47,7 +47,7 @@ export default class MojangRequestService {
 
         // Otherwise we'll need to make 2 requests to get it. *sigh*
         const retrieved = await this.retrieveSkinFromMojang(uuid)
-        this.promiseGatherer.push(caches.default.put(new Request(cacheUrl), retrieved.clone()))
+        await caches.default.put(new Request(cacheUrl), retrieved.clone())
         return retrieved
     }
 
