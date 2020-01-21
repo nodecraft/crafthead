@@ -89,7 +89,11 @@ async function processRequest(skinService: MojangRequestService, interpreted: Mi
 async function generateHead(skinService: MojangRequestService, uuid: string, size: number): Promise<Response> {
     const [skinResponse, renderer] = await Promise.all([skinService.retrieveSkin(uuid), getRenderer()]);
     const skinBuf = new Uint8Array(await skinResponse.arrayBuffer());
-    return new Response(renderer.get_minecraft_head(skinBuf, size));
+    return new Response(renderer.get_minecraft_head(skinBuf, size), {
+        headers: {
+            'Cache-Control': 'public, max-age=21600'
+        }
+    });
 }
 
 function getCacheRequest(request: Request, interpreted: MineheadRequest): Request {

@@ -21,10 +21,12 @@ of Crafthead I run.
 
 ## Rolling your own
 
-### Step 1: Don't.
+### Step 1: Reconsider
 
 Use the public instance I've made available. You don't have to pay a single
-dime for it. I pick up all the costs.
+dime for it. I pick up all the costs. Plus, if you use it, you get speedy
+performance all the time since it is more likely my version will be available
+to run immediately compared to yours.
 
 If, on the other hand, you're looking to _hack_ on Crafthead, then keep reading.
 
@@ -34,9 +36,8 @@ This project uses `wrangler`, so make sure you have that installed. It is also
 _strongly_ recommnded you purchase a Cloudflare Workers Unlimited plan, otherwise
 it is possible you could run into CPU limit problems at larger resolutions.
 
-You'll also want the [Rust toolchain](https://www.rust-lang.org/learn/get-started)
-and [wasm-pack](https://rustwasm.github.io/wasm-pack/installer/) too. Also,
-you'll need [Node.js](https://nodejs.org) as well.
+You'll also want [Node.js](https://nodejs.org), the [Rust toolchain](https://www.rust-lang.org/learn/get-started)
+and [wasm-pack](https://rustwasm.github.io/wasm-pack/installer/) too.
 
 Then:
 * Copy `wrangler.toml.dev` to `wrangler.toml` and fill in your own `account_id`

@@ -139,7 +139,7 @@ export default class MojangRequestService {
         const url = this.getNameCacheUrl(profile.name.toLocaleLowerCase('en-US'));
         return caches.default.put(url, new Response(profile.id, {
             headers: {
-                'Cache-Control': 'max-age=3600'
+                'Cache-Control': 'public, max-age=3600'
             }
         }))
     }
