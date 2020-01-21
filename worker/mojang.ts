@@ -45,6 +45,7 @@ export default class MojangRequestService {
             return cachedSkin;
         }
 
+        // Otherwise we'll need to make 2 requests to get it. *sigh*
         const retrieved = await this.retrieveSkinFromMojang(uuid)
         this.promiseGatherer.push(caches.default.put(new Request(cacheUrl), retrieved.clone()))
         return retrieved
@@ -77,7 +78,11 @@ export default class MojangRequestService {
     }
 
     async fetchMojangProfile(uuid: string): Promise<MojangProfile | null> {
-        const profileResponse = await fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`)
+        const profileResponse = await fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`, {
+            cf: {
+                cacheTtl: 300
+            }
+        })
 
         if (profileResponse.status === 200) {
             const profile: MojangProfile = await profileResponse.json();
@@ -97,6 +102,9 @@ export default class MojangRequestService {
             body: body,
             headers: {
                 'Content-Type': 'application/json'
+            },
+            cf: {
+                cacheTtl: 300
             }
         })
 
