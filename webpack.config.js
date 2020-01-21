@@ -2,11 +2,12 @@ const path = require("path");
 const WasmPackPlugin = require("@wasm-tool/wasm-pack-plugin");
 
 module.exports = {
+    mode: "none",
     target: "webworker",
     entry: "./worker/index.ts",
     output: {
         filename: "script.js",
-        path: path.join(__dirname, 'worker', 'generated')
+        path: path.join(__dirname, 'worker', 'generated'),
     },
     module: {
         rules: [
@@ -14,7 +15,7 @@ module.exports = {
                 test: /\.tsx?$/,
                 use: 'ts-loader',
                 exclude: /node_modules/,
-            },
+            }
         ],
     },
     resolve: {
