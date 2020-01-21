@@ -2,6 +2,7 @@
 
 import CloudflareWorkerGlobalScope from 'types-cloudflare-worker';
 import PromiseGatherer from './promise_gather';
+import { IdentityKind } from './request';
 const STEVE_SKIN: ArrayBuffer = require('arraybuffer-loader!./steve.png');
 declare var self: CloudflareWorkerGlobalScope;
 
@@ -30,6 +31,13 @@ interface MojangTextureUrls {
     CAPE: { url: string } | undefined;
 }
 
+interface SkinResponse {
+    response: Response;
+    profile: MojangProfile | null;
+}
+
+const SKIN_CACHE_BASE_URL = 'https://mcavatar.steinborn.workers.dev/skin'
+
 export default class MojangRequestService {
     promiseGatherer: PromiseGatherer;
 
@@ -37,29 +45,46 @@ export default class MojangRequestService {
         this.promiseGatherer = promiseGatherer;
     }
 
-    async retrieveSkin(uuid: string): Promise<Response> {
+    async retrieveSkin(identity: string, identityType: IdentityKind): Promise<Response> {
+        // Minotar special-cases these
+        if (identityType === IdentityKind.Username && (identity === 'char' || identity === 'MHF_Steve')) {
+            return this.getSteveSkin();
+        }
+
         // See if we already have the skin cached already.
-        const cacheUrl = `https://mcavatar.steinborn.workers.dev/skin/${uuid}`
+        const cacheUrl = `${SKIN_CACHE_BASE_URL}/${identity}`
         const cachedSkin = await self.caches.default.match(new Request(cacheUrl))
         if (cachedSkin) {
             return cachedSkin;
         }
 
         // Otherwise we'll need to make 2 requests to get it. *sigh*
-        const retrieved = await this.retrieveSkinFromMojang(uuid)
+        const retrieved = await this.retrieveSkinFromMojang(identity, identityType)
 
         // Cache it too
-        const storedRequest = new Response(retrieved.body, {
+        const storedRequest = new Response(retrieved.response.body, {
             headers: {
                 'Cache-Control': 'public, max-age=172800'
             }
         })
-        await caches.default.put(cacheUrl, storedRequest.clone())
+
+        const cacheUrls: Set<string> = new Set()
+        cacheUrls.add(cacheUrl);
+        if (retrieved.profile) {
+            cacheUrls.add(`${SKIN_CACHE_BASE_URL}/${retrieved.profile.id}`)
+            cacheUrls.add(`${SKIN_CACHE_BASE_URL}/${retrieved.profile.name.toLocaleLowerCase('en-US')}`)
+        }
+
+        const cachePromises = []
+        for (const putCacheUrl of cacheUrls) {
+            cachePromises.push(caches.default.put(putCacheUrl, storedRequest.clone()))
+        }
+        await Promise.all(cachePromises)
         return storedRequest
     }
 
-    private async retrieveSkinFromMojang(uuid: string): Promise<Response> {
-        const profile = await this.fetchMojangProfile(uuid);
+    private async retrieveSkinFromMojang(identity: string, identityType: IdentityKind): Promise<SkinResponse> {
+        const profile = await this.fetchMojangProfile(identity, identityType);
         if (profile && profile.properties) {
             const skinTextureUrl = profile.properties
                 .filter(property => property.name === 'textures')
@@ -72,25 +97,49 @@ export default class MojangRequestService {
                 }
 
                 console.log("Successfully retrieved skin texture")
-                return textureResponse
+                return {
+                    response: textureResponse,
+                    profile
+                }
             }
         }
 
         console.log("Invalid properties found! Falling back to Steve skin.")
-        return this.getSteveSkin()
+        return {
+            response: this.getSteveSkin(),
+            profile: null
+        }
     }
 
     getSteveSkin(): Response {
         return new Response(STEVE_SKIN)
     }
 
-    async fetchMojangProfile(uuid: string): Promise<MojangProfile | null> {
-        const profileResponse = await fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${uuid}`, {
-            cf: {
-                cacheTtl: 300
-            }
-        })
+    async fetchMojangProfile(identity: string, identityType: IdentityKind): Promise<MojangProfile | null> {
+        let profilePromise: Promise<Response>
+        switch (identityType) {
+            case IdentityKind.Uuid:
+                profilePromise = fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${identity}`, {
+                    cf: {
+                        cacheTtl: 300
+                    }
+                })
+                break
+            case IdentityKind.Username:
+                profilePromise = this.lookupUsernameFromMojang(identity)
+                    .then((result) => {
+                        if (!result) {
+                            return new Response('', { status: 206 })
+                        }
+                        return fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${result.id}`, {
+                            cf: {
+                                cacheTtl: 300
+                            }
+                        })
+                    });
+        }
 
+        const profileResponse = await profilePromise;
         if (profileResponse.status === 200) {
             const profile: MojangProfile = await profileResponse.json();
             this.promiseGatherer.push(this.saveUsernameCache(profile));
@@ -146,7 +195,7 @@ export default class MojangRequestService {
         const url = this.getNameCacheUrl(profile.name.toLocaleLowerCase('en-US'));
         return caches.default.put(url, new Response(profile.id, {
             headers: {
-                'Cache-Control': 'public, max-age=3600'
+                'Cache-Control': 'public, max-age=86400'
             }
         }))
     }

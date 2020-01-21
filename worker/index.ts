@@ -33,9 +33,7 @@ async function handleRequest(event: FetchEvent) {
     const gatherer = new PromiseGatherer();
 
     try {
-        // Catch most repeated requests
-        const skinService = new MojangRequestService(gatherer);
-
+        // If the result is cached, we don't need to do aything else
         const l1CacheRequest = getCacheRequest(request, interpreted);
         const l1CacheResponse = await caches.default.match(l1CacheRequest);
         if (l1CacheResponse) {
@@ -43,37 +41,12 @@ async function handleRequest(event: FetchEvent) {
             return l1CacheResponse;
         }
 
-        // Remap usernames.
-        if (interpreted.identityType === IdentityKind.Username) {
-            const uuidIdentity = await skinService.mapNameToUuid(interpreted.identity);
-            if (uuidIdentity) {
-                console.log(`Identified ${interpreted.identity} as ${uuidIdentity}`)
-                interpreted.identity = uuidIdentity
-                interpreted.identityType = IdentityKind.Uuid
-            } else {
-                // username is not valid
-                console.log(`${interpreted.identity} isn't a valid username, bailing out now!`)
-                return skinService.getSteveSkin()
-            }
-        }
-
-        // Level 2 caching catches remapped usernames for which we have the UUIDs.
-        const l2CacheRequest = getCacheRequest(request, interpreted);
-        const l2CacheResponse = await caches.default.match(l2CacheRequest);
-        if (l2CacheResponse) {
-            console.log("Request satisified from level 2 cache");
-            gatherer.push(caches.default.put(l1CacheRequest, l2CacheResponse.clone()));
-            return l2CacheResponse;
-        }
-
         // We failed to be lazy, so we'll have to actually fetch the skin.
+        const skinService = new MojangRequestService(gatherer);
         console.log("Request not satisified from cache. Going to do the computationally expensive stuff.");
         const skinResponse = await processRequest(skinService, interpreted);
         if (skinResponse.ok) {
-            if (l2CacheRequest.url !== l1CacheRequest.url) {
-                gatherer.push(caches.default.put(l1CacheRequest, skinResponse.clone()))
-            }
-            gatherer.push(caches.default.put(l2CacheRequest, skinResponse.clone()));
+            gatherer.push(caches.default.put(l1CacheRequest, skinResponse.clone()));
         }
         return skinResponse;
     } finally {
@@ -82,19 +55,20 @@ async function handleRequest(event: FetchEvent) {
 }
 
 async function processRequest(skinService: MojangRequestService, interpreted: MineheadRequest): Promise<Response> {
+    const skin = await skinService.retrieveSkin(interpreted.identity, interpreted.identityType);
     switch (interpreted.requested) {
         case RequestedKind.Avatar:
-            return generateHead(skinService, interpreted.identity, interpreted.size);
+            return generateHead(skin, interpreted.size);
         case RequestedKind.Skin:
-            return skinService.retrieveSkin(interpreted.identity);
+            return skin;
         default:
             return new Response('must request an avatar or a skin', { status: 400 });
     }
 }
 
-async function generateHead(skinService: MojangRequestService, uuid: string, size: number): Promise<Response> {
-    const [skinResponse, renderer] = await Promise.all([skinService.retrieveSkin(uuid), getRenderer()]);
-    const skinBuf = new Uint8Array(await skinResponse.arrayBuffer());
+async function generateHead(skin: Response, size: number): Promise<Response> {
+    const renderer = await getRenderer();
+    const skinBuf = new Uint8Array(await skin.arrayBuffer());
     return new Response(renderer.get_minecraft_head(skinBuf, size), {
         headers: {
             'Cache-Control': 'public, max-age=21600'
