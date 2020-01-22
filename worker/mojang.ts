@@ -116,14 +116,19 @@ export default class MojangRequestService {
     }
 
     async fetchMojangProfile(identity: string, identityType: IdentityKind): Promise<MojangProfile | null> {
+        const doLookup = (id: string): Promise<Response> => {
+            return fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${id}`, {
+                cf: {
+                    cacheEverything: true,
+                    cacheTtl: 3600
+                }
+            })
+        }
+
         let profilePromise: Promise<Response>
         switch (identityType) {
             case IdentityKind.Uuid:
-                profilePromise = fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${identity}`, {
-                    cf: {
-                        cacheTtl: 300
-                    }
-                })
+                profilePromise = doLookup(identity)
                 break
             case IdentityKind.Username:
                 profilePromise = this.lookupUsernameFromMojang(identity)
@@ -131,12 +136,9 @@ export default class MojangRequestService {
                         if (!result) {
                             return new Response('', { status: 206 })
                         }
-                        return fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${result.id}`, {
-                            cf: {
-                                cacheTtl: 300
-                            }
-                        })
+                        return doLookup(result.id);
                     });
+                break;
         }
 
         const profileResponse = await profilePromise;
@@ -160,7 +162,8 @@ export default class MojangRequestService {
                 'Content-Type': 'application/json'
             },
             cf: {
-                cacheTtl: 300
+                cacheEverything: true,
+                cacheTtl: 3600
             }
         })
 
