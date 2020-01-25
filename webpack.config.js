@@ -26,6 +26,6 @@ module.exports = {
             crateDirectory: __dirname,
             extraArgs: "--target bundler",
             outName: "crafthead"
-        }),
+        })
     ]
 };
