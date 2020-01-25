@@ -1,10 +1,14 @@
-name = "mcavatar"
+name = "crafthead-dev"
 type = "webpack"
 account_id = "8c2828956247b0eacdafd33c6d4dcade"
 workers_dev = true
 route = ""
 zone_id = ""
-webpack_config = "webpack.config.js"
+webpack_config = "webpack.dev.config.js"
 
 [env.staging]
 name = "crafthead-staging"
+
+[env.production]
+name = "mcavatar"
+webpack_config = "webpack.prod.config.js"
