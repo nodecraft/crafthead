@@ -1,7 +1,11 @@
-name = "mcavatar"
+name = "crafthead-dev"
 type = "webpack"
 account_id = ""
 workers_dev = true
 route = ""
 zone_id = ""
-webpack_config = "webpack.config.js"
+webpack_config = "webpack.dev.config.js"
+
+[env.production]
+name = "crafthead-production"
+webpack_config = "webpack.prod.config.js"

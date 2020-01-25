@@ -8,3 +8,4 @@ worker/generated/
 worker/*.wasm
 worker/script.js
 node_modules/
+wrangler.toml
