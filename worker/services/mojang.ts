@@ -3,7 +3,7 @@
 import PromiseGatherer from '../promise_gather';
 import { IdentityKind } from '../request';
 import { STEVE_SKIN } from '../data';
-import { CloudflareCacheService, ResponseCloudflareResponseMapper } from './cache/cloudflare';
+import { CloudflareCacheService, ArrayBufferCloudflareResponseMapper } from './cache/cloudflare';
 import MemoryCacheService from './cache/memory';
 import ResponseCacheService from './cache/response_helper';
 
@@ -43,7 +43,7 @@ export default class MojangRequestService {
     constructor() {
         this.skinCache = new ResponseCacheService(
             new MemoryCacheService(),
-            new CloudflareCacheService('skin', new ResponseCloudflareResponseMapper())
+            new CloudflareCacheService('skin', new ArrayBufferCloudflareResponseMapper())
         );
     }
 

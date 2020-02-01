@@ -4,7 +4,7 @@ import CloudflareWorkerGlobalScope from 'types-cloudflare-worker';
 import { MineheadRequest, RequestedKind, interpretRequest } from './request';
 import MojangRequestService from './services/mojang';
 import { getRenderer } from './wasm';
-import { CloudflareCacheService, ResponseCloudflareResponseMapper } from './services/cache/cloudflare';
+import { CloudflareCacheService, ArrayBufferCloudflareResponseMapper } from './services/cache/cloudflare';
 import MemoryCacheService from './services/cache/memory';
 import ResponseCacheService from './services/cache/response_helper';
 
@@ -16,7 +16,7 @@ self.addEventListener('fetch', event => {
 
 const l1Cache = new ResponseCacheService(
     new MemoryCacheService(),
-    new CloudflareCacheService('general-cache', new ResponseCloudflareResponseMapper())
+    new CloudflareCacheService('general-cache', new ArrayBufferCloudflareResponseMapper())
 );
 const skinService = new MojangRequestService();
 

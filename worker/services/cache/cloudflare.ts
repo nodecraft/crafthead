@@ -39,3 +39,17 @@ export class ResponseCloudflareResponseMapper implements CloudflareResponseMappe
         return object
     }
 }
+
+export class ArrayBufferCloudflareResponseMapper implements CloudflareResponseMapper<ArrayBuffer> {
+    decode(response: Response): Promise<ArrayBuffer> {
+        return response.arrayBuffer();
+    }
+
+    encode(object: ArrayBuffer): Response {
+        return new Response(object, {
+            headers: {
+                'Cache-Control': 'public, max-age=86400'
+            }
+        })
+    }
+}

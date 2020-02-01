@@ -1,8 +1,8 @@
 export default class ResponseCacheService implements CacheService<Response> {
-    private memoryCache: CacheService<Response>;
-    private externalCache: CacheService<Response>;
+    private memoryCache: CacheService<ArrayBuffer>;
+    private externalCache: CacheService<ArrayBuffer>;
 
-    constructor(memoryCache: CacheService<Response>, externalCache: CacheService<Response>) {
+    constructor(memoryCache: CacheService<ArrayBuffer>, externalCache: CacheService<ArrayBuffer>) {
         this.memoryCache = memoryCache;
         this.externalCache = externalCache;
     }
@@ -10,12 +10,12 @@ export default class ResponseCacheService implements CacheService<Response> {
     async find(key: string): Promise<Response | undefined> {
         let memoryResponse = await this.memoryCache.find(key);
         if (memoryResponse) {
-            return this.appendHitSource(memoryResponse.clone(), 'memory')
+            return this.appendHitSource(new Response(memoryResponse), 'memory')
         }
 
         const externalResponse = await this.externalCache.find(key);
         if (externalResponse) {
-            return this.appendHitSource(externalResponse, 'cloudflare')
+            return this.appendHitSource(new Response(externalResponse), 'cloudflare')
         } else {
             return undefined;
         }
@@ -31,10 +31,10 @@ export default class ResponseCacheService implements CacheService<Response> {
     }
 
     async put(key: string, value: Response): Promise<any> {
-        const cleaned = ResponseCacheService.cleanResponseForCache(value);
+        const buffer = await value.arrayBuffer();
         return Promise.all([
-            this.memoryCache.put(key, cleaned.clone()),
-            this.externalCache.put(key, cleaned.clone())
+            this.memoryCache.put(key, buffer),
+            this.externalCache.put(key, buffer)
         ]);
     }
 
