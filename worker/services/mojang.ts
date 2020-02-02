@@ -7,7 +7,7 @@ import { CloudflareCacheService, ArrayBufferCloudflareResponseMapper } from './c
 import MemoryCacheService from './cache/memory';
 import ResponseCacheService from './cache/response_helper';
 
-const MOJANG_API_TTL = 21600
+const MOJANG_API_TTL = 86400
 
 interface MojangProfile {
     id: string;
