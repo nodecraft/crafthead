@@ -7,6 +7,8 @@ import { CloudflareCacheService, ArrayBufferCloudflareResponseMapper } from './c
 import MemoryCacheService from './cache/memory';
 import ResponseCacheService from './cache/response_helper';
 
+const MOJANG_API_TTL = 21600
+
 interface MojangProfile {
     id: string;
     name: string;
@@ -116,7 +118,7 @@ export default class MojangRequestService {
             return fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${id}`, {
                 cf: {
                     cacheEverything: true,
-                    cacheTtl: 3600
+                    cacheTtl: MOJANG_API_TTL
                 }
             })
         }
@@ -159,7 +161,7 @@ export default class MojangRequestService {
             },
             cf: {
                 cacheEverything: true,
-                cacheTtl: 3600
+                cacheTtl: MOJANG_API_TTL
             }
         })
 
