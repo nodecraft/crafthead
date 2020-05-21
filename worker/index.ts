@@ -40,7 +40,9 @@ async function handleRequest(event: FetchEvent) {
         // If the result is cached, we don't need to do aything else
         const l1CacheResponse = await l1Cache.find(getCacheKey(interpreted))
         if (l1CacheResponse) {
-            return l1CacheResponse;
+            const headers = new Headers(l1CacheResponse.headers)
+            headers.set('Content-Type', determineContentType(interpreted))
+            return new Response(l1CacheResponse.body, { headers });
         }
 
         // We failed to be lazy, so we'll have to actually fetch the skin.
@@ -52,6 +54,15 @@ async function handleRequest(event: FetchEvent) {
         return skinResponse;
     } catch (e) {
         return new Response(e.toString(), { status: 500 })
+    }
+}
+
+function determineContentType(interpreted: MineheadRequest): string {
+    switch (interpreted.requested) {
+        case RequestedKind.Profile:
+            return 'application/json';
+        default:
+            return 'image/png';
     }
 }
 
