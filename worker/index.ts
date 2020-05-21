@@ -40,8 +40,7 @@ async function handleRequest(event: FetchEvent) {
         // If the result is cached, we don't need to do aything else
         const l1CacheResponse = await l1Cache.find(getCacheKey(interpreted))
         if (l1CacheResponse) {
-            const headers = new Headers(l1CacheResponse.headers)
-            headers.set('Content-Type', determineContentType(interpreted))
+            const headers = decorateHeaders(interpreted, l1CacheResponse.headers)
             return new Response(l1CacheResponse.body, { headers });
         }
 
@@ -51,31 +50,30 @@ async function handleRequest(event: FetchEvent) {
         if (skinResponse.ok) {
             event.waitUntil(l1Cache.put(getCacheKey(interpreted), skinResponse.clone()));
         }
-        return skinResponse;
+        const headers = decorateHeaders(interpreted, skinResponse.headers)
+        return new Response(skinResponse.body, { headers });
     } catch (e) {
         return new Response(e.toString(), { status: 500 })
     }
 }
 
-function determineContentType(interpreted: MineheadRequest): string {
-    switch (interpreted.requested) {
-        case RequestedKind.Profile:
-            return 'application/json';
-        default:
-            return 'image/png';
-    }
+function decorateHeaders(interpreted: MineheadRequest, headers: Headers): Headers {
+    const copiedHeaders = new Headers(headers);
+
+    // Set a liberal CORS policy - there's no harm you can do by making requests to this site...
+    copiedHeaders.set('Access-Control-Allow-Origin', '*');
+    copiedHeaders.set('Content-Type', interpreted.requested === RequestedKind.Profile ? 'application/json' : 'image/png');
+    return copiedHeaders
 }
 
 async function processRequest(skinService: MojangRequestService, interpreted: MineheadRequest): Promise<Response> {
     switch (interpreted.requested) {
         case RequestedKind.Profile: {
             const profile = await skinService.fetchMojangProfile(interpreted.identity, interpreted.identityType, null);
-            const headers = new Headers();
-            headers.set('Content-Type', 'application/json');
             if (profile === null) {
-                return new Response(JSON.stringify({ error: "Unable to fetch the profile"}), { headers, status: 500 });
+                return new Response(JSON.stringify({ error: "Unable to fetch the profile"}), { status: 500 });
             }
-            return new Response(JSON.stringify(profile), { headers });
+            return new Response(JSON.stringify(profile));
         }
         case RequestedKind.Avatar: {
             const skin = await skinService.retrieveSkin(interpreted.identity, interpreted.identityType);
