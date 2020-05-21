@@ -8,7 +8,7 @@ edition = "2018"
 crate-type = ["cdylib", "rlib"]
 
 [features]
-default = ["wee_alloc"]
+default = []
 
 [dependencies]
 cfg-if = "0.1.2"
@@ -24,14 +24,14 @@ console_error_panic_hook = { version = "0.1.1", optional = true }
 # `wee_alloc` is a tiny allocator for wasm that is only ~1K in code size
 # compared to the default allocator's ~10K. It is slower than the default
 # allocator, however.
-wee_alloc = { version = "0.4.2", optional = true }
+wee_alloc = { version = "0.4.5", optional = true }
 
 [dependencies.image]
 # Make `image` more lightweight. We don't need every image format under the sun,
 # just PNG.
-version = "0.22.4"
+version = "0.23.4"
 default-features = false
-features = ["png_codec"]
+features = ["png"]
 
 [dev-dependencies]
 wasm-bindgen-test = "0.2"
