@@ -56,14 +56,26 @@ async function handleRequest(event: FetchEvent) {
 }
 
 async function processRequest(skinService: MojangRequestService, interpreted: MineheadRequest): Promise<Response> {
-    const skin = await skinService.retrieveSkin(interpreted.identity, interpreted.identityType);
     switch (interpreted.requested) {
-        case RequestedKind.Avatar:
+        case RequestedKind.Profile: {
+            const profile = await skinService.fetchMojangProfile(interpreted.identity, interpreted.identityType, null);
+            const headers = new Headers();
+            headers.set('Content-Type', 'application/json');
+            if (profile === null) {
+                return new Response(JSON.stringify({ error: "Unable to fetch the profile"}), { headers, status: 500 });
+            }
+            return new Response(JSON.stringify(profile), { headers });
+        }
+        case RequestedKind.Avatar: {
+            const skin = await skinService.retrieveSkin(interpreted.identity, interpreted.identityType);
             return generateHead(skin, interpreted.size);
-        case RequestedKind.Skin:
+        }
+        case RequestedKind.Skin: {
+            const skin = await skinService.retrieveSkin(interpreted.identity, interpreted.identityType);
             return skin;
+        }
         default:
-            return new Response('must request an avatar or a skin', { status: 400 });
+            return new Response('must request an avatar, profile, or a skin', { status: 400 });
     }
 }
 

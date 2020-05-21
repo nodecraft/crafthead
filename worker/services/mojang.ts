@@ -113,7 +113,7 @@ export default class MojangRequestService {
         }
     }
 
-    private async fetchMojangProfile(identity: string, identityType: IdentityKind, promiseGatherer: PromiseGatherer): Promise<MojangProfile | null> {
+    async fetchMojangProfile(identity: string, identityType: IdentityKind, promiseGatherer: PromiseGatherer | null): Promise<MojangProfile | null> {
         const doLookup = (id: string): Promise<Response> => {
             return fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${id}`, {
                 cf: {
@@ -123,13 +123,15 @@ export default class MojangRequestService {
             })
         }
 
+        const gatherer = promiseGatherer === null ? new PromiseGatherer() : promiseGatherer
+
         let profilePromise: Promise<Response>
         switch (identityType) {
             case IdentityKind.Uuid:
                 profilePromise = doLookup(identity)
                 break
             case IdentityKind.Username:
-                profilePromise = this.mapNameToUuid(identity, promiseGatherer)
+                profilePromise = this.mapNameToUuid(identity, gatherer)
                     .then((result) => {
                         if (!result) {
                             return new Response('', { status: 206 })
@@ -142,9 +144,11 @@ export default class MojangRequestService {
         const profileResponse = await profilePromise;
         if (profileResponse.status === 200) {
             const profile: MojangProfile = await profileResponse.json();
-            promiseGatherer.push(this.saveUsernameCache(profile));
+            gatherer.push(this.saveUsernameCache(profile));
+            await gatherer.all();
             return profile;
         } else if (profileResponse.status === 206) {
+            await gatherer.all();
             return null;
         } else {
             throw new Error(`Unable to retrieve profile from Mojang, http status ${profileResponse.status}`);

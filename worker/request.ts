@@ -1,7 +1,8 @@
 // RequestedKind determines the kind of request the user is making.
 export enum RequestedKind {
     Skin,
-    Avatar
+    Avatar,
+    Profile
 }
 
 // IdentityKind determines if the request is for a UUID or a username.
@@ -23,6 +24,8 @@ function stringKindToRequestedKind(kind: string): RequestedKind | null {
             return RequestedKind.Skin;
         case "avatar":
             return RequestedKind.Avatar;
+        case "profile":
+            return RequestedKind.Profile;
         default:
             return null;
     }
