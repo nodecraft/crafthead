@@ -1,6 +1,6 @@
 // CloudflareCacheService is an implementation of a cache service that
 // uses the Cache API of the Cloudflare Worker.
-const BASE_URL = `https://crafthead.net/`
+declare const BASE_URL: string
 
 interface CloudflareResponseMapper<T> {
     decode(response: Response): Promise<T>;
