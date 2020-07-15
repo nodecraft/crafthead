@@ -8,6 +8,7 @@ import MemoryCacheService from './cache/memory';
 import ResponseCacheService from './cache/response_helper';
 
 const MOJANG_API_TTL = 86400
+declare const API_ROOT: string
 
 interface MojangProfile {
     id: string;
@@ -95,7 +96,7 @@ export default class MojangRequestService {
             if (skinTextureUrl) {
                 const textureResponse = await fetch(skinTextureUrl)
                 if (!textureResponse.ok) {
-                    throw new Error(`Unable to retrieve skin texture from Mojang, http status ${textureResponse.status}`)
+                    throw new Error(`Unable to retrieve skin texture from upstream, http status ${textureResponse.status}`)
                 }
 
                 console.log("Successfully retrieved skin texture")
@@ -115,12 +116,32 @@ export default class MojangRequestService {
 
     async fetchMojangProfile(identity: string, identityType: IdentityKind, promiseGatherer: PromiseGatherer | null): Promise<MojangProfile | null> {
         const doLookup = (id: string): Promise<Response> => {
-            return fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${id}`, {
-                cf: {
-                    cacheEverything: true,
-                    cacheTtl: MOJANG_API_TTL
-                }
-            })
+            if (typeof API_ROOT !== 'undefined') {
+                return fetch(`${typeof API_ROOT !== 'undefined' ? `${API_ROOT}/sessionserver` : 'https://sessionserver.mojang.com'}/session/minecraft/profile/${id}`, {
+                    cf: {
+                        cacheEverything: true,
+                        cacheTtl: MOJANG_API_TTL
+                    }
+                }).then(ctx => {
+                    if (ctx.status === 204) {
+                        return fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${id}`, {
+                            cf: {
+                                cacheEverything: true,
+                                cacheTtl: MOJANG_API_TTL
+                            }
+                        })
+                    } else {
+                        return ctx
+                    }
+                })
+            } else {
+                return fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${id}`, {
+                    cf: {
+                        cacheEverything: true,
+                        cacheTtl: MOJANG_API_TTL
+                    }
+                })
+            }
         }
 
         const gatherer = promiseGatherer === null ? new PromiseGatherer() : promiseGatherer
@@ -156,8 +177,18 @@ export default class MojangRequestService {
     }
 
     private async lookupUsernameFromMojang(username: string): Promise<MojangUsernameLookupResult | undefined> {
-        const body = JSON.stringify([username])
-        const lookupResponse = await fetch('https://api.mojang.com/profiles/minecraft', {
+        const body = JSON.stringify([username.replace('@mojang', '')])
+        const lookupResponse = !username.match('@mojang') && typeof API_ROOT !== 'undefined' ? await fetch(`${API_ROOT}/api/profiles/minecraft`, {
+            method: 'POST',
+            body: body,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            cf: {
+                cacheEverything: true,
+                cacheTtl: MOJANG_API_TTL
+            }
+        }) : await fetch(`https://api.mojang.com/profiles/minecraft`, {
             method: 'POST',
             body: body,
             headers: {
@@ -170,7 +201,7 @@ export default class MojangRequestService {
         })
 
         if (!lookupResponse.ok) {
-            throw new Error(`Unable to retrieve profile from Mojang, http status ${lookupResponse.status}`);
+            throw new Error(`Unable to retrieve profile from upstream, http status ${lookupResponse.status}`);
         }
 
         const contents: MojangUsernameLookupResult[] | undefined = await lookupResponse.json();
@@ -206,7 +237,7 @@ export default class MojangRequestService {
     }
 
     private getNameCacheUrl(name: string): string {
-        return `https://api.mojang.com/profiles/minecraft/lookup-name/${name}`
+        return `${typeof API_ROOT !== 'undefined' ? `${API_ROOT}/api` : 'https://api.mojang.com'}/profiles/minecraft/lookup-name/${name}`
     }
 
     private extractUrlFromTexturesProperty(property: MojangProfileProperty): string | undefined {
