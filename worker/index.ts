@@ -1,10 +1,10 @@
 /// <reference path="../pkg/crafthead.d.ts">
 
 import CloudflareWorkerGlobalScope from 'types-cloudflare-worker';
-import { MineheadRequest, RequestedKind, interpretRequest } from './request';
+import {interpretRequest, MineheadRequest, RequestedKind} from './request';
 import MojangRequestService from './services/mojang';
-import { getRenderer } from './wasm';
-import { CloudflareCacheService, ArrayBufferCloudflareResponseMapper } from './services/cache/cloudflare';
+import {getRenderer} from './wasm';
+import {ArrayBufferCloudflareResponseMapper, CloudflareCacheService} from './services/cache/cloudflare';
 import MemoryCacheService from './services/cache/memory';
 import ResponseCacheService from './services/cache/response_helper';
 
@@ -75,20 +75,20 @@ async function processRequest(skinService: MojangRequestService, interpreted: Mi
             }
             return new Response(JSON.stringify(profile));
         }
-        case RequestedKind.Avatar: {
+        case RequestedKind.Avatar:
+        case RequestedKind.Helm: {
             const skin = await skinService.retrieveSkin(interpreted.identity, interpreted.identityType);
-            return generateHead(skin, interpreted.size);
+            return renderImage(skin, interpreted.size, interpreted.requested);
         }
         case RequestedKind.Skin: {
-            const skin = await skinService.retrieveSkin(interpreted.identity, interpreted.identityType);
-            return skin;
+            return await skinService.retrieveSkin(interpreted.identity, interpreted.identityType);
         }
         default:
             return new Response('must request an avatar, profile, or a skin', { status: 400 });
     }
 }
 
-async function generateHead(skin: Response, size: number): Promise<Response> {
+async function renderImage(skin: Response, size: number, requested: RequestedKind.Avatar | RequestedKind.Helm): Promise<Response> {
     const destinationHeaders = new Headers(skin.headers);
     const skinCacheHit = destinationHeaders.get('X-Minehead-Cache-Hit')
     if (skinCacheHit) {
@@ -98,7 +98,20 @@ async function generateHead(skin: Response, size: number): Promise<Response> {
 
     const [renderer, skinArrayBuffer] = await Promise.all([getRenderer(), skin.arrayBuffer()]);
     const skinBuf = new Uint8Array(skinArrayBuffer);
-    return new Response(renderer.get_minecraft_head(skinBuf, size), {
+
+    let which: string
+    switch (requested) {
+        case RequestedKind.Avatar:
+            which = "avatar";
+            break;
+        case RequestedKind.Helm:
+            which = "helm";
+            break;
+        default:
+            throw new Error("Unknown requested kind");
+    }
+
+    return new Response(renderer.get_minecraft_head(skinBuf, size, which), {
         headers: destinationHeaders
     });
 }

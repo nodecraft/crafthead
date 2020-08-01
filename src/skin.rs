@@ -44,7 +44,7 @@ impl MinecraftSkin {
         match layer {
             Layer::Both => {
                 let mut bottom = self.get_part(&Layer::Bottom, part);
-                let mut top = self.get_part(&Layer::Top, part);
+                let top = self.get_part(&Layer::Top, part);
                 MinecraftSkin::fast_overlay(&mut bottom, &top, 0, 0);
                 bottom
             },
