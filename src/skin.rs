@@ -1,6 +1,6 @@
 extern crate image;
 
-use image::{DynamicImage, GenericImageView, imageops, GenericImage};
+use image::{DynamicImage, GenericImageView, imageops, GenericImage, Rgba};
 
 pub(crate) struct MinecraftSkin(DynamicImage);
 
@@ -59,14 +59,16 @@ impl MinecraftSkin {
                 }
             },
             Layer::Top => {
-                match part {
+                let mut portion = match part {
                     BodyPart::Head => self.0.crop_imm(40, 8, 8, 8),
                     BodyPart::Body => self.0.crop_imm(20, 36, 8, 12),
                     BodyPart::ArmLeft => self.0.crop_imm(52, 52, 4, 12),
                     BodyPart::ArmRight => self.0.crop_imm(44, 36, 4, 12),
                     BodyPart::LegLeft => self.0.crop_imm(4, 52, 4, 12),
                     BodyPart::LegRight => self.0.crop_imm(4, 36, 4, 12),
-                }
+                };
+                MinecraftSkin::apply_minecraft_transparency(&mut portion);
+                portion
             },
         }
     }
@@ -87,6 +89,37 @@ impl MinecraftSkin {
                     p[3] = 0xFF;
                     bottom.put_pixel(x + top_x, y + top_y, p);
                 }
+            }
+        }
+    }
+
+    fn is_region_transparent(img: &DynamicImage, x: u32, y: u32, width: u32, height: u32) -> bool {
+        for cy in y..y+height {
+            for cx in x..x+width {
+                let mut p = img.get_pixel(cx, cy);
+                if p[3] < 128 {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
+    fn apply_minecraft_transparency(img: &mut DynamicImage) {
+        let (width, height) = img.dimensions();
+        MinecraftSkin::apply_minecraft_transparency_region(img, 0, 0, width, height);
+    }
+
+    fn apply_minecraft_transparency_region(img: &mut DynamicImage, x: u32, y: u32, width: u32, height: u32) {
+        if MinecraftSkin::is_region_transparent(img, x, y, width, height) {
+            return
+        }
+
+        for cy in y..y+height {
+            for cx in x..x+width {
+                let mut p= img.get_pixel(cx, cy);
+                p[3] = 0x00;
+                img.put_pixel(cx, cy, p);
             }
         }
     }

@@ -27,7 +27,8 @@ pub fn get_minecraft_head(skin_image: Uint8Array, size: u32) -> Result<Uint8Arra
     let skin_result = image::load_from_memory_with_format(&image_copy, image::ImageFormat::Png);
     match skin_result {
         Ok(mut skin) => {
-            let head = MinecraftSkin::new(skin).get_part(&Layer::Bottom, &BodyPart::Head)
+            let head = MinecraftSkin::new(skin)
+                .get_part(&Layer::Both, &BodyPart::Head)
                 .resize(size, size, image::imageops::FilterType::Nearest);
             let mut result = Vec::with_capacity(1024);
             return match head.write_to(&mut result, image::ImageFormat::Png) {
