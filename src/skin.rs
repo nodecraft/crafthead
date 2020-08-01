@@ -1,9 +1,12 @@
 extern crate image;
 
-use image::{DynamicImage, GenericImageView, imageops, GenericImage, Rgba};
+use image::{DynamicImage, GenericImageView, imageops, GenericImage};
+use crate::skin::Layer::Bottom;
+use crate::skin::BodyPart::{ArmRight, LegRight, Body, Head};
 
 pub(crate) struct MinecraftSkin(DynamicImage);
 
+#[derive(PartialEq)]
 pub(crate) enum MinecraftSkinVersion {
     Classic, // 64x32
     Modern, // 64x64
@@ -16,6 +19,7 @@ pub(crate) enum Layer {
     Both,
 }
 
+#[derive(PartialEq)]
 pub(crate) enum BodyPart {
     Head,
     Body,
@@ -38,13 +42,17 @@ impl MinecraftSkin {
         }
     }
 
-    pub(crate) fn get_part(&self, layer: &Layer, part: &BodyPart) -> DynamicImage {
+    pub(crate) fn get_part(&self, layer: Layer, part: &BodyPart) -> DynamicImage {
         // TODO: This code is from #6 but doesn't work for old skins and has transparency problems
         //       Thankfully we can easily tell if it's an old skin or not...
         match layer {
             Layer::Both => {
-                let mut bottom = self.get_part(&Layer::Bottom, part);
-                let top = self.get_part(&Layer::Top, part);
+                if self.version() != MinecraftSkinVersion::Modern && *part != Head {
+                    return self.get_part(Layer::Bottom, part);
+                }
+
+                let mut bottom = self.get_part(Layer::Bottom, part);
+                let top = self.get_part(Layer::Top, part);
                 MinecraftSkin::fast_overlay(&mut bottom, &top, 0, 0);
                 bottom
             },
@@ -52,20 +60,55 @@ impl MinecraftSkin {
                 match part {
                     BodyPart::Head => self.0.crop_imm(8, 8, 8, 8),
                     BodyPart::Body => self.0.crop_imm(20, 20, 8, 12),
-                    BodyPart::ArmLeft => self.0.crop_imm(36, 52, 4, 12),
+                    BodyPart::ArmLeft => {
+                        match self.version() {
+                            MinecraftSkinVersion::Modern => self.0.crop_imm(36, 52, 4, 12),
+                            _                            => self.get_part(Bottom, &ArmRight)
+                        }
+                    },
                     BodyPart::ArmRight => self.0.crop_imm(44, 20, 4, 12),
-                    BodyPart::LegLeft => self.0.crop_imm(20, 52, 4, 12),
+                    BodyPart::LegLeft => {
+                        match self.version() {
+                            MinecraftSkinVersion::Modern => self.0.crop_imm(20, 52, 4, 12),
+                            _                            => self.get_part(Bottom, &LegRight)
+                        }
+                    },
                     BodyPart::LegRight => self.0.crop_imm(4, 20, 4, 12),
                 }
             },
             Layer::Top => {
                 let mut portion = match part {
                     BodyPart::Head => self.0.crop_imm(40, 8, 8, 8),
-                    BodyPart::Body => self.0.crop_imm(20, 36, 8, 12),
-                    BodyPart::ArmLeft => self.0.crop_imm(52, 52, 4, 12),
-                    BodyPart::ArmRight => self.0.crop_imm(44, 36, 4, 12),
-                    BodyPart::LegLeft => self.0.crop_imm(4, 52, 4, 12),
-                    BodyPart::LegRight => self.0.crop_imm(4, 36, 4, 12),
+                    BodyPart::Body => {
+                        match self.version() {
+                            MinecraftSkinVersion::Modern => self.0.crop_imm(20, 36, 8, 12),
+                            _                            => self.get_part(Bottom, &Body)
+                        }
+                    },
+                    BodyPart::ArmLeft => {
+                        match self.version() {
+                            MinecraftSkinVersion::Modern => self.0.crop_imm(52, 52, 4, 12),
+                            _                            => self.get_part(Bottom, &ArmRight)
+                        }
+                    },
+                    BodyPart::ArmRight => {
+                        match self.version() {
+                            MinecraftSkinVersion::Modern => self.0.crop_imm(44, 36, 4, 12),
+                            _                            => self.get_part(Bottom, &ArmRight),
+                        }
+                    },
+                    BodyPart::LegLeft => {
+                        match self.version() {
+                            MinecraftSkinVersion::Modern => self.0.crop_imm(4, 52, 4, 12),
+                            _                            => self.get_part(Bottom, &LegRight),
+                        }
+                    },
+                    BodyPart::LegRight => {
+                        match self.version() {
+                            MinecraftSkinVersion::Modern => self.0.crop_imm(4, 36, 4, 12),
+                            _                            => self.get_part(Bottom, &LegRight),
+                        }
+                    },
                 };
                 MinecraftSkin::apply_minecraft_transparency(&mut portion);
                 portion
@@ -96,7 +139,7 @@ impl MinecraftSkin {
     fn is_region_transparent(img: &DynamicImage, x: u32, y: u32, width: u32, height: u32) -> bool {
         for cy in y..y+height {
             for cx in x..x+width {
-                let mut p = img.get_pixel(cx, cy);
+                let p = img.get_pixel(cx, cy);
                 if p[3] < 128 {
                     return true
                 }

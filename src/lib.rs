@@ -29,11 +29,10 @@ enum RenderType {
 impl RenderType {
     fn render(self, img: &MinecraftSkin, size: u32) -> DynamicImage {
         match self {
-            RenderType::Avatar => img.get_part(&Layer::Bottom, &BodyPart::Head)
+            RenderType::Avatar => img.get_part(Layer::Bottom, &BodyPart::Head)
                 .resize(size, size, image::imageops::FilterType::Nearest),
-            RenderType::Helm   => img.get_part(&Layer::Both, &BodyPart::Head)
+            RenderType::Helm   => img.get_part(Layer::Both, &BodyPart::Head)
                 .resize(size, size, image::imageops::FilterType::Nearest),
-            _                  => panic!("unknown render type")
         }
     }
 }
