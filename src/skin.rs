@@ -1,6 +1,6 @@
 extern crate image;
 
-use image::{DynamicImage, GenericImageView, imageops};
+use image::{DynamicImage, GenericImageView, imageops, GenericImage};
 
 pub(crate) struct MinecraftSkin(DynamicImage);
 
@@ -44,8 +44,8 @@ impl MinecraftSkin {
         match layer {
             Layer::Both => {
                 let mut bottom = self.get_part(&Layer::Bottom, part);
-                let top = self.get_part(&Layer::Top, part);
-                imageops::overlay(&mut bottom, &top, 0, 0);
+                let mut top = self.get_part(&Layer::Top, part);
+                MinecraftSkin::fast_overlay(&mut bottom, &top, 0, 0);
                 bottom
             },
             Layer::Bottom => {
@@ -68,6 +68,26 @@ impl MinecraftSkin {
                     BodyPart::LegRight => self.0.crop_imm(4, 36, 4, 12),
                 }
             },
+        }
+    }
+
+    fn fast_overlay(bottom: &mut DynamicImage, top: &DynamicImage, x: u32, y: u32) {
+        // All but a straight port of https://github.com/minotar/imgd/blob/master/process.go#L386
+        // to Rust.
+        let bottom_dims = bottom.dimensions();
+        let top_dims = top.dimensions();
+
+        // Crop our top image if we're going out of bounds
+        let (range_width, range_height) = imageops::overlay_bounds(bottom_dims, top_dims, x, y);
+
+        for top_y in 0..range_height {
+            for top_x in 0..range_width {
+                let mut p = top.get_pixel(top_x, top_y);
+                if p[3] != 0 {
+                    p[3] = 0xFF;
+                    bottom.put_pixel(x + top_x, y + top_y, p);
+                }
+            }
         }
     }
 }
