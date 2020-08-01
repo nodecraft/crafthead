@@ -3,10 +3,12 @@ extern crate image;
 extern crate wasm_bindgen;
 
 mod utils;
+mod skin;
 
 use cfg_if::cfg_if;
 use js_sys::Uint8Array;
 use wasm_bindgen::prelude::*;
+use skin::*;
 
 cfg_if! {
     // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
@@ -25,7 +27,8 @@ pub fn get_minecraft_head(skin_image: Uint8Array, size: u32) -> Result<Uint8Arra
     let skin_result = image::load_from_memory_with_format(&image_copy, image::ImageFormat::Png);
     match skin_result {
         Ok(skin) => {
-            let head = crop_head(skin, size);
+            let head = MinecraftSkin::new(skin).get_part(&Layer::Both, &BodyPart::Head)
+                .resize(size, size, image::imageops::FilterType::Nearest);
             let mut result = Vec::with_capacity(1024);
             return match head.write_to(&mut result, image::ImageFormat::Png) {
                 Ok(()) => Ok(Uint8Array::from(&result[..])),
@@ -36,10 +39,4 @@ pub fn get_minecraft_head(skin_image: Uint8Array, size: u32) -> Result<Uint8Arra
             return Err(js_sys::Error::new("Couldn't load skin.").into());
         }
     }
-}
-
-fn crop_head(skin: image::DynamicImage, size: u32) -> image::DynamicImage {
-    let just_head = skin.crop_imm(8, 8, 8, 8);
-    let head = just_head.resize(size, size, image::imageops::FilterType::Nearest);
-    head
 }
