@@ -29,13 +29,9 @@ wee_alloc = { version = "0.4.5", optional = true }
 [dependencies.image]
 # Make `image` more lightweight. We don't need every image format under the sun,
 # just PNG.
-version = "0.23.4"
+version = "0.23.8"
 default-features = false
 features = ["png"]
 
 [dev-dependencies]
 wasm-bindgen-test = "0.2"
-
-[profile.release]
-# Tell `rustc` to optimize for small code size.
-opt-level = "s"
