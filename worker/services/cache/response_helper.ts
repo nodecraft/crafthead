@@ -10,18 +10,18 @@ export default class ResponseCacheService implements CacheService<Response> {
     async find(key: string): Promise<Response | undefined> {
         let memoryResponse = await this.memoryCache.find(key);
         if (memoryResponse) {
-            return this.decorateResponse(new Response(memoryResponse), 'memory')
+            return ResponseCacheService.decorateResponse(new Response(memoryResponse), 'memory')
         }
 
         const externalResponse = await this.externalCache.find(key);
         if (externalResponse) {
-            return this.decorateResponse(new Response(externalResponse), 'cloudflare')
+            return ResponseCacheService.decorateResponse(new Response(externalResponse), 'cloudflare')
         } else {
             return undefined;
         }
     }
 
-    private decorateResponse(response: Response, source: string): Response {
+    private static decorateResponse(response: Response, source: string): Response {
         const headersCopy = new Headers(response.headers);
         headersCopy.set('X-Minehead-Cache-Hit', source);
         headersCopy.set('Cache-Control', 'public, max-age=21600');

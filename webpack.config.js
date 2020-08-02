@@ -13,7 +13,18 @@ module.exports = {
         rules: [
             {
                 test: /\.tsx?$/,
-                use: 'ts-loader',
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            cacheDirectory: true,
+                            plugins: ["@babel/plugin-proposal-optional-chaining"]
+                        }
+                    },
+                    {
+                        loader: 'ts-loader'
+                    }
+                ],
                 exclude: /node_modules/,
             }
         ],

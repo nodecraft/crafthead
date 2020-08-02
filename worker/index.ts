@@ -2,11 +2,13 @@
 
 import CloudflareWorkerGlobalScope from 'types-cloudflare-worker';
 import {interpretRequest, MineheadRequest, RequestedKind} from './request';
-import MojangRequestService from './services/mojang';
+import MojangRequestService from './services/mojang/service';
 import {getRenderer} from './wasm';
 import {ArrayBufferCloudflareResponseMapper, CloudflareCacheService} from './services/cache/cloudflare';
-import MemoryCacheService from './services/cache/memory';
 import ResponseCacheService from './services/cache/response_helper';
+import PromiseGatherer from "./promise_gather";
+import {DirectMojangApiService} from "./services/mojang/api";
+import NoopCacheService from "./services/cache/noop";
 
 declare var self: CloudflareWorkerGlobalScope;
 
@@ -15,18 +17,13 @@ self.addEventListener('fetch', event => {
 })
 
 const l1Cache = new ResponseCacheService(
-    new MemoryCacheService(),
+    new NoopCacheService(),
     new CloudflareCacheService('general-cache', new ArrayBufferCloudflareResponseMapper())
 );
-const skinService = new MojangRequestService();
+const skinService = new MojangRequestService(new DirectMojangApiService());
 
 async function handleRequest(event: FetchEvent) {
     const request = event.request;
-
-    // a debug endpoint to diagnose high startup times
-    if (request.url.endsWith("/testing1234/ping")) {
-        return new Response("ping")
-    }
 
     const interpreted = interpretRequest(request);
     if (!interpreted) {
@@ -37,21 +34,21 @@ async function handleRequest(event: FetchEvent) {
     console.log("Request interpreted as ", interpreted);
 
     try {
-        // If the result is cached, we don't need to do aything else
-        const l1CacheResponse = await l1Cache.find(getCacheKey(interpreted))
-        if (l1CacheResponse) {
-            const headers = decorateHeaders(interpreted, l1CacheResponse.headers)
-            return new Response(l1CacheResponse.body, { headers });
-        }
+        // If the result is cached, we don't need to do anything else
+        let response = await l1Cache.find(getCacheKey(interpreted))
+        if (!response) {
+            // We failed to be lazy, so we'll have to actually fetch the skin.
+            console.log("Request not satisfied from cache.");
 
-        // We failed to be lazy, so we'll have to actually fetch the skin.
-        console.log("Request not satisified from cache.");
-        const skinResponse = await processRequest(skinService, interpreted);
-        if (skinResponse.ok) {
-            event.waitUntil(l1Cache.put(getCacheKey(interpreted), skinResponse.clone()));
+            const gatherer = new PromiseGatherer();
+            response = await processRequest(skinService, interpreted, gatherer);
+            if (response.ok) {
+                gatherer.push(l1Cache.put(getCacheKey(interpreted), response.clone()));
+            }
+            event.waitUntil(gatherer.all());
         }
-        const headers = decorateHeaders(interpreted, skinResponse.headers)
-        return new Response(skinResponse.body, { headers });
+        const headers = decorateHeaders(interpreted, response.headers);
+        return new Response(response.body, { status: response.status, headers });
     } catch (e) {
         return new Response(e.toString(), { status: 500 })
     }
@@ -66,10 +63,10 @@ function decorateHeaders(interpreted: MineheadRequest, headers: Headers): Header
     return copiedHeaders
 }
 
-async function processRequest(skinService: MojangRequestService, interpreted: MineheadRequest): Promise<Response> {
+async function processRequest(skinService: MojangRequestService, interpreted: MineheadRequest, gatherer: PromiseGatherer): Promise<Response> {
     switch (interpreted.requested) {
         case RequestedKind.Profile: {
-            const profile = await skinService.fetchMojangProfile(interpreted.identity, interpreted.identityType, null);
+            const profile = await skinService.fetchProfile(interpreted, gatherer);
             if (profile === null) {
                 return new Response(JSON.stringify({ error: "Unable to fetch the profile"}), { status: 500 });
             }
@@ -77,14 +74,14 @@ async function processRequest(skinService: MojangRequestService, interpreted: Mi
         }
         case RequestedKind.Avatar:
         case RequestedKind.Helm: {
-            const skin = await skinService.retrieveSkin(interpreted.identity, interpreted.identityType);
+            const skin = await skinService.retrieveSkin(interpreted, gatherer);
             return renderImage(skin, interpreted.size, interpreted.requested);
         }
         case RequestedKind.Skin: {
-            return await skinService.retrieveSkin(interpreted.identity, interpreted.identityType);
+            return await skinService.retrieveSkin(interpreted, gatherer);
         }
         default:
-            return new Response('must request an avatar, profile, or a skin', { status: 400 });
+            return new Response('must request an avatar, helm, profile, or a skin', { status: 400 });
     }
 }
 
