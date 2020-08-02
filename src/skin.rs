@@ -51,7 +51,8 @@ impl MinecraftSkin {
                 }
 
                 let mut bottom = self.get_part(Layer::Bottom, part);
-                let top = self.get_part(Layer::Top, part);
+                let mut top = self.get_part(Layer::Top, part);
+                apply_minecraft_transparency(&mut top);
                 fast_overlay(&mut bottom, &top, 0, 0);
                 bottom
             },
@@ -76,7 +77,7 @@ impl MinecraftSkin {
                 }
             },
             Layer::Top => {
-                let mut portion = match part {
+                match part {
                     BodyPart::Head => self.0.crop_imm(40, 8, 8, 8),
                     BodyPart::Body => {
                         match self.version() {
@@ -108,9 +109,7 @@ impl MinecraftSkin {
                             _                            => self.get_part(Bottom, &LegRight),
                         }
                     },
-                };
-                apply_minecraft_transparency(&mut portion);
-                portion
+                }
             },
         }
     }
