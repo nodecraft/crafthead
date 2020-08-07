@@ -11,11 +11,7 @@ of Crafthead I run.
 
 ## Features
 
-* **Extremely fast**:
-  * Avatar generation at 300px in ~50ms (compare to 68ms for Minotar and 65ms for Crafatar)
-  * Avatar generation at 64px in ~23ms (compare to 54ms for Minotar and 57ms for Crafatar)
-  * Most of the benefit can be given to the fact Craftheads runs near the user
-  * Note: the skin the avatar was generated from was always in cache
+* **Extremely fast**
 * Supports UUID fetching (dashed or not dashed) and username lookups
 * Renders avatars from 8px to 300px
 
@@ -46,7 +42,7 @@ Then:
 
 ### Notes on `wrangler preview`
 
-Due to Mojang API rate limits, it is not possible to use `wrangler preview` to
-test Crafthead. You are better off deploying to `workers.dev` instead. In the
-future, a "fake" mode may be introduced where only one head can be scaled as
-needed.
+If you're looking to test Crafthead using `wrangler preview` or `wrangler dev`,
+you should use the special-cased usernames `MHF_Steve` and `char`, which return
+the default "Steve" skin. If your code affects username lookups, however, you
+should consider deploying to `workers.dev` instead.
