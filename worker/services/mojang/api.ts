@@ -50,7 +50,7 @@ export class DirectMojangApiService implements MojangApiService {
     }
 
     async fetchProfile(id: string): Promise<MojangProfile | null> {
-        const profileResponse = await fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${id}`, {
+        const profileResponse = await fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${id}?unsigned=false`, {
             cf: {
                 cacheEverything: true,
                 cacheTtl: MOJANG_API_TTL
