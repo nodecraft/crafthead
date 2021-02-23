@@ -39,6 +39,9 @@ export class DirectMojangApiService implements MojangApiService {
         })
 
         if (!lookupResponse.ok) {
+            if (lookupResponse.status === 400) {
+                return null;
+            }
             throw new Error(`Unable to retrieve profile from Mojang, http status ${lookupResponse.status}`);
         }
 

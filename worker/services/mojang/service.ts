@@ -54,7 +54,7 @@ export default class MojangRequestService {
         if (typeof cachedUuid === 'undefined') {
             const profileLookup = await this.mojangApi.lookupUsername([request.identity]);
             if (profileLookup) {
-                normalized.identity = profileLookup.id
+                normalized.identity = profileLookup.id;
             } else {
                 // The lookup failed.
                 normalized.identity = FAKE_MHF_STEVE_UUID;
