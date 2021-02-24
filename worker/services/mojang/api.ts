@@ -62,7 +62,7 @@ export class DirectMojangApiService implements MojangApiService {
 
         if (profileResponse.status === 200) {
             return await profileResponse.json();
-        } else if (profileResponse.status === 206) {
+        } else if (profileResponse.status === 206 || profileResponse.status === 204) {
             return null;
         } else {
             throw new Error(`Unable to retrieve profile from Mojang, http status ${profileResponse.status}`);
