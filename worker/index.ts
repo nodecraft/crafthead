@@ -68,7 +68,7 @@ async function processRequest(skinService: MojangRequestService, interpreted: Mi
         case RequestedKind.Profile: {
             const profile = await skinService.fetchProfile(interpreted, gatherer);
             if (profile === null) {
-                return new Response(JSON.stringify({ error: "Unable to fetch the profile"}), { status: 500 });
+                return new Response(JSON.stringify({ error: "User does not exist"}), { status: 404 });
             }
             return new Response(JSON.stringify(profile));
         }

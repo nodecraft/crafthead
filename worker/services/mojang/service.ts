@@ -72,7 +72,7 @@ export default class MojangRequestService {
     }
 
     async retrieveSkin(request: MineheadRequest, gatherer: PromiseGatherer): Promise<Response> {
-        if (request.identity === 'char' || request.identity === 'MHF_Steve') {
+        if (request.identity === 'char' || request.identity === 'MHF_Steve' || request.identity === FAKE_MHF_STEVE_UUID) {
             // These are special-cased by Minotar.
             return new Response(STEVE_SKIN);
         }
@@ -135,6 +135,9 @@ export default class MojangRequestService {
             return this.mojangApi.fetchProfile(request.identity);
         } else {
             const normalized = await this.normalizeRequest(request, gatherer);
+            if (request.identity === FAKE_MHF_STEVE_UUID) {
+                return null;
+            }
             return this.mojangApi.fetchProfile(normalized.identity);
         }
     }

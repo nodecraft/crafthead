@@ -42,7 +42,7 @@ export class DirectMojangApiService implements MojangApiService {
             if (lookupResponse.status === 400) {
                 return null;
             }
-            throw new Error(`Unable to retrieve profile from Mojang, http status ${lookupResponse.status}`);
+            throw new Error(`Unable to lookup UUID from Mojang, http status ${lookupResponse.status}`);
         }
 
         const contents: MojangUsernameLookupResult[] | undefined = await lookupResponse.json();
