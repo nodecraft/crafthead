@@ -88,6 +88,10 @@ export default class MojangRequestService {
         // We don't - so let's fetch the user's UUID and use that instead. Note that normalization won't do anything
         // if the request is by UUID anyway, so there is no performance penalty paid in this case.
         const normalized = await this.normalizeRequest(request, gatherer);
+        if (normalized.identity === FAKE_MHF_STEVE_UUID) {
+            return new Response(STEVE_SKIN);
+        }
+
         if (normalized.identity !== lowercaseId) {
             // We have an opportunity to hit the skin cache one last time, let's take it
             const cachedByUuidSkin = await this.skinCache.find(normalized.identity);
@@ -135,7 +139,7 @@ export default class MojangRequestService {
             return this.mojangApi.fetchProfile(request.identity);
         } else {
             const normalized = await this.normalizeRequest(request, gatherer);
-            if (request.identity === FAKE_MHF_STEVE_UUID) {
+            if (normalized.identity === FAKE_MHF_STEVE_UUID) {
                 return null;
             }
             return this.mojangApi.fetchProfile(normalized.identity);
