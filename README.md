@@ -21,22 +21,29 @@ of Crafthead I run.
 
 Use the public instance I've made available. You don't have to pay a single
 dime for it. I pick up all the costs. Plus, if you use it, you get speedy
-performance all the time since it is more likely my version will be available
+performance all the time since it is more likely my instance will be available
 to run immediately compared to yours.
 
 If, on the other hand, you're looking to _hack_ on Crafthead, then keep reading.
 
 ### Step 2: You want to do it?
 
-This project uses `wrangler`, so make sure you have that installed. It is also
-_strongly_ recommnded you purchase a Cloudflare Workers Unlimited plan, otherwise
-it is possible you could run into CPU limit problems at larger resolutions.
+You will need to have the following:
 
-You'll also want [Node.js](https://nodejs.org), the [Rust toolchain](https://www.rust-lang.org/learn/get-started)
-and [wasm-pack](https://rustwasm.github.io/wasm-pack/installer/) too.
+* A **paid** Cloudflare Workers plan. The Worker can be Bundled or Unbound,
+  though the production setup is anticipated to be on the Unbound plan in the future.
+  This is because Crafthead uses Workers KV and can easily exceed the CPU limits on
+  the free plan.
+* The `wrangler` CLI.
+* [Node.js](https://nodejs.org).
+* [Rust](https://www.rust-lang.org/learn/get-started).
+* [wasm-pack](https://rustwasm.github.io/wasm-pack/installer/).
 
 Then:
-* Copy `wrangler.toml.dev` to `wrangler.toml` and fill in your own `account_id`
+
+* Copy `wrangler.toml.dev` to `wrangler.toml` and fill in your own `account_id`.
+* Run `wrangler kv:namespace create CRAFTHEAD_PROFILE_CACHE` and replace the `kv_namespaces` section
+  in your configuration with the output from the command.
 * Use `yarn install` to install all the development dependencies
 * Use `wrangler publish`. You're done!
 

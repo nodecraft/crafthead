@@ -3,10 +3,7 @@
 import PromiseGatherer from '../../promise_gather';
 import {IdentityKind, MineheadRequest} from '../../request';
 import {STEVE_SKIN} from '../../data';
-import {ArrayBufferCloudflareResponseMapper, CloudflareCacheService} from '../cache/cloudflare';
-import ResponseCacheService from '../cache/response_helper';
-import {MojangApiService, MojangProfile, MojangProfileProperty} from "./api";
-import NoopCacheService from "../cache/noop";
+import {MojangApiService, MojangProfile, MojangProfileLookupResult, MojangProfileProperty} from "./api";
 
 const FAKE_MHF_STEVE_UUID = '!112548de8d0c42a78745aabac5a64ebb'
 
@@ -25,14 +22,9 @@ interface MojangTexturePropertyValue {
 }
 
 export default class MojangRequestService {
-    private skinCache: CacheService<Response>;
     private mojangApi: MojangApiService;
 
     constructor(mojangApi: MojangApiService) {
-        this.skinCache = new ResponseCacheService(
-            new NoopCacheService(),
-            new CloudflareCacheService('skin', new ArrayBufferCloudflareResponseMapper())
-        );
         this.mojangApi = mojangApi;
     }
 
@@ -49,24 +41,12 @@ export default class MojangRequestService {
         const normalized: MineheadRequest = Object.assign({}, request);
         normalized.identityType = IdentityKind.Uuid;
 
-        const nameUrlCacheRequest = new Request(`https://crafthead.net/username-lookup/${request.identity.toLocaleLowerCase('en-US')}`);
-        const cachedUuid = await caches.default.match(nameUrlCacheRequest);
-        if (typeof cachedUuid === 'undefined') {
-            const profileLookup = await this.mojangApi.lookupUsername([request.identity]);
-            if (profileLookup) {
-                normalized.identity = profileLookup.id;
-            } else {
-                // The lookup failed.
-                normalized.identity = FAKE_MHF_STEVE_UUID;
-            }
-
-            gatherer.push(caches.default.put(nameUrlCacheRequest, new Response(normalized.identity, {
-                headers: {
-                    "Cache-Control": "max-age=86400"
-                }
-            })));
+        const profileLookup = await this.mojangApi.lookupUsername(request.identity, gatherer);
+        if (profileLookup) {
+            normalized.identity = profileLookup.id;
         } else {
-            normalized.identity = await cachedUuid.text()
+            // The lookup failed.
+            normalized.identity = FAKE_MHF_STEVE_UUID;
         }
         return normalized;
     }
@@ -77,72 +57,62 @@ export default class MojangRequestService {
             return new Response(STEVE_SKIN);
         }
 
-        const lowercaseId = request.identity.toLocaleLowerCase('en-US');
-
-        // See if we already have the skin cached already. This should is a very cheap check.
-        const cachedSkin = await this.skinCache.find(lowercaseId);
-        if (cachedSkin) {
-            return cachedSkin;
-        }
-
-        // We don't - so let's fetch the user's UUID and use that instead. Note that normalization won't do anything
-        // if the request is by UUID anyway, so there is no performance penalty paid in this case.
-        const normalized = await this.normalizeRequest(request, gatherer);
-        if (normalized.identity === FAKE_MHF_STEVE_UUID) {
+        const profile = await this.fetchProfile(request, gatherer);
+        if (profile === null) {
             return new Response(STEVE_SKIN);
         }
 
-        if (normalized.identity !== lowercaseId) {
-            // We have an opportunity to hit the skin cache one last time, let's take it
-            const cachedByUuidSkin = await this.skinCache.find(normalized.identity);
-            if (cachedByUuidSkin) {
-                return cachedByUuidSkin;
-            }
-        }
-
-        const retrieved = await this.retrieveSkinFromMojang(normalized.identity);
-        gatherer.push(this.skinCache.put(lowercaseId, retrieved.response.clone()));
-        if (normalized.identity !== lowercaseId) {
-            gatherer.push(this.skinCache.put(normalized.identity, retrieved.response.clone()));
-        }
-        return retrieved.response.clone();
+        return this.fetchSkinTextureFromProfile(profile);
     }
 
-    private async retrieveSkinFromMojang(identity: string): Promise<SkinResponse> {
-        const profile = await this.mojangApi.fetchProfile(identity);
-        if (profile?.properties) {
+    private async fetchSkinTextureFromProfile(lookup: MojangProfileLookupResult): Promise<Response> {
+        if (lookup.profile?.properties) {
+            const profile = lookup.profile
             const textureUrl = MojangRequestService.extractUrlFromTexturesProperty(
                 profile.properties.find(property => property.name === 'textures'));
             if (textureUrl) {
-                const textureResponse = await fetch(textureUrl);
+                const textureResponse = await fetch(textureUrl, {
+                    cf: {
+                        cacheTtl: 86400
+                    }
+                });
                 if (!textureResponse.ok) {
                     throw new Error(`Unable to retrieve skin texture from Mojang, http status ${textureResponse.status}`);
                 }
 
                 console.log("Successfully retrieved skin texture");
-                return {
-                    response: ResponseCacheService.cleanResponseForCache(textureResponse),
-                    profile
-                };
+                const cleanedHeaders = new Headers(textureResponse.headers)
+                for (const [key] of textureResponse.headers.entries()) {
+                    if (key !== 'content-type' && key !== 'content-length') {
+                        if (key === 'x-amz-cf-id') {
+                            cleanedHeaders.set('X-Minehead-Profile-Cache-Hit', lookup.source);
+                        }
+                        cleanedHeaders.delete(key);
+                    }
+                }
+                return new Response(textureResponse.body, {
+                    status: textureResponse.status,
+                    headers: cleanedHeaders
+                });
             }
         }
 
         console.log("Invalid properties found! Falling back to Steve skin.")
-        return {
-            response: new Response(STEVE_SKIN),
-            profile: null
-        }
+        return new Response(STEVE_SKIN);
     }
 
-    async fetchProfile(request: MineheadRequest, gatherer: PromiseGatherer): Promise<MojangProfile | null> {
+    async fetchProfile(request: MineheadRequest, gatherer: PromiseGatherer): Promise<MojangProfileLookupResult> {
         if (request.identityType === IdentityKind.Uuid) {
-            return this.mojangApi.fetchProfile(request.identity);
+            return this.mojangApi.fetchProfile(request.identity, gatherer);
         } else {
             const normalized = await this.normalizeRequest(request, gatherer);
             if (normalized.identity === FAKE_MHF_STEVE_UUID) {
-                return null;
+                return {
+                    profile: null,
+                    source: 'mojang'
+                };
             }
-            return this.mojangApi.fetchProfile(normalized.identity);
+            return this.mojangApi.fetchProfile(normalized.identity, gatherer);
         }
     }
 

@@ -5,6 +5,9 @@ workers_dev = true
 route = ""
 zone_id = ""
 webpack_config = "webpack.dev.config.js"
+kv_namespaces = [ 
+         { binding = "CRAFTHEAD_PROFILE_CACHE", id = "56cd50a9e98a4bbfaa5f96f018335cdd" }
+]
 
 [env.production]
 name = "crafthead-production"

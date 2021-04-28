@@ -1,49 +1,38 @@
 /// <reference path="../pkg/crafthead.d.ts">
 
-import CloudflareWorkerGlobalScope from 'types-cloudflare-worker';
 import {interpretRequest, MineheadRequest, RequestedKind} from './request';
 import MojangRequestService from './services/mojang/service';
 import {getRenderer} from './wasm';
-import {ArrayBufferCloudflareResponseMapper, CloudflareCacheService} from './services/cache/cloudflare';
-import ResponseCacheService from './services/cache/response_helper';
 import PromiseGatherer from "./promise_gather";
-import {DirectMojangApiService} from "./services/mojang/api";
-import NoopCacheService from "./services/cache/noop";
+import {CachedMojangApiService, DirectMojangApiService} from "./services/mojang/api";
 
-declare var self: CloudflareWorkerGlobalScope;
-
-self.addEventListener('fetch', event => {
+self.addEventListener('fetch', (event: FetchEvent) => {
     event.respondWith(handleRequest(event));
 })
 
-const l1Cache = new ResponseCacheService(
-    new NoopCacheService(),
-    new CloudflareCacheService('general-cache', new ArrayBufferCloudflareResponseMapper())
-);
-const skinService = new MojangRequestService(new DirectMojangApiService());
+const skinService = new MojangRequestService(new CachedMojangApiService(new DirectMojangApiService()));
 
 async function handleRequest(event: FetchEvent) {
     const request = event.request;
 
     const interpreted = interpretRequest(request);
     if (!interpreted) {
-        // We don't understand this request. Pass it straight to the origin (Amazon S3).
+        // We don't understand this request. Pass it straight to the origin.
         return fetch(request);
     }
 
     console.log("Request interpreted as ", interpreted);
 
     try {
-        // If the result is cached, we don't need to do anything else
-        let response = await l1Cache.find(getCacheKey(interpreted))
+        let response = await caches.default.match(new Request(getCacheKey(interpreted)))
         if (!response) {
-            // We failed to be lazy, so we'll have to actually fetch the skin.
+            // The item is not in the Cloudflare datacenter's cache. We need to process the request further.
             console.log("Request not satisfied from cache.");
 
             const gatherer = new PromiseGatherer();
             response = await processRequest(skinService, interpreted, gatherer);
             if (response.ok) {
-                gatherer.push(l1Cache.put(getCacheKey(interpreted), response.clone()));
+                gatherer.push(caches.default.put(getCacheKey(interpreted), response.clone()));
             }
             event.waitUntil(gatherer.all());
         }
@@ -66,11 +55,20 @@ function decorateHeaders(interpreted: MineheadRequest, headers: Headers): Header
 async function processRequest(skinService: MojangRequestService, interpreted: MineheadRequest, gatherer: PromiseGatherer): Promise<Response> {
     switch (interpreted.requested) {
         case RequestedKind.Profile: {
-            const profile = await skinService.fetchProfile(interpreted, gatherer);
-            if (profile === null) {
-                return new Response(JSON.stringify({ error: "User does not exist"}), { status: 404 });
+            const lookup = await skinService.fetchProfile(interpreted, gatherer);
+            if (lookup.profile === null) {
+                return new Response(JSON.stringify({ error: "User does not exist"}), {
+                    status: 404,
+                    headers: {
+                        'X-Minehead-Profile-Cache-Hit': lookup.source
+                    }
+                });
             }
-            return new Response(JSON.stringify(profile));
+            return new Response(JSON.stringify(lookup.profile), {
+                headers: {
+                    'X-Minehead-Profile-Cache-Hit': lookup.source
+                }
+            });
         }
         case RequestedKind.Avatar:
         case RequestedKind.Helm: {
@@ -87,12 +85,6 @@ async function processRequest(skinService: MojangRequestService, interpreted: Mi
 
 async function renderImage(skin: Response, size: number, requested: RequestedKind.Avatar | RequestedKind.Helm): Promise<Response> {
     const destinationHeaders = new Headers(skin.headers);
-    const skinCacheHit = destinationHeaders.get('X-Minehead-Cache-Hit')
-    if (skinCacheHit) {
-        destinationHeaders.set('X-Minehead-Skin-Cache-Hit', skinCacheHit)
-        destinationHeaders.delete('X-Minehead-Cache-Hit')
-    }
-
     const [renderer, skinArrayBuffer] = await Promise.all([getRenderer(), skin.arrayBuffer()]);
     const skinBuf = new Uint8Array(skinArrayBuffer);
 
@@ -114,5 +106,5 @@ async function renderImage(skin: Response, size: number, requested: RequestedKin
 }
 
 function getCacheKey(interpreted: MineheadRequest): string {
-    return `${interpreted.requested}/${interpreted.identity.toLocaleLowerCase('en-US')}/${interpreted.size}`
+    return `https://crafthead.net/${interpreted.requested}/${interpreted.identity.toLocaleLowerCase('en-US')}/${interpreted.size}`
 }
