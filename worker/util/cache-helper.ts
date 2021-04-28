@@ -83,7 +83,7 @@ export async function computeObject<T>(key: string, source: () => Promise<T | nu
                     'Cache-Control': 'max-age: 86400'
                 }
             })));
-            gatherer.push(CRAFTHEAD_PROFILE_CACHE.put(localCacheUrl, serialized, {
+            gatherer.push(CRAFTHEAD_PROFILE_CACHE.put(key, serialized, {
                 expirationTtl: 86400
             }));
         }
