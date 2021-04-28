@@ -1,6 +1,6 @@
 /// <reference path="../pkg/crafthead.d.ts">
 
-import {interpretRequest, MineheadRequest, RequestedKind} from './request';
+import {interpretRequest, CraftheadRequest, RequestedKind} from './request';
 import MojangRequestService from './services/mojang/service';
 import {getRenderer} from './wasm';
 import PromiseGatherer from "./promise_gather";
@@ -43,7 +43,7 @@ async function handleRequest(event: FetchEvent) {
     }
 }
 
-function decorateHeaders(interpreted: MineheadRequest, headers: Headers): Headers {
+function decorateHeaders(interpreted: CraftheadRequest, headers: Headers): Headers {
     const copiedHeaders = new Headers(headers);
 
     // Set a liberal CORS policy - there's no harm you can do by making requests to this site...
@@ -52,7 +52,7 @@ function decorateHeaders(interpreted: MineheadRequest, headers: Headers): Header
     return copiedHeaders
 }
 
-async function processRequest(skinService: MojangRequestService, interpreted: MineheadRequest, gatherer: PromiseGatherer): Promise<Response> {
+async function processRequest(skinService: MojangRequestService, interpreted: CraftheadRequest, gatherer: PromiseGatherer): Promise<Response> {
     switch (interpreted.requested) {
         case RequestedKind.Profile: {
             const lookup = await skinService.fetchProfile(interpreted, gatherer);
@@ -60,13 +60,13 @@ async function processRequest(skinService: MojangRequestService, interpreted: Mi
                 return new Response(JSON.stringify({ error: "User does not exist"}), {
                     status: 404,
                     headers: {
-                        'X-Minehead-Profile-Cache-Hit': lookup.source
+                        'X-Crafthead-Profile-Cache-Hit': lookup.source
                     }
                 });
             }
             return new Response(JSON.stringify(lookup.result), {
                 headers: {
-                    'X-Minehead-Profile-Cache-Hit': lookup.source
+                    'X-Crafthead-Profile-Cache-Hit': lookup.source
                 }
             });
         }
@@ -105,6 +105,6 @@ async function renderImage(skin: Response, size: number, requested: RequestedKin
     });
 }
 
-function getCacheKey(interpreted: MineheadRequest): string {
+function getCacheKey(interpreted: CraftheadRequest): string {
     return `https://crafthead.net/${interpreted.requested}/${interpreted.identity.toLocaleLowerCase('en-US')}/${interpreted.size}`
 }

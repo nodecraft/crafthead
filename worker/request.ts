@@ -12,7 +12,7 @@ export enum IdentityKind {
     Username
 }
 
-export interface MineheadRequest {
+export interface CraftheadRequest {
     requested: RequestedKind;
     identity: string;
     identityType: IdentityKind;
@@ -34,7 +34,7 @@ function stringKindToRequestedKind(kind: string): RequestedKind | null {
     }
 }
 
-export function interpretRequest(request: Request): MineheadRequest | null {
+export function interpretRequest(request: Request): CraftheadRequest | null {
     const url = new URL(request.url)
     if (url.href.endsWith(".png")) {
         url.href = url.href.substring(0, url.href.length - 4)

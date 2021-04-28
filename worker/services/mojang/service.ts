@@ -1,7 +1,7 @@
 /// <reference path="./mojang.d.ts">
 
 import PromiseGatherer from '../../promise_gather';
-import {IdentityKind, MineheadRequest} from '../../request';
+import {IdentityKind, CraftheadRequest} from '../../request';
 import {STEVE_SKIN} from '../../data';
 import {MojangApiService, MojangProfile, MojangProfileProperty} from "./api";
 import { CacheComputeResult, computeBuffer } from '../../util/cache-helper';
@@ -36,12 +36,12 @@ export default class MojangRequestService {
      * @param request the incoming request
      * @param gatherer any promise gatherer
      */
-    async normalizeRequest(request: MineheadRequest, gatherer: PromiseGatherer): Promise<MineheadRequest> {
+    async normalizeRequest(request: CraftheadRequest, gatherer: PromiseGatherer): Promise<CraftheadRequest> {
         if (request.identityType === IdentityKind.Uuid) {
             return request;
         }
 
-        const normalized: MineheadRequest = Object.assign({}, request);
+        const normalized: CraftheadRequest = Object.assign({}, request);
         normalized.identityType = IdentityKind.Uuid;
 
         const profileLookup = await this.mojangApi.lookupUsername(request.identity, gatherer);
@@ -54,7 +54,7 @@ export default class MojangRequestService {
         return normalized;
     }
 
-    async retrieveSkin(request: MineheadRequest, gatherer: PromiseGatherer): Promise<Response> {
+    async retrieveSkin(request: CraftheadRequest, gatherer: PromiseGatherer): Promise<Response> {
         if (request.identity === 'char' || request.identity === 'MHF_Steve' || request.identity === FAKE_MHF_STEVE_UUID) {
             // These are special-cased by Minotar.
             return new Response(STEVE_SKIN);
@@ -76,7 +76,7 @@ export default class MojangRequestService {
             return new Response(response.result, {
                 status: 200,
                 headers: {
-                    'X-Minehead-Skin-Cache-Hit': response.source
+                    'X-Crafthead-Skin-Cache-Hit': response.source
                 }
             });
         } else {
@@ -103,7 +103,7 @@ export default class MojangRequestService {
         return new Response(STEVE_SKIN);
     }
 
-    async fetchProfile(request: MineheadRequest, gatherer: PromiseGatherer): Promise<CacheComputeResult<MojangProfile | null>> {
+    async fetchProfile(request: CraftheadRequest, gatherer: PromiseGatherer): Promise<CacheComputeResult<MojangProfile | null>> {
         const normalized = await this.normalizeRequest(request, gatherer);
         if (normalized.identity === FAKE_MHF_STEVE_UUID) {
             return {
