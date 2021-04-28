@@ -1,13 +1,9 @@
 import PromiseGatherer from "../../promise_gather";
+import { CacheComputeResult, computeObject } from "../../util/cache-helper";
 
 declare const CRAFTHEAD_PROFILE_CACHE: KVNamespace;
 
 const MOJANG_API_TTL = 86400
-
-export interface MojangProfileLookupResult {
-    profile: MojangProfile | null,
-    source: string;
-}
 
 export interface MojangProfile {
     id: string;
@@ -28,7 +24,7 @@ export interface MojangProfileProperty {
 export interface MojangApiService {
     lookupUsername(usernames: string, gatherer: PromiseGatherer | null): Promise<MojangUsernameLookupResult | null>;
 
-    fetchProfile(id: string, gatherer: PromiseGatherer | null): Promise<MojangProfileLookupResult>;
+    fetchProfile(id: string, gatherer: PromiseGatherer | null): Promise<CacheComputeResult<MojangProfile | null>>;
 }
 
 // Implements MojangApiService by caching results and forwarding to Mojang when needed.
@@ -41,39 +37,16 @@ export class CachedMojangApiService implements MojangApiService {
 
     async lookupUsername(username: string, gatherer: PromiseGatherer | null): Promise<MojangUsernameLookupResult | null> {
         const cacheKey = `username-lookup:${username.toLocaleLowerCase('en-US')}`
-        const cachedResult: MojangUsernameLookupResult | null = await CRAFTHEAD_PROFILE_CACHE.get(cacheKey, 'json');
-        if (cachedResult !== null) {
-            return cachedResult;
-        }
-
-        const result = await this.delegate.lookupUsername(username, gatherer);
-        if (result) {
-            gatherer?.push(CRAFTHEAD_PROFILE_CACHE.put(cacheKey, JSON.stringify(result), {
-                expirationTtl: MOJANG_API_TTL
-            }));
-        }
-        
-        return result;
+        const usernameLookupResult = await computeObject(cacheKey, () => this.delegate.lookupUsername(username, gatherer), gatherer);
+        return usernameLookupResult.result;
     }
 
-    async fetchProfile(id: string, gatherer: PromiseGatherer | null): Promise<MojangProfileLookupResult> {
+    async fetchProfile(id: string, gatherer: PromiseGatherer | null): Promise<CacheComputeResult<MojangProfile | null>> {
         const cacheKey = `profile-lookup:${id.toLocaleLowerCase('en-US')}`
-        const cachedResult: MojangProfile | null = await CRAFTHEAD_PROFILE_CACHE.get(cacheKey, 'json');
-        if (cachedResult !== null) {
-            return {
-                profile: cachedResult,
-                source: 'cloudflare-kv'
-            };
-        }
-
-        const result = await this.delegate.fetchProfile(id, gatherer);
-        if (result && result.profile) {
-            gatherer?.push(CRAFTHEAD_PROFILE_CACHE.put(cacheKey, JSON.stringify(result.profile), {
-                expirationTtl: MOJANG_API_TTL
-            }));
-        }
-        
-        return result
+        return await computeObject(cacheKey, async () => {
+            const result = await this.delegate.fetchProfile(id, gatherer);
+            return result.result;
+        }, gatherer);
     }
 }
 
@@ -102,7 +75,7 @@ export class DirectMojangApiService implements MojangApiService {
         return contents[0];
     }
 
-    async fetchProfile(id: string, gatherer: PromiseGatherer | null): Promise<MojangProfileLookupResult> {
+    async fetchProfile(id: string, gatherer: PromiseGatherer | null): Promise<CacheComputeResult<MojangProfile | null>> {
         const profileResponse = await fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${id}?unsigned=false`, {
             cf: {
                 cacheEverything: true,
@@ -112,13 +85,13 @@ export class DirectMojangApiService implements MojangApiService {
 
         if (profileResponse.status === 200) {
             return {
-                profile: await profileResponse.json(),
-                source: 'mojang'
+                result: await profileResponse.json(),
+                source: 'miss'
             };
         } else if (profileResponse.status === 206 || profileResponse.status === 204) {
             return {
-                profile: null,
-                source: 'mojang'
+                result: null,
+                source: 'miss'
             };
         } else {
             throw new Error(`Unable to retrieve profile from Mojang, http status ${profileResponse.status}`);

@@ -3,9 +3,12 @@
 import PromiseGatherer from '../../promise_gather';
 import {IdentityKind, MineheadRequest} from '../../request';
 import {STEVE_SKIN} from '../../data';
-import {MojangApiService, MojangProfile, MojangProfileLookupResult, MojangProfileProperty} from "./api";
+import {MojangApiService, MojangProfile, MojangProfileProperty} from "./api";
+import { CacheComputeResult, computeBuffer } from '../../util/cache-helper';
 
-const FAKE_MHF_STEVE_UUID = '!112548de8d0c42a78745aabac5a64ebb'
+declare const CRAFTHEAD_PROFILE_CACHE: KVNamespace;
+
+const FAKE_MHF_STEVE_UUID = '!112548de8d0c42a78745aabac5a64ebb';
 
 export interface SkinResponse {
     response: Response;
@@ -57,43 +60,42 @@ export default class MojangRequestService {
             return new Response(STEVE_SKIN);
         }
 
-        const profile = await this.fetchProfile(request, gatherer);
-        if (profile === null) {
+        const normalized = await this.normalizeRequest(request, gatherer);
+
+        const cacheKey = `skin:${normalized.identity}`
+        const response = await computeBuffer(cacheKey, async () => {
+            const lookup = await this.mojangApi.fetchProfile(normalized.identity, gatherer);
+            if (lookup.result !== null) {
+                let skinResponse = await this.fetchSkinTextureFromProfile(lookup.result);
+                return skinResponse.arrayBuffer();
+            }
+            return null;
+        }, gatherer);
+
+        if (response.result) {
+            return new Response(response.result, {
+                status: 200,
+                headers: {
+                    'X-Minehead-Skin-Cache-Hit': response.source
+                }
+            });
+        } else {
             return new Response(STEVE_SKIN);
         }
-
-        return this.fetchSkinTextureFromProfile(profile);
     }
 
-    private async fetchSkinTextureFromProfile(lookup: MojangProfileLookupResult): Promise<Response> {
-        if (lookup.profile?.properties) {
-            const profile = lookup.profile
+    private async fetchSkinTextureFromProfile(profile: MojangProfile): Promise<Response> {
+        if (profile.properties) {
             const textureUrl = MojangRequestService.extractUrlFromTexturesProperty(
                 profile.properties.find(property => property.name === 'textures'));
             if (textureUrl) {
-                const textureResponse = await fetch(textureUrl, {
-                    cf: {
-                        cacheTtl: 86400
-                    }
-                });
+                const textureResponse = await fetch(textureUrl);
                 if (!textureResponse.ok) {
                     throw new Error(`Unable to retrieve skin texture from Mojang, http status ${textureResponse.status}`);
                 }
 
                 console.log("Successfully retrieved skin texture");
-                const cleanedHeaders = new Headers(textureResponse.headers)
-                for (const [key] of textureResponse.headers.entries()) {
-                    if (key !== 'content-type' && key !== 'content-length') {
-                        if (key === 'x-amz-cf-id') {
-                            cleanedHeaders.set('X-Minehead-Profile-Cache-Hit', lookup.source);
-                        }
-                        cleanedHeaders.delete(key);
-                    }
-                }
-                return new Response(textureResponse.body, {
-                    status: textureResponse.status,
-                    headers: cleanedHeaders
-                });
+                return textureResponse;
             }
         }
 
@@ -101,19 +103,15 @@ export default class MojangRequestService {
         return new Response(STEVE_SKIN);
     }
 
-    async fetchProfile(request: MineheadRequest, gatherer: PromiseGatherer): Promise<MojangProfileLookupResult> {
-        if (request.identityType === IdentityKind.Uuid) {
-            return this.mojangApi.fetchProfile(request.identity, gatherer);
-        } else {
-            const normalized = await this.normalizeRequest(request, gatherer);
-            if (normalized.identity === FAKE_MHF_STEVE_UUID) {
-                return {
-                    profile: null,
-                    source: 'mojang'
-                };
-            }
-            return this.mojangApi.fetchProfile(normalized.identity, gatherer);
+    async fetchProfile(request: MineheadRequest, gatherer: PromiseGatherer): Promise<CacheComputeResult<MojangProfile | null>> {
+        const normalized = await this.normalizeRequest(request, gatherer);
+        if (normalized.identity === FAKE_MHF_STEVE_UUID) {
+            return {
+                result: null,
+                source: 'mojang'
+            };
         }
+        return this.mojangApi.fetchProfile(normalized.identity, gatherer);
     }
 
     private static extractUrlFromTexturesProperty(property: MojangProfileProperty | undefined): string | undefined {

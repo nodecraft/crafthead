@@ -56,7 +56,7 @@ async function processRequest(skinService: MojangRequestService, interpreted: Mi
     switch (interpreted.requested) {
         case RequestedKind.Profile: {
             const lookup = await skinService.fetchProfile(interpreted, gatherer);
-            if (lookup.profile === null) {
+            if (lookup.result === null) {
                 return new Response(JSON.stringify({ error: "User does not exist"}), {
                     status: 404,
                     headers: {
@@ -64,7 +64,7 @@ async function processRequest(skinService: MojangRequestService, interpreted: Mi
                     }
                 });
             }
-            return new Response(JSON.stringify(lookup.profile), {
+            return new Response(JSON.stringify(lookup.result), {
                 headers: {
                     'X-Minehead-Profile-Cache-Hit': lookup.source
                 }
