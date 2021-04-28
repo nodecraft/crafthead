@@ -41,7 +41,7 @@ export async function computeBuffer(key: string, source: () => Promise<ArrayBuff
                     'Cache-Control': 'max-age: 86400'
                 }
             })));
-            gatherer.push(CRAFTHEAD_PROFILE_CACHE.put(localCacheUrl, remote, {
+            gatherer.push(CRAFTHEAD_PROFILE_CACHE.put(key, remote, {
                 expirationTtl: 86400
             }));
         }
