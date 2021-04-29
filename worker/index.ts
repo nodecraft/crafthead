@@ -1,5 +1,6 @@
 /// <reference path="../pkg/crafthead.d.ts">
 
+import { getAssetFromKV } from "@cloudflare/kv-asset-handler"
 import {interpretRequest, CraftheadRequest, RequestedKind} from './request';
 import MojangRequestService from './services/mojang/service';
 import {getRenderer} from './wasm';
@@ -17,8 +18,19 @@ async function handleRequest(event: FetchEvent) {
 
     const interpreted = interpretRequest(request);
     if (!interpreted) {
-        // We don't understand this request. Pass it straight to the origin.
-        return fetch(request);
+        // We don't understand this request.
+        try {
+            return await getAssetFromKV(event);
+        } catch (e) {
+            try {
+                const notFoundResponse = await getAssetFromKV(event, {
+                    mapRequestToAsset: req => new Request(`${new URL(req.url).origin}/404.html`, req),
+                });
+                return new Response(notFoundResponse.body, { ...notFoundResponse, status: 404 });
+            } catch (e) {
+                return new Response("Not found", { status: 404 });
+            }
+        }
     }
 
     console.log("Request interpreted as ", interpreted);
