@@ -61,7 +61,14 @@ pub fn get_minecraft_head(skin_image: Uint8Array, size: u32, what: String) -> Re
             let rendered = render_type.unwrap().render(&skin, size);
             let mut result = Vec::with_capacity(1024);
             return match rendered.write_to(&mut result, image::ImageFormat::Png) {
-                Ok(()) => Ok(Uint8Array::from(&result[..])),
+                Ok(()) => {
+                    let mut options = oxipng::Options::from_preset(1);
+                    options.deflate = oxipng::Deflaters::Libdeflater;
+                    match oxipng::optimize_from_memory(&result, &options) {
+                        Ok(optimized) => Ok(Uint8Array::from(&optimized[..])),
+                        _             => Ok(Uint8Array::from(&result[..]))
+                    }
+                },
                 Err(_err) => Err(js_sys::Error::new("Couldn't save resized skin.").into())
             };
         },
