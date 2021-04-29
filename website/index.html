@@ -44,8 +44,8 @@
 
         <h2>Getting started</h2>
         <p>
-            Crafthead supports lookups by UUID (dashed or not) and usernames and supports rendering avatars or
-            retrieving skins. The URL layout is compatible with Minotar, making migration simple.
+            Crafthead supports lookups by UUID (dashed or not) and usernames and supports rendering avatars, cubes,
+            retrieving skins and profiles. The URL layout is compatible with Minotar, making migration simple.
         </p>
         <p>
             <strong>Performance tip</strong>: Use UUIDs when possible. Using a username requires an extra API call,
@@ -57,7 +57,7 @@
             <code>
                 GET https://crafthead.net/avatar/ecfc3640f601406c9f9f1f857fc76f9d
             </code>
-            <img src="https://crafthead.net/avatar/ecfc3640f601406c9f9f1f857fc76f9d" alt="Default example" width="32"
+            <img src="/avatar/ecfc3640f601406c9f9f1f857fc76f9d" alt="Default example" width="32"
                 height="32">
         </div>
 
@@ -66,7 +66,7 @@
             <code>
                 GET https://crafthead.net/avatar/dcc4c006582b4f798f71654b477807c2/128
             </code>
-            <img src="https://crafthead.net/avatar/dcc4c006582b4f798f71654b477807c2/128" alt="Default example"
+            <img src="/avatar/dcc4c006582b4f798f71654b477807c2/128" alt="Default example"
                 width="128" height="128">
         </div>
 
@@ -75,7 +75,7 @@
             <code>
                 GET https://crafthead.net/avatar/c6309b6b-8aac-4aab-8fef-a1e6853316ec
             </code>
-            <img src="https://crafthead.net/avatar/c6309b6b-8aac-4aab-8fef-a1e6853316ec" alt="Default example"
+            <img src="/avatar/c6309b6b-8aac-4aab-8fef-a1e6853316ec" alt="Default example"
                 width="32" height="32">
         </div>
 
@@ -84,7 +84,7 @@
             <code>
                 GET https://crafthead.net/avatar/Notch
             </code>
-            <img src="https://crafthead.net/avatar/Notch" alt="Default example" width="32" height="32">
+            <img src="/avatar/Notch" alt="Default example" width="32" height="32">
         </div>
 
         <p>Want a helm?</p>
@@ -92,7 +92,15 @@
             <code>
                 GET https://crafthead.net/helm/Reply
             </code>
-            <img src="https://crafthead.net/helm/Reply" alt="Default example" width="32" height="32">
+            <img src="/helm/Reply" alt="Default example" width="32" height="32">
+        </div>
+
+        <p>It's a cube game, after all.</p>
+        <div class="example">
+            <code>
+                GET https://crafthead.net/cube/48a0a7e4d5594873a617dc189f76a8a1
+            </code>
+            <img src="/cube/48a0a7e4d5594873a617dc189f76a8a1/32" alt="Default example" width="32">
         </div>
 
         <h3>Fetch a player's skin</h3>
@@ -100,20 +108,20 @@
             <code>
                 GET https://crafthead.net/skin/652a2bc4e8cd405db7b698156ee2dc09
             </code>
-            <img src="https://crafthead.net/skin/652a2bc4e8cd405db7b698156ee2dc09" alt="Default example" width="64"
+            <img src="/skin/652a2bc4e8cd405db7b698156ee2dc09" alt="Default example" width="64"
                 height="64">
         </div>
         <div class="example">
             <code>
                 GET https://crafthead.net/skin/Reply
             </code>
-            <img src="https://crafthead.net/skin/Reply" alt="Default example" width="64" height="32">
+            <img src="/skin/Reply" alt="Default example" width="64" height="32">
         </div>
         <div class="example">
             <code>
                 GET https://crafthead.net/skin/char
             </code>
-            <img src="https://crafthead.net/skin/char" alt="Default example" width="64" height="32">
+            <img src="/skin/char" alt="Default example" width="64" height="32">
         </div>
 
         <h3>Fetch a player's profile</h3>
@@ -131,7 +139,7 @@
 
     <footer>
         <hr />
-        <p>Copyright &copy; 2020 <a href="https://steinborn.me">Andrew Steinborn</a>.
+        <p>Copyright &copy; 2021 <a href="https://steinborn.me">Andrew Steinborn</a>.
             Built on <a href="https://workers.cloudflare.com">Cloudflare Workers</a>
             and <a href="https://rust-lang.org">Rust</a>.
             Open source on <a href="https://github.com/astei/crafthead">GitHub</a>.

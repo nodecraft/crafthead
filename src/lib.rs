@@ -23,7 +23,8 @@ cfg_if! {
 
 enum RenderType {
     Avatar,
-    Helm
+    Helm,
+    Cube,
 }
 
 impl RenderType {
@@ -33,6 +34,7 @@ impl RenderType {
                 .resize(size, size, image::imageops::FilterType::Nearest),
             RenderType::Helm   => img.get_part(Layer::Both, &BodyPart::Head)
                 .resize(size, size, image::imageops::FilterType::Nearest),
+            RenderType::Cube   => img.render_cube(true, size),
         }
     }
 }
@@ -41,6 +43,7 @@ fn what_to_render_type(what: String) -> Option<RenderType> {
     match what.as_str() {
         "avatar" => Some(RenderType::Avatar),
         "helm"   => Some(RenderType::Helm),
+        "cube"   => Some(RenderType::Cube),
         _        => None
     }
 }

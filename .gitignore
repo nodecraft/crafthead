@@ -5,7 +5,9 @@ bin/
 pkg/
 wasm-pack.log
 worker/generated/
+worker/worker/
 worker/*.wasm
 worker/script.js
 node_modules/
 wrangler.toml
+.idea
