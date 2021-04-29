@@ -149,7 +149,7 @@ impl MinecraftSkin {
             1.0,     1.0,    0.0,
             -skew_a, skew_a, 0.0,
             0.0,     0.0,    1.0,
-        ]).unwrap() * Projection::translate((0.5 * scale) - z_offset, x_offset + z_offset - 0.5) * Projection::scale(scale, scale + (1.0 / 8.0));
+        ]).unwrap() * Projection::translate(-0.5 - z_offset, x_offset + z_offset - 0.5) * Projection::scale(scale, scale + (1.0 / 8.0));
         warp_into(&head_orig_top.into_rgba8(), &head_top_skew, Interpolation::Nearest, Rgba([0, 0, 0, 0]), &mut scratch);
         imageops::overlay(&mut render, &scratch, 0, 0);
 
@@ -158,7 +158,7 @@ impl MinecraftSkin {
             1.0,     0.0,    0.0,
             -skew_a, skew_b, skew_a,
             0.0,     0.0,    1.0,
-        ]).unwrap() * Projection::translate(x_offset + 8.0 * scale, (x_offset + 8.0 * scale) + z_offset - 0.5) * Projection::scale(scale, scale);
+        ]).unwrap() * Projection::translate(x_offset + 7.5 * scale - 0.5, (x_offset + 8.0 * scale) + z_offset - 0.5) * Projection::scale(scale, scale);
         warp_into(&head_orig_front.into_rgba8(), &head_front_skew, Interpolation::Nearest, Rgba([0, 0, 0, 0]), &mut scratch);
         imageops::overlay(&mut render, &scratch, 0, 0);
 
@@ -167,7 +167,7 @@ impl MinecraftSkin {
             1.0,     0.0,    0.0,
             skew_a,  skew_b, 0.0,
             0.0,     0.0,    1.0,
-        ]).unwrap() * Projection::translate(x_offset + 0.5, z_offset + (0.35 * scale)) * Projection::scale(scale + (0.5 / 8.0), scale + (1.0 / 8.0));
+        ]).unwrap() * Projection::translate(x_offset - (scale / 2.0), z_offset + scale) * Projection::scale(scale + (0.5 / 8.0), scale + (1.0 / 8.0));
         warp_into(&head_orig_right.into_rgba8(), &head_right_skew, Interpolation::Nearest, Rgba([0, 0, 0, 0]), &mut scratch);
         imageops::overlay(&mut render, &scratch, 0, 0);
 
