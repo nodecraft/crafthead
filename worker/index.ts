@@ -61,6 +61,7 @@ function decorateHeaders(interpreted: CraftheadRequest, headers: Headers): Heade
     // Set a liberal CORS policy - there's no harm you can do by making requests to this site...
     copiedHeaders.set('Access-Control-Allow-Origin', '*');
     copiedHeaders.set('Content-Type', interpreted.requested === RequestedKind.Profile ? 'application/json' : 'image/png');
+    copiedHeaders.set('Cache-Control', 'max-age=14400');
     return copiedHeaders
 }
 
