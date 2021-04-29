@@ -36,7 +36,7 @@ async function handleRequest(event: FetchEvent) {
     console.log("Request interpreted as ", interpreted);
 
     try {
-        let response = /*await caches.default.match(new Request(getCacheKey(interpreted)))*/ null;
+        let response = await caches.default.match(new Request(getCacheKey(interpreted)));
         if (!response) {
             // The item is not in the Cloudflare datacenter's cache. We need to process the request further.
             console.log("Request not satisfied from cache.");
@@ -44,7 +44,7 @@ async function handleRequest(event: FetchEvent) {
             const gatherer = new PromiseGatherer();
             response = await processRequest(skinService, interpreted, gatherer);
             if (response.ok) {
-                //gatherer.push(caches.default.put(getCacheKey(interpreted), response.clone()));
+                gatherer.push(caches.default.put(getCacheKey(interpreted), response.clone()));
             }
             event.waitUntil(gatherer.all());
         }
