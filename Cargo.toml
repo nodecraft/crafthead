@@ -8,12 +8,13 @@ edition = "2018"
 crate-type = ["cdylib"]
 
 [features]
-default = ["wee_alloc"]
+default = ["wee_alloc", "console_error_panic_hook"]
 
 [dependencies]
 cfg-if = "0.1.2"
 wasm-bindgen = "0.2"
 js-sys = "0.3.8"
+imageproc = { version = "0.22.0", default-features = false }
 
 # The `console_error_panic_hook` crate provides better debugging of panics by
 # logging them with `console.error`. This is great for development, but requires
@@ -39,3 +40,6 @@ wasm-bindgen-test = "0.2"
 [profile.release]
 codegen-units = 1
 opt-level = "s"
+
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = false

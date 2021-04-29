@@ -10,6 +10,7 @@ use js_sys::Uint8Array;
 use wasm_bindgen::prelude::*;
 use skin::*;
 use image::DynamicImage;
+use crate::image::GenericImageView;
 
 cfg_if! {
     // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
@@ -23,7 +24,8 @@ cfg_if! {
 
 enum RenderType {
     Avatar,
-    Helm
+    Helm,
+    Cube,
 }
 
 impl RenderType {
@@ -33,6 +35,15 @@ impl RenderType {
                 .resize(size, size, image::imageops::FilterType::Nearest),
             RenderType::Helm   => img.get_part(Layer::Both, &BodyPart::Head)
                 .resize(size, size, image::imageops::FilterType::Nearest),
+            RenderType::Cube   => {
+                let cube = img.render_cube(true, size);
+                cube
+                // let (width, height) = cube.dimensions();
+                // let scale = size as f32 / width as f32;
+
+                // let new_height = (height as f32 * scale).ceil() as u32;
+                // return cube.resize(size, new_height, image::imageops::FilterType::Nearest);
+            },
         }
     }
 }
@@ -41,6 +52,7 @@ fn what_to_render_type(what: String) -> Option<RenderType> {
     match what.as_str() {
         "avatar" => Some(RenderType::Avatar),
         "helm"   => Some(RenderType::Helm),
+        "cube"   => Some(RenderType::Cube),
         _        => None
     }
 }

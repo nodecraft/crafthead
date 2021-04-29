@@ -24,7 +24,7 @@ async function handleRequest(event: FetchEvent) {
     console.log("Request interpreted as ", interpreted);
 
     try {
-        let response = await caches.default.match(new Request(getCacheKey(interpreted)))
+        let response = /*await caches.default.match(new Request(getCacheKey(interpreted)))*/ null;
         if (!response) {
             // The item is not in the Cloudflare datacenter's cache. We need to process the request further.
             console.log("Request not satisfied from cache.");
@@ -32,7 +32,7 @@ async function handleRequest(event: FetchEvent) {
             const gatherer = new PromiseGatherer();
             response = await processRequest(skinService, interpreted, gatherer);
             if (response.ok) {
-                gatherer.push(caches.default.put(getCacheKey(interpreted), response.clone()));
+                //gatherer.push(caches.default.put(getCacheKey(interpreted), response.clone()));
             }
             event.waitUntil(gatherer.all());
         }
@@ -71,7 +71,8 @@ async function processRequest(skinService: MojangRequestService, interpreted: Cr
             });
         }
         case RequestedKind.Avatar:
-        case RequestedKind.Helm: {
+        case RequestedKind.Helm:
+        case RequestedKind.Cube: {
             const skin = await skinService.retrieveSkin(interpreted, gatherer);
             return renderImage(skin, interpreted.size, interpreted.requested);
         }
@@ -83,7 +84,7 @@ async function processRequest(skinService: MojangRequestService, interpreted: Cr
     }
 }
 
-async function renderImage(skin: Response, size: number, requested: RequestedKind.Avatar | RequestedKind.Helm): Promise<Response> {
+async function renderImage(skin: Response, size: number, requested: RequestedKind.Avatar | RequestedKind.Helm | RequestedKind.Cube): Promise<Response> {
     const destinationHeaders = new Headers(skin.headers);
     const [renderer, skinArrayBuffer] = await Promise.all([getRenderer(), skin.arrayBuffer()]);
     const skinBuf = new Uint8Array(skinArrayBuffer);
@@ -95,6 +96,9 @@ async function renderImage(skin: Response, size: number, requested: RequestedKin
             break;
         case RequestedKind.Helm:
             which = "helm";
+            break;
+        case RequestedKind.Cube:
+            which = "cube";
             break;
         default:
             throw new Error("Unknown requested kind");

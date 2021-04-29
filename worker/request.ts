@@ -3,6 +3,7 @@ export enum RequestedKind {
     Skin,
     Avatar,
     Helm,
+    Cube,
     Profile
 }
 
@@ -25,6 +26,8 @@ function stringKindToRequestedKind(kind: string): RequestedKind | null {
             return RequestedKind.Skin;
         case "avatar":
             return RequestedKind.Avatar;
+        case "cube":
+            return RequestedKind.Cube;
         case "helm":
             return RequestedKind.Helm;
         case "profile":

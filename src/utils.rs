@@ -43,7 +43,7 @@ fn apply_minecraft_transparency_region(img: &mut DynamicImage, x: u32, y: u32, w
 
     for cy in y..y+height {
         for cx in x..x+width {
-            let mut p= img.get_pixel(cx, cy);
+            let mut p = img.get_pixel(cx, cy);
             p[3] = 0x00;
             img.put_pixel(cx, cy, p);
         }
