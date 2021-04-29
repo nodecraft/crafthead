@@ -18,7 +18,10 @@ module.exports = {
                         loader: 'babel-loader',
                         options: {
                             cacheDirectory: true,
-                            plugins: ["@babel/plugin-proposal-optional-chaining"]
+                            plugins: [
+                                "@babel/plugin-proposal-optional-chaining",
+                                "@babel/plugin-syntax-bigint"
+                            ]
                         }
                     },
                     {

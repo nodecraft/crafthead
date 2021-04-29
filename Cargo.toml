@@ -8,7 +8,7 @@ edition = "2018"
 crate-type = ["cdylib"]
 
 [features]
-default = ["wee_alloc", "console_error_panic_hook"]
+default = ["wee_alloc"]
 
 [dependencies]
 cfg-if = "0.1.2"

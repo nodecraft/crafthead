@@ -2,13 +2,12 @@
 
 import PromiseGatherer from '../../promise_gather';
 import {IdentityKind, CraftheadRequest} from '../../request';
-import {STEVE_SKIN} from '../../data';
+import {ALEX_SKIN, STEVE_SKIN} from '../../data';
 import {MojangApiService, MojangProfile, MojangProfileProperty} from "./api";
 import { CacheComputeResult, computeBuffer } from '../../util/cache-helper';
+import { fromHex, javaHashCode, offlinePlayerUuid, toHex, uuidVersion } from '../../util/uuid';
 
 declare const CRAFTHEAD_PROFILE_CACHE: KVNamespace;
-
-const FAKE_MHF_STEVE_UUID = '!112548de8d0c42a78745aabac5a64ebb';
 
 export interface SkinResponse {
     response: Response;
@@ -49,38 +48,45 @@ export default class MojangRequestService {
             normalized.identity = profileLookup.id;
         } else {
             // The lookup failed.
-            normalized.identity = FAKE_MHF_STEVE_UUID;
+            normalized.identity = toHex(await offlinePlayerUuid(request.identity));
         }
         return normalized;
     }
 
     async retrieveSkin(request: CraftheadRequest, gatherer: PromiseGatherer): Promise<Response> {
-        if (request.identity === 'char' || request.identity === 'MHF_Steve' || request.identity === FAKE_MHF_STEVE_UUID) {
+        if (request.identity === 'char' || request.identity === 'MHF_Steve') {
             // These are special-cased by Minotar.
             return new Response(STEVE_SKIN);
         }
 
         const normalized = await this.normalizeRequest(request, gatherer);
-
-        const cacheKey = `skin:${normalized.identity}`
-        const response = await computeBuffer(cacheKey, async () => {
-            const lookup = await this.mojangApi.fetchProfile(normalized.identity, gatherer);
-            if (lookup.result !== null) {
-                let skinResponse = await this.fetchSkinTextureFromProfile(lookup.result);
-                return skinResponse.arrayBuffer();
-            }
-            return null;
-        }, gatherer);
-
-        if (response.result) {
-            return new Response(response.result, {
-                status: 200,
-                headers: {
-                    'X-Crafthead-Skin-Cache-Hit': response.source
+        const rawUuid = fromHex(normalized.identity);
+        if (uuidVersion(rawUuid) === 4) {
+            // See if the player has a skin.
+            const cacheKey = `skin:${normalized.identity}`
+            const response = await computeBuffer(cacheKey, async () => {
+                const lookup = await this.mojangApi.fetchProfile(normalized.identity, gatherer);
+                if (lookup.result !== null) {
+                    let skinResponse = await this.fetchSkinTextureFromProfile(lookup.result);
+                    return skinResponse.arrayBuffer();
                 }
-            });
-        } else {
+                return null;
+            }, gatherer);
+            
+            if (response.result) {
+                return new Response(response.result, {
+                    status: 200,
+                    headers: {
+                        'X-Crafthead-Skin-Cache-Hit': response.source
+                    }
+                });
+            }
+        }
+
+        if (Math.abs(javaHashCode(rawUuid)) % 2 == 0) {
             return new Response(STEVE_SKIN);
+        } else {
+            return new Response(ALEX_SKIN);
         }
     }
 
@@ -105,7 +111,7 @@ export default class MojangRequestService {
 
     async fetchProfile(request: CraftheadRequest, gatherer: PromiseGatherer): Promise<CacheComputeResult<MojangProfile | null>> {
         const normalized = await this.normalizeRequest(request, gatherer);
-        if (normalized.identity === FAKE_MHF_STEVE_UUID) {
+        if (uuidVersion(fromHex(normalized.identity)) === 3) {
             return {
                 result: null,
                 source: 'mojang'
