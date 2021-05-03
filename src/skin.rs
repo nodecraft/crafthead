@@ -8,20 +8,21 @@ use crate::utils::{apply_minecraft_transparency, fast_overlay};
 
 pub(crate) struct MinecraftSkin(DynamicImage);
 
-#[derive(PartialEq)]
+#[derive(Copy, Clone, PartialEq)]
 pub(crate) enum MinecraftSkinVersion {
     Classic, // 64x32
     Modern, // 64x64
     Invalid
 }
 
+#[derive(Copy, Clone, PartialEq)]
 pub(crate) enum Layer {
     Bottom,
     Top,
     Both,
 }
 
-#[derive(PartialEq)]
+#[derive(Copy, Clone, PartialEq)]
 pub(crate) enum BodyPart {
     Head,
     Body,
@@ -47,7 +48,7 @@ impl MinecraftSkin {
         }
     }
 
-    pub(crate) fn get_part(&self, layer: Layer, part: &BodyPart) -> DynamicImage {
+    pub(crate) fn get_part(&self, layer: Layer, part: BodyPart) -> DynamicImage {
         let arm_width = match self.version() {
             MinecraftSkinVersion::Classic => 3,
             _                             => 4
@@ -55,7 +56,7 @@ impl MinecraftSkin {
 
         match layer {
             Layer::Both => {
-                if self.version() != MinecraftSkinVersion::Modern && *part != Head {
+                if self.version() != MinecraftSkinVersion::Modern && part != Head {
                     return self.get_part(Layer::Bottom, part);
                 }
 
@@ -72,14 +73,14 @@ impl MinecraftSkin {
                     BodyPart::ArmLeft => {
                         match self.version() {
                             MinecraftSkinVersion::Modern => self.0.crop_imm(36, 52, arm_width, 12),
-                            _                            => self.get_part(Bottom, &ArmRight)
+                            _                            => self.get_part(Bottom, ArmRight)
                         }
                     },
                     BodyPart::ArmRight => self.0.crop_imm(44, 20, 4, 12),
                     BodyPart::LegLeft => {
                         match self.version() {
                             MinecraftSkinVersion::Modern => self.0.crop_imm(20, 52, 4, 12),
-                            _                            => self.get_part(Bottom, &LegRight)
+                            _                            => self.get_part(Bottom, LegRight)
                         }
                     },
                     BodyPart::LegRight => self.0.crop_imm(4, 20, 4, 12),
@@ -91,31 +92,31 @@ impl MinecraftSkin {
                     BodyPart::Body => {
                         match self.version() {
                             MinecraftSkinVersion::Modern => self.0.crop_imm(20, 36, 8, 12),
-                            _                            => self.get_part(Bottom, &Body)
+                            _                            => self.get_part(Bottom, Body)
                         }
                     },
                     BodyPart::ArmLeft => {
                         match self.version() {
                             MinecraftSkinVersion::Modern => self.0.crop_imm(52, 52, arm_width, 12),
-                            _                            => self.get_part(Bottom, &ArmRight)
+                            _                            => self.get_part(Bottom, ArmRight)
                         }
                     },
                     BodyPart::ArmRight => {
                         match self.version() {
                             MinecraftSkinVersion::Modern => self.0.crop_imm(44, 36, arm_width, 12),
-                            _                            => self.get_part(Bottom, &ArmRight),
+                            _                            => self.get_part(Bottom, ArmRight),
                         }
                     },
                     BodyPart::LegLeft => {
                         match self.version() {
                             MinecraftSkinVersion::Modern => self.0.crop_imm(4, 52, 4, 12),
-                            _                            => self.get_part(Bottom, &LegRight),
+                            _                            => self.get_part(Bottom, LegRight),
                         }
                     },
                     BodyPart::LegRight => {
                         match self.version() {
                             MinecraftSkinVersion::Modern => self.0.crop_imm(4, 36, 4, 12),
-                            _                            => self.get_part(Bottom, &LegRight),
+                            _                            => self.get_part(Bottom, LegRight),
                         }
                     },
                 }
