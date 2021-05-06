@@ -63,31 +63,29 @@ export async function computeObject<T>(key: string, source: () => Promise<T | nu
         };
     }
 
-    const kvResponse: T | null = await CRAFTHEAD_PROFILE_CACHE.get(key, "json");
+    const kvResponse: string | null = await CRAFTHEAD_PROFILE_CACHE.get(key, "text");
     if (kvResponse !== null) {
         if (gatherer) {
             gatherer.push(caches.default.put(localCacheUrl, new Response(JSON.stringify(kvResponse))));
         }
         return {
-            result: kvResponse,
+            result: JSON.parse(kvResponse),
             source: 'cloudflare-kv'
         };
     }
 
     const remote = await source();
-    if (remote !== null) {
-        if (gatherer) {
-            const serialized = JSON.stringify(remote);
-            gatherer.push(caches.default.put(localCacheUrl, new Response(serialized, {
-                headers: {
-                    'Cache-Control': 'max-age: 86400'
-                }
-            })));
-            gatherer.push(CRAFTHEAD_PROFILE_CACHE.put(key, serialized, {
-                expirationTtl: 86400
-            }));
-        }
-    } 
+    if (gatherer) {
+        const serialized = JSON.stringify(remote);
+        gatherer.push(caches.default.put(localCacheUrl, new Response(serialized, {
+            headers: {
+                'Cache-Control': 'max-age: 86400'
+            }
+        })));
+        gatherer.push(CRAFTHEAD_PROFILE_CACHE.put(key, serialized, {
+            expirationTtl: 86400
+        }));
+    }
 
     return {
         result: remote,

@@ -60,6 +60,14 @@ export default class MojangRequestService {
         }
 
         const normalized = await this.normalizeRequest(request, gatherer);
+        if (!normalized.identity) {
+            // TODO: Can't figure out why this is inexplicitly undefined(!)
+            return new Response(STEVE_SKIN, {
+                headers: {
+                    'X-Crafthead-Skin-Cache-Hit': 'unknown'
+                }
+            });
+        }
         const rawUuid = fromHex(normalized.identity);
         if (uuidVersion(rawUuid) === 4) {
             // See if the player has a skin.
@@ -70,10 +78,10 @@ export default class MojangRequestService {
                     let skinResponse = await this.fetchSkinTextureFromProfile(lookup.result);
                     return skinResponse.arrayBuffer();
                 }
-                return null;
+                return new ArrayBuffer(0);
             }, gatherer);
             
-            if (response.result) {
+            if (response.result && response.result.byteLength > 0) {
                 return new Response(response.result, {
                     status: 200,
                     headers: {
@@ -84,9 +92,17 @@ export default class MojangRequestService {
         }
 
         if (Math.abs(javaHashCode(rawUuid)) % 2 == 0) {
-            return new Response(STEVE_SKIN);
+            return new Response(STEVE_SKIN, {
+                headers: {
+                    'X-Crafthead-Skin-Cache-Hit': 'invalid-profile'
+                }
+            });
         } else {
-            return new Response(ALEX_SKIN);
+            return new Response(ALEX_SKIN, {
+                headers: {
+                    'X-Crafthead-Skin-Cache-Hit': 'invalid-profile'
+                }
+            });
         }
     }
 
