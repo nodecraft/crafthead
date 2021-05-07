@@ -33,110 +33,119 @@
     </header>
 
     <article>
-        <h2>Why use Crafthead?</h2>
-        <ul>
-            <li><strong>Runs on the edge</strong> &ndash; runs fast everywhere, using Cloudflare's 200+ datacenters
-                worldwide</li>
-            <li><strong>Serverless</strong> &ndash; not only does it run fast everywhere, it scales with zero
-                intervention</li>
-            <li><strong>Ridiculously fast</strong> &ndash; depending on if the skin has been cached and the desired
-                avatar size, it can be more than 2x as fast as other services</li>
-            <li><strong>Easy to move to</strong> &ndash; the URL layout is 100% compatible with Minotar's, so it's
-                a quick and easy switch</li>
-        </ul>
+        <div id="instructions">
+            <h2>Why use Crafthead?</h2>
+            <ul>
+                <li><strong>Runs on the edge</strong> &ndash; runs fast everywhere, using Cloudflare's 200+ datacenters
+                    worldwide</li>
+                <li><strong>Serverless</strong> &ndash; not only does it run fast everywhere, it scales with zero
+                    intervention</li>
+                <li><strong>Ridiculously fast</strong> &ndash; depending on if the skin has been cached and the desired
+                    avatar size, it can be more than 2x as fast as other services</li>
+                <li><strong>Easy to move to</strong> &ndash; the URL layout is 100% compatible with Minotar's, so it's
+                    a quick and easy switch</li>
+            </ul>
+    
+            <h2>Getting started</h2>
+            <p>
+                Crafthead supports lookups by UUID (dashed or not) and usernames and supports rendering avatars, cubes,
+                retrieving skins and profiles. The URL layout is compatible with Minotar, making migration simple.
+            </p>
+            <p>
+                <strong>Performance tip</strong>: Use UUIDs when possible. Using a username requires an extra API call,
+                which may not be cached!
+            </p>
+    
+            <h3>Fetch an avatar</h3>
+            <div class="example">
+                <code>
+                    GET https://crafthead.net/avatar/ecfc3640f601406c9f9f1f857fc76f9d
+                </code>
+                <img src="/avatar/ecfc3640f601406c9f9f1f857fc76f9d" alt="Default example" width="32"
+                    height="32">
+            </div>
+    
+            <p>Need a different size?</p>
+            <div class="example">
+                <code>
+                    GET https://crafthead.net/avatar/dcc4c006582b4f798f71654b477807c2/128
+                </code>
+                <img src="/avatar/dcc4c006582b4f798f71654b477807c2/128" alt="Default example"
+                    width="128" height="128">
+            </div>
+    
+            <p>Got a dashed UUID? We will remove them for you.</p>
+            <div class="example">
+                <code>
+                    GET https://crafthead.net/avatar/c6309b6b-8aac-4aab-8fef-a1e6853316ec
+                </code>
+                <img src="/avatar/c6309b6b-8aac-4aab-8fef-a1e6853316ec" alt="Default example"
+                    width="32" height="32">
+            </div>
+    
+            <p>We support usernames, too.</p>
+            <div class="example">
+                <code>
+                    GET https://crafthead.net/avatar/Notch
+                </code>
+                <img src="/avatar/Notch" alt="Default example" width="32" height="32">
+            </div>
+    
+            <p>Want a helm?</p>
+            <div class="example">
+                <code>
+                    GET https://crafthead.net/helm/Reply
+                </code>
+                <img src="/helm/Reply" alt="Default example" width="32" height="32">
+            </div>
+    
+            <p>It's a cube game, after all.</p>
+            <div class="example">
+                <code>
+                    GET https://crafthead.net/cube/48a0a7e4d5594873a617dc189f76a8a1
+                </code>
+                <img src="/cube/48a0a7e4d5594873a617dc189f76a8a1/32" alt="Default example" width="32">
+            </div>
+    
+            <h3>Fetch a player's skin</h3>
+            <div class="example">
+                <code>
+                    GET https://crafthead.net/skin/652a2bc4e8cd405db7b698156ee2dc09
+                </code>
+                <img src="/skin/652a2bc4e8cd405db7b698156ee2dc09" alt="Default example" width="64"
+                    height="64">
+            </div>
+            <div class="example">
+                <code>
+                    GET https://crafthead.net/skin/Reply
+                </code>
+                <img src="/skin/Reply" alt="Default example" width="64" height="32">
+            </div>
+            <div class="example">
+                <code>
+                    GET https://crafthead.net/skin/char
+                </code>
+                <img src="/skin/char" alt="Default example" width="64" height="32">
+            </div>
+    
+            <h3>Fetch a player's profile</h3>
+            <div class="example">
+                <code>
+                    GET https://crafthead.net/profile/652a2bc4e8cd405db7b698156ee2dc09
+                </code>
+            </div>
+            <div class="example">
+                <code>
+                    GET https://crafthead.net/profile/Reply
+                </code>
+            </div>
+        </div>
+        <div id="sponsors">
+            <h2>Supported by</h2>
 
-        <h2>Getting started</h2>
-        <p>
-            Crafthead supports lookups by UUID (dashed or not) and usernames and supports rendering avatars, cubes,
-            retrieving skins and profiles. The URL layout is compatible with Minotar, making migration simple.
-        </p>
-        <p>
-            <strong>Performance tip</strong>: Use UUIDs when possible. Using a username requires an extra API call,
-            which may not be cached!
-        </p>
-
-        <h3>Fetch an avatar</h3>
-        <div class="example">
-            <code>
-                GET https://crafthead.net/avatar/ecfc3640f601406c9f9f1f857fc76f9d
-            </code>
-            <img src="/avatar/ecfc3640f601406c9f9f1f857fc76f9d" alt="Default example" width="32"
-                height="32">
-        </div>
-
-        <p>Need a different size?</p>
-        <div class="example">
-            <code>
-                GET https://crafthead.net/avatar/dcc4c006582b4f798f71654b477807c2/128
-            </code>
-            <img src="/avatar/dcc4c006582b4f798f71654b477807c2/128" alt="Default example"
-                width="128" height="128">
-        </div>
-
-        <p>Got a dashed UUID? We will remove them for you.</p>
-        <div class="example">
-            <code>
-                GET https://crafthead.net/avatar/c6309b6b-8aac-4aab-8fef-a1e6853316ec
-            </code>
-            <img src="/avatar/c6309b6b-8aac-4aab-8fef-a1e6853316ec" alt="Default example"
-                width="32" height="32">
-        </div>
-
-        <p>We support usernames, too.</p>
-        <div class="example">
-            <code>
-                GET https://crafthead.net/avatar/Notch
-            </code>
-            <img src="/avatar/Notch" alt="Default example" width="32" height="32">
-        </div>
-
-        <p>Want a helm?</p>
-        <div class="example">
-            <code>
-                GET https://crafthead.net/helm/Reply
-            </code>
-            <img src="/helm/Reply" alt="Default example" width="32" height="32">
-        </div>
-
-        <p>It's a cube game, after all.</p>
-        <div class="example">
-            <code>
-                GET https://crafthead.net/cube/48a0a7e4d5594873a617dc189f76a8a1
-            </code>
-            <img src="/cube/48a0a7e4d5594873a617dc189f76a8a1/32" alt="Default example" width="32">
-        </div>
-
-        <h3>Fetch a player's skin</h3>
-        <div class="example">
-            <code>
-                GET https://crafthead.net/skin/652a2bc4e8cd405db7b698156ee2dc09
-            </code>
-            <img src="/skin/652a2bc4e8cd405db7b698156ee2dc09" alt="Default example" width="64"
-                height="64">
-        </div>
-        <div class="example">
-            <code>
-                GET https://crafthead.net/skin/Reply
-            </code>
-            <img src="/skin/Reply" alt="Default example" width="64" height="32">
-        </div>
-        <div class="example">
-            <code>
-                GET https://crafthead.net/skin/char
-            </code>
-            <img src="/skin/char" alt="Default example" width="64" height="32">
-        </div>
-
-        <h3>Fetch a player's profile</h3>
-        <div class="example">
-            <code>
-                GET https://crafthead.net/profile/652a2bc4e8cd405db7b698156ee2dc09
-            </code>
-        </div>
-        <div class="example">
-            <code>
-                GET https://crafthead.net/profile/Reply
-            </code>
+            <a href="https://nodecraft.com">
+                <img alt="Nodecraft" src="/sponsors/nodecraft.svg" />
+            </a>
         </div>
     </article>
 

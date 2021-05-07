@@ -46,6 +46,31 @@ article {
     margin: 0 auto;
     padding: 1rem;
     line-height: 1.5;
+    display: flex;
+    flex-direction: row;
+}
+
+#instructions {
+    max-width: 900px;
+    padding-right: 1rem;
+}
+
+#sponsors {
+    padding: 0 1rem;
+    text-align: center;
+}
+
+@media (max-width: 960px) {
+    flex-direction: column;
+
+    #instructions {
+        padding: 0;
+    }
+
+    #sponsors {
+        padding: 0;
+        padding-right: 1rem;
+    }
 }
 
 .example {
