@@ -111,7 +111,18 @@ export default class MojangRequestService {
             const textureUrl = MojangRequestService.extractUrlFromTexturesProperty(
                 profile.properties.find(property => property.name === 'textures'));
             if (textureUrl) {
-                const textureResponse = await fetch(textureUrl);
+                const textureResponse = await fetch(textureUrl, {
+                    cf: {
+                        cacheTtlByStatus: {
+                            '200-299': 86400,
+                            '400-499': 600,
+                            '500-599': 5,
+                        }
+                    },
+                    headers: {
+                        'User-Agent': 'Crafthead (+https://crafthead.net)'
+                    }
+                });
                 if (!textureResponse.ok) {
                     throw new Error(`Unable to retrieve skin texture from Mojang, http status ${textureResponse.status}`);
                 }

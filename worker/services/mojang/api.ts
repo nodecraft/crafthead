@@ -1,8 +1,6 @@
 import PromiseGatherer from "../../promise_gather";
 import { CacheComputeResult, computeObject } from "../../util/cache-helper";
 
-declare const CRAFTHEAD_PROFILE_CACHE: KVNamespace;
-
 const MOJANG_API_TTL = 86400
 
 export interface MojangProfile {
@@ -36,15 +34,17 @@ export class CachedMojangApiService implements MojangApiService {
     }
 
     async lookupUsername(username: string, gatherer: PromiseGatherer | null): Promise<MojangUsernameLookupResult | null> {
-        const cacheKey = `username-lookup:${username.toLocaleLowerCase('en-US')}`
-        const usernameLookupResult = await computeObject(cacheKey, () => this.delegate.lookupUsername(username, gatherer), gatherer);
+        const lowercased = username.toLocaleLowerCase('en-US');
+        const cacheKey = `username-lookup:${lowercased}`;
+        const usernameLookupResult = await computeObject(cacheKey, () => this.delegate.lookupUsername(lowercased, gatherer), gatherer);
         return usernameLookupResult.result;
     }
 
     async fetchProfile(id: string, gatherer: PromiseGatherer | null): Promise<CacheComputeResult<MojangProfile | null>> {
-        const cacheKey = `profile-lookup:${id.toLocaleLowerCase('en-US')}`
+        const lowercased = id.toLocaleLowerCase('en-US');
+        const cacheKey = `profile-lookup:${lowercased}`;
         return await computeObject(cacheKey, async () => {
-            const result = await this.delegate.fetchProfile(id, gatherer);
+            const result = await this.delegate.fetchProfile(lowercased, gatherer);
             return result.result;
         }, gatherer);
     }
@@ -53,33 +53,30 @@ export class CachedMojangApiService implements MojangApiService {
 // Implements MojangApiService by contacting the Mojang API endpoints directly.
 export class DirectMojangApiService implements MojangApiService {
     async lookupUsername(username: string, gatherer: PromiseGatherer | null): Promise<MojangUsernameLookupResult | null> {
-        const lookupResponse = await fetch('https://api.mojang.com/profiles/minecraft', {
-            method: 'POST',
-            body: JSON.stringify([ username ]),
+        const lookupResponse = await fetch(`https://api.mojang.com/users/profiles/minecraft/${username}`, {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'User-Agent': 'Crafthead (+https://crafthead.net)'
             }
-        })
+        });
 
-        if (!lookupResponse.ok) {
-            if (lookupResponse.status === 400) {
+        if (lookupResponse.status === 204) {
+            return null;
+        } else if (!lookupResponse.ok) {
+            throw new Error('Unable to lookup UUID for username, http status ' + lookupResponse.status);
+        } else {
+            const contents: MojangUsernameLookupResult | undefined = await lookupResponse.json();
+            if (typeof contents === 'undefined') {
                 return null;
             }
-            throw new Error(`Unable to lookup UUID from Mojang, http status ${lookupResponse.status}`);
+            return contents;
         }
-
-        const contents: MojangUsernameLookupResult[] | undefined = await lookupResponse.json();
-        if (typeof contents === 'undefined' || contents.length === 0) {
-            return null;
-        }
-        return contents[0];
     }
 
     async fetchProfile(id: string, gatherer: PromiseGatherer | null): Promise<CacheComputeResult<MojangProfile | null>> {
         const profileResponse = await fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${id}?unsigned=false`, {
-            cf: {
-                cacheEverything: true,
-                cacheTtl: MOJANG_API_TTL
+            headers: {
+                'User-Agent': 'Crafthead (+https://crafthead.net)'
             }
         });
 
