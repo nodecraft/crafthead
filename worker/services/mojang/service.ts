@@ -4,7 +4,7 @@ import PromiseGatherer from '../../promise_gather';
 import {IdentityKind, CraftheadRequest} from '../../request';
 import {ALEX_SKIN, STEVE_SKIN} from '../../data';
 import {MojangApiService, MojangProfile, MojangProfileProperty} from "./api";
-import { CacheComputeResult, computeBuffer } from '../../util/cache-helper';
+import { CacheComputeResult } from '../../util/cache-helper';
 import { fromHex, javaHashCode, offlinePlayerUuid, toHex, uuidVersion } from '../../util/uuid';
 
 declare const CRAFTHEAD_PROFILE_CACHE: KVNamespace;
@@ -71,21 +71,18 @@ export default class MojangRequestService {
         const rawUuid = fromHex(normalized.identity);
         if (uuidVersion(rawUuid) === 4) {
             // See if the player has a skin.
-            const cacheKey = `skin:${normalized.identity}`
-            const response = await computeBuffer(cacheKey, async () => {
-                const lookup = await this.mojangApi.fetchProfile(normalized.identity, gatherer);
-                if (lookup.result !== null) {
-                    let skinResponse = await this.fetchSkinTextureFromProfile(lookup.result);
-                    return skinResponse.arrayBuffer();
-                }
-                return new ArrayBuffer(0);
-            }, gatherer);
+            const lookup = await this.mojangApi.fetchProfile(normalized.identity, gatherer);
+            let buff: ArrayBuffer | null = null;
+            if (lookup.result !== null) {
+                let skinResponse = await this.fetchSkinTextureFromProfile(lookup.result);
+                buff = await skinResponse.arrayBuffer();
+            }
             
-            if (response.result && response.result.byteLength > 0) {
-                return new Response(response.result, {
+            if (buff && buff.byteLength > 0) {
+                return new Response(buff, {
                     status: 200,
                     headers: {
-                        'X-Crafthead-Skin-Cache-Hit': response.source
+                        'X-Crafthead-Profile-Cache-Hit': lookup.source
                     }
                 });
             }
@@ -94,13 +91,13 @@ export default class MojangRequestService {
         if (Math.abs(javaHashCode(rawUuid)) % 2 == 0) {
             return new Response(STEVE_SKIN, {
                 headers: {
-                    'X-Crafthead-Skin-Cache-Hit': 'invalid-profile'
+                    'X-Crafthead-Profile-Cache-Hit': 'invalid-profile'
                 }
             });
         } else {
             return new Response(ALEX_SKIN, {
                 headers: {
-                    'X-Crafthead-Skin-Cache-Hit': 'invalid-profile'
+                    'X-Crafthead-Profile-Cache-Hit': 'invalid-profile'
                 }
             });
         }
