@@ -19,13 +19,16 @@ export async function computeObject<T>(key: string, source: () => Promise<T | nu
 
     const kvResponse: string | null = await CRAFTHEAD_PROFILE_CACHE.get(key, "text");
     if (kvResponse !== null) {
-        if (gatherer) {
-            gatherer.push(caches.default.put(localCacheUrl, new Response(JSON.stringify(kvResponse))));
+        const parsed = JSON.parse(kvResponse);
+        if (parsed) {
+            if (gatherer) {
+                gatherer.push(caches.default.put(localCacheUrl, new Response(JSON.stringify(kvResponse))));
+            }
+            return {
+                result: JSON.parse(kvResponse),
+                source: 'cloudflare-kv'
+            }
         }
-        return {
-            result: JSON.parse(kvResponse),
-            source: 'cloudflare-kv'
-        };
     }
 
     const remote = await source();

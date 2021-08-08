@@ -1,13 +1,11 @@
 /// <reference path="./mojang.d.ts">
 
 import PromiseGatherer from '../../promise_gather';
-import {IdentityKind, CraftheadRequest} from '../../request';
-import {ALEX_SKIN, STEVE_SKIN} from '../../data';
-import {MojangApiService, MojangProfile, MojangProfileProperty} from "./api";
+import { IdentityKind, CraftheadRequest } from '../../request';
+import { ALEX_SKIN, STEVE_SKIN } from '../../data';
+import { MojangApiService, MojangProfile, MojangProfileProperty } from "./api";
 import { CacheComputeResult } from '../../util/cache-helper';
 import { fromHex, javaHashCode, offlinePlayerUuid, toHex, uuidVersion } from '../../util/uuid';
-
-declare const CRAFTHEAD_PROFILE_CACHE: KVNamespace;
 
 export interface SkinResponse {
     response: Response;
