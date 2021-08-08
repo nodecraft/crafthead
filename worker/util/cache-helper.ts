@@ -25,7 +25,7 @@ export async function computeObject<T>(key: string, source: () => Promise<T | nu
                 gatherer.push(caches.default.put(localCacheUrl, new Response(JSON.stringify(kvResponse))));
             }
             return {
-                result: JSON.parse(kvResponse),
+                result: parsed,
                 source: 'cloudflare-kv'
             }
         }
