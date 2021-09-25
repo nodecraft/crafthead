@@ -133,7 +133,7 @@ export default class MojangRequestService {
 
     async fetchProfile(request: CraftheadRequest, gatherer: PromiseGatherer): Promise<CacheComputeResult<MojangProfile | null>> {
         const normalized = await this.normalizeRequest(request, gatherer);
-        if (uuidVersion(fromHex(normalized.identity)) === 3) {
+        if (!normalized.identity || uuidVersion(fromHex(normalized.identity)) === 3) {
             return {
                 result: null,
                 source: 'mojang'
