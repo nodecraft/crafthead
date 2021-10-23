@@ -36,7 +36,9 @@ async function handleRequest(event: FetchEvent) {
     console.log("Request interpreted as ", interpreted);
 
     try {
-        let response = await caches.default.match(new Request(getCacheKey(interpreted)));
+        const cacheKey = getCacheKey(interpreted);
+        let response = await caches.default.match(new Request(cacheKey));
+        const hitCache = !!response;
         if (!response) {
             // The item is not in the Cloudflare datacenter's cache. We need to process the request further.
             console.log("Request not satisfied from cache.");
@@ -44,24 +46,28 @@ async function handleRequest(event: FetchEvent) {
             const gatherer = new PromiseGatherer();
             response = await processRequest(skinService, interpreted, gatherer);
             if (response.ok) {
-                gatherer.push(caches.default.put(getCacheKey(interpreted), response.clone()));
+                const cacheResponse = response.clone();
+                cacheResponse.headers.set('Content-Type', interpreted.requested === RequestedKind.Profile ? 'application/json' : 'image/png');
+                cacheResponse.headers.set('Cache-Control', 'max-age=14400');
+                gatherer.push(caches.default.put(new Request(cacheKey), cacheResponse));
             }
-            event.waitUntil(gatherer.all());
+            await gatherer.all();
         }
-        const headers = decorateHeaders(interpreted, response.headers);
+        const headers = decorateHeaders(interpreted, response.headers, hitCache);
         return new Response(response.body, { status: response.status, headers });
     } catch (e) {
         return new Response(e.toString(), { status: 500 })
     }
 }
 
-function decorateHeaders(interpreted: CraftheadRequest, headers: Headers): Headers {
+function decorateHeaders(interpreted: CraftheadRequest, headers: Headers, hitCache: boolean): Headers {
     const copiedHeaders = new Headers(headers);
 
     // Set a liberal CORS policy - there's no harm you can do by making requests to this site...
     copiedHeaders.set('Access-Control-Allow-Origin', '*');
     copiedHeaders.set('Content-Type', interpreted.requested === RequestedKind.Profile ? 'application/json' : 'image/png');
     copiedHeaders.set('Cache-Control', 'max-age=14400');
+    copiedHeaders.set('X-Crafthead-Request-Cache-Hit', hitCache ? 'yes' : 'no');
     return copiedHeaders
 }
 

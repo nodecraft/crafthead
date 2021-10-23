@@ -38,8 +38,7 @@ export default class MojangRequestService {
             return request;
         }
 
-        const normalized: CraftheadRequest = Object.assign({}, request);
-        normalized.identityType = IdentityKind.Uuid;
+        const normalized: CraftheadRequest = { ...request, identityType: IdentityKind.Uuid };
 
         const profileLookup = await this.mojangApi.lookupUsername(request.identity, gatherer);
         if (profileLookup) {
@@ -108,11 +107,8 @@ export default class MojangRequestService {
             if (textureUrl) {
                 const textureResponse = await fetch(textureUrl, {
                     cf: {
-                        cacheTtlByStatus: {
-                            '200-299': 86400,
-                            '400-499': 600,
-                            '500-599': 5,
-                        }
+                        cacheEverything: true,
+                        cacheTtl: 86400
                     },
                     headers: {
                         'User-Agent': 'Crafthead (+https://crafthead.net)'

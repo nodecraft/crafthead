@@ -1,7 +1,7 @@
 import PromiseGatherer from "../../promise_gather";
-import { CacheComputeResult, computeObject } from "../../util/cache-helper";
+import { CacheComputeResult } from "../../util/cache-helper";
 
-const MOJANG_API_TTL = 86400
+declare const CRAFTHEAD_PROFILE_CACHE: KVNamespace;
 
 export interface MojangProfile {
     id: string;
@@ -35,18 +35,62 @@ export class CachedMojangApiService implements MojangApiService {
 
     async lookupUsername(username: string, gatherer: PromiseGatherer | null): Promise<MojangUsernameLookupResult | null> {
         const lowercased = username.toLocaleLowerCase('en-US');
-        const cacheKey = `username-lookup:${lowercased}`;
-        const usernameLookupResult = await computeObject(cacheKey, () => this.delegate.lookupUsername(lowercased, gatherer), gatherer);
-        return usernameLookupResult.result;
+        const localCacheKey = 'https://crafthead.net/username-lookup/' + lowercased;
+
+        const localCacheResult = await caches.default.match(new Request(localCacheKey));
+        if (localCacheResult && localCacheResult.ok) {
+            return localCacheResult.json();
+        }
+
+        const kvResult: MojangUsernameLookupResult | null = await CRAFTHEAD_PROFILE_CACHE.get('username-lookup:' + lowercased, 'json');
+        if (kvResult) {
+            gatherer?.push(caches.default.put(new Request(localCacheKey), new Response(
+                JSON.stringify(kvResult), { headers: { 'Cache-Control': 'max-age=3600', 'Content-Type': 'application/json' }}
+            )));
+            return kvResult;
+        }
+
+        const lookup = await this.delegate.lookupUsername(lowercased, gatherer);
+        if (lookup) {
+            gatherer?.push(CRAFTHEAD_PROFILE_CACHE.put('username-lookup:' + lowercased, JSON.stringify(lookup)));
+            gatherer?.push(caches.default.put(new Request(localCacheKey), new Response(
+                JSON.stringify(lookup), { headers: { 'Cache-Control': 'max-age=3600', 'Content-Type': 'application/json' }}
+            )));
+        }
+
+        return lookup;
     }
 
     async fetchProfile(id: string, gatherer: PromiseGatherer | null): Promise<CacheComputeResult<MojangProfile | null>> {
-        const lowercased = id.toLocaleLowerCase('en-US');
-        const cacheKey = `profile-lookup:${lowercased}`;
-        return await computeObject(cacheKey, async () => {
-            const result = await this.delegate.fetchProfile(lowercased, gatherer);
-            return result.result;
-        }, gatherer);
+        const localCacheKey = 'https://crafthead.net/profile/' + id;
+        const localCacheResult = await caches.default.match(new Request(localCacheKey));
+        if (localCacheResult && localCacheResult.ok) {
+            return {
+                result: <MojangProfile> await localCacheResult.json(),
+                source: 'cf-local'
+            };
+        }
+
+        const kvResult: MojangProfile | null = await CRAFTHEAD_PROFILE_CACHE.get('profile-lookup:' + id, 'json');
+        if (kvResult !== null) {
+            gatherer?.push(caches.default.put(new Request(localCacheKey), new Response(
+                JSON.stringify(kvResult), { headers: { 'Cache-Control': 'max-age=3600', 'Content-Type': 'application/json' } }
+            )));
+            return {
+                result: kvResult,
+                source: 'cf-kv'
+            };
+        }
+
+        const lookup = await this.delegate.fetchProfile(id, gatherer);
+        if (lookup) {
+            gatherer?.push(CRAFTHEAD_PROFILE_CACHE.put('profile-lookup:' + id, JSON.stringify(lookup)));
+            gatherer?.push(caches.default.put(new Request(localCacheKey), new Response(
+                JSON.stringify(lookup), { headers: { 'Cache-Control': 'max-age=3600', 'Content-Type': 'application/json' }}
+            )));
+        }
+
+        return lookup;
     }
 }
 
