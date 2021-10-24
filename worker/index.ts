@@ -38,7 +38,7 @@ async function handleRequest(event: FetchEvent) {
 
     try {
         const cacheKey = getCacheKey(interpreted);
-        let response = await caches.default.match(new Request(cacheKey));
+        let response = null; // await caches.default.match(new Request(cacheKey));
         const hitCache = !!response;
         if (!response) {
             // The item is not in the Cloudflare datacenter's cache. We need to process the request further.
@@ -76,17 +76,19 @@ async function processRequest(skinService: MojangRequestService, interpreted: Cr
     switch (interpreted.requested) {
         case RequestedKind.Profile: {
             const lookup = await skinService.fetchProfile(interpreted, gatherer);
-            if (lookup.result === null) {
+            if (!lookup.result) {
                 return new Response(JSON.stringify({ error: "User does not exist"}), {
                     status: 404,
                     headers: {
-                        'X-Crafthead-Profile-Cache-Hit': lookup.source
+                        'X-Crafthead-Profile-Cache-Hit': lookup.source,
+                        'X-Raw-Result': JSON.stringify(lookup)
                     }
                 });
             }
             return new Response(JSON.stringify(lookup.result), {
                 headers: {
-                    'X-Crafthead-Profile-Cache-Hit': lookup.source
+                    'X-Crafthead-Profile-Cache-Hit': lookup.source,
+                    'X-Raw-Result': JSON.stringify(lookup)
                 }
             });
         }

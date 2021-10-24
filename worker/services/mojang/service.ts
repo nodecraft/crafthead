@@ -50,6 +50,42 @@ export default class MojangRequestService {
         return normalized;
     }
 
+    /**
+     * Fetches a skin directly from the Mojang servers. Assumes the request has been normalized already.
+     */
+    private async retrieveSkinDirect(request: CraftheadRequest, gatherer: PromiseGatherer): Promise<Response> {
+        const rawUuid = fromHex(request.identity);
+        if (uuidVersion(rawUuid) === 4) {
+            const lookup = await this.mojangApi.fetchProfile(request.identity, gatherer);
+            if (lookup.result) {
+                let skinResponse = await this.fetchSkinTextureFromProfile(lookup.result);
+                const buff = await skinResponse.arrayBuffer();
+                if (buff && buff.byteLength > 0) {
+                    return new Response(buff, {
+                        status: 200,
+                        headers: {
+                            'X-Crafthead-Profile-Cache-Hit': lookup.source
+                        }
+                    });
+                }
+            }
+            return new Response(STEVE_SKIN, {
+                status: 404,
+                headers: {
+                    'X-Crafthead-Profile-Cache-Hit': 'not-found',
+                    'X-Raw': JSON.stringify(lookup)
+                }
+            });
+        }
+
+        return new Response(STEVE_SKIN, {
+            status: 404,
+            headers: {
+                'X-Crafthead-Profile-Cache-Hit': 'offline-mode'
+            }
+        });
+    }
+
     async retrieveSkin(request: CraftheadRequest, gatherer: PromiseGatherer): Promise<Response> {
         if (request.identity === 'char' || request.identity === 'MHF_Steve') {
             // These are special-cased by Minotar.
@@ -57,47 +93,25 @@ export default class MojangRequestService {
         }
 
         const normalized = await this.normalizeRequest(request, gatherer);
-        if (!normalized.identity) {
-            // TODO: Can't figure out why this is inexplicitly undefined(!)
-            return new Response(STEVE_SKIN, {
-                headers: {
-                    'X-Crafthead-Skin-Cache-Hit': 'unknown'
-                }
-            });
-        }
-        const rawUuid = fromHex(normalized.identity);
-        if (uuidVersion(rawUuid) === 4) {
-            // See if the player has a skin.
-            const lookup = await this.mojangApi.fetchProfile(normalized.identity, gatherer);
-            let buff: ArrayBuffer | null = null;
-            if (lookup.result !== null) {
-                let skinResponse = await this.fetchSkinTextureFromProfile(lookup.result);
-                buff = await skinResponse.arrayBuffer();
-            }
-            
-            if (buff && buff.byteLength > 0) {
-                return new Response(buff, {
-                    status: 200,
-                    headers: {
-                        'X-Crafthead-Profile-Cache-Hit': lookup.source
-                    }
-                });
-            }
-        }
-
-        if (Math.abs(javaHashCode(rawUuid)) % 2 == 0) {
-            return new Response(STEVE_SKIN, {
-                headers: {
-                    'X-Crafthead-Profile-Cache-Hit': 'invalid-profile'
-                }
-            });
-        } else {
-            return new Response(ALEX_SKIN, {
-                headers: {
-                    'X-Crafthead-Profile-Cache-Hit': 'invalid-profile'
-                }
-            });
-        }
+        const skin = await this.retrieveSkinDirect(normalized, gatherer);
+        // if (skin.status === 404) {
+        //     // Offline mode ID (usually when we have a username and the username isn't valid)
+        //     const rawUuid = fromHex(normalized.identity);
+        //     if (Math.abs(javaHashCode(rawUuid)) % 2 == 0) {
+        //         return new Response(STEVE_SKIN, {
+        //             headers: {
+        //                 'X-Crafthead-Profile-Cache-Hit': 'invalid-profile'
+        //             }
+        //         });
+        //     } else {
+        //         return new Response(ALEX_SKIN, {
+        //             headers: {
+        //                 'X-Crafthead-Profile-Cache-Hit': 'invalid-profile'
+        //             }
+        //         });
+        //     }
+        // }
+        return skin;
     }
 
     private async fetchSkinTextureFromProfile(profile: MojangProfile): Promise<Response> {
