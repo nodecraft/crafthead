@@ -6,6 +6,7 @@ import MojangRequestService from './services/mojang/service';
 import {getRenderer} from './wasm';
 import PromiseGatherer from "./promise_gather";
 import {CachedMojangApiService, DirectMojangApiService} from "./services/mojang/api";
+import { default as CACHE_BUST } from './util/cache-bust';
 
 self.addEventListener('fetch', (event: FetchEvent) => {
     event.respondWith(handleRequest(event));
@@ -129,5 +130,5 @@ async function renderImage(skin: Response, size: number, requested: RequestedKin
 }
 
 function getCacheKey(interpreted: CraftheadRequest): string {
-    return `https://crafthead.net/${interpreted.requested}/${interpreted.identity.toLocaleLowerCase('en-US')}/${interpreted.size}`
+    return `https://crafthead.net/${CACHE_BUST}/${interpreted.requested}/${interpreted.identity.toLocaleLowerCase('en-US')}/${interpreted.size}`
 }

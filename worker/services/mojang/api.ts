@@ -66,18 +66,18 @@ export class CachedMojangApiService implements MojangApiService {
         const localCacheResult = await caches.default.match(new Request(localCacheKey));
         if (localCacheResult && localCacheResult.ok) {
             return {
-                result: <MojangProfile> await localCacheResult.json(),
+                ...await localCacheResult.json(),
                 source: 'cf-local'
             };
         }
 
-        const kvResult: MojangProfile | null = await CRAFTHEAD_PROFILE_CACHE.get('profile-lookup:' + id, 'json');
+        const kvResult: CacheComputeResult<MojangProfile | null> = await CRAFTHEAD_PROFILE_CACHE.get('profile-lookup:' + id, 'json');
         if (kvResult !== null) {
             gatherer?.push(caches.default.put(new Request(localCacheKey), new Response(
                 JSON.stringify(kvResult), { headers: { 'Cache-Control': 'max-age=3600', 'Content-Type': 'application/json' } }
             )));
             return {
-                result: kvResult,
+                ...kvResult,
                 source: 'cf-kv'
             };
         }
