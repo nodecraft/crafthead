@@ -93,23 +93,23 @@ export default class MojangRequestService {
 
         const normalized = await this.normalizeRequest(request, gatherer);
         const skin = await this.retrieveSkinDirect(normalized, gatherer);
-        // if (skin.status === 404) {
-        //     // Offline mode ID (usually when we have a username and the username isn't valid)
-        //     const rawUuid = fromHex(normalized.identity);
-        //     if (Math.abs(javaHashCode(rawUuid)) % 2 == 0) {
-        //         return new Response(STEVE_SKIN, {
-        //             headers: {
-        //                 'X-Crafthead-Profile-Cache-Hit': 'invalid-profile'
-        //             }
-        //         });
-        //     } else {
-        //         return new Response(ALEX_SKIN, {
-        //             headers: {
-        //                 'X-Crafthead-Profile-Cache-Hit': 'invalid-profile'
-        //             }
-        //         });
-        //     }
-        // }
+        if (skin.status === 404) {
+            // Offline mode ID (usually when we have a username and the username isn't valid)
+            const rawUuid = fromHex(normalized.identity);
+            if (Math.abs(javaHashCode(rawUuid)) % 2 == 0) {
+                return new Response(STEVE_SKIN, {
+                    headers: {
+                        'X-Crafthead-Profile-Cache-Hit': 'invalid-profile'
+                    }
+                });
+            } else {
+                return new Response(ALEX_SKIN, {
+                    headers: {
+                        'X-Crafthead-Profile-Cache-Hit': 'invalid-profile'
+                    }
+                });
+            }
+        }
         return skin;
     }
 
