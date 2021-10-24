@@ -72,8 +72,7 @@ export default class MojangRequestService {
             return new Response(STEVE_SKIN, {
                 status: 404,
                 headers: {
-                    'X-Crafthead-Profile-Cache-Hit': 'not-found',
-                    'X-Raw': JSON.stringify(lookup)
+                    'X-Crafthead-Profile-Cache-Hit': 'not-found'
                 }
             });
         }

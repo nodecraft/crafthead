@@ -38,7 +38,7 @@ async function handleRequest(event: FetchEvent) {
 
     try {
         const cacheKey = getCacheKey(interpreted);
-        let response = null; // await caches.default.match(new Request(cacheKey));
+        let response = await caches.default.match(new Request(cacheKey));
         const hitCache = !!response;
         if (!response) {
             // The item is not in the Cloudflare datacenter's cache. We need to process the request further.
@@ -80,15 +80,13 @@ async function processRequest(skinService: MojangRequestService, interpreted: Cr
                 return new Response(JSON.stringify({ error: "User does not exist"}), {
                     status: 404,
                     headers: {
-                        'X-Crafthead-Profile-Cache-Hit': lookup.source,
-                        'X-Raw-Result': JSON.stringify(lookup)
+                        'X-Crafthead-Profile-Cache-Hit': lookup.source
                     }
                 });
             }
             return new Response(JSON.stringify(lookup.result), {
                 headers: {
-                    'X-Crafthead-Profile-Cache-Hit': lookup.source,
-                    'X-Raw-Result': JSON.stringify(lookup)
+                    'X-Crafthead-Profile-Cache-Hit': lookup.source
                 }
             });
         }
@@ -132,5 +130,5 @@ async function renderImage(skin: Response, size: number, requested: RequestedKin
 }
 
 function getCacheKey(interpreted: CraftheadRequest): string {
-    return `https://crafthead.net/${CACHE_BUST}/${interpreted.requested}/${interpreted.identity.toLocaleLowerCase('en-US')}/${interpreted.size}`
+    return `https://crafthead.net/__public${CACHE_BUST}/${interpreted.requested}/${interpreted.identity.toLocaleLowerCase('en-US')}/${interpreted.size}`
 }
