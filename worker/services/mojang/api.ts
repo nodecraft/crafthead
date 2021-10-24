@@ -71,7 +71,7 @@ export class CachedMojangApiService implements MojangApiService {
             };
         }
 
-        const kvResult: CacheComputeResult<MojangProfile | null> = await CRAFTHEAD_PROFILE_CACHE.get('profile-lookup:' + id, 'json');
+        const kvResult: CacheComputeResult<MojangProfile | null> | null = await CRAFTHEAD_PROFILE_CACHE.get('profile-lookup:' + id, 'json');
         if (kvResult !== null) {
             gatherer?.push(caches.default.put(new Request(localCacheKey), new Response(
                 JSON.stringify(kvResult), { headers: { 'Cache-Control': 'max-age=3600', 'Content-Type': 'application/json' } }
