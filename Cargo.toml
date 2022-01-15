@@ -30,7 +30,7 @@ wee_alloc = { version = "0.4.5", optional = true }
 [dependencies.image]
 # Make `image` more lightweight. We don't need every image format under the sun,
 # just PNG.
-version = "0.23.8"
+version = "0.23.14"
 default-features = false
 features = ["png"]
 
