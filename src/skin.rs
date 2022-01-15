@@ -3,7 +3,7 @@ extern crate image;
 use image::{DynamicImage, GenericImageView, Rgba, RgbaImage, imageops};
 use imageproc::geometric_transformations::{Projection, Interpolation, warp_into};
 use crate::skin::Layer::Bottom;
-use crate::skin::BodyPart::{ArmRight, LegRight, Body, Head};
+use crate::skin::BodyPart::{ArmLeft, LegLeft, Body, Head};
 use crate::utils::{apply_minecraft_transparency, fast_overlay};
 
 pub(crate) struct MinecraftSkin(DynamicImage);
@@ -70,20 +70,20 @@ impl MinecraftSkin {
                 match part {
                     BodyPart::Head => self.0.crop_imm(8, 8, 8, 8),
                     BodyPart::Body => self.0.crop_imm(20, 20, 8, 12),
-                    BodyPart::ArmLeft => {
+                    BodyPart::ArmRight => {
                         match self.version() {
                             MinecraftSkinVersion::Modern => self.0.crop_imm(36, 52, arm_width, 12),
-                            _                            => self.get_part(Bottom, ArmRight)
+                            _                            => self.get_part(Bottom, ArmLeft).fliph()
                         }
                     },
-                    BodyPart::ArmRight => self.0.crop_imm(44, 20, 4, 12),
-                    BodyPart::LegLeft => {
+                    BodyPart::ArmLeft => self.0.crop_imm(44, 20, 4, 12),
+                    BodyPart::LegRight => {
                         match self.version() {
                             MinecraftSkinVersion::Modern => self.0.crop_imm(20, 52, 4, 12),
-                            _                            => self.get_part(Bottom, LegRight)
+                            _                            => self.get_part(Bottom, LegLeft).fliph()
                         }
                     },
-                    BodyPart::LegRight => self.0.crop_imm(4, 20, 4, 12),
+                    BodyPart::LegLeft => self.0.crop_imm(4, 20, 4, 12),
                 }
             },
             Layer::Top => {
@@ -98,30 +98,48 @@ impl MinecraftSkin {
                     BodyPart::ArmLeft => {
                         match self.version() {
                             MinecraftSkinVersion::Modern => self.0.crop_imm(52, 52, arm_width, 12),
-                            _                            => self.get_part(Bottom, ArmRight)
+                            _                            => self.get_part(Bottom, ArmLeft)
                         }
                     },
                     BodyPart::ArmRight => {
                         match self.version() {
                             MinecraftSkinVersion::Modern => self.0.crop_imm(44, 36, arm_width, 12),
-                            _                            => self.get_part(Bottom, ArmRight),
+                            _                            => self.get_part(Bottom, ArmLeft).fliph(),
                         }
                     },
                     BodyPart::LegLeft => {
                         match self.version() {
                             MinecraftSkinVersion::Modern => self.0.crop_imm(4, 52, 4, 12),
-                            _                            => self.get_part(Bottom, LegRight),
+                            _                            => self.get_part(Bottom, LegLeft),
                         }
                     },
                     BodyPart::LegRight => {
                         match self.version() {
                             MinecraftSkinVersion::Modern => self.0.crop_imm(4, 36, 4, 12),
-                            _                            => self.get_part(Bottom, LegRight),
+                            _                            => self.get_part(Bottom, LegLeft).fliph(),
                         }
                     },
                 }
             },
         }
+    }
+
+    pub(crate) fn render_body(&self, overlay: bool) -> DynamicImage {
+        let layer_type = match overlay {
+            true  => Layer::Both,
+            false => Layer::Bottom
+        };
+
+        let mut image = RgbaImage::new(16, 32);
+
+        imageops::overlay(&mut image, &self.get_part(layer_type, BodyPart::Head), 4, 0);
+        imageops::overlay(&mut image, &self.get_part(layer_type, BodyPart::Body), 4, 8);
+        imageops::overlay(&mut image, &self.get_part(layer_type, BodyPart::ArmLeft), 0, 8);
+        imageops::overlay(&mut image, &self.get_part(layer_type, BodyPart::ArmRight), 12, 8);
+        imageops::overlay(&mut image, &self.get_part(layer_type, BodyPart::LegLeft), 4, 20);
+        imageops::overlay(&mut image, &self.get_part(layer_type, BodyPart::LegRight), 8, 20);
+
+        DynamicImage::ImageRgba8(image)
     }
 
     pub(crate) fn render_cube(&self, overlay: bool, width: u32) -> DynamicImage {
