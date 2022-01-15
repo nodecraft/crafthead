@@ -25,15 +25,18 @@ enum RenderType {
     Avatar,
     Helm,
     Cube,
+    Body,
 }
 
 impl RenderType {
-    fn render(self, img: &MinecraftSkin, size: u32) -> DynamicImage {
+    fn render(self, img: &MinecraftSkin, size: u32, armored: bool) -> DynamicImage {
         match self {
             RenderType::Avatar => img.get_part(Layer::Bottom, BodyPart::Head)
                 .resize(size, size, image::imageops::FilterType::Nearest),
             RenderType::Helm   => img.get_part(Layer::Both, BodyPart::Head)
                 .resize(size, size, image::imageops::FilterType::Nearest),
+            RenderType::Body   => img.render_body(armored)
+                .resize(size, size * 2, image::imageops::FilterType::Nearest),
             RenderType::Cube   => img.render_cube(true, size),
         }
     }
@@ -44,12 +47,13 @@ fn what_to_render_type(what: String) -> Option<RenderType> {
         "avatar" => Some(RenderType::Avatar),
         "helm"   => Some(RenderType::Helm),
         "cube"   => Some(RenderType::Cube),
+        "body"   => Some(RenderType::Body),
         _        => None
     }
 }
 
 #[wasm_bindgen]
-pub fn get_minecraft_head(skin_image: Uint8Array, size: u32, what: String) -> Result<Uint8Array, JsValue> {
+pub fn get_rendered_image(skin_image: Uint8Array, size: u32, what: String, armored: bool) -> Result<Uint8Array, JsValue> {
     let render_type = what_to_render_type(what);
     if render_type.is_none() {
         return Err(js_sys::Error::new("Invalid render type.").into());
@@ -61,7 +65,7 @@ pub fn get_minecraft_head(skin_image: Uint8Array, size: u32, what: String) -> Re
     match skin_result {
         Ok(skin_img) => {
             let skin = MinecraftSkin::new(skin_img);
-            let rendered = render_type.unwrap().render(&skin, size);
+            let rendered = render_type.unwrap().render(&skin, size, armored);
             let mut result = Vec::with_capacity(1024);
             return match rendered.write_to(&mut result, image::ImageFormat::Png) {
                 Ok(()) => Ok(Uint8Array::from(&result[..])),

@@ -92,19 +92,20 @@ async function processRequest(skinService: MojangRequestService, interpreted: Cr
         }
         case RequestedKind.Avatar:
         case RequestedKind.Helm:
-        case RequestedKind.Cube: {
+        case RequestedKind.Cube:
+        case RequestedKind.Body: {
             const skin = await skinService.retrieveSkin(interpreted, gatherer);
-            return renderImage(skin, interpreted.size, interpreted.requested);
+            return renderImage(skin, interpreted.size, interpreted.requested, interpreted.armored);
         }
         case RequestedKind.Skin: {
             return await skinService.retrieveSkin(interpreted, gatherer);
         }
         default:
-            return new Response('must request an avatar, helm, profile, or a skin', { status: 400 });
+            return new Response('must request an avatar, helm, body, profile, or a skin', { status: 400 });
     }
 }
 
-async function renderImage(skin: Response, size: number, requested: RequestedKind.Avatar | RequestedKind.Helm | RequestedKind.Cube): Promise<Response> {
+async function renderImage(skin: Response, size: number, requested: RequestedKind.Avatar | RequestedKind.Helm | RequestedKind.Cube | RequestedKind.Body, armored: boolean): Promise<Response> {
     const destinationHeaders = new Headers(skin.headers);
     const [renderer, skinArrayBuffer] = await Promise.all([getRenderer(), skin.arrayBuffer()]);
     const skinBuf = new Uint8Array(skinArrayBuffer);
@@ -120,11 +121,14 @@ async function renderImage(skin: Response, size: number, requested: RequestedKin
         case RequestedKind.Cube:
             which = "cube";
             break;
+        case RequestedKind.Body:
+            which = "body";
+            break;
         default:
             throw new Error("Unknown requested kind");
     }
 
-    return new Response(renderer.get_minecraft_head(skinBuf, size, which), {
+    return new Response(renderer.get_rendered_image(skinBuf, size, which, armored), {
         headers: destinationHeaders
     });
 }

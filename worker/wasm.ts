@@ -1,7 +1,7 @@
 // This is a hack in order to get webpack to play nice with the included WebAssembly module.
 // See https://github.com/rustwasm/wasm-bindgen/issues/700 for more details.
 export async function getRenderer(): Promise<{
-    get_minecraft_head(skin_image: any, size: number, type: string): any;
+    get_rendered_image(skin_image: any, size: number, type: string, armored: boolean): any;
 }> {
     return new Promise((resolve, reject) => {
         // We intentionally ignore the erros here. We know for a fact we are using webpack targeting CommonJS,

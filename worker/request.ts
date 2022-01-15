@@ -4,6 +4,7 @@ export enum RequestedKind {
     Avatar,
     Helm,
     Cube,
+    Body,
     Profile
 }
 
@@ -18,6 +19,7 @@ export interface CraftheadRequest {
     identity: string;
     identityType: IdentityKind;
     size: number;
+    armored: boolean;
 }
 
 function stringKindToRequestedKind(kind: string): RequestedKind | null {
@@ -30,6 +32,8 @@ function stringKindToRequestedKind(kind: string): RequestedKind | null {
             return RequestedKind.Cube;
         case "helm":
             return RequestedKind.Helm;
+        case "body":
+            return RequestedKind.Body;
         case "profile":
             return RequestedKind.Profile;
         default:
@@ -43,7 +47,16 @@ export function interpretRequest(request: Request): CraftheadRequest | null {
         url.href = url.href.substring(0, url.href.length - 4)
     }
 
-    let [requestedKindString, identity, sizeString] = url.pathname.split('/').slice(1)
+    let armored = false
+    let sliceAmt = 1
+
+    if (url.pathname.includes("armor/body")) {
+        armored = true
+        sliceAmt = 2
+    }
+
+    let [requestedKindString, identity, sizeString] = url.pathname.split('/').slice(sliceAmt)
+
     let size = parseInt(sizeString, 10);
     if (!size) {
         size = 180 // default, same as Minotar
@@ -71,5 +84,5 @@ export function interpretRequest(request: Request): CraftheadRequest | null {
         return null
     }
 
-    return { requested, identityType, identity, size }
+    return { requested, identityType, identity, size, armored }
 }
