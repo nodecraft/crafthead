@@ -130,7 +130,7 @@ impl MinecraftSkin {
             false => Layer::Bottom
         };
 
-        let mut image = RgbaImage::new( 16, 32);
+        let mut image = RgbaImage::new(16, 32);
 
         imageops::overlay(&mut image, &self.get_part(layer_type, BodyPart::Head), 4, 0);
         imageops::overlay(&mut image, &self.get_part(layer_type, BodyPart::Body), 4, 8);
