@@ -48,20 +48,20 @@ impl MinecraftSkin {
         }
     }
 
-    pub(crate) fn get_part(&self, layer: Layer, part: BodyPart) -> DynamicImage {
-        let arm_width = match self.version() {
-            MinecraftSkinVersion::Classic => 3,
-            _                             => 4
+    pub(crate) fn get_part(&self, layer: Layer, part: BodyPart, slim: bool) -> DynamicImage {
+        let arm_width = match slim {
+            true  => 3,
+            false => 4
         };
 
         match layer {
             Layer::Both => {
                 if self.version() != MinecraftSkinVersion::Modern && part != Head {
-                    return self.get_part(Layer::Bottom, part);
+                    return self.get_part(Layer::Bottom, part, slim);
                 }
 
-                let mut bottom = self.get_part(Layer::Bottom, part);
-                let mut top = self.get_part(Layer::Top, part);
+                let mut bottom = self.get_part(Layer::Bottom, part, slim);
+                let mut top = self.get_part(Layer::Top, part, slim);
                 apply_minecraft_transparency(&mut top);
                 fast_overlay(&mut bottom, &top, 0, 0);
                 bottom
@@ -73,14 +73,14 @@ impl MinecraftSkin {
                     BodyPart::ArmRight => {
                         match self.version() {
                             MinecraftSkinVersion::Modern => self.0.crop_imm(36, 52, arm_width, 12),
-                            _                            => self.get_part(Bottom, ArmLeft).fliph()
+                            _                            => self.get_part(Bottom, ArmLeft, slim).fliph()
                         }
                     },
-                    BodyPart::ArmLeft => self.0.crop_imm(44, 20, 4, 12),
+                    BodyPart::ArmLeft => self.0.crop_imm(44, 20, arm_width, 12),
                     BodyPart::LegRight => {
                         match self.version() {
                             MinecraftSkinVersion::Modern => self.0.crop_imm(20, 52, 4, 12),
-                            _                            => self.get_part(Bottom, LegLeft).fliph()
+                            _                            => self.get_part(Bottom, LegLeft, slim).fliph()
                         }
                     },
                     BodyPart::LegLeft => self.0.crop_imm(4, 20, 4, 12),
@@ -92,31 +92,31 @@ impl MinecraftSkin {
                     BodyPart::Body => {
                         match self.version() {
                             MinecraftSkinVersion::Modern => self.0.crop_imm(20, 36, 8, 12),
-                            _                            => self.get_part(Bottom, Body)
+                            _                            => self.get_part(Bottom, Body, slim)
                         }
                     },
                     BodyPart::ArmLeft => {
                         match self.version() {
                             MinecraftSkinVersion::Modern => self.0.crop_imm(52, 52, arm_width, 12),
-                            _                            => self.get_part(Bottom, ArmLeft)
+                            _                            => self.get_part(Bottom, ArmLeft, slim)
                         }
                     },
                     BodyPart::ArmRight => {
                         match self.version() {
                             MinecraftSkinVersion::Modern => self.0.crop_imm(44, 36, arm_width, 12),
-                            _                            => self.get_part(Bottom, ArmLeft).fliph(),
+                            _                            => self.get_part(Bottom, ArmLeft, slim).fliph(),
                         }
                     },
                     BodyPart::LegLeft => {
                         match self.version() {
                             MinecraftSkinVersion::Modern => self.0.crop_imm(4, 52, 4, 12),
-                            _                            => self.get_part(Bottom, LegLeft),
+                            _                            => self.get_part(Bottom, LegLeft, slim),
                         }
                     },
                     BodyPart::LegRight => {
                         match self.version() {
                             MinecraftSkinVersion::Modern => self.0.crop_imm(4, 36, 4, 12),
-                            _                            => self.get_part(Bottom, LegLeft).fliph(),
+                            _                            => self.get_part(Bottom, LegLeft, slim).fliph(),
                         }
                     },
                 }
@@ -124,20 +124,30 @@ impl MinecraftSkin {
         }
     }
 
-    pub(crate) fn render_body(&self, overlay: bool) -> DynamicImage {
+    pub(crate) fn render_body(&self, overlay: bool, slim: bool) -> DynamicImage {
         let layer_type = match overlay {
             true  => Layer::Both,
             false => Layer::Bottom
         };
 
-        let mut image = RgbaImage::new(16, 32);
+        let img_width = match slim {
+            true  => 14,
+            false => 16
+        };
 
-        imageops::overlay(&mut image, &self.get_part(layer_type, BodyPart::Head), 4, 0);
-        imageops::overlay(&mut image, &self.get_part(layer_type, BodyPart::Body), 4, 8);
-        imageops::overlay(&mut image, &self.get_part(layer_type, BodyPart::ArmLeft), 0, 8);
-        imageops::overlay(&mut image, &self.get_part(layer_type, BodyPart::ArmRight), 12, 8);
-        imageops::overlay(&mut image, &self.get_part(layer_type, BodyPart::LegLeft), 4, 20);
-        imageops::overlay(&mut image, &self.get_part(layer_type, BodyPart::LegRight), 8, 20);
+        let arm_width = match slim {
+            true  => 3,
+            false => 4
+        };
+
+        let mut image = RgbaImage::new(img_width, 32);
+
+        imageops::overlay(&mut image, &self.get_part(layer_type, BodyPart::Head, slim), arm_width, 0);
+        imageops::overlay(&mut image, &self.get_part(layer_type, BodyPart::Body, slim), arm_width, 8);
+        imageops::overlay(&mut image, &self.get_part(layer_type, BodyPart::ArmLeft, slim), 0, 8);
+        imageops::overlay(&mut image, &self.get_part(layer_type, BodyPart::ArmRight, slim), arm_width + 8, 8);
+        imageops::overlay(&mut image, &self.get_part(layer_type, BodyPart::LegLeft, slim), arm_width, 20);
+        imageops::overlay(&mut image, &self.get_part(layer_type, BodyPart::LegRight, slim), arm_width + 4, 20);
 
         DynamicImage::ImageRgba8(image)
     }

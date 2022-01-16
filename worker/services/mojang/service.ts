@@ -12,13 +12,20 @@ export interface SkinResponse {
     profile: MojangProfile | null;
 }
 
-interface MojangTextureUrls {
-    SKIN: { url: string } | undefined;
-    CAPE: { url: string } | undefined;
+interface MojangTextureData {
+    SKIN?: {
+        url: string,
+        metadata?: {
+            model?: string;
+        }
+    };
+    CAPE?: {
+        url: string
+    };
 }
 
 interface MojangTexturePropertyValue {
-    textures: MojangTextureUrls;
+    textures: MojangTextureData;
 }
 
 export default class MojangRequestService {
@@ -58,13 +65,14 @@ export default class MojangRequestService {
         if (uuidVersion(rawUuid) === 4) {
             const lookup = await this.mojangApi.fetchProfile(request.identity, gatherer);
             if (lookup.result) {
-                let skinResponse = await this.fetchSkinTextureFromProfile(lookup.result);
-                const buff = await skinResponse.arrayBuffer();
+                let skinResponse = await MojangRequestService.fetchSkinTextureFromProfile(lookup.result);
+                const buff = await skinResponse.texture.arrayBuffer();
                 if (buff && buff.byteLength > 0) {
                     return new Response(buff, {
                         status: 200,
                         headers: {
-                            'X-Crafthead-Profile-Cache-Hit': lookup.source
+                            'X-Crafthead-Profile-Cache-Hit': lookup.source,
+                            'X-Crafthead-Skin-Model': skinResponse.slim ? 'slim' : 'default'
                         }
                     });
                 }
@@ -72,7 +80,8 @@ export default class MojangRequestService {
             return new Response(STEVE_SKIN, {
                 status: 404,
                 headers: {
-                    'X-Crafthead-Profile-Cache-Hit': 'not-found'
+                    'X-Crafthead-Profile-Cache-Hit': 'not-found',
+                    'X-Crafthead-Skin-Model': 'default'
                 }
             });
         }
@@ -80,7 +89,8 @@ export default class MojangRequestService {
         return new Response(STEVE_SKIN, {
             status: 404,
             headers: {
-                'X-Crafthead-Profile-Cache-Hit': 'offline-mode'
+                'X-Crafthead-Profile-Cache-Hit': 'offline-mode',
+                'X-Crafthead-Skin-Model': 'default'
             }
         });
     }
@@ -99,13 +109,15 @@ export default class MojangRequestService {
             if (Math.abs(javaHashCode(rawUuid)) % 2 == 0) {
                 return new Response(STEVE_SKIN, {
                     headers: {
-                        'X-Crafthead-Profile-Cache-Hit': 'invalid-profile'
+                        'X-Crafthead-Profile-Cache-Hit': 'invalid-profile',
+                        'X-Crafthead-Skin-Model': 'default'
                     }
                 });
             } else {
                 return new Response(ALEX_SKIN, {
                     headers: {
-                        'X-Crafthead-Profile-Cache-Hit': 'invalid-profile'
+                        'X-Crafthead-Profile-Cache-Hit': 'invalid-profile',
+                        'X-Crafthead-Skin-Model': 'slim'
                     }
                 });
             }
@@ -113,10 +125,12 @@ export default class MojangRequestService {
         return skin;
     }
 
-    private async fetchSkinTextureFromProfile(profile: MojangProfile): Promise<Response> {
+    private static async fetchSkinTextureFromProfile(profile: MojangProfile): Promise<{ texture: Response, slim?: boolean }> {
         if (profile.properties) {
-            const textureUrl = MojangRequestService.extractUrlFromTexturesProperty(
+            const texturesData = MojangRequestService.extractDataFromTexturesProperty(
                 profile.properties.find(property => property.name === 'textures'));
+            const textureUrl = texturesData?.url;
+
             if (textureUrl) {
                 const textureResponse = await fetch(textureUrl, {
                     cf: {
@@ -132,12 +146,12 @@ export default class MojangRequestService {
                 }
 
                 console.log("Successfully retrieved skin texture");
-                return textureResponse;
+                return { texture: textureResponse, slim: texturesData?.slim };
             }
         }
 
         console.log("Invalid properties found! Falling back to Steve skin.")
-        return new Response(STEVE_SKIN);
+        return { texture: new Response(STEVE_SKIN) };
     }
 
     async fetchProfile(request: CraftheadRequest, gatherer: PromiseGatherer): Promise<CacheComputeResult<MojangProfile | null>> {
@@ -151,7 +165,7 @@ export default class MojangRequestService {
         return this.mojangApi.fetchProfile(normalized.identity, gatherer);
     }
 
-    private static extractUrlFromTexturesProperty(property: MojangProfileProperty | undefined): string | undefined {
+    private static extractDataFromTexturesProperty(property: MojangProfileProperty | undefined): { url?: string, slim: boolean } | undefined {
         if (typeof property === 'undefined') {
             return undefined;
         }
@@ -161,6 +175,8 @@ export default class MojangRequestService {
         console.log("Raw textures property: ", property);
 
         const textures = decoded.textures;
-        return textures.SKIN?.url;
+        const slim = textures.SKIN?.metadata?.model === "slim";
+
+        return { url: textures.SKIN?.url, slim };
     }
 }
