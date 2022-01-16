@@ -158,7 +158,7 @@ impl MinecraftSkin {
         let head_orig_right = self.0.crop_imm(0, 8, 8, 8);
         let head_orig_front = self.0.crop_imm(8, 8, 8, 8);
 
-        // The wrap_into function clears every part of the output image that is not part of the pre-image.
+        // The warp_into function clears every part of the output image that is not part of the pre-image.
         // As a workaround, we ask warp_into to draw into a scratch image, overlay the final image with the
         // scratch image, and let the scratch be overwritten.
         let mut scratch = RgbaImage::new(width, height);
