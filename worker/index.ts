@@ -95,8 +95,7 @@ async function processRequest(skinService: MojangRequestService, interpreted: Cr
         case RequestedKind.Cube:
         case RequestedKind.Body: {
             const skin = await skinService.retrieveSkin(interpreted, gatherer);
-            const slim = skin.headers.get('X-Crafthead-Skin-Model') === 'slim'
-            return renderImage(skin, interpreted.size, interpreted.requested, interpreted.armored, slim);
+            return renderImage(skin, interpreted);
         }
         case RequestedKind.Skin: {
             return await skinService.retrieveSkin(interpreted, gatherer);
@@ -106,8 +105,10 @@ async function processRequest(skinService: MojangRequestService, interpreted: Cr
     }
 }
 
-async function renderImage(skin: Response, size: number, requested: RequestedKind.Avatar | RequestedKind.Helm | RequestedKind.Cube | RequestedKind.Body, armored: boolean, slim: boolean): Promise<Response> {
+async function renderImage(skin: Response, request: CraftheadRequest): Promise<Response> {
+    const {size, requested, armored} = request;
     const destinationHeaders = new Headers(skin.headers);
+    const slim = destinationHeaders.get('X-Crafthead-Skin-Model') === 'slim';
     const [renderer, skinArrayBuffer] = await Promise.all([getRenderer(), skin.arrayBuffer()]);
     const skinBuf = new Uint8Array(skinArrayBuffer);
 
