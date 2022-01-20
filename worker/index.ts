@@ -100,6 +100,18 @@ async function processRequest(skinService: MojangRequestService, interpreted: Cr
         case RequestedKind.Skin: {
             return await skinService.retrieveSkin(interpreted, gatherer);
         }
+        case RequestedKind.Cape: {
+            const cape = await skinService.retrieveCape(interpreted, gatherer);
+            if (cape.status === 404) {
+                return new Response(JSON.stringify({ error: "User cape could not be found"}), {
+                    status: 404,
+                    headers: {
+                        'X-Crafthead-Profile-Cache-Hit': 'invalid-profile'
+                    }
+                });
+            }
+            return renderImage(cape, interpreted);
+        }
         default:
             return new Response('must request an avatar, helm, body, profile, or a skin', { status: 400 });
     }
@@ -125,6 +137,9 @@ async function renderImage(skin: Response, request: CraftheadRequest): Promise<R
             break;
         case RequestedKind.Body:
             which = "body";
+            break;
+        case RequestedKind.Cape:
+            which = "cape";
             break;
         default:
             throw new Error("Unknown requested kind");

@@ -5,6 +5,7 @@ export enum RequestedKind {
     Helm,
     Cube,
     Body,
+    Cape,
     Profile
 }
 
@@ -12,6 +13,11 @@ export enum RequestedKind {
 export enum IdentityKind {
     Uuid,
     Username
+}
+
+export enum TextureKind {
+    SKIN,
+    CAPE
 }
 
 export interface CraftheadRequest {
@@ -34,6 +40,8 @@ function stringKindToRequestedKind(kind: string): RequestedKind | null {
             return RequestedKind.Helm;
         case "body":
             return RequestedKind.Body;
+        case "cape":
+            return RequestedKind.Cape;
         case "profile":
             return RequestedKind.Profile;
         default:
