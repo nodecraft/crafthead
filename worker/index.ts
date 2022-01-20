@@ -66,9 +66,14 @@ function decorateHeaders(interpreted: CraftheadRequest, headers: Headers, hitCac
 
     // Set a liberal CORS policy - there's no harm you can do by making requests to this site...
     copiedHeaders.set('Access-Control-Allow-Origin', '*');
-    copiedHeaders.set('Content-Type', interpreted.requested === RequestedKind.Profile ? 'application/json' : 'image/png');
     copiedHeaders.set('Cache-Control', 'max-age=14400');
     copiedHeaders.set('X-Crafthead-Request-Cache-Hit', hitCache ? 'yes' : 'no');
+    if (!copiedHeaders.has('Content-Type')) {
+        copiedHeaders.set('Content-Type', interpreted.requested === RequestedKind.Profile ? 'application/json' : 'image/png');
+    } else {
+        console.log(`Content-Type header already on response: ${copiedHeaders.get('Content-Type')}, not overriding.`);
+    }
+
     return copiedHeaders
 }
 

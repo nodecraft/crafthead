@@ -164,7 +164,7 @@ export default class MojangRequestService {
             }
         }
 
-        console.log("Invalid properties found! Falling back to default texture.")
+        console.log("Invalid properties found! Falling back to a default texture.")
         return undefined;
     }
 
