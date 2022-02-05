@@ -7,6 +7,7 @@ import {getRenderer} from './wasm';
 import PromiseGatherer from "./promise_gather";
 import {CachedMojangApiService, DirectMojangApiService} from "./services/mojang/api";
 import { default as CACHE_BUST } from './util/cache-bust';
+import { EMPTY } from "./data";
 
 self.addEventListener('fetch', (event: FetchEvent) => {
     event.respondWith(handleRequest(event));
@@ -66,9 +67,14 @@ function decorateHeaders(interpreted: CraftheadRequest, headers: Headers, hitCac
 
     // Set a liberal CORS policy - there's no harm you can do by making requests to this site...
     copiedHeaders.set('Access-Control-Allow-Origin', '*');
-    copiedHeaders.set('Content-Type', interpreted.requested === RequestedKind.Profile ? 'application/json' : 'image/png');
     copiedHeaders.set('Cache-Control', 'max-age=14400');
     copiedHeaders.set('X-Crafthead-Request-Cache-Hit', hitCache ? 'yes' : 'no');
+    if (!copiedHeaders.has('Content-Type')) {
+        copiedHeaders.set('Content-Type', interpreted.requested === RequestedKind.Profile ? 'application/json' : 'image/png');
+    } else {
+        console.log(`Content-Type header already on response: ${copiedHeaders.get('Content-Type')}, not overriding.`);
+    }
+
     return copiedHeaders
 }
 
@@ -100,6 +106,18 @@ async function processRequest(skinService: MojangRequestService, interpreted: Cr
         case RequestedKind.Skin: {
             return await skinService.retrieveSkin(interpreted, gatherer);
         }
+        case RequestedKind.Cape: {
+            const cape = await skinService.retrieveCape(interpreted, gatherer);
+            if (cape.status === 404) {
+                return new Response(EMPTY, {
+                    status: 404,
+                    headers: {
+                        'X-Crafthead-Profile-Cache-Hit': 'invalid-profile'
+                    }
+                });
+            }
+            return renderImage(cape, interpreted);
+        }
         default:
             return new Response('must request an avatar, helm, body, profile, or a skin', { status: 400 });
     }
@@ -125,6 +143,9 @@ async function renderImage(skin: Response, request: CraftheadRequest): Promise<R
             break;
         case RequestedKind.Body:
             which = "body";
+            break;
+        case RequestedKind.Cape:
+            which = "cape";
             break;
         default:
             throw new Error("Unknown requested kind");

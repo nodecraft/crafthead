@@ -131,6 +131,10 @@ impl MinecraftSkin {
         }
     }
 
+    pub(crate) fn get_cape(&self) -> DynamicImage {
+        self.0.crop_imm(1, 1, 10, 16)
+    }
+
     pub(crate) fn render_body(&self, options: RenderOptions) -> DynamicImage {
         let layer_type = match options.armored {
             true  => Layer::Both,
