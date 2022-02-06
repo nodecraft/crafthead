@@ -53,7 +53,13 @@ export class CachedMojangApiService implements MojangApiService {
 
         const lookup = await this.delegate.lookupUsername(lowercased, gatherer);
         if (lookup) {
-            gatherer?.push(CRAFTHEAD_PROFILE_CACHE.put('username-lookup:' + lowercased, JSON.stringify(lookup)));
+            gatherer?.push(
+                CRAFTHEAD_PROFILE_CACHE.put(
+                    'username-lookup:' + lowercased,
+                    JSON.stringify(lookup),
+                    { expirationTtl: 86400 }
+                )
+            );
             gatherer?.push(caches.default.put(new Request(localCacheKey), new Response(
                 JSON.stringify(lookup), { headers: { 'Cache-Control': 'max-age=3600', 'Content-Type': 'application/json' }}
             )));
@@ -73,7 +79,13 @@ export class CachedMojangApiService implements MojangApiService {
 
         const lookup = await this.delegate.fetchProfile(id, gatherer);
         if (lookup) {
-            gatherer?.push(CRAFTHEAD_PROFILE_CACHE.put('profile-lookup:' + id, JSON.stringify(lookup.result)));
+            gatherer?.push(
+                CRAFTHEAD_PROFILE_CACHE.put(
+                    'profile-lookup:' + id,
+                    JSON.stringify(lookup.result),
+                    { expirationTtl: 86400 }
+                )
+            );
         }
 
         return lookup;
