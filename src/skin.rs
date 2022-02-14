@@ -163,13 +163,10 @@ impl MinecraftSkin {
         DynamicImage::ImageRgba8(image)
     }
 
-    pub(crate) fn render_cube(&self, overlay: bool, width: u32) -> DynamicImage {
+    pub(crate) fn render_cube(&self, width: u32, options: RenderOptions) -> DynamicImage {
         let scale = (width as f32) / 20.0 as f32;
         let height = (18.5 * scale).ceil() as u32;
-        let layer_type = match overlay {
-            true  => Layer::Both,
-            false => Layer::Bottom
-        };
+
         let mut render = RgbaImage::new(width, height);
 
         let z_offset = scale * 3.0;
@@ -178,6 +175,10 @@ impl MinecraftSkin {
         let head_orig_top   = self.0.crop_imm(8, 0, 8, 8);
         let head_orig_right = self.0.crop_imm(0, 8, 8, 8);
         let head_orig_front = self.0.crop_imm(8, 8, 8, 8);
+
+        let head_orig_top_overlay   = self.0.crop_imm(40, 0, 8, 8);
+        let head_orig_right_overlay = self.0.crop_imm(32, 8, 8, 8);
+        let head_orig_front_overlay = self.0.crop_imm(40, 8, 8, 8);
 
         // The warp_into function clears every part of the output image that is not part of the pre-image.
         // As a workaround, we ask warp_into to draw into a scratch image, overlay the final image with the
@@ -210,6 +211,20 @@ impl MinecraftSkin {
         ]).unwrap() * Projection::translate(x_offset - (scale / 2.0), z_offset + scale) * Projection::scale(scale + (0.5 / 8.0), scale + (1.0 / 8.0));
         warp_into(&head_orig_right.into_rgba8(), &head_right_skew, Interpolation::Nearest, Rgba([0, 0, 0, 0]), &mut scratch);
         imageops::overlay(&mut render, &scratch, 0, 0);
+
+        if options.armored {
+            // head top overlay
+            warp_into(&head_orig_top_overlay.into_rgba8(), &head_top_skew, Interpolation::Nearest, Rgba([0, 0, 0, 0]), &mut scratch);
+            imageops::overlay(&mut render, &scratch, 0, 0);
+
+            // head front overlay
+            warp_into(&head_orig_front_overlay.into_rgba8(), &head_front_skew, Interpolation::Nearest, Rgba([0, 0, 0, 0]), &mut scratch);
+            imageops::overlay(&mut render, &scratch, 0, 0);
+
+            // head right overlay
+            warp_into(&head_orig_right_overlay.into_rgba8(), &head_right_skew, Interpolation::Nearest, Rgba([0, 0, 0, 0]), &mut scratch);
+            imageops::overlay(&mut render, &scratch, 0, 0);
+        }
 
         DynamicImage::ImageRgba8(render)
     }

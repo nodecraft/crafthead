@@ -58,7 +58,7 @@ export function interpretRequest(request: Request): CraftheadRequest | null {
     let armored = false
     let sliceAmt = 1
 
-    if (url.pathname.includes("armor/body")) {
+    if (url.pathname.includes("/armor/cube/") || url.pathname.includes("/armor/body/")) {
         armored = true
         sliceAmt = 2
     }

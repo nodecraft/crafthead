@@ -41,7 +41,7 @@ impl RenderType {
                 .resize(size, size, image::imageops::FilterType::Nearest),
             RenderType::Helm   => img.get_part(Layer::Both, BodyPart::Head, options.model)
                 .resize(size, size, image::imageops::FilterType::Nearest),
-            RenderType::Cube   => img.render_cube(true, size),
+            RenderType::Cube   => img.render_cube(size, options),
             RenderType::Body   => img.render_body(options)
                 .resize(size, size * 2, image::imageops::FilterType::Nearest),
             RenderType::Cape   => img.get_cape()
@@ -75,7 +75,7 @@ pub fn get_rendered_image(skin_image: Uint8Array, size: u32, what: String, armor
         Ok(skin_img) => {
             let skin = MinecraftSkin::new(skin_img);
             let options = match slim {
-                true =>  RenderOptions { armored, model: SkinModel::Slim },
+                true  => RenderOptions { armored, model: SkinModel::Slim },
                 false => RenderOptions { armored, model: SkinModel::Regular }
             };
             let rendered = render_type.unwrap().render(&skin, size, options);
