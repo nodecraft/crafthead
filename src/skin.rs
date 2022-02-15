@@ -39,8 +39,8 @@ pub(crate) enum BodyPart {
     LegRight,
 }
 
-const skew_a: f32 = 26.0 / 45.0;  // 0.57777777
-const skew_b: f32 = skew_a * 2.0; // 1.15555555
+const SKEW_A: f32 = 26.0 / 45.0;  // 0.57777777
+const SKEW_B: f32 = SKEW_A * 2.0; // 1.15555555
 
 impl MinecraftSkin {
     pub fn new(skin: DynamicImage) -> MinecraftSkin {
@@ -163,11 +163,13 @@ impl MinecraftSkin {
         DynamicImage::ImageRgba8(image)
     }
 
-    pub(crate) fn render_cube(&self, width: u32, options: RenderOptions) -> DynamicImage {
-        let scale = (width as f32) / 20.0 as f32;
-        let height = (18.5 * scale).ceil() as u32;
+    pub(crate) fn render_cube(&self, size: u32, options: RenderOptions) -> DynamicImage {
+        let scale = (size as f32) / 20.0 as f32;
 
-        let mut render = RgbaImage::new(width, height);
+        let x_render_offset = scale.ceil() as u32;
+        let z_render_offset = x_render_offset / 2;
+
+        let mut render = RgbaImage::new(size, size);
 
         let z_offset = scale * 3.0;
         let x_offset = scale * 2.0;
@@ -183,47 +185,47 @@ impl MinecraftSkin {
         // The warp_into function clears every part of the output image that is not part of the pre-image.
         // As a workaround, we ask warp_into to draw into a scratch image, overlay the final image with the
         // scratch image, and let the scratch be overwritten.
-        let mut scratch = RgbaImage::new(width, height);
+        let mut scratch = RgbaImage::new(size, size);
 
         // head top
         let head_top_skew = Projection::from_matrix([
             1.0,     1.0,    0.0,
-            -skew_a, skew_a, 0.0,
+            -SKEW_A, SKEW_A, 0.0,
             0.0,     0.0,    1.0,
         ]).unwrap() * Projection::translate(-0.5 - z_offset, x_offset + z_offset - 0.5) * Projection::scale(scale, scale + (1.0 / 8.0));
         warp_into(&head_orig_top.into_rgba8(), &head_top_skew, Interpolation::Nearest, Rgba([0, 0, 0, 0]), &mut scratch);
-        imageops::overlay(&mut render, &scratch, 0, 0);
+        imageops::overlay(&mut render, &scratch, x_render_offset, z_render_offset);
 
         // head front
         let head_front_skew = Projection::from_matrix([
             1.0,     0.0,    0.0,
-            -skew_a, skew_b, skew_a,
+            -SKEW_A, SKEW_B, SKEW_A,
             0.0,     0.0,    1.0,
         ]).unwrap() * Projection::translate(x_offset + 7.5 * scale - 0.5, (x_offset + 8.0 * scale) + z_offset - 0.5) * Projection::scale(scale, scale);
         warp_into(&head_orig_front.into_rgba8(), &head_front_skew, Interpolation::Nearest, Rgba([0, 0, 0, 0]), &mut scratch);
-        imageops::overlay(&mut render, &scratch, 0, 0);
+        imageops::overlay(&mut render, &scratch, x_render_offset, z_render_offset);
 
         // head right
         let head_right_skew = Projection::from_matrix([
             1.0,     0.0,    0.0,
-            skew_a,  skew_b, 0.0,
+            SKEW_A, SKEW_B, 0.0,
             0.0,     0.0,    1.0,
         ]).unwrap() * Projection::translate(x_offset - (scale / 2.0), z_offset + scale) * Projection::scale(scale + (0.5 / 8.0), scale + (1.0 / 8.0));
         warp_into(&head_orig_right.into_rgba8(), &head_right_skew, Interpolation::Nearest, Rgba([0, 0, 0, 0]), &mut scratch);
-        imageops::overlay(&mut render, &scratch, 0, 0);
+        imageops::overlay(&mut render, &scratch, x_render_offset, z_render_offset);
 
         if options.armored {
             // head top overlay
             warp_into(&head_orig_top_overlay.into_rgba8(), &head_top_skew, Interpolation::Nearest, Rgba([0, 0, 0, 0]), &mut scratch);
-            imageops::overlay(&mut render, &scratch, 0, 0);
+            imageops::overlay(&mut render, &scratch, x_render_offset, z_render_offset);
 
             // head front overlay
             warp_into(&head_orig_front_overlay.into_rgba8(), &head_front_skew, Interpolation::Nearest, Rgba([0, 0, 0, 0]), &mut scratch);
-            imageops::overlay(&mut render, &scratch, 0, 0);
+            imageops::overlay(&mut render, &scratch, x_render_offset, z_render_offset);
 
             // head right overlay
             warp_into(&head_orig_right_overlay.into_rgba8(), &head_right_skew, Interpolation::Nearest, Rgba([0, 0, 0, 0]), &mut scratch);
-            imageops::overlay(&mut render, &scratch, 0, 0);
+            imageops::overlay(&mut render, &scratch, x_render_offset, z_render_offset);
         }
 
         DynamicImage::ImageRgba8(render)
