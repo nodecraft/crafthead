@@ -182,6 +182,10 @@ impl MinecraftSkin {
         let head_orig_right_overlay = self.0.crop_imm(32, 8, 8, 8);
         let head_orig_front_overlay = self.0.crop_imm(40, 8, 8, 8);
 
+        // Shade right texture darker to show depth
+        let head_orig_right = head_orig_right.brighten(-4);
+        let head_orig_right_overlay = head_orig_right_overlay.brighten(-4);
+
         // The warp_into function clears every part of the output image that is not part of the pre-image.
         // As a workaround, we ask warp_into to draw into a scratch image, overlay the final image with the
         // scratch image, and let the scratch be overwritten.
