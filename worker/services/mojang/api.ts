@@ -1,7 +1,7 @@
 import PromiseGatherer from "../../promise_gather";
 import { CacheComputeResult } from "../../util/cache-helper";
 import { default as CACHE_BUST } from '../../util/cache-bust';
-import {KVExpiration, KVManager} from '../../util/kv-manager';
+import { KVManager } from '../../util/kv-manager';
 
 export interface MojangProfile {
     id: string;

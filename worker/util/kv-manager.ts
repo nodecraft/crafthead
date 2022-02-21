@@ -18,7 +18,7 @@ class BloomFilter {
     private static k = K_HASHES;
 
     public static async add(element: string): Promise<void> {
-        if (await KVManager.get('bloom:0') == null) {
+        if (await KVManager.getDirect('bloom:0') == null) {
             await this.allocate();
         }
 
@@ -26,21 +26,21 @@ class BloomFilter {
 
         const indexes = this.getIndexes(element);
         for (const index in indexes) {
-            gatherer.push(KVManager.put_direct('bloom:' + index, '1', KVExpiration.TIMED));
+            gatherer.push(KVManager.putDirect('bloom:' + index, '1', KVExpiration.TIMED));
         }
 
         return gatherer.all();
     }
 
     public static async has(element: string): Promise<boolean> {
-        if (await KVManager.get('bloom:0') == null) {
+        if (await KVManager.getDirect('bloom:0') == null) {
             await this.allocate();
             return false;
         }
 
-        const indexes = this.getIndexes(element);
+        const indexes = await this.getIndexes(element);
         for (const index in indexes) {
-            if (await KVManager.get('bloom:' + index) == '0') {
+            if (await KVManager.getDirect('bloom:' + index) == '0') {
                 return false;
             }
         }
@@ -67,7 +67,7 @@ class BloomFilter {
 
         for (let i = 0; i < this.m; i++) {
             gatherer.push(
-                KVManager.put_direct('bloom:' + i, '0', KVExpiration.TIMED)
+                KVManager.putDirect('bloom:' + i, '0', KVExpiration.TIMED)
             );
         }
 
@@ -84,8 +84,7 @@ export class KVManager {
             return null;
         }
 
-        const { value, metadata } = await this.namespace.getWithMetadata(key);
-        console.log(metadata);
+        const value = await this.getDirect(key);
 
         if (value !== null) {
             await BloomFilter.add(key);
@@ -101,15 +100,22 @@ export class KVManager {
             return;
         }
 
-        return this.put_direct(key, value, KVExpiration.PERIODIC);
+        return this.putDirect(key, value, KVExpiration.PERIODIC);
     }
 
-    public static async put_direct(key: string, value: string, expiration = KVExpiration.NONE): Promise<void> {
+    public static async getDirect(key: string): Promise<string|null> {
+        return this.namespace.get(key);
+    }
+
+    public static async putDirect(key: string, value: string, expiration = KVExpiration.NONE): Promise<void> {
         switch (expiration) {
             case KVExpiration.PERIODIC:
                 return this.namespace.put(key, value, { expirationTtl: 86400 });
             case KVExpiration.TIMED:
-                const expirationEpoch = Math.floor(new Date().getTime() / 1000) + 86400;
+                const expirationTime = new Date();
+                expirationTime.setUTCDate(new Date().getUTCDate() + 1);
+                expirationTime.setHours(0, 0, 0);
+                const expirationEpoch = Math.floor(expirationTime.getTime() / 1000);
                 return this.namespace.put(key, value, { expiration: expirationEpoch });
             case KVExpiration.NONE:
             default:
