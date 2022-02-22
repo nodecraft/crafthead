@@ -1,15 +1,18 @@
 extern crate cfg_if;
 extern crate image;
 extern crate wasm_bindgen;
+extern crate twox_hash;
 
 mod utils;
 mod skin;
 
+use std::hash::{Hash,Hasher};
 use cfg_if::cfg_if;
 use js_sys::Uint8Array;
 use wasm_bindgen::prelude::*;
 use skin::*;
 use image::DynamicImage;
+use twox_hash::{XxHash32};
 
 cfg_if! {
     // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
@@ -89,4 +92,11 @@ pub fn get_rendered_image(skin_image: Uint8Array, size: u32, what: String, armor
             return Err(js_sys::Error::new("Couldn't load skin.").into());
         }
     }
+}
+
+#[wasm_bindgen]
+pub fn xxhash(value: String, seed: u32) -> u64 {
+    let mut hasher = XxHash32::with_seed(seed);
+    value.hash(&mut hasher);
+    hasher.finish()
 }

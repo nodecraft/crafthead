@@ -3,7 +3,7 @@
 import { getAssetFromKV } from "@cloudflare/kv-asset-handler"
 import {interpretRequest, CraftheadRequest, RequestedKind} from './request';
 import MojangRequestService from './services/mojang/service';
-import {getRenderer} from './wasm';
+import {getWASMModule} from './wasm';
 import PromiseGatherer from "./promise_gather";
 import {CachedMojangApiService, DirectMojangApiService} from "./services/mojang/api";
 import { default as CACHE_BUST } from './util/cache-bust';
@@ -127,7 +127,7 @@ async function renderImage(skin: Response, request: CraftheadRequest): Promise<R
     const {size, requested, armored} = request;
     const destinationHeaders = new Headers(skin.headers);
     const slim = destinationHeaders.get('X-Crafthead-Skin-Model') === 'slim';
-    const [renderer, skinArrayBuffer] = await Promise.all([getRenderer(), skin.arrayBuffer()]);
+    const [renderer, skinArrayBuffer] = await Promise.all([getWASMModule(), skin.arrayBuffer()]);
     const skinBuf = new Uint8Array(skinArrayBuffer);
 
     let which: string

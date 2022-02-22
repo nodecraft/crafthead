@@ -1,5 +1,5 @@
 import PromiseGatherer from '../promise_gather';
-import xxhash from 'xxhash-wasm';
+import { getWASMModule } from '../wasm';
 
 declare const KV_CACHE_NAMESPACE: KVNamespace;
 
@@ -18,14 +18,14 @@ class BloomFilter {
     private static k = K_HASHES;
 
     public static async add(element: string): Promise<void> {
-        if (await KVManager.getDirect('bloom:0') == null) {
+        if (await KVManager.getDirect('bloom:0') === null) {
             await this.allocate();
         }
 
         const gatherer = new PromiseGatherer();
 
-        const indexes = this.getIndexes(element);
-        for (const index in indexes) {
+        const indexes = await this.getIndexes(element);
+        for (const index of indexes) {
             gatherer.push(KVManager.putDirect('bloom:' + index, '1', KVExpiration.TIMED));
         }
 
@@ -33,14 +33,14 @@ class BloomFilter {
     }
 
     public static async has(element: string): Promise<boolean> {
-        if (await KVManager.getDirect('bloom:0') == null) {
+        if (await KVManager.getDirect('bloom:0') === null) {
             await this.allocate();
             return false;
         }
 
         const indexes = await this.getIndexes(element);
-        for (const index in indexes) {
-            if (await KVManager.getDirect('bloom:' + index) == '0') {
+        for (const index of indexes) {
+            if (await KVManager.getDirect('bloom:' + index) === '0') {
                 return false;
             }
         }
@@ -58,8 +58,8 @@ class BloomFilter {
     }
 
     private static async doubleHash(value: string): Promise<number[]> {
-        const { h32 } = await xxhash();
-        return [ h32(value, this.seed), h32(value, this.seed + 1) ];
+        const wasm = await getWASMModule();
+        return [ Number(wasm.xxhash(value, this.seed)), Number(wasm.xxhash(value, this.seed + 1)) ];
     }
 
     private static async allocate(): Promise<void> {
@@ -84,23 +84,16 @@ export class KVManager {
             return null;
         }
 
-        const value = await this.getDirect(key);
-
-        if (value !== null) {
-            await BloomFilter.add(key);
-            return value;
-        }
-
-        return null;
+        return this.getDirect(key);
     }
 
     public static async put(key: string, value: string): Promise<void> {
         const seen_before = await BloomFilter.has(key);
-        if (!seen_before) {
-            return;
+        if (seen_before && await this.getDirect(key) === null) {
+            return this.putDirect(key, value, KVExpiration.PERIODIC);
         }
 
-        return this.putDirect(key, value, KVExpiration.PERIODIC);
+        return BloomFilter.add(key);
     }
 
     public static async getDirect(key: string): Promise<string|null> {
