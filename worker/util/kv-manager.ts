@@ -18,7 +18,7 @@ class BloomFilter {
     private static k = K_HASHES;
 
     public static async add(element: string): Promise<void> {
-        if (await KVManager.getDirect('bloom:0') === null) {
+        if (await KVDirect.get('bloom:0') === null) {
             await this.allocate();
         }
 
@@ -26,21 +26,21 @@ class BloomFilter {
 
         const indexes = await this.getIndexes(element);
         for (const index of indexes) {
-            gatherer.push(KVManager.putDirect('bloom:' + index, '1', KVExpiration.TIMED));
+            gatherer.push(KVDirect.put('bloom:' + index, '1', KVExpiration.TIMED));
         }
 
         return gatherer.all();
     }
 
     public static async has(element: string): Promise<boolean> {
-        if (await KVManager.getDirect('bloom:0') === null) {
+        if (await KVDirect.get('bloom:0') === null) {
             await this.allocate();
             return false;
         }
 
         const indexes = await this.getIndexes(element);
         for (const index of indexes) {
-            if (await KVManager.getDirect('bloom:' + index) === '0') {
+            if (await KVDirect.get('bloom:' + index) === '0') {
                 return false;
             }
         }
@@ -67,7 +67,7 @@ class BloomFilter {
 
         for (let i = 0; i < this.m; i++) {
             gatherer.push(
-                KVManager.putDirect('bloom:' + i, '0', KVExpiration.TIMED)
+                KVDirect.put('bloom:' + i, '0', KVExpiration.TIMED)
             );
         }
 
@@ -76,31 +76,33 @@ class BloomFilter {
 }
 
 export class KVManager {
-    private static namespace = KV_CACHE_NAMESPACE;
-
-    public static async get(key: string): Promise<string|null> {
+    public static async get(key: string): Promise<string | null> {
         const seen_before = await BloomFilter.has(key);
         if (!seen_before) {
             return null;
         }
 
-        return this.getDirect(key);
+        return KVDirect.get(key);
     }
 
     public static async put(key: string, value: string): Promise<void> {
         const seen_before = await BloomFilter.has(key);
-        if (seen_before && await this.getDirect(key) === null) {
-            return this.putDirect(key, value, KVExpiration.PERIODIC);
+        if (seen_before && await KVDirect.get(key) === null) {
+            return KVDirect.put(key, value, KVExpiration.PERIODIC);
         }
 
         return BloomFilter.add(key);
     }
+}
 
-    public static async getDirect(key: string): Promise<string|null> {
+class KVDirect {
+    private static namespace = KV_CACHE_NAMESPACE;
+
+    public static async get(key: string): Promise<string|null> {
         return this.namespace.get(key);
     }
 
-    public static async putDirect(key: string, value: string, expiration = KVExpiration.NONE): Promise<void> {
+    public static async put(key: string, value: string, expiration = KVExpiration.NONE): Promise<void> {
         switch (expiration) {
             case KVExpiration.PERIODIC:
                 return this.namespace.put(key, value, { expirationTtl: 86400 });
