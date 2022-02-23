@@ -10,11 +10,6 @@ export enum KVExpiration {
 
 export class KVManager {
     static async get(key: string): Promise<string | null> {
-        const seen_before = await BloomFilter.has(key);
-        if (!seen_before) {
-            return null;
-        }
-
         return KVDirect.get(key);
     }
 

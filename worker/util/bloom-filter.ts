@@ -28,17 +28,18 @@ export class BloomFilter {
     }
 
     static async has(element: string): Promise<boolean> {
-        if (await KVDirect.get('bloom:0') === null) { // Check if Bloom filter exists in KV
-            await this.allocate();
-            return false;
-        }
-
         const indexes = await this.getIndexes(element);
         for (const index of indexes) {
-            if (await KVDirect.get('bloom:' + index) === '0') {
+            const value = await KVDirect.get('bloom:' + index)
+
+            if (value === null) {
+                await this.allocate();
+                return false;
+            } else if (value === '0') {
                 return false;
             }
         }
+
         return true;
     }
 
