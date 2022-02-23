@@ -43,11 +43,11 @@ export class BloomFilter {
     }
 
     // See https://willwhim.wpengine.com/2011/09/03/producing-n-hash-functions-by-hashing-only-once/
-    private static async getIndexes(element: string): Promise<number[]> {
+    private static async getIndexes(element: string): Promise<Set<number>> {
         const [a, b] = await this.doubleHash(element);
-        let indexes = [];
+        let indexes = new Set<number>();
         for (let i = 0; i < this.k; i++) {
-            indexes.push((a + b * i) % this.m);
+            indexes.add((a + b * i) % this.m);
         }
         return indexes;
     }
