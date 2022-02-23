@@ -2,13 +2,15 @@ import PromiseGatherer from '../promise_gather';
 import { getWASMModule } from '../wasm';
 import { KVDirect, KVExpiration } from './kv-manager';
 
-const ALLOCATED_ROWS = 10;
-const K_HASHES = 3;
+const epsilon = 0.05; // False positive tolerance
+const n = 5; // Avg. items in Bloom filter per day
 
 export class BloomFilter {
     private static seed = 8149214274; // Randomly chosen, nothing special
-    private static m = ALLOCATED_ROWS;
-    private static k = K_HASHES;
+
+    // See https://en.wikipedia.org/wiki/Bloom_filter#Optimal_number_of_hash_functions
+    private static m = Math.ceil(-((n * Math.log(epsilon)) / (Math.log(2) ** 2)));
+    private static k = Math.ceil(-(Math.log(epsilon) / Math.log(2)));
 
     static async add(element: string): Promise<void> {
         if (await KVDirect.get('bloom:0') === null) { // Check if Bloom filter exists in KV
