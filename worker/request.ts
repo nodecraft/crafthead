@@ -5,6 +5,7 @@ export enum RequestedKind {
     Helm,
     Cube,
     Body,
+    Bust,
     Cape,
     Profile
 }
@@ -40,6 +41,8 @@ function stringKindToRequestedKind(kind: string): RequestedKind | null {
             return RequestedKind.Helm;
         case "body":
             return RequestedKind.Body;
+        case "bust":
+            return RequestedKind.Bust;
         case "cape":
             return RequestedKind.Cape;
         case "profile":
@@ -58,7 +61,7 @@ export function interpretRequest(request: Request): CraftheadRequest | null {
     let armored = false
     let sliceAmt = 1
 
-    if (url.pathname.includes("armor/body")) {
+    if (url.pathname.includes("armor/body") || url.pathname.includes("armor/bust")) {
         armored = true
         sliceAmt = 2
     }
