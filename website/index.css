@@ -85,6 +85,14 @@ article {
     align-self: flex-end;
 }
 
+.heads img {
+    image-rendering: pixelated;
+}
+
+.render-pixelate {
+    image-rendering: pixelated;
+}
+
 @media screen and (max-width: 600px) {
     .example {
         flex-direction: column-reverse;
