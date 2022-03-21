@@ -89,7 +89,9 @@ article {
     image-rendering: pixelated;
 }
 
-.render-pixelate
+.render-pixelate {
+    image-rendering: pixelated;
+}
 
 @media screen and (max-width: 600px) {
     .example {
