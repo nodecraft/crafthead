@@ -99,7 +99,8 @@ async function processRequest(skinService: MojangRequestService, interpreted: Cr
         case RequestedKind.Avatar:
         case RequestedKind.Helm:
         case RequestedKind.Cube:
-        case RequestedKind.Body: {
+        case RequestedKind.Body:
+        case RequestedKind.Bust: {
             const skin = await skinService.retrieveSkin(interpreted, gatherer);
             return renderImage(skin, interpreted);
         }
@@ -143,6 +144,9 @@ async function renderImage(skin: Response, request: CraftheadRequest): Promise<R
             break;
         case RequestedKind.Body:
             which = "body";
+            break;
+        case RequestedKind.Bust:
+            which = "bust";
             break;
         case RequestedKind.Cape:
             which = "cape";
