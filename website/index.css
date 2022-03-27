@@ -62,7 +62,7 @@ article {
 }
 
 #sponsors img {
-  width: 154;
+  width: 154px;
 }
 
 @media (max-width: 960px) {
@@ -71,7 +71,7 @@ article {
     }
 
     #sponsors img {
-        width: 300;
+        width: 300px;
     }
 
     #instructions {
