@@ -63,7 +63,7 @@ export default class MojangRequestService {
     private async retrieveTextureDirect(request: CraftheadRequest, gatherer: PromiseGatherer, kind: TextureKind): Promise<Response> {
         if (request.identityType == IdentityKind.TextureID) {
             const textureResponse = await MojangRequestService.fetchTextureFromId(request.identity);
-            return MojangRequestService.constructTextureResponse(textureResponse);
+            return MojangRequestService.constructTextureResponse(textureResponse, request);
         }
 
         const rawUuid = fromHex(request.identity);
@@ -72,7 +72,7 @@ export default class MojangRequestService {
             if (lookup.result) {
                 let textureResponse = await MojangRequestService.fetchTextureFromProfile(lookup.result, kind);
                 if (textureResponse) {
-                    return MojangRequestService.constructTextureResponse(textureResponse, lookup.source)
+                    return MojangRequestService.constructTextureResponse(textureResponse, request, lookup.source)
                 }
                 return new Response(STEVE_SKIN, {
                     status: 404,
@@ -100,14 +100,14 @@ export default class MojangRequestService {
         });
     }
 
-    private static async constructTextureResponse(textureResponse: TextureResponse, source?: string): Promise<Response> {
+    private static async constructTextureResponse(textureResponse: TextureResponse, request: CraftheadRequest, source?: string): Promise<Response> {
         const buff = await textureResponse.texture.arrayBuffer();
         if (buff && buff.byteLength > 0) {
             return new Response(buff, {
                 status: 200,
                 headers: {
                     'X-Crafthead-Profile-Cache-Hit': source || 'miss',
-                    'X-Crafthead-Skin-Model': textureResponse.model || 'default'
+                    'X-Crafthead-Skin-Model': request.model || textureResponse.model || 'default'
                 }
             });
         } else {
