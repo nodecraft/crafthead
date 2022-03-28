@@ -5,6 +5,7 @@ export enum RequestedKind {
     Helm,
     Cube,
     Body,
+    Bust,
     Cape,
     Profile
 }
@@ -26,6 +27,7 @@ export interface CraftheadRequest {
     identityType: IdentityKind;
     size: number;
     armored: boolean;
+    model: string | null;
 }
 
 function stringKindToRequestedKind(kind: string): RequestedKind | null {
@@ -40,6 +42,8 @@ function stringKindToRequestedKind(kind: string): RequestedKind | null {
             return RequestedKind.Helm;
         case "body":
             return RequestedKind.Body;
+        case "bust":
+            return RequestedKind.Bust;
         case "cape":
             return RequestedKind.Cape;
         case "profile":
@@ -55,10 +59,13 @@ export function interpretRequest(request: Request): CraftheadRequest | null {
         url.href = url.href.substring(0, url.href.length - 4)
     }
 
+    let model = url.searchParams.get("model")
+    if (model && !["slim", "default"].includes(model)) model = null
+
     let armored = false
     let sliceAmt = 1
 
-    if (url.pathname.includes("/armor/cube/") || url.pathname.includes("/armor/body/")) {
+    if (url.pathname.includes("/armor/cube/") || url.pathname.includes("/armor/body/") || url.pathname.includes("/armor/bust/")) {
         armored = true
         sliceAmt = 2
     }
@@ -92,5 +99,5 @@ export function interpretRequest(request: Request): CraftheadRequest | null {
         return null
     }
 
-    return { requested, identityType, identity, size, armored }
+    return { requested, identityType, identity, size, armored, model }
 }

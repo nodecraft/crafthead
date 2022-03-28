@@ -99,7 +99,8 @@ async function processRequest(skinService: MojangRequestService, interpreted: Cr
         case RequestedKind.Avatar:
         case RequestedKind.Helm:
         case RequestedKind.Cube:
-        case RequestedKind.Body: {
+        case RequestedKind.Body:
+        case RequestedKind.Bust: {
             const skin = await skinService.retrieveSkin(interpreted, gatherer);
             return renderImage(skin, interpreted);
         }
@@ -144,6 +145,9 @@ async function renderImage(skin: Response, request: CraftheadRequest): Promise<R
         case RequestedKind.Body:
             which = "body";
             break;
+        case RequestedKind.Bust:
+            which = "bust";
+            break;
         case RequestedKind.Cape:
             which = "cape";
             break;
@@ -157,5 +161,5 @@ async function renderImage(skin: Response, request: CraftheadRequest): Promise<R
 }
 
 function getCacheKey(interpreted: CraftheadRequest): string {
-    return `https://crafthead.net/__public${CACHE_BUST}/${interpreted.requested}/${interpreted.armored}/${interpreted.identity.toLocaleLowerCase('en-US')}/${interpreted.size}`
+    return `https://crafthead.net/__public${CACHE_BUST}/${interpreted.requested}/${interpreted.armored}/${interpreted.model}/${interpreted.identity.toLocaleLowerCase('en-US')}/${interpreted.size}`
 }

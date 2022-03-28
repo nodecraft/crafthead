@@ -26,6 +26,7 @@ enum RenderType {
     Helm,
     Cube,
     Body,
+    Bust,
     Cape,
 }
 
@@ -44,6 +45,9 @@ impl RenderType {
             RenderType::Cube   => img.render_cube(size, options),
             RenderType::Body   => img.render_body(options)
                 .resize(size, size * 2, image::imageops::FilterType::Nearest),
+            RenderType::Bust   => img.render_body(options)
+                .crop(0, 0, 16, 16)
+                .resize(size, size, image::imageops::FilterType::Nearest),
             RenderType::Cape   => img.get_cape()
                 .resize(size, size, image::imageops::FilterType::Nearest),
         }
@@ -56,6 +60,7 @@ fn what_to_render_type(what: String) -> Option<RenderType> {
         "helm"   => Some(RenderType::Helm),
         "cube"   => Some(RenderType::Cube),
         "body"   => Some(RenderType::Body),
+        "bust"   => Some(RenderType::Bust),
         "cape"   => Some(RenderType::Cape),
         _        => None
     }

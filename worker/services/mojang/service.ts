@@ -73,7 +73,7 @@ export default class MojangRequestService {
                             status: 200,
                             headers: {
                                 'X-Crafthead-Profile-Cache-Hit': lookup.source,
-                                'X-Crafthead-Skin-Model': textureResponse.model || 'default'
+                                'X-Crafthead-Skin-Model': request.model || textureResponse.model || 'default'
                             }
                         });
                     }
