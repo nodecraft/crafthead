@@ -27,6 +27,7 @@ export interface CraftheadRequest {
     identityType: IdentityKind;
     size: number;
     armored: boolean;
+    model: string | null;
 }
 
 function stringKindToRequestedKind(kind: string): RequestedKind | null {
@@ -57,6 +58,9 @@ export function interpretRequest(request: Request): CraftheadRequest | null {
     if (url.href.endsWith(".png")) {
         url.href = url.href.substring(0, url.href.length - 4)
     }
+
+    let model = url.searchParams.get("model")
+    if (model && !["slim", "default"].includes(model)) model = null
 
     let armored = false
     let sliceAmt = 1
@@ -95,5 +99,5 @@ export function interpretRequest(request: Request): CraftheadRequest | null {
         return null
     }
 
-    return { requested, identityType, identity, size, armored }
+    return { requested, identityType, identity, size, armored, model }
 }

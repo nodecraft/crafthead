@@ -161,5 +161,5 @@ async function renderImage(skin: Response, request: CraftheadRequest): Promise<R
 }
 
 function getCacheKey(interpreted: CraftheadRequest): string {
-    return `https://crafthead.net/__public${CACHE_BUST}/${interpreted.requested}/${interpreted.armored}/${interpreted.identity.toLocaleLowerCase('en-US')}/${interpreted.size}`
+    return `https://crafthead.net/__public${CACHE_BUST}/${interpreted.requested}/${interpreted.armored}/${interpreted.model}/${interpreted.identity.toLocaleLowerCase('en-US')}/${interpreted.size}`
 }
