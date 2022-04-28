@@ -69,13 +69,14 @@ export default class MojangRequestService {
                 if (textureResponse) {
                     const buff = await textureResponse.texture.arrayBuffer();
                     if (buff && buff.byteLength > 0) {
+                        const response = new Response(buff, {
+                            status: 200,
+                            headers: textureResponse.texture.headers
+                        });
+                        response.headers.set('X-Crafthead-Profile-Cache-Hit', lookup.source);
+
                         return {
-                            texture: new Response(buff, {
-                                status: 200,
-                                headers: {
-                                    'X-Crafthead-Profile-Cache-Hit': lookup.source
-                                }
-                            }),
+                            texture: response,
                             model: textureResponse.model
                         };
                     }
@@ -171,7 +172,14 @@ export default class MojangRequestService {
                 }
 
                 console.log("Successfully retrieved texture");
-                return { texture: textureResponse, model: texturesData?.SKIN?.metadata?.model };
+
+                const response = new Response(textureResponse.body);
+                const textureID = textureUrl.split('/').pop();
+                if (textureID) {
+                    response.headers.set("X-Crafthead-Texture-ID", textureID)
+                }
+
+                return { texture: response, model: texturesData?.SKIN?.metadata?.model };
             }
         }
 
