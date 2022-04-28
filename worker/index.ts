@@ -7,7 +7,6 @@ import {getRenderer} from './wasm';
 import PromiseGatherer from "./promise_gather";
 import {CachedMojangApiService, DirectMojangApiService} from "./services/mojang/api";
 import { default as CACHE_BUST } from './util/cache-bust';
-import { EMPTY } from "./data";
 
 self.addEventListener('fetch', (event: FetchEvent) => {
     event.respondWith(handleRequest(event));
@@ -109,14 +108,6 @@ async function processRequest(skinService: MojangRequestService, interpreted: Cr
         }
         case RequestedKind.Cape: {
             const cape = await skinService.retrieveCape(interpreted, gatherer);
-            if (cape.status === 404) {
-                return new Response(EMPTY, {
-                    status: 404,
-                    headers: {
-                        'X-Crafthead-Profile-Cache-Hit': 'invalid-profile'
-                    }
-                });
-            }
             return renderImage(cape, interpreted);
         }
         default:
