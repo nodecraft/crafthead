@@ -1,5 +1,3 @@
-import PromiseGatherer from "../promise_gather";
-
 export interface CacheComputeResult<T> {
     result: T;
     source: string;

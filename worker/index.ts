@@ -3,11 +3,11 @@
 import { getAssetFromKV } from "@cloudflare/kv-asset-handler"
 import {interpretRequest, CraftheadRequest, RequestedKind} from './request';
 import MojangRequestService from './services/mojang/service';
-import {getRenderer} from './wasm';
 import PromiseGatherer from "./promise_gather";
-import {CachedMojangApiService, DirectMojangApiService} from "./services/mojang/api";
+import { CachedMojangApiService, DirectMojangApiService } from "./services/mojang/api";
 import { default as CACHE_BUST } from './util/cache-bust';
 import { EMPTY } from "./data";
+import { get_rendered_image } from "../pkg/mcavatar";
 
 self.addEventListener('fetch', (event: FetchEvent) => {
     event.respondWith(handleRequest(event));
@@ -128,7 +128,7 @@ async function renderImage(skin: Response, request: CraftheadRequest): Promise<R
     const {size, requested, armored} = request;
     const destinationHeaders = new Headers(skin.headers);
     const slim = destinationHeaders.get('X-Crafthead-Skin-Model') === 'slim';
-    const [renderer, skinArrayBuffer] = await Promise.all([getRenderer(), skin.arrayBuffer()]);
+    const skinArrayBuffer = await skin.arrayBuffer();
     const skinBuf = new Uint8Array(skinArrayBuffer);
 
     let which: string
@@ -155,7 +155,7 @@ async function renderImage(skin: Response, request: CraftheadRequest): Promise<R
             throw new Error("Unknown requested kind");
     }
 
-    return new Response(renderer.get_rendered_image(skinBuf, size, which, armored, slim), {
+    return new Response(get_rendered_image(skinBuf, size, which, armored, slim), {
         headers: destinationHeaders
     });
 }

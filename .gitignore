@@ -9,5 +9,4 @@ worker/worker/
 worker/*.wasm
 worker/script.js
 node_modules/
-wrangler.toml
 .idea
