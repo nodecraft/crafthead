@@ -6,6 +6,9 @@ kv_namespaces = [
          { binding = "CRAFTHEAD_PROFILE_CACHE", id = "35768ef9b3194411936efc9c81db0571", preview_id = "aaa72d6541f4427f94059a514b3a94ff" }
 ]
 
+[site]
+bucket = "./website"
+
 [build]
 command = "wasm-pack build --release -t nodejs && ./helper/morph-wasm-pack-output.sh" # required
 
@@ -17,3 +20,6 @@ type = "CompiledWasm"
 name = "mcavatar"
 webpack_config = "webpack.prod.config.js"
 route = "https://crafthead.net/*"
+kv_namespaces = [ 
+         { binding = "CRAFTHEAD_PROFILE_CACHE", id = "35768ef9b3194411936efc9c81db0571", preview_id = "aaa72d6541f4427f94059a514b3a94ff" }
+]
