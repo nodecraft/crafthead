@@ -5,7 +5,6 @@ extern crate wasm_bindgen;
 mod utils;
 mod skin;
 
-use cfg_if::cfg_if;
 use js_sys::Uint8Array;
 use wasm_bindgen::prelude::*;
 use skin::*;

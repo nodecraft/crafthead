@@ -166,7 +166,7 @@ impl MinecraftSkin {
     pub(crate) fn render_cube(&self, overlay: bool, width: u32) -> DynamicImage {
         let scale = (width as f32) / 20.0 as f32;
         let height = (18.5 * scale).ceil() as u32;
-        let layer_type = match overlay {
+        let _layer_type = match overlay {
             true  => Layer::Both,
             false => Layer::Bottom
         };
