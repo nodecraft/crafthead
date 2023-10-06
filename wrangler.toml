@@ -3,18 +3,18 @@ main = "worker/index.ts"
 workers_dev = true
 compatibility_date = "2022-08-10"
 kv_namespaces = [
-         { binding = "CRAFTHEAD_PROFILE_CACHE", id = "34adb23612534997bb40808b80750009", preview_id = "1f3e5b68e82b4f37a2349e5723dcbff7" }
+	{ binding = "CRAFTHEAD_PROFILE_CACHE", id = "34adb23612534997bb40808b80750009", preview_id = "1f3e5b68e82b4f37a2349e5723dcbff7" }
 ]
 
 [site]
 bucket = "./website"
 
 [build]
-command = "wasm-pack build --release -t nodejs && ./helper/morph-wasm-pack-output.sh" # required
+command = "wasm-pack build --release -t nodejs && wsl ./helper/morph-wasm-pack-output.sh" # required
 
 [env.production]
 name = "crafthead"
 route = "https://crafthead.net/*"
 kv_namespaces = [
-         { binding = "CRAFTHEAD_PROFILE_CACHE", id = "34adb23612534997bb40808b80750009", preview_id = "1f3e5b68e82b4f37a2349e5723dcbff7" }
+	{ binding = "CRAFTHEAD_PROFILE_CACHE", id = "34adb23612534997bb40808b80750009", preview_id = "1f3e5b68e82b4f37a2349e5723dcbff7" }
 ]
