@@ -7,6 +7,6 @@ ed -s pkg/mcavatar.js <<EOF
 4c
 import wasmModule from './mcavatar_bg.wasm';
 .
-182,186d
+184,187d
 w
 EOF
