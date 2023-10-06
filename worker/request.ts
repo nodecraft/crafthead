@@ -13,7 +13,8 @@ export enum RequestedKind {
 // IdentityKind determines if the request is for a UUID or a username.
 export enum IdentityKind {
     Uuid,
-    Username
+    Username,
+    TextureID
 }
 
 export enum TextureKind {
@@ -95,6 +96,8 @@ export function interpretRequest(request: Request): CraftheadRequest | null {
     } else if (identity.length === 36) {
         identity = identity.replace(/-/g, '')
         identityType = IdentityKind.Uuid
+    } else if (identity.length === 64) {
+        identityType = IdentityKind.TextureID
     } else {
         return null
     }
