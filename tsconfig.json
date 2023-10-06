@@ -1,18 +1,18 @@
 {
-  "compilerOptions": {
-    "target": "ES2022",
-    "module": "ES2022",
-    "lib": [
-      "ES2022"
-    ],
-    "types": ["@cloudflare/workers-types"],
-    "moduleResolution": "node",
-    "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true
-  },
+	"compilerOptions": {
+		"target": "ES2022",
+		"module": "ES2022",
+		"lib": [
+			"ES2022"
+		],
+		"types": ["@cloudflare/workers-types"],
+		"moduleResolution": "node",
+		"strict": true,
+		"noImplicitAny": true,
+		"strictNullChecks": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true
+	},
 	"include": [
 		"worker/**/*.ts"
 	]
