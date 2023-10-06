@@ -12,5 +12,8 @@
     "strictNullChecks": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true
-  }
+  },
+	"include": [
+		"worker/**/*.ts"
+	]
 }
