@@ -10,7 +10,9 @@
 		"check-types:server": "tsc --noemit",
 		"lint": "npm run lint:js && npm run check-types",
 		"lint:js": "eslint \"**/*.{js,mjs,cjs,ts}\" \"**/*.json\"",
-		"lint:js:fix": "npm run lint:js -- --fix"
+		"lint:js:fix": "npm run lint:js -- --fix",
+		"lint:rs": "cargo fmt --all --check",
+		"lint:rs:fix": "cargo fmt --all"
 	},
 	"devDependencies": {
 		"@cloudflare/kv-asset-handler": "0.3.0",
