@@ -71,7 +71,7 @@ Then:
 * Copy `wrangler.toml.dev` to `wrangler.toml` and fill in your own `account_id`.
 * Run `wrangler kv:namespace create CRAFTHEAD_PROFILE_CACHE` and replace the `kv_namespaces` section
   in your configuration with the output from the command.
-* Use `yarn install` to install all the development dependencies
+* Use `npm ci` to install all the development dependencies
 * Use `wrangler publish`. You're done!
 
 ### Notes on `wrangler preview`
