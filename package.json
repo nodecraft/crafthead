@@ -28,7 +28,7 @@
 		"eslint-plugin-json": "3.1.0",
 		"eslint-plugin-unicorn": "48.0.1",
 		"typescript": "5.2.2",
-		"wrangler": "2.20.1"
+		"wrangler": "3.13.1"
 	},
 	"engines": {
 		"node": ">= 18"
