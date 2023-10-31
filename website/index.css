@@ -1,68 +1,157 @@
+:root {
+	--main-bg-color: #05080D;
+	--main-border-color: #0ea7e7;
+	--main-text-color: #ebeef2;
+	--example-bg-color: #161c20;
+	--example-text-color: #f4fbe6;
+	--primary-link-color: #0ea7e7;
+	--primary-link-hover-color: #137cd4;
+	--friendly-nag-bg-color: #572c9b;
+	--button-bg-color: #0c1d08;
+	--button-text-color: #2ea326;
+}
+
 html {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
     word-break: break-word;
+	background-color: var(--friendly-nag-bg-color);
+}
+
+h1, h2, h3, h4, h5, h6, h7 {
+	font-family: 'Rajdhani', sans-serif;
 }
 
 .friendly-nag {
-    background-color: rgb(54, 54, 54);
-    color: white;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	position: relative;
+    background-color: var(--friendly-nag-bg-color);
+    color: var(--main-text-color);
     text-align: center;
-    padding: 1rem;
 }
 
-.friendly-nag a {
-    color: white !important;
+.friendly-nag #create-server {
+	position: relative;
+	text-decoration: none;
+	color: var(--button-text-color);
+	border: 2px solid var(--button-text-color);
+	background-color: var(--button-bg-color);
+	padding: 1rem;
+	border-radius: 9px;
+	margin: 1rem;
+}
+
+.friendly-nag-content {
+	width: 100%;
+	max-width: 1200px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	gap: 1;
+}
+
+body {
+	background-color: var(--main-bg-color);
+	color: var(--main-text-color);
 }
 
 header {
-    background: rgb(37, 33, 33);
-    color: white;
-
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+    background: linear-gradient(180deg,#040d14 85%,#0e304f);;
+    color: var(--main-text-color);
+	border-bottom: 2px solid var(--main-border-color);
     padding: 4rem 0;
     text-align: center;
+	min-height: 40vh;
 }
 
 footer {
-    padding: 1rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 4rem;
+    padding: 5rem 1rem;
     margin: 0 auto;
     text-align: center;
-    max-width: 1200px;
+	border-top: 2px solid var(--main-border-color);
+	min-height: 40vh;
+    background: linear-gradient(0deg,#040d14 85%,#0e304f);;
 }
 
-hr {
-    border: 1px solid black;
+footer > p {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
 }
 
 header h1 {
     margin: 0;
-    font-size: 3rem;
+    font-size: 4rem;
 }
 
 a, a:visited {
-    color: rgb(37, 33, 33);
+    color: var(--primary-link-color);
+}
+
+a:hover {
+	color: var(--primary-link-hover-color);
+	text-decoration: underline;
 }
 
 article {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 1rem;
+    padding: 8rem 1rem;
     line-height: 1.5;
     display: flex;
     flex-direction: row;
+	justify-content: center;
+}
+
+article h2 {
+	margin: 4rem 0 0 0;
+	font-size: 2rem;
+}
+
+article h2:first-of-type {
+	margin-top: 0;
+}
+
+article h3 {
+	margin: 3rem 0 0 0;
+	font-size: 1.5rem;
 }
 
 #instructions {
     max-width: 900px;
-    padding-right: 1rem;
-}
-
-#sponsors {
     padding: 0 1rem;
-    text-align: center;
 }
 
-#sponsors img {
-  width: 154px;
+#logo {
+	width: 250px;
+	height: 50px;
+	max-width: 100%;
+}
+
+#logogram {
+	width: 75px;
+	height: 75px;
+	margin: 0 auto;
+	padding: 1rem;
+}
+
+#nodecraft-powered img {
+	max-width: 250px;
+	padding: 1rem;
+	height: 22px;
 }
 
 @media (max-width: 960px) {
@@ -70,26 +159,29 @@ article {
         flex-direction: column-reverse;
     }
 
-    #sponsors img {
-        width: 300px;
-    }
-
     #instructions {
         padding: 0;
-    }
-
-    #sponsors {
-        padding: 0;
-        padding-right: 1rem;
     }
 }
 
 .example {
-    background: #eeeeee;
+	background: var(--example-bg-color);
     display: flex;
     padding: 1rem;
+	margin: 1rem 0;
     align-items: center;
     justify-content: space-between;
+	border-radius: 6px;
+	color: var(--example-text-color);
+	word-break: break-all;
+}
+
+.example .highlight-type {
+	color: var(--example-type-highlight-color)
+}
+
+.example .highlight-id {
+	color: var(--example-id-highlight-color)
 }
 
 .example img {
@@ -117,4 +209,12 @@ article {
         padding: 0.4rem;
         display: block;
     }
+
+	.friendly-nag-content {
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		gap: 1rem;
+	    padding: 1rem 0.25rem 0.25rem 0.25rem;
+	}
 }
