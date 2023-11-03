@@ -1,11 +1,14 @@
 :root {
 	--cool-200: #ebeef2;
 	--cool-1300: #161c20;
+	--cool-1400: #0d1219;
 	--cool-1500: #05080D;
 	--green-300: #f4fbe6;
+	--grey-700: #777877;
 	--blue-700: #3ec1ed;
 	--blue-800: #0ea7e7;
 	--blue-900: #137cd4;
+	--blue-1500: #040d14;
 	--violet-1100: #572c9b;
 	--green-700: #7fd741;
 	--green-800: #35d020;
@@ -29,7 +32,8 @@ h1, h2, h3, h4, h5, h6, h7 {
 	align-items: center;
 	width: 100vw;
 	position: relative;
-    background-color: var(--violet-1100);
+    background-color: var(--cool-1400);
+	border-bottom: 2px solid var(--blue-1500);
     color: var(--cool-200);
     text-align: center;
 }
@@ -96,6 +100,24 @@ footer > p {
 	display: flex;
 	flex-direction: column;
 	gap: 0.5rem;
+}
+
+#logo-copyright {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	gap: 0.1rem;
+}
+
+#nodecraft-copyright, #copyright {
+	text-align: left;
+}
+
+#copyright {
+	font-size: 0.875rem;
+	line-height: 1.25rem;
+	color: var(--grey-700);
 }
 
 header h1 {
