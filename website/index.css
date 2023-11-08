@@ -140,9 +140,10 @@ article {
 	padding: 8rem 1rem;
 	line-height: 1.5;
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	justify-content: center;
-	}
+	align-items: center;
+}
 
 article h2 {
 	margin: 4rem 0 0 0;
