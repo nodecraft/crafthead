@@ -159,6 +159,10 @@ article h3 {
 	font-size: 1.5rem;
 }
 
+article h2#h2-404 {
+	text-align: center;
+}
+
 #instructions {
 	max-width: 900px;
 	padding: 0 1rem;
@@ -184,12 +188,8 @@ article h3 {
 }
 
 @media (max-width: 960px) {
-	article {
-	flex-direction: column-reverse;
-	}
-
 	#instructions {
-	padding: 0;
+		padding: 0;
 	}
 }
 
