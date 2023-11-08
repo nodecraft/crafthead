@@ -79,7 +79,7 @@ header {
 	border-bottom: 2px solid var(--blue-800);
 	padding: 4rem 0;
 	text-align: center;
-	min-height: 40vh;
+	min-height: 20vh;
 }
 
 footer {
@@ -92,7 +92,7 @@ footer {
 	margin: 0 auto;
 	text-align: center;
 	border-top: 2px solid var(--blue-800);
-	min-height: 40vh;
+	min-height: 20vh;
 	background: linear-gradient(0deg,#040d14 85%,#0e304f);;
 }
 
