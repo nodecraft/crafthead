@@ -30,7 +30,7 @@ h1, h2, h3, h4, h5, h6, h7 {
 	flex-direction: row;
 	justify-content: center;
 	align-items: center;
-	width: 100vw;
+	width: 100%;
 	position: relative;
 	background-color: var(--cool-1400);
 	border-bottom: 2px solid var(--blue-1500);
@@ -142,7 +142,7 @@ article {
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
-}
+	}
 
 article h2 {
 	margin: 4rem 0 0 0;
