@@ -26,7 +26,7 @@ export function toHex(uuid: ArrayBuffer): string {
 
 export function fromHex(uuid: string): ArrayBuffer {
 	const match = uuid.match(/[\da-f]{2}/gi);
-	if(!match) {
+	if (!match) {
 		throw new TypeError('UUID not provided');
 	}
 	return new Uint8Array(match.map(hex => Number.parseInt(hex, 16))).buffer;
