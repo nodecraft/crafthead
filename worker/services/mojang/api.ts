@@ -1,6 +1,6 @@
 import PromiseGatherer from '../../promise_gather';
-import {default as CACHE_BUST} from '../../util/cache-bust';
-import {CacheComputeResult} from '../../util/cache-helper';
+import { default as CACHE_BUST } from '../../util/cache-bust';
+import { CacheComputeResult } from '../../util/cache-helper';
 
 declare const CRAFTHEAD_PROFILE_CACHE: KVNamespace;
 
@@ -39,31 +39,31 @@ export class CachedMojangApiService implements MojangApiService {
 		const localCacheKey = 'https://crafthead.net/__internal' + CACHE_BUST + '/username-lookup/' + lowercased;
 
 		const localCacheResult = await caches.default.match(new Request(localCacheKey));
-		if(localCacheResult && localCacheResult.ok) {
+		if (localCacheResult && localCacheResult.ok) {
 			return localCacheResult.json();
 		}
 
 		const kvKey = CACHE_BUST + ':username-lookup:' + lowercased;
 
 		const kvResult: MojangUsernameLookupResult | null = await CRAFTHEAD_PROFILE_CACHE.get(kvKey, 'json');
-		if(kvResult) {
+		if (kvResult) {
 			gatherer?.push(caches.default.put(new Request(localCacheKey), new Response(
-				JSON.stringify(kvResult), {headers: {'Cache-Control': 'max-age=3600', 'Content-Type': 'application/json'}},
+				JSON.stringify(kvResult), { headers: { 'Cache-Control': 'max-age=3600', 'Content-Type': 'application/json' } },
 			)));
 			return kvResult;
 		}
 
 		const lookup = await this.delegate.lookupUsername(lowercased, gatherer);
-		if(lookup) {
+		if (lookup) {
 			gatherer?.push(
 				CRAFTHEAD_PROFILE_CACHE.put(
 					kvKey,
 					JSON.stringify(lookup),
-					{expirationTtl: 86400},
+					{ expirationTtl: 86400 },
 				),
 			);
 			gatherer?.push(caches.default.put(new Request(localCacheKey), new Response(
-				JSON.stringify(lookup), {headers: {'Cache-Control': 'max-age=3600', 'Content-Type': 'application/json'}},
+				JSON.stringify(lookup), { headers: { 'Cache-Control': 'max-age=3600', 'Content-Type': 'application/json' } },
 			)));
 		}
 
@@ -73,7 +73,7 @@ export class CachedMojangApiService implements MojangApiService {
 	async fetchProfile(id: string, gatherer: PromiseGatherer | null): Promise<CacheComputeResult<MojangProfile | null>> {
 		const kvKey = CACHE_BUST + ':profile-lookup:' + id;
 		const kvResult: MojangProfile | null = await CRAFTHEAD_PROFILE_CACHE.get(kvKey, 'json');
-		if(kvResult !== null) {
+		if (kvResult !== null) {
 			return {
 				result: kvResult,
 				source: 'cf-kv',
@@ -81,12 +81,12 @@ export class CachedMojangApiService implements MojangApiService {
 		}
 
 		const lookup = await this.delegate.fetchProfile(id, gatherer);
-		if(lookup) {
+		if (lookup) {
 			gatherer?.push(
 				CRAFTHEAD_PROFILE_CACHE.put(
 					kvKey,
 					JSON.stringify(lookup.result),
-					{expirationTtl: 86400},
+					{ expirationTtl: 86400 },
 				),
 			);
 		}
@@ -105,13 +105,13 @@ export class DirectMojangApiService implements MojangApiService {
 			},
 		});
 
-		if(lookupResponse.status === 204) {
+		if (lookupResponse.status === 204) {
 			return null;
-		}else if(!lookupResponse.ok) {
+		} else if (!lookupResponse.ok) {
 			throw new Error('Unable to lookup UUID for username, http status ' + lookupResponse.status);
-		}else{
+		} else {
 			const contents: MojangUsernameLookupResult | undefined = await lookupResponse.json();
-			if(contents === undefined) {
+			if (contents === undefined) {
 				return null;
 			}
 			return contents;
@@ -125,12 +125,12 @@ export class DirectMojangApiService implements MojangApiService {
 			},
 		});
 
-		if(profileResponse.status === 200) {
+		if (profileResponse.status === 200) {
 			return {
 				result: await profileResponse.json(),
 				source: 'miss',
 			};
-		}else if(profileResponse.status === 206 || profileResponse.status === 204) {
+		} else if (profileResponse.status === 206 || profileResponse.status === 204) {
 			return {
 				result: null,
 				source: 'miss',

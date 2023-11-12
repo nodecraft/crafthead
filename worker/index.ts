@@ -1,12 +1,12 @@
-import {getAssetFromKV} from '@cloudflare/kv-asset-handler';
+import { getAssetFromKV } from '@cloudflare/kv-asset-handler';
 
-import {EMPTY} from './data';
+import { EMPTY } from './data';
 import PromiseGatherer from './promise_gather';
-import {interpretRequest, CraftheadRequest, RequestedKind} from './request';
-import {CachedMojangApiService, DirectMojangApiService} from './services/mojang/api';
+import { CraftheadRequest, RequestedKind, interpretRequest } from './request';
+import { CachedMojangApiService, DirectMojangApiService } from './services/mojang/api';
 import MojangRequestService from './services/mojang/service';
-import {default as CACHE_BUST} from './util/cache-bust';
-import {get_rendered_image} from '../pkg/mcavatar';
+import { default as CACHE_BUST } from './util/cache-bust';
+import { get_rendered_image } from '../pkg/mcavatar';
 
 const skinService = new MojangRequestService(new CachedMojangApiService(new DirectMojangApiService()));
 
@@ -17,9 +17,9 @@ function decorateHeaders(interpreted: CraftheadRequest, headers: Headers, hitCac
 	copiedHeaders.set('Access-Control-Allow-Origin', '*');
 	copiedHeaders.set('Cache-Control', 'max-age=14400');
 	copiedHeaders.set('X-Crafthead-Request-Cache-Hit', hitCache ? 'yes' : 'no');
-	if(!copiedHeaders.has('Content-Type')) {
+	if (!copiedHeaders.has('Content-Type')) {
 		copiedHeaders.set('Content-Type', interpreted.requested === RequestedKind.Profile ? 'application/json' : 'image/png');
-	}else{
+	} else {
 		console.log(`Content-Type header already on response: ${copiedHeaders.get('Content-Type')}, not overriding.`);
 	}
 
@@ -32,14 +32,14 @@ function getCacheKey(interpreted: CraftheadRequest): string {
 }
 
 async function renderImage(skin: Response, request: CraftheadRequest): Promise<Response> {
-	const {size, requested, armored} = request;
+	const { size, requested, armored } = request;
 	const destinationHeaders = new Headers(skin.headers);
 	const slim = destinationHeaders.get('X-Crafthead-Skin-Model') === 'slim';
 	const skinArrayBuffer = await skin.arrayBuffer();
 	const skinBuf = new Uint8Array(skinArrayBuffer);
 
 	let which: string;
-	switch(requested) {
+	switch (requested) {
 		case RequestedKind.Avatar: {
 			which = 'avatar';
 			break;
@@ -75,11 +75,11 @@ async function renderImage(skin: Response, request: CraftheadRequest): Promise<R
 }
 
 async function processRequest(skinService: MojangRequestService, interpreted: CraftheadRequest, gatherer: PromiseGatherer): Promise<Response> {
-	switch(interpreted.requested) {
+	switch (interpreted.requested) {
 		case RequestedKind.Profile: {
 			const lookup = await skinService.fetchProfile(interpreted, gatherer);
-			if(!lookup.result) {
-				return new Response(JSON.stringify({error: 'User does not exist'}), {
+			if (!lookup.result) {
+				return new Response(JSON.stringify({ error: 'User does not exist' }), {
 					status: 404,
 					headers: {
 						'X-Crafthead-Profile-Cache-Hit': lookup.source,
@@ -105,7 +105,7 @@ async function processRequest(skinService: MojangRequestService, interpreted: Cr
 		}
 		case RequestedKind.Cape: {
 			const cape = await skinService.retrieveCape(interpreted, gatherer);
-			if(cape.status === 404) {
+			if (cape.status === 404) {
 				return new Response(EMPTY, {
 					status: 404,
 					headers: {
@@ -116,7 +116,7 @@ async function processRequest(skinService: MojangRequestService, interpreted: Cr
 			return renderImage(cape, interpreted);
 		}
 		default: {
-			return new Response('must request an avatar, helm, body, profile, or a skin', {status: 400});
+			return new Response('must request an avatar, helm, body, profile, or a skin', { status: 400 });
 		}
 	}
 }
@@ -125,35 +125,35 @@ async function handleRequest(event: FetchEvent) {
 	const request = event.request;
 
 	const interpreted = interpretRequest(request);
-	if(!interpreted) {
+	if (!interpreted) {
 		// We don't understand this request.
-		try{
+		try {
 			return await getAssetFromKV(event);
-		}catch{
-			try{
+		} catch {
+			try {
 				const notFoundResponse = await getAssetFromKV(event, {
 					mapRequestToAsset: req => new Request(`${new URL(req.url).origin}/404.html`, req),
 				});
-				return new Response(notFoundResponse.body, {...notFoundResponse, status: 404});
-			}catch{
-				return new Response('Not found', {status: 404});
+				return new Response(notFoundResponse.body, { ...notFoundResponse, status: 404 });
+			} catch {
+				return new Response('Not found', { status: 404 });
 			}
 		}
 	}
 
 	console.log('Request interpreted as ', interpreted);
 
-	try{
+	try {
 		const cacheKey = getCacheKey(interpreted);
 		let response = await caches.default.match(new Request(cacheKey));
 		const hitCache = Boolean(response);
-		if(!response) {
+		if (!response) {
 			// The item is not in the Cloudflare datacenter's cache. We need to process the request further.
 			console.log('Request not satisfied from cache.');
 
 			const gatherer = new PromiseGatherer();
 			response = await processRequest(skinService, interpreted, gatherer);
-			if(response.ok) {
+			if (response.ok) {
 				const cacheResponse = response.clone();
 				cacheResponse.headers.set('Content-Type', interpreted.requested === RequestedKind.Profile ? 'application/json' : 'image/png');
 				cacheResponse.headers.set('Cache-Control', 'max-age=14400');
@@ -162,9 +162,9 @@ async function handleRequest(event: FetchEvent) {
 			await gatherer.all();
 		}
 		const headers = decorateHeaders(interpreted, response.headers, hitCache);
-		return new Response(response.body, {status: response.status, headers});
-	}catch(err) {
-		return new Response((err as Error).toString(), {status: 500});
+		return new Response(response.body, { status: response.status, headers });
+	} catch (err) {
+		return new Response((err as Error).toString(), { status: 500 });
 	}
 }
 
