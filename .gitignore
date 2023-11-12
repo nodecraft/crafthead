@@ -10,3 +10,4 @@ worker/*.wasm
 worker/script.js
 node_modules/
 .idea
+.wrangler/
