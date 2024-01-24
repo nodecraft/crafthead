@@ -20,6 +20,28 @@ export interface MojangProfileProperty {
 	value: string;
 }
 
+export interface PlayerDBProfileData {
+	player: {
+		meta: {
+			cached_at: number;
+		};
+		username: string;
+		id: string;
+		raw_id: string;
+		avatar: string;
+		name_history: string[];
+		skin_texture: string;
+		properties: MojangProfileProperty[];
+	};
+}
+
+export interface PlayerDBProfile {
+	code: string;
+	message: string;
+	success: boolean;
+	data: PlayerDBProfileData;
+}
+
 export interface MojangApiService {
 	lookupUsername(usernames: string, gatherer: PromiseGatherer | null): Promise<MojangUsernameLookupResult | null>;
 
@@ -119,15 +141,25 @@ export class DirectMojangApiService implements MojangApiService {
 	}
 
 	async fetchProfile(id: string, gatherer: PromiseGatherer | null): Promise<CacheComputeResult<MojangProfile | null>> {
-		const profileResponse = await fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${id}?unsigned=false`, {
+		const profileResponse = await fetch(`https://playerdb.co/api/player/minecraft/${id}`, {
 			headers: {
 				'User-Agent': 'Crafthead (+https://crafthead.net)',
 			},
 		});
 
 		if (profileResponse.status === 200) {
+			const jsonData: PlayerDBProfile = await profileResponse.json();
+			const returnedProfile = jsonData.data?.player;
+
+			// Now we need to mangle this data into the format we expect.
+			const data = {
+				id: returnedProfile.raw_id,
+				name: returnedProfile.username,
+				properties: returnedProfile.properties,
+			};
+			console.log(data);
 			return {
-				result: await profileResponse.json(),
+				result: data,
 				source: 'miss',
 			};
 		} else if (profileResponse.status === 206 || profileResponse.status === 204) {
