@@ -120,7 +120,7 @@ export class CachedMojangApiService implements MojangApiService {
 // Implements MojangApiService by contacting the Mojang API endpoints directly.
 export class DirectMojangApiService implements MojangApiService {
 	async lookupUsername(username: string, gatherer: PromiseGatherer | null): Promise<MojangUsernameLookupResult | null> {
-		const lookupResponse = await fetch(`https://api.mojang.com/users/profiles/minecraft/${username}`, {
+		const lookupResponse = await fetch(`https://playerdb.co/api/player/minecraft/${username}`, {
 			headers: {
 				'Content-Type': 'application/json',
 				'User-Agent': 'Crafthead (+https://crafthead.net)',
@@ -132,11 +132,18 @@ export class DirectMojangApiService implements MojangApiService {
 		} else if (!lookupResponse.ok) {
 			throw new Error('Unable to lookup UUID for username, http status ' + lookupResponse.status);
 		} else {
-			const contents: MojangUsernameLookupResult | undefined = await lookupResponse.json();
-			if (contents === undefined) {
+			const jsonData: PlayerDBProfile = await lookupResponse.json();
+			const returnedProfile = jsonData.data?.player;
+
+			// Now we need to mangle this data into the format we expect.
+			const data = {
+				id: returnedProfile.raw_id,
+				name: returnedProfile.username,
+			};
+			if (data === undefined) {
 				return null;
 			}
-			return contents;
+			return data;
 		}
 	}
 
@@ -157,7 +164,6 @@ export class DirectMojangApiService implements MojangApiService {
 				name: returnedProfile.username,
 				properties: returnedProfile.properties,
 			};
-			console.log(data);
 			return {
 				result: data,
 				source: 'miss',
