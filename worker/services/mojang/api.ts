@@ -20,6 +20,28 @@ export interface MojangProfileProperty {
 	value: string;
 }
 
+export interface PlayerDBProfileData {
+	player: {
+		meta: {
+			cached_at: number;
+		};
+		username: string;
+		id: string;
+		raw_id: string;
+		avatar: string;
+		name_history: string[];
+		skin_texture: string;
+		properties: MojangProfileProperty[];
+	};
+}
+
+export interface PlayerDBProfile {
+	code: string;
+	message: string;
+	success: boolean;
+	data: PlayerDBProfileData;
+}
+
 export interface MojangApiService {
 	lookupUsername(usernames: string, gatherer: PromiseGatherer | null): Promise<MojangUsernameLookupResult | null>;
 
@@ -98,7 +120,7 @@ export class CachedMojangApiService implements MojangApiService {
 // Implements MojangApiService by contacting the Mojang API endpoints directly.
 export class DirectMojangApiService implements MojangApiService {
 	async lookupUsername(username: string, gatherer: PromiseGatherer | null): Promise<MojangUsernameLookupResult | null> {
-		const lookupResponse = await fetch(`https://api.mojang.com/users/profiles/minecraft/${username}`, {
+		const lookupResponse = await fetch(`https://playerdb.co/api/player/minecraft/${username}`, {
 			headers: {
 				'Content-Type': 'application/json',
 				'User-Agent': 'Crafthead (+https://crafthead.net)',
@@ -110,24 +132,40 @@ export class DirectMojangApiService implements MojangApiService {
 		} else if (!lookupResponse.ok) {
 			throw new Error('Unable to lookup UUID for username, http status ' + lookupResponse.status);
 		} else {
-			const contents: MojangUsernameLookupResult | undefined = await lookupResponse.json();
-			if (contents === undefined) {
+			const jsonData: PlayerDBProfile = await lookupResponse.json();
+			const returnedProfile = jsonData.data?.player;
+
+			// Now we need to mangle this data into the format we expect.
+			const data = {
+				id: returnedProfile.raw_id,
+				name: returnedProfile.username,
+			};
+			if (data === undefined) {
 				return null;
 			}
-			return contents;
+			return data;
 		}
 	}
 
 	async fetchProfile(id: string, gatherer: PromiseGatherer | null): Promise<CacheComputeResult<MojangProfile | null>> {
-		const profileResponse = await fetch(`https://sessionserver.mojang.com/session/minecraft/profile/${id}?unsigned=false`, {
+		const profileResponse = await fetch(`https://playerdb.co/api/player/minecraft/${id}`, {
 			headers: {
 				'User-Agent': 'Crafthead (+https://crafthead.net)',
 			},
 		});
 
 		if (profileResponse.status === 200) {
+			const jsonData: PlayerDBProfile = await profileResponse.json();
+			const returnedProfile = jsonData.data?.player;
+
+			// Now we need to mangle this data into the format we expect.
+			const data = {
+				id: returnedProfile.raw_id,
+				name: returnedProfile.username,
+				properties: returnedProfile.properties,
+			};
 			return {
-				result: await profileResponse.json(),
+				result: data,
 				source: 'miss',
 			};
 		} else if (profileResponse.status === 206 || profileResponse.status === 204) {

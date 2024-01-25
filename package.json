@@ -8,7 +8,7 @@
 	"scripts": {
 		"check-types": "npm run check-types:server",
 		"check-types:server": "tsc --noemit",
-		"dev": "wrangler dev --remote",
+		"dev": "wrangler dev",
 		"lint": "npm run lint:js && npm run check-types",
 		"lint:js": "eslint \"**/*.{js,mjs,cjs,ts}\" \"**/*.json\"",
 		"lint:js:fix": "npm run lint:js -- --fix",
@@ -29,7 +29,7 @@
 		"eslint-plugin-json": "3.1.0",
 		"eslint-plugin-unicorn": "49.0.0",
 		"typescript": "5.2.2",
-		"wrangler": "3.15.0"
+		"wrangler": "3.24.0"
 	},
 	"engines": {
 		"node": ">= 18"
