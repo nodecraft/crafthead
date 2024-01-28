@@ -1,14 +1,18 @@
 import { getAssetFromKV } from '@cloudflare/kv-asset-handler';
+import manifestJSON from '__STATIC_CONTENT_MANIFEST';
 
 import { EMPTY } from './data';
 import PromiseGatherer from './promise_gather';
-import { CraftheadRequest, RequestedKind, interpretRequest } from './request';
+import { RequestedKind, interpretRequest } from './request';
 import { CachedMojangApiService, DirectMojangApiService } from './services/mojang/api';
 import MojangRequestService from './services/mojang/service';
 import { default as CACHE_BUST } from './util/cache-bust';
 import { get_rendered_image } from '../pkg/mcavatar';
 
-const skinService = new MojangRequestService(new CachedMojangApiService(new DirectMojangApiService()));
+const assetManifest = JSON.parse(manifestJSON);
+
+import type { CraftheadRequest } from './request';
+import type { Env } from './types';
 
 function decorateHeaders(interpreted: CraftheadRequest, headers: Headers, hitCache: boolean): Headers {
 	const copiedHeaders = new Headers(headers);
@@ -121,17 +125,29 @@ async function processRequest(skinService: MojangRequestService, interpreted: Cr
 	}
 }
 
-async function handleRequest(event: FetchEvent) {
-	const request = event.request;
-
+async function handleRequest(request: Request, env: Env, ctx: ExecutionContext) {
 	const interpreted = interpretRequest(request);
 	if (!interpreted) {
 		// We don't understand this request.
 		try {
-			return await getAssetFromKV(event);
+			const asset = await getAssetFromKV({
+				request,
+				waitUntil(promise) {
+					return ctx.waitUntil(promise);
+				},
+			}, {
+				ASSET_NAMESPACE: env.__STATIC_CONTENT,
+				ASSET_MANIFEST: assetManifest,
+			});
+			return asset;
 		} catch {
 			try {
-				const notFoundResponse = await getAssetFromKV(event, {
+				const notFoundResponse = await getAssetFromKV({
+					request,
+					waitUntil(promise) {
+						return ctx.waitUntil(promise);
+					},
+				}, {
 					mapRequestToAsset: req => new Request(`${new URL(req.url).origin}/404.html`, req),
 				});
 				return new Response(notFoundResponse.body, {
@@ -156,6 +172,8 @@ async function handleRequest(event: FetchEvent) {
 			console.log('Request not satisfied from cache.');
 
 			const gatherer = new PromiseGatherer();
+
+			const skinService = new MojangRequestService(new CachedMojangApiService(new DirectMojangApiService(), env));
 			response = await processRequest(skinService, interpreted, gatherer);
 			if (response.ok) {
 				const cacheResponse = response.clone();
@@ -172,6 +190,8 @@ async function handleRequest(event: FetchEvent) {
 	}
 }
 
-self.addEventListener('fetch', (event: FetchEvent) => {
-	event.respondWith(handleRequest(event));
-});
+export default {
+	fetch(request: Request, env: Env, ctx: ExecutionContext) {
+		return handleRequest(request, env, ctx);
+	},
+};

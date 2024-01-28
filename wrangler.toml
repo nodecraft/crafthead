@@ -1,7 +1,7 @@
 name = "crafthead-dev"
 main = "worker/index.ts"
 workers_dev = true
-compatibility_date = "2022-08-10"
+compatibility_date = "2024-01-28"
 kv_namespaces = [
 	{ binding = "CRAFTHEAD_PROFILE_CACHE", id = "34adb23612534997bb40808b80750009", preview_id = "1f3e5b68e82b4f37a2349e5723dcbff7" }
 ]
