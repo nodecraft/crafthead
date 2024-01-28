@@ -1,8 +1,8 @@
-import PromiseGatherer from '../../promise_gather';
 import { default as CACHE_BUST } from '../../util/cache-bust';
-import { CacheComputeResult } from '../../util/cache-helper';
 
-declare const CRAFTHEAD_PROFILE_CACHE: KVNamespace;
+import type PromiseGatherer from '../../promise_gather';
+import type { Env } from '../../types';
+import type { CacheComputeResult } from '../../util/cache-helper';
 
 export interface MojangProfile {
 	id: string;
@@ -51,9 +51,11 @@ export interface MojangApiService {
 // Implements MojangApiService by caching results and forwarding to Mojang when needed.
 export class CachedMojangApiService implements MojangApiService {
 	private delegate: MojangApiService;
+	private env: Env;
 
-	public constructor(delegate: MojangApiService) {
+	public constructor(delegate: MojangApiService, env: Env) {
 		this.delegate = delegate;
+		this.env = env;
 	}
 
 	async lookupUsername(username: string, gatherer: PromiseGatherer | null): Promise<MojangUsernameLookupResult | null> {
@@ -67,7 +69,7 @@ export class CachedMojangApiService implements MojangApiService {
 
 		const kvKey = CACHE_BUST + ':username-lookup:' + lowercased;
 
-		const kvResult: MojangUsernameLookupResult | null = await CRAFTHEAD_PROFILE_CACHE.get(kvKey, 'json');
+		const kvResult: MojangUsernameLookupResult | null = await this.env.CRAFTHEAD_PROFILE_CACHE?.get(kvKey, 'json') ?? null;
 		if (kvResult) {
 			gatherer?.push(caches.default.put(new Request(localCacheKey), new Response(
 				JSON.stringify(kvResult), { headers: { 'Cache-Control': 'max-age=3600', 'Content-Type': 'application/json' } },
@@ -78,7 +80,7 @@ export class CachedMojangApiService implements MojangApiService {
 		const lookup = await this.delegate.lookupUsername(lowercased, gatherer);
 		if (lookup) {
 			gatherer?.push(
-				CRAFTHEAD_PROFILE_CACHE.put(
+				this.env.CRAFTHEAD_PROFILE_CACHE.put(
 					kvKey,
 					JSON.stringify(lookup),
 					{ expirationTtl: 86400 },
@@ -94,7 +96,7 @@ export class CachedMojangApiService implements MojangApiService {
 
 	async fetchProfile(id: string, gatherer: PromiseGatherer | null): Promise<CacheComputeResult<MojangProfile | null>> {
 		const kvKey = CACHE_BUST + ':profile-lookup:' + id;
-		const kvResult: MojangProfile | null = await CRAFTHEAD_PROFILE_CACHE.get(kvKey, 'json');
+		const kvResult: MojangProfile | null = await this.env?.CRAFTHEAD_PROFILE_CACHE?.get(kvKey, 'json') ?? null;
 		if (kvResult !== null) {
 			return {
 				result: kvResult,
@@ -105,7 +107,7 @@ export class CachedMojangApiService implements MojangApiService {
 		const lookup = await this.delegate.fetchProfile(id, gatherer);
 		if (lookup) {
 			gatherer?.push(
-				CRAFTHEAD_PROFILE_CACHE.put(
+				this.env.CRAFTHEAD_PROFILE_CACHE.put(
 					kvKey,
 					JSON.stringify(lookup.result),
 					{ expirationTtl: 86400 },
@@ -175,6 +177,5 @@ export class DirectMojangApiService implements MojangApiService {
 			};
 		}
 		throw new Error(`Unable to retrieve profile from Mojang, http status ${profileResponse.status}`);
-
 	}
 }

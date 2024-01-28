@@ -2,8 +2,6 @@ export async function v3(contents: string): Promise<ArrayBuffer> {
 	const textEncoder = new TextEncoder();
 	const encoded = textEncoder.encode(contents);
 
-	// TODO: This ONLY works on the Cloudflare Workers runtime and I'm not even
-	// sure how long it'll live there!
 	const result = await crypto.subtle.digest('md5', encoded);
 
 	const uint8View = new Uint8Array(result);
@@ -42,5 +40,6 @@ export function javaHashCode(uuid: ArrayBuffer): number {
 	const lsb = dv.getBigInt64(8);
 
 	const hilo = msb ^ lsb;
+	// eslint-disable-next-line @stylistic/no-mixed-operators
 	return Number(BigInt.asIntN(32, hilo >> BigInt(32) ^ hilo));
 }

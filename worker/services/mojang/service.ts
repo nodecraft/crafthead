@@ -1,8 +1,5 @@
-import { MojangApiService, MojangProfile, MojangProfileProperty } from './api';
 import { ALEX_SKIN, STEVE_SKIN } from '../../data';
-import PromiseGatherer from '../../promise_gather';
-import { CraftheadRequest, IdentityKind, TextureKind } from '../../request';
-import { CacheComputeResult } from '../../util/cache-helper';
+import { IdentityKind, TextureKind } from '../../request';
 import {
 	fromHex,
 	javaHashCode,
@@ -10,6 +7,11 @@ import {
 	toHex,
 	uuidVersion,
 } from '../../util/uuid';
+
+import type { MojangApiService, MojangProfile, MojangProfileProperty } from './api';
+import type PromiseGatherer from '../../promise_gather';
+import type { CraftheadRequest } from '../../request';
+import type { CacheComputeResult } from '../../util/cache-helper';
 
 interface TextureResponse {
 	texture: Response;
@@ -133,7 +135,6 @@ export default class MojangRequestService {
 					'X-Crafthead-Skin-Model': 'slim',
 				},
 			});
-
 		}
 		return skin;
 	}
@@ -146,7 +147,8 @@ export default class MojangRequestService {
 	private static async fetchTextureFromProfile(profile: MojangProfile, type: TextureKind): Promise<TextureResponse | undefined> {
 		if (profile.properties) {
 			const texturesData = MojangRequestService.extractDataFromTexturesProperty(
-				profile.properties.find(property => property.name === 'textures'));
+				profile.properties.find(property => property.name === 'textures'),
+			);
 			const textureUrl = type === TextureKind.CAPE ? texturesData?.CAPE?.url : texturesData?.SKIN.url;
 
 			if (textureUrl) {
