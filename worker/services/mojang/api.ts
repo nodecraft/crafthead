@@ -129,12 +129,17 @@ export class DirectMojangApiService implements MojangApiService {
 			},
 		});
 
-		if (lookupResponse.status === 204) {
+		let jsonData: PlayerDBProfile | null = null;
+		try {
+			jsonData = await lookupResponse.json();
+		} catch {
+			// ignore
+		}
+		if (lookupResponse.status === 204 || jsonData?.code === 'minecraft.invalid_username') {
 			return null;
-		} else if (!lookupResponse.ok) {
+		} else if (!lookupResponse.ok || !jsonData) {
 			throw new Error('Unable to lookup UUID for username, http status ' + lookupResponse.status);
 		} else {
-			const jsonData: PlayerDBProfile = await lookupResponse.json();
 			const returnedProfile = jsonData.data?.player;
 
 			// Now we need to mangle this data into the format we expect.
@@ -155,9 +160,13 @@ export class DirectMojangApiService implements MojangApiService {
 				'User-Agent': 'Crafthead (+https://crafthead.net)',
 			},
 		});
-
-		if (profileResponse.status === 200) {
-			const jsonData: PlayerDBProfile = await profileResponse.json();
+		let jsonData: PlayerDBProfile | null = null;
+		try {
+			jsonData = await profileResponse.json();
+		} catch {
+			// ignore
+		}
+		if (jsonData && profileResponse.status === 200) {
 			const returnedProfile = jsonData.data?.player;
 
 			// Now we need to mangle this data into the format we expect.
@@ -171,6 +180,11 @@ export class DirectMojangApiService implements MojangApiService {
 				source: 'miss',
 			};
 		} else if (profileResponse.status === 206 || profileResponse.status === 204) {
+			return {
+				result: null,
+				source: 'miss',
+			};
+		} else if (jsonData && jsonData.code === 'minecraft.invalid_username') {
 			return {
 				result: null,
 				source: 'miss',

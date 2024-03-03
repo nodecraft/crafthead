@@ -166,7 +166,7 @@ impl MinecraftSkin {
 			20,
 		);
 		imageops::overlay(
-		    &mut image,
+			&mut image,
 			&self.get_part(layer_type, BodyPart::LegRight, options.model),
 			arm_width + 4,
 			20,

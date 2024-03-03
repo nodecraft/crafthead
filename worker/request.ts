@@ -23,6 +23,7 @@ export enum TextureKind {
 
 export interface CraftheadRequest {
 	requested: RequestedKind;
+	requestedKindString: string;
 	identity: string;
 	identityType: IdentityKind;
 	size: number;
@@ -58,6 +59,20 @@ function stringKindToRequestedKind(kind: string): RequestedKind | null {
 		}
 		default: {
 			return null;
+		}
+	}
+}
+
+export function identityTypeEnumToString(kind: IdentityKind): string {
+	switch (kind) {
+		case IdentityKind.Uuid: {
+			return 'uuid';
+		}
+		case IdentityKind.Username: {
+			return 'username';
+		}
+		default: {
+			return 'unknown';
 		}
 	}
 }
@@ -109,5 +124,5 @@ export function interpretRequest(request: Request): CraftheadRequest | null {
 		return null;
 	}
 
-	return { requested, identityType, identity, size, armored, model };
+	return { requested, requestedKindString, identityType, identity, size, armored, model };
 }

@@ -6,6 +6,7 @@ import PromiseGatherer from './promise_gather';
 import { RequestedKind, interpretRequest } from './request';
 import { CachedMojangApiService, DirectMojangApiService } from './services/mojang/api';
 import MojangRequestService from './services/mojang/service';
+import { writeDataPoint } from './util/analytics';
 import { default as CACHE_BUST } from './util/cache-bust';
 import { get_rendered_image } from '../pkg/mcavatar';
 
@@ -126,6 +127,7 @@ async function processRequest(skinService: MojangRequestService, interpreted: Cr
 }
 
 async function handleRequest(request: Request, env: Env, ctx: ExecutionContext) {
+	const startTime = new Date();
 	const interpreted = interpretRequest(request);
 	if (!interpreted) {
 		// We don't understand this request.
@@ -139,6 +141,11 @@ async function handleRequest(request: Request, env: Env, ctx: ExecutionContext) 
 				ASSET_NAMESPACE: env.__STATIC_CONTENT,
 				ASSET_MANIFEST: assetManifest,
 			});
+			writeDataPoint(env.CRAFTHEAD_ANALYTICS, request, {
+				startTime,
+				kind: '_asset',
+				responseCode: 200,
+			});
 			return asset;
 		} catch {
 			try {
@@ -150,18 +157,28 @@ async function handleRequest(request: Request, env: Env, ctx: ExecutionContext) 
 				}, {
 					mapRequestToAsset: req => new Request(`${new URL(req.url).origin}/404.html`, req),
 				});
+				writeDataPoint(env.CRAFTHEAD_ANALYTICS, request, {
+					startTime,
+					kind: '_asset',
+					responseCode: 404,
+				});
 				return new Response(notFoundResponse.body, {
 					headers: notFoundResponse.headers,
 					status: 404,
 					statusText: 'Not found',
 				});
 			} catch {
+				writeDataPoint(env.CRAFTHEAD_ANALYTICS, request, {
+					startTime,
+					kind: '_asset',
+					responseCode: 404,
+				});
 				return new Response('Not found', { status: 404 });
 			}
 		}
 	}
 
-	console.log('Request interpreted as ', interpreted);
+	//console.log('Request interpreted as ', interpreted);
 
 	try {
 		const cacheKey = getCacheKey(interpreted);
@@ -184,8 +201,21 @@ async function handleRequest(request: Request, env: Env, ctx: ExecutionContext) 
 			await gatherer.all();
 		}
 		const headers = decorateHeaders(interpreted, response.headers, hitCache);
+		writeDataPoint(env.CRAFTHEAD_ANALYTICS, request, {
+			startTime,
+			kind: interpreted.requestedKindString,
+			identityType: interpreted.identityType,
+			responseCode: response.status,
+			cached: hitCache,
+		});
 		return new Response(response.body, { status: response.status, headers });
 	} catch (err) {
+		writeDataPoint(env.CRAFTHEAD_ANALYTICS, request, {
+			startTime,
+			kind: interpreted.requestedKindString,
+			identityType: interpreted.identityType,
+			responseCode: 500,
+		});
 		return new Response((err as Error).toString(), { status: 500 });
 	}
 }
