@@ -4,7 +4,7 @@ import manifestJSON from '__STATIC_CONTENT_MANIFEST';
 import { EMPTY } from './data';
 import PromiseGatherer from './promise_gather';
 import { RequestedKind, interpretRequest } from './request';
-import { CachedMojangApiService, DirectMojangApiService } from './services/mojang/api';
+import { DirectMojangApiService } from './services/mojang/api';
 import MojangRequestService from './services/mojang/service';
 import { writeDataPoint } from './util/analytics';
 import { default as CACHE_BUST } from './util/cache-bust';
@@ -190,7 +190,7 @@ async function handleRequest(request: Request, env: Env, ctx: ExecutionContext) 
 
 			const gatherer = new PromiseGatherer();
 
-			const skinService = new MojangRequestService(new CachedMojangApiService(new DirectMojangApiService(), env));
+			const skinService = new MojangRequestService(new DirectMojangApiService());
 			response = await processRequest(skinService, interpreted, gatherer);
 			if (response.ok) {
 				const cacheResponse = response.clone();
