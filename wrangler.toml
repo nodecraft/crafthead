@@ -14,7 +14,7 @@ command = "wasm-pack build --release -t nodejs && wsl ./helper/morph-wasm-pack-o
 
 [env.production]
 name = "crafthead"
-route = { pattern = "https://crafthead.net/*", zone_name = "crafthead.net" }
+route = { pattern = "crafthead.net/*", zone_name = "crafthead.net" }
 analytics_engine_datasets = [
 	{ binding = "CRAFTHEAD_ANALYTICS" }
 ]
