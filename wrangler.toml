@@ -5,6 +5,9 @@ compatibility_date = "2024-01-28"
 kv_namespaces = [
 	{ binding = "CRAFTHEAD_PROFILE_CACHE", id = "34adb23612534997bb40808b80750009", preview_id = "1f3e5b68e82b4f37a2349e5723dcbff7" }
 ]
+analytics_engine_datasets = [
+	{ binding = "CRAFTHEAD_ANALYTICS" }
+]
 
 [site]
 bucket = "./website"
@@ -17,4 +20,8 @@ name = "crafthead"
 route = { pattern = "https://crafthead.net/*", zone_name = "crafthead.net" }
 kv_namespaces = [
 	{ binding = "CRAFTHEAD_PROFILE_CACHE", id = "34adb23612534997bb40808b80750009", preview_id = "1f3e5b68e82b4f37a2349e5723dcbff7" }
+]
+
+analytics_engine_datasets = [
+	{ binding = "CRAFTHEAD_ANALYTICS" }
 ]
