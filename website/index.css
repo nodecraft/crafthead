@@ -215,6 +215,14 @@ article h2#h2-404 {
 	image-rendering: pixelated;
 }
 
+.example code.verb {
+	flex-grow: 0;
+}
+
+.example code.url {
+	flex-grow: 1;
+}
+
 @media screen and (max-width: 600px) {
 	.example {
 		flex-direction: column-reverse;
