@@ -186,11 +186,11 @@ async function handleRequest(request: Request, env: Env, ctx: ExecutionContext) 
 		const hitCache = Boolean(response);
 		if (!response) {
 			// The item is not in the Cloudflare datacenter's cache. We need to process the request further.
-			console.log('Request not satisfied from cache.');
+			//console.log('Request not satisfied from cache.');
 
 			const gatherer = new PromiseGatherer();
 
-			const skinService = new MojangRequestService(new DirectMojangApiService());
+			const skinService = new MojangRequestService(new DirectMojangApiService(env));
 			response = await processRequest(skinService, interpreted, gatherer);
 			if (response.ok) {
 				const cacheResponse = response.clone();
@@ -216,6 +216,7 @@ async function handleRequest(request: Request, env: Env, ctx: ExecutionContext) 
 			identityType: interpreted.identityType,
 			responseCode: 500,
 		});
+		console.error('Error processing request', err);
 		return new Response((err as Error).toString(), { status: 500 });
 	}
 }

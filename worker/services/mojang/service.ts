@@ -165,12 +165,12 @@ export default class MojangRequestService {
 					throw new Error(`Unable to retrieve texture from Mojang, http status ${textureResponse.status}`);
 				}
 
-				console.log('Successfully retrieved texture');
+				//console.log('Successfully retrieved texture');
 				return { texture: textureResponse, model: texturesData?.SKIN?.metadata?.model };
 			}
 		}
 
-		console.log('Invalid properties found! Falling back to a default texture.');
+		//console.log('Invalid properties found! Falling back to a default texture.');
 		return undefined;
 	}
 
@@ -192,7 +192,6 @@ export default class MojangRequestService {
 
 		const rawJson = atob(property.value);
 		const decoded: MojangTexturePropertyValue = JSON.parse(rawJson);
-		console.log('Raw textures property: ', property);
 
 		return decoded.textures;
 	}
