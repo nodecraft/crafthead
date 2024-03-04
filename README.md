@@ -71,6 +71,7 @@ Then:
 * Copy `wrangler.toml.dev` to `wrangler.toml` and fill in your own `account_id`.
   in your configuration with the output from the command.
 * Use `npm ci` to install all the development dependencies
+* You may need to remove the `services` section from `wrangler.toml`
 * Use `wrangler publish`. You're done!
 
 ### Notes on `wrangler preview`

@@ -47,15 +47,29 @@ export interface MojangApiService {
 
 	fetchProfile(id: string, gatherer: PromiseGatherer | null): Promise<CacheComputeResult<MojangProfile | null>>;
 }
+
+const PlayerDBHeaders = {
+	'Content-Type': 'application/json',
+	'User-Agent': 'Crafthead (+https://crafthead.net)',
+};
 // Implements MojangApiService by contacting the Mojang API endpoints directly.
 export class DirectMojangApiService implements MojangApiService {
+	env: Env;
+	constructor(env: Env) {
+		this.env = env;
+	}
 	async lookupUsername(username: string, gatherer: PromiseGatherer | null): Promise<MojangUsernameLookupResult | null> {
-		const lookupResponse = await fetch(`https://playerdb.co/api/player/minecraft/${username}`, {
-			headers: {
-				'Content-Type': 'application/json',
-				'User-Agent': 'Crafthead (+https://crafthead.net)',
-			},
-		});
+		let lookupResponse: Response;
+		if (this.env.PLAYERDB) {
+			const request = new Request(`https://playerdb.co/api/player/minecraft/${username}`, {
+				headers: PlayerDBHeaders,
+			});
+			lookupResponse = await this.env.PLAYERDB.fetch(request);
+		} else {
+			lookupResponse = await fetch(`https://playerdb.co/api/player/minecraft/${username}`, {
+				headers: PlayerDBHeaders,
+			});
+		}
 
 		let jsonData: PlayerDBProfile | null = null;
 		try {
@@ -83,11 +97,17 @@ export class DirectMojangApiService implements MojangApiService {
 	}
 
 	async fetchProfile(id: string, gatherer: PromiseGatherer | null): Promise<CacheComputeResult<MojangProfile | null>> {
-		const profileResponse = await fetch(`https://playerdb.co/api/player/minecraft/${id}`, {
-			headers: {
-				'User-Agent': 'Crafthead (+https://crafthead.net)',
-			},
-		});
+		let profileResponse: Response;
+		if (this.env.PLAYERDB) {
+			const request = new Request(`https://playerdb.co/api/player/minecraft/${id}`, {
+				headers: PlayerDBHeaders,
+			});
+			profileResponse = await this.env.PLAYERDB.fetch(request);
+		} else {
+			profileResponse = await fetch(`https://playerdb.co/api/player/minecraft/${id}`, {
+				headers: PlayerDBHeaders,
+			});
+		}
 		let jsonData: PlayerDBProfile | null = null;
 		try {
 			jsonData = await profileResponse.json();

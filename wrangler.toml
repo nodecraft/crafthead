@@ -18,3 +18,6 @@ route = { pattern = "crafthead.net/*", zone_name = "crafthead.net" }
 analytics_engine_datasets = [
 	{ binding = "CRAFTHEAD_ANALYTICS" }
 ]
+services = [
+  { binding = "PLAYERDB", service = "playerdb" }
+]
