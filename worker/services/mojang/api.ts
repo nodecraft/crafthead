@@ -1,5 +1,3 @@
-import { default as CACHE_BUST } from '../../util/cache-bust';
-
 import type PromiseGatherer from '../../promise_gather';
 import type { Env } from '../../types';
 import type { CacheComputeResult } from '../../util/cache-helper';
