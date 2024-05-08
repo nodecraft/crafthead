@@ -15,7 +15,7 @@ export function writeDataPoint(
 	request: Request,
 	data?: AnalyticsData,
 ) {
-	//if (!analytics) { return; }
+	if (!analytics) { return; }
 
 	const endTime = new Date();
 	const totalTime = data?.startTime ? endTime.getTime() - data?.startTime?.getTime() : 0;

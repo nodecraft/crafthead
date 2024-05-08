@@ -8,6 +8,7 @@
 		"import"
 	],
 	"rules": {
+		"n/no-unsupported-features/node-builtins": "off",
 		"import/order": ["error", {
 			"alphabetize": {
 				"order": "asc",
