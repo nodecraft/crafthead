@@ -118,7 +118,7 @@ export function interpretRequest(request: Request): CraftheadRequest | null {
 	} else if (identity.length === 32) {
 		identityType = IdentityKind.Uuid;
 	} else if (identity.length === 36) {
-		identity = identity.replace(/-/g, '');
+		identity = identity.replaceAll('-', '');
 		identityType = IdentityKind.Uuid;
 	} else {
 		return null;
