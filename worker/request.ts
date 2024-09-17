@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-syntax */
+
 // RequestedKind determines the kind of request the user is making.
 export enum RequestedKind {
 	Skin,
@@ -20,6 +22,8 @@ export enum TextureKind {
 	SKIN,
 	CAPE,
 }
+
+/* eslint-enable no-restricted-syntax */
 
 export interface CraftheadRequest {
 	requested: RequestedKind;

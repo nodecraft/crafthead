@@ -190,7 +190,7 @@ async function handleRequest(request: Request, env: Env, ctx: ExecutionContext) 
 
 			const gatherer = new PromiseGatherer();
 
-			const skinService = new MojangRequestService(new DirectMojangApiService(env));
+			const skinService = new MojangRequestService(new DirectMojangApiService(env, request));
 			response = await processRequest(skinService, interpreted, gatherer);
 			if (response.ok) {
 				const cacheResponse = response.clone();

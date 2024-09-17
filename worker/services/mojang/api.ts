@@ -53,19 +53,23 @@ const PlayerDBHeaders = {
 // Implements MojangApiService by contacting the Mojang API endpoints directly.
 export class DirectMojangApiService implements MojangApiService {
 	env: Env;
-	constructor(env: Env) {
+	request?: Request;
+	constructor(env: Env, request: Request) {
 		this.env = env;
+		this.request = request;
 	}
 	async lookupUsername(username: string, gatherer: PromiseGatherer | null): Promise<MojangUsernameLookupResult | null> {
 		let lookupResponse: Response;
 		if (this.env.PLAYERDB) {
 			const request = new Request(`https://playerdb.co/api/player/minecraft/${username}`, {
 				headers: PlayerDBHeaders,
+				cf: this.request?.cf,
 			});
 			lookupResponse = await this.env.PLAYERDB.fetch(request);
 		} else {
 			lookupResponse = await fetch(`https://playerdb.co/api/player/minecraft/${username}`, {
 				headers: PlayerDBHeaders,
+				cf: this.request?.cf,
 			});
 		}
 
@@ -99,11 +103,13 @@ export class DirectMojangApiService implements MojangApiService {
 		if (this.env.PLAYERDB) {
 			const request = new Request(`https://playerdb.co/api/player/minecraft/${id}`, {
 				headers: PlayerDBHeaders,
+				cf: this.request?.cf,
 			});
 			profileResponse = await this.env.PLAYERDB.fetch(request);
 		} else {
 			profileResponse = await fetch(`https://playerdb.co/api/player/minecraft/${id}`, {
 				headers: PlayerDBHeaders,
+				cf: this.request?.cf,
 			});
 		}
 		let jsonData: PlayerDBProfile | null = null;
