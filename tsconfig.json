@@ -13,7 +13,8 @@
 		"noImplicitAny": true,
 		"strictNullChecks": true,
 		"esModuleInterop": true,
-		"forceConsistentCasingInFileNames": true
+		"forceConsistentCasingInFileNames": true,
+		"skipLibCheck": true
 	},
 	"include": [
 		"worker/**/*.ts"
