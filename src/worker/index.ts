@@ -8,7 +8,7 @@ import { DirectMojangApiService } from './services/mojang/api';
 import MojangRequestService from './services/mojang/service';
 import { writeDataPoint } from './util/analytics';
 import { default as CACHE_BUST } from './util/cache-bust';
-import { get_rendered_image } from '../pkg/mcavatar';
+import { get_rendered_image } from '../../pkg/mcavatar';
 
 const assetManifest = JSON.parse(manifestJSON);
 

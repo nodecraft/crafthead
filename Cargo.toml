@@ -6,6 +6,7 @@ edition = "2018"
 
 [lib]
 crate-type = ["cdylib"]
+path = "src/rust/lib.rs"
 
 [dependencies]
 cfg-if = "1.0"

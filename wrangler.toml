@@ -1,5 +1,5 @@
 name = "crafthead-dev"
-main = "worker/index.ts"
+main = "src/worker/index.ts"
 workers_dev = true
 compatibility_date = "2024-01-28"
 analytics_engine_datasets = [
@@ -9,7 +9,7 @@ analytics_engine_datasets = [
 compatibility_flags = ["nodejs_compat", "no_nodejs_compat_v2"]
 
 [site]
-bucket = "./website"
+bucket = "./src/website"
 
 [build]
 command = "npm run build" # required

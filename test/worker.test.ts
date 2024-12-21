@@ -1,16 +1,8 @@
-// test/index.spec.ts
-import {
-	SELF,
-	createExecutionContext,
-	env,
-	waitOnExecutionContext,
-} from 'cloudflare:test';
+import { createExecutionContext, env, waitOnExecutionContext } from 'cloudflare:test';
 import { describe, expect, it } from 'vitest';
 
-import worker from '../worker/index';
+import worker from '../src/worker/index';
 
-// For now, you'll need to do something like this to get a correctly-typed
-// `Request` to pass to `worker.fetch()`.
 const IncomingRequest = Request<unknown, IncomingRequestCfProperties>;
 
 describe('worker', () => {
