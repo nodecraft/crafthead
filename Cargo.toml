@@ -11,8 +11,8 @@ path = "src/rust/lib.rs"
 [dependencies]
 cfg-if = "1.0"
 wasm-bindgen = "0.2"
-js-sys = "0.3.8"
-imageproc = { version = "0.22.0", default-features = false }
+js-sys = "0.3.76"
+imageproc = { version = "0.25.0", default-features = false }
 
 # The `console_error_panic_hook` crate provides better debugging of panics by
 # logging them with `console.error`. This is great for development, but requires
@@ -23,7 +23,7 @@ console_error_panic_hook = { version = "0.1.6", optional = true }
 [dependencies.image]
 # Make `image` more lightweight. We don't need every image format under the sun,
 # just PNG.
-version = "0.23.14"
+version = "0.25"
 default-features = false
 features = ["png"]
 
