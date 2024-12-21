@@ -5,10 +5,10 @@ extern crate wasm_bindgen;
 mod skin;
 mod utils;
 
-use std::io::Cursor;
 use image::DynamicImage;
 use js_sys::Uint8Array;
 use skin::*;
+use std::io::Cursor;
 use wasm_bindgen::prelude::*;
 
 enum RenderType {
