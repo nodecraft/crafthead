@@ -5,6 +5,7 @@ extern crate wasm_bindgen;
 mod skin;
 mod utils;
 
+use std::io::Cursor;
 use image::DynamicImage;
 use js_sys::Uint8Array;
 use skin::*;
@@ -94,7 +95,7 @@ pub fn get_rendered_image(
 				},
 			};
 			let rendered = render_type.unwrap().render(&skin, size, options);
-			let mut result = std::io::Cursor::new(Vec::with_capacity(1024));
+			let mut result = Cursor::new(Vec::with_capacity(1024));
 			return match rendered.write_to(&mut result, image::ImageFormat::Png) {
 				Ok(()) => Ok(Uint8Array::from(&result.get_ref()[..])),
 				Err(_err) => Err(js_sys::Error::new("Couldn't save resized skin.").into()),
