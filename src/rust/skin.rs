@@ -39,8 +39,8 @@ pub(crate) enum BodyPart {
 	LegRight,
 }
 
-const skew_a: f32 = 26.0 / 45.0; // 0.57777777
-const skew_b: f32 = skew_a * 2.0; // 1.15555555
+const SKEW_A: f32 = 26.0 / 45.0; // 0.57777777
+const SKEW_B: f32 = SKEW_A * 2.0; // 1.15555555
 
 impl MinecraftSkin {
 	pub fn new(skin: DynamicImage) -> MinecraftSkin {
@@ -198,7 +198,7 @@ impl MinecraftSkin {
 
 		// head top
 		let head_top_skew =
-			Projection::from_matrix([1.0, 1.0, 0.0, -skew_a, skew_a, 0.0, 0.0, 0.0, 1.0]).unwrap()
+			Projection::from_matrix([1.0, 1.0, 0.0, -SKEW_A, SKEW_A, 0.0, 0.0, 0.0, 1.0]).unwrap()
 				* Projection::translate(-0.5 - z_offset, x_offset + z_offset - 0.5)
 				* Projection::scale(scale, scale + (1.0 / 8.0));
 		warp_into(
@@ -212,7 +212,7 @@ impl MinecraftSkin {
 
 		// head front
 		let head_front_skew =
-			Projection::from_matrix([1.0, 0.0, 0.0, -skew_a, skew_b, skew_a, 0.0, 0.0, 1.0])
+			Projection::from_matrix([1.0, 0.0, 0.0, -SKEW_A, SKEW_B, SKEW_A, 0.0, 0.0, 1.0])
 				.unwrap() * Projection::translate(
 				x_offset + 7.5 * scale - 0.5,
 				(x_offset + 8.0 * scale) + z_offset - 0.5,
@@ -228,7 +228,7 @@ impl MinecraftSkin {
 
 		// head right
 		let head_right_skew =
-			Projection::from_matrix([1.0, 0.0, 0.0, skew_a, skew_b, 0.0, 0.0, 0.0, 1.0]).unwrap()
+			Projection::from_matrix([1.0, 0.0, 0.0, SKEW_A, SKEW_B, 0.0, 0.0, 0.0, 1.0]).unwrap()
 				* Projection::translate(x_offset - (scale / 2.0), z_offset + scale)
 				* Projection::scale(scale + (0.5 / 8.0), scale + (1.0 / 8.0));
 		warp_into(
