@@ -1,16 +1,18 @@
 name = "crafthead-dev"
-main = "worker/index.ts"
+main = "src/worker/index.ts"
 workers_dev = true
 compatibility_date = "2024-01-28"
 analytics_engine_datasets = [
 	{ binding = "CRAFTHEAD_ANALYTICS" }
 ]
 
+compatibility_flags = ["nodejs_compat", "no_nodejs_compat_v2"]
+
 [site]
-bucket = "./website"
+bucket = "./src/website"
 
 [build]
-command = "wasm-pack build --release -t nodejs && wsl ./helper/morph-wasm-pack-output.sh" # required
+command = "npm run build" # required
 
 [env.production]
 name = "crafthead"
