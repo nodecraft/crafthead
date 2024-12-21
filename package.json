@@ -5,32 +5,38 @@
 	"license": "MIT",
 	"author": "Andrew Steinborn <git@steinborn.me>",
 	"main": "worker/index.js",
+	"type": "module",
 	"scripts": {
+		"build": "wasm-pack build --release -t nodejs && node --experimental-strip-types ./helper/fix-wasm-pack-output.ts",
 		"check-types": "npm run check-types:server",
 		"check-types:server": "tsc --noemit",
 		"dev": "wrangler dev",
-		"lint": "npm run lint:js && npm run check-types",
+		"lint": "npm run lint:js && npm run lint:rs && npm run check-types",
 		"lint:js": "eslint \"**/*.{js,mjs,cjs,ts}\" \"**/*.json\"",
 		"lint:js:fix": "npm run lint:js -- --fix",
 		"lint:rs": "cargo fmt --all --check",
-		"lint:rs:fix": "cargo fmt --all"
+		"lint:rs:fix": "cargo fmt --all",
+		"test": "vitest --run",
+		"test:dev": "vitest --watch"
 	},
 	"devDependencies": {
 		"@cloudflare/kv-asset-handler": "0.3.4",
-		"@cloudflare/workers-types": "4.20240925.0",
-		"@nodecraft/eslint-config": "43.1.0",
+		"@cloudflare/vitest-pool-workers": "0.5.40",
+		"@cloudflare/workers-types": "4.20241218.0",
+		"@nodecraft/eslint-config": "44.3.0",
 		"@types/base64-js": "1.3.2",
-		"@typescript-eslint/eslint-plugin": "8.7.0",
-		"@typescript-eslint/parser": "8.7.0",
+		"@typescript-eslint/eslint-plugin": "8.18.1",
+		"@typescript-eslint/parser": "8.18.1",
 		"base64-js": "1.5.1",
 		"eslint": "8.57.1",
-		"eslint-plugin-import": "2.30.0",
+		"eslint-plugin-import": "2.31.0",
 		"eslint-plugin-json": "4.0.1",
-		"eslint-plugin-unicorn": "55.0.0",
-		"typescript": "5.6.2",
-		"wrangler": "3.78.12"
+		"eslint-plugin-unicorn": "56.0.1",
+		"typescript": "5.7.2",
+		"vitest": "2.1.8",
+		"wrangler": "3.99.0"
 	},
 	"engines": {
-		"node": ">= 18"
+		"node": ">= 20"
 	}
 }

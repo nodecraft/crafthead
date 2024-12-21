@@ -6,11 +6,13 @@ analytics_engine_datasets = [
 	{ binding = "CRAFTHEAD_ANALYTICS" }
 ]
 
+compatibility_flags = ["nodejs_compat", "no_nodejs_compat_v2"]
+
 [site]
 bucket = "./website"
 
 [build]
-command = "wasm-pack build --release -t nodejs && wsl ./helper/morph-wasm-pack-output.sh" # required
+command = "npm run build" # required
 
 [env.production]
 name = "crafthead"

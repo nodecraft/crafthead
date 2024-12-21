@@ -88,7 +88,9 @@ export function interpretRequest(request: Request): CraftheadRequest | null {
 	}
 
 	let model = url.searchParams.get('model');
-	if (model && !['slim', 'default'].includes(model)) { model = null; }
+	if (model && !['slim', 'default'].includes(model)) {
+		model = null;
+	}
 
 	let armored = false;
 	let sliceAmt = 1;
