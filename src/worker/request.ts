@@ -16,6 +16,7 @@ export enum RequestedKind {
 export enum IdentityKind {
 	Uuid,
 	Username,
+	TextureID,
 }
 
 export enum TextureKind {
@@ -126,6 +127,8 @@ export function interpretRequest(request: Request): CraftheadRequest | null {
 	} else if (identity.length === 36) {
 		identity = identity.replaceAll('-', '');
 		identityType = IdentityKind.Uuid;
+	} else if (identity.length === 64) {
+		identityType = IdentityKind.TextureID;
 	} else {
 		return null;
 	}
