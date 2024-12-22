@@ -1,0 +1,247 @@
+:root {
+	--cool-200: #ebeef2;
+	--cool-1300: #161c20;
+	--cool-1400: #0d1219;
+	--cool-1500: #05080D;
+	--green-300: #f4fbe6;
+	--grey-700: #777877;
+	--blue-700: #3ec1ed;
+	--blue-800: #0ea7e7;
+	--blue-900: #137cd4;
+	--blue-1500: #040d14;
+	--violet-1100: #572c9b;
+	--green-700: #7fd741;
+	--green-800: #35d020;
+	--green-900: #2ea326;
+	--green-1400: #0c1d08;
+}
+
+html {
+	font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+	word-break: break-word;
+}
+
+h1, h2, h3, h4, h5, h6, h7 {
+	font-family: 'Rajdhani', sans-serif;
+}
+
+.friendly-nag {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	position: relative;
+	background-color: var(--cool-1400);
+	border-bottom: 2px solid var(--blue-1500);
+	color: var(--cool-200);
+	text-align: center;
+}
+
+#create-server {
+	position: relative;
+	text-decoration: none;
+	color: var(--green-800);
+	border: 2px solid var(--green-900);
+	background-color: var(--green-1400);
+	padding: 1rem;
+	border-radius: 8px;
+	margin: 1rem;
+}
+
+#create-server:hover {
+	color: var(--green-700);
+	border-color: var(--green-800);
+}
+
+.friendly-nag-content {
+	width: 100%;
+	max-width: 1200px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	gap: 1;
+}
+
+body {
+	background-color: var(--cool-1500);
+	color: var(--cool-200);
+}
+
+header {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background: linear-gradient(180deg,#040d14 85%,#0e304f);;
+	color: var(--cool-200);
+	border-bottom: 2px solid var(--blue-800);
+	padding: 4rem 0;
+	text-align: center;
+	min-height: 20vh;
+}
+
+footer {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 4rem;
+	padding: 5rem 1rem;
+	margin: 0 auto;
+	text-align: center;
+	border-top: 2px solid var(--blue-800);
+	min-height: 20vh;
+	background: linear-gradient(0deg,#040d14 85%,#0e304f);;
+}
+
+footer > p {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+#logo-copyright {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	gap: 0.1rem;
+}
+
+#nodecraft-copyright, #copyright {
+	text-align: left;
+}
+
+#copyright {
+	font-size: 0.875rem;
+	line-height: 1.25rem;
+	color: var(--grey-700);
+}
+
+header h1 {
+	margin: 0;
+	font-size: 4rem;
+}
+
+a, a:visited {
+	color: var(--blue-800);
+}
+
+a:hover {
+	color: var(--blue-700);
+	text-decoration: underline;
+}
+
+article {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 8rem 1rem;
+	line-height: 1.5;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+article h2 {
+	margin: 4rem 0 0 0;
+	font-size: 2rem;
+}
+
+article h2:first-of-type {
+	margin-top: 0;
+}
+
+article h3 {
+	margin: 3rem 0 0 0;
+	font-size: 1.5rem;
+}
+
+article h2#h2-404 {
+	text-align: center;
+}
+
+#instructions {
+	max-width: 900px;
+	padding: 0 1rem;
+}
+
+#logo {
+	width: 250px;
+	height: 50px;
+	max-width: 100%;
+}
+
+#logogram {
+	width: 75px;
+	height: 75px;
+	margin: 0 auto;
+	padding: 1rem;
+}
+
+#nodecraft-powered img {
+	max-width: 250px;
+	padding: 1rem;
+	height: 22px;
+}
+
+@media (max-width: 960px) {
+	#instructions {
+		padding: 0;
+	}
+}
+
+.example {
+	background: var(--cool-1300);
+	display: flex;
+	flex-direction: row;
+	padding: 1rem;
+	margin: 1rem 0;
+	align-items: center;
+	justify-content: space-between;
+	border-radius: 6px;
+	color: var(--green-300);
+	word-break: break-all;
+	gap: 1rem;
+}
+
+.heads img {
+	image-rendering: pixelated;
+}
+
+.render-pixelate {
+	image-rendering: pixelated;
+}
+
+.example code.verb {
+	flex-grow: 0;
+}
+
+.example code.url {
+	flex-grow: 1;
+}
+
+@media screen and (max-width: 600px) {
+	.example {
+		flex-direction: column-reverse;
+	}
+
+	.example img {
+		align-self: center;
+	}
+
+	.example code {
+		padding: 0.4rem;
+		display: block;
+	}
+
+	.friendly-nag-content {
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		gap: 1rem;
+		padding: 1rem 0.25rem 0.25rem 0.25rem;
+	}
+}
