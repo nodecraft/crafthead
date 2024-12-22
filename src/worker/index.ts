@@ -198,7 +198,7 @@ async function handleRequest(request: Request, env: Env, ctx: ExecutionContext) 
 }
 
 export default {
-	fetch(request: Request, env: Env, ctx: ExecutionContext) {
+	fetch(request, env, ctx): Promise<Response> {
 		return handleRequest(request, env, ctx);
 	},
-};
+} satisfies ExportedHandler<Env>;
