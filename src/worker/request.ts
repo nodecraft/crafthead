@@ -95,7 +95,7 @@ export function interpretRequest(request: Request): CraftheadRequest | null {
 	let armored = false;
 	let sliceAmt = 1;
 
-	if (url.pathname.includes('armor/body') || url.pathname.includes('armor/bust')) {
+	if (url.pathname.includes('/armor/cube/') || url.pathname.includes('/armor/body/') || url.pathname.includes('/armor/bust/')) {
 		armored = true;
 		sliceAmt = 2;
 	}

@@ -34,7 +34,7 @@ impl RenderType {
 			RenderType::Helm => img
 				.get_part(Layer::Both, BodyPart::Head, options.model)
 				.resize(size, size, image::imageops::FilterType::Nearest),
-			RenderType::Cube => img.render_cube(true, size),
+			RenderType::Cube => img.render_cube(size, options),
 			RenderType::Body => img.render_body(options).resize(
 				size,
 				size * 2,
