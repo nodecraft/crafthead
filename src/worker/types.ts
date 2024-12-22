@@ -1,6 +1,5 @@
 export interface Env {
-	__STATIC_CONTENT: KVNamespace;
-
+	ASSETS: Fetcher;
 	CRAFTHEAD_ANALYTICS?: AnalyticsEngineDataset;
 	PLAYERDB?: Fetcher;
 }

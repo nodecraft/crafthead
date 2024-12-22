@@ -20,7 +20,6 @@
 		"test:dev": "vitest --watch"
 	},
 	"devDependencies": {
-		"@cloudflare/kv-asset-handler": "0.3.4",
 		"@cloudflare/vitest-pool-workers": "0.5.40",
 		"@cloudflare/workers-types": "4.20241218.0",
 		"@nodecraft/eslint-config": "44.3.0",
