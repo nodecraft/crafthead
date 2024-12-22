@@ -1,0 +1,13 @@
+# Allow all
+User-agent: *
+Disallow:
+
+# Disallow image endpoints
+Disallow: /avatar/*
+Disallow: /helm/*
+Disallow: /cube/*
+Disallow: /body/*
+Disallow: /armor/*
+Disallow: /skin/*
+Disallow: /cape/*
+Disallow: /profile/*
