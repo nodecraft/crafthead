@@ -142,12 +142,35 @@ describe('worker', () => {
 		expect(await response.headers.get('content-type')).toContain('image/png');
 	});
 
-	it('responds with data for profile', async () => {
+	type ProfileResponse = {
+		id: string;
+		name: string;
+		properties: {
+			name: string;
+			value: string;
+			signature?: string;
+		}[];
+	};
+	it('responds with data for profile on ID', async () => {
 		const request = new IncomingRequest('http://crafthead.net/profile/ef6134805b6244e4a4467fbe85d65513');
 		const ctx = createExecutionContext();
 		const response = await worker.fetch(request, env, ctx);
 		await waitOnExecutionContext(ctx);
-		const json = await response.json<any>();
+		const json = await response.json<ProfileResponse>();
+
+		expect(json.id).toBe('ef6134805b6244e4a4467fbe85d65513');
+		expect(json.name).toBe('CherryJimbo');
+		expect(json.properties).toBeDefined();
+		expect(json.properties).toBeInstanceOf(Array);
+		expect(json.properties[0].name).toBe('textures');
+	});
+
+	it('responds with data for profile on username', async () => {
+		const request = new IncomingRequest('http://crafthead.net/profile/CherryJimbo');
+		const ctx = createExecutionContext();
+		const response = await worker.fetch(request, env, ctx);
+		await waitOnExecutionContext(ctx);
+		const json = await response.json<ProfileResponse>();
 		expect(json.id).toBe('ef6134805b6244e4a4467fbe85d65513');
 		expect(json.name).toBe('CherryJimbo');
 		expect(json.properties).toBeDefined();
