@@ -1,6 +1,3 @@
-import { getAssetFromKV } from '@cloudflare/kv-asset-handler';
-import manifestJSON from '__STATIC_CONTENT_MANIFEST';
-
 import { EMPTY } from './data';
 import PromiseGatherer from './promise_gather';
 import { RequestedKind, interpretRequest } from './request';
@@ -9,8 +6,6 @@ import MojangRequestService from './services/mojang/service';
 import { writeDataPoint } from './util/analytics';
 import { default as CACHE_BUST } from './util/cache-bust';
 import { get_rendered_image } from '../../pkg/mcavatar';
-
-const assetManifest = JSON.parse(manifestJSON);
 
 import type { CraftheadRequest } from './request';
 import type { Env } from './types';
@@ -132,41 +127,22 @@ async function handleRequest(request: Request, env: Env, ctx: ExecutionContext) 
 	if (!interpreted) {
 		// We don't understand this request.
 		try {
-			const asset = await getAssetFromKV({
-				request,
-				waitUntil(promise) {
-					return ctx.waitUntil(promise);
-				},
-			}, {
-				ASSET_NAMESPACE: env.__STATIC_CONTENT,
-				ASSET_MANIFEST: assetManifest,
-			});
+			const asset = await env.ASSETS.fetch(request);
 			writeDataPoint(env.CRAFTHEAD_ANALYTICS, request, {
 				startTime,
 				kind: '_asset',
 				responseCode: 200,
 			});
 			return asset;
-		} catch {
+		} catch (err) {
 			try {
-				const notFoundResponse = await getAssetFromKV({
-					request,
-					waitUntil(promise) {
-						return ctx.waitUntil(promise);
-					},
-				}, {
-					mapRequestToAsset: req => new Request(`${new URL(req.url).origin}/404.html`, req),
-				});
 				writeDataPoint(env.CRAFTHEAD_ANALYTICS, request, {
 					startTime,
 					kind: '_asset',
 					responseCode: 404,
 				});
-				return new Response(notFoundResponse.body, {
-					headers: notFoundResponse.headers,
-					status: 404,
-					statusText: 'Not found',
-				});
+				const probableError = err as Error;
+				return new Response(probableError?.message || probableError.toString(), { status: 500 });
 			} catch {
 				writeDataPoint(env.CRAFTHEAD_ANALYTICS, request, {
 					startTime,
@@ -222,7 +198,7 @@ async function handleRequest(request: Request, env: Env, ctx: ExecutionContext) 
 }
 
 export default {
-	fetch(request: Request, env: Env, ctx: ExecutionContext) {
+	fetch(request, env, ctx): Promise<Response> {
 		return handleRequest(request, env, ctx);
 	},
-};
+} satisfies ExportedHandler<Env>;

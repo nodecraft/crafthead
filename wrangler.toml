@@ -8,8 +8,12 @@ analytics_engine_datasets = [
 
 compatibility_flags = ["nodejs_compat", "no_nodejs_compat_v2"]
 
-[site]
-bucket = "./src/website"
+[assets]
+directory = "./src/website"
+binding = "ASSETS"
+html_handling = "drop-trailing-slash"
+not_found_handling = "404-page"
+experimental_serve_directly = false
 
 [build]
 command = "npm run build" # required
