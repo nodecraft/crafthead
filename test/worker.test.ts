@@ -142,6 +142,30 @@ describe('worker', () => {
 		expect(await response.headers.get('content-type')).toContain('image/png');
 	});
 
+	it('responds with image for avatar on texture ID', async () => {
+		const request = new IncomingRequest('http://crafthead.net/avatar/9d2e80355eed693e3f0485893ef04ff6a507f3aab33f2bedb48cef56e30f67d0');
+		const ctx = createExecutionContext();
+		const response = await worker.fetch(request, env, ctx);
+		await waitOnExecutionContext(ctx);
+		expect(await response.headers.get('content-type')).toContain('image/png');
+	});
+
+	it('responds with a matching avatar image by UUID, username, and texture ID', async () => {
+		const request1 = new IncomingRequest('http://crafthead.net/avatar/ef6134805b6244e4a4467fbe85d65513');
+		const request2 = new IncomingRequest('http://crafthead.net/avatar/CherryJimbo');
+		const request3 = new IncomingRequest('http://crafthead.net/avatar/9d2e80355eed693e3f0485893ef04ff6a507f3aab33f2bedb48cef56e30f67d0');
+		const ctx = createExecutionContext();
+		const response1 = await worker.fetch(request1, env, ctx);
+		const response2 = await worker.fetch(request2, env, ctx);
+		const response3 = await worker.fetch(request3, env, ctx);
+		await waitOnExecutionContext(ctx);
+		const image1 = await response1.arrayBuffer();
+		const image2 = await response2.arrayBuffer();
+		const image3 = await response3.arrayBuffer();
+		expect(image1).toStrictEqual(image2);
+		expect(image2).toStrictEqual(image3);
+	});
+
 	type ProfileResponse = {
 		id: string;
 		name: string;
