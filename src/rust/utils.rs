@@ -12,6 +12,7 @@ cfg_if! {
 		extern crate console_error_panic_hook;
 		pub use self::console_error_panic_hook::set_once as set_panic_hook;
 	} else {
+		#[allow(dead_code)]
 		#[inline]
 		pub fn set_panic_hook() {}
 	}
@@ -34,7 +35,7 @@ fn is_image_region_transparent_to_minecraft(
 			}
 		}
 	}
-	return false;
+	false
 }
 
 pub(crate) fn apply_minecraft_transparency(img: &mut DynamicImage) {

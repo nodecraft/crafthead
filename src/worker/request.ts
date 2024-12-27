@@ -76,6 +76,9 @@ export function identityTypeEnumToString(kind: IdentityKind): string {
 		case IdentityKind.Username: {
 			return 'username';
 		}
+		case IdentityKind.TextureID: {
+			return 'textureID';
+		}
 		default: {
 			return 'unknown';
 		}

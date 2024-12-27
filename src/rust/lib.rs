@@ -96,13 +96,13 @@ pub fn get_rendered_image(
 			};
 			let rendered = render_type.unwrap().render(&skin, size, options);
 			let mut result = Cursor::new(Vec::with_capacity(1024));
-			return match rendered.write_to(&mut result, image::ImageFormat::Png) {
+			match rendered.write_to(&mut result, image::ImageFormat::Png) {
 				Ok(()) => Ok(Uint8Array::from(&result.get_ref()[..])),
 				Err(_err) => Err(js_sys::Error::new("Couldn't save resized skin.").into()),
-			};
+			}
 		}
 		Err(_err) => {
-			return Err(js_sys::Error::new("Couldn't load skin.").into());
+			Err(js_sys::Error::new("Couldn't load skin.").into())
 		}
 	}
 }
