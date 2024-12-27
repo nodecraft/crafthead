@@ -1,0 +1,213 @@
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+	<!-- Primary Meta Tags -->
+	<title>Crafthead</title>
+	<meta name="title" content="Crafthead">
+	<meta name="description" content="Crafthead is a highly scalable, serverless Minecraft avatar rendering solution built on Cloudflare Workers.">
+	<meta name="theme-color" content="#05080D" />
+
+	<!-- Open Graph / Facebook -->
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://crafthead.net/">
+	<meta property="og:title" content="Crafthead">
+	<meta property="og:description" content="Crafthead is a highly scalable, serverless Minecraft avatar rendering solution built on Cloudflare Workers.">
+
+	<!-- Twitter -->
+	<meta property="twitter:url" content="https://crafthead.net/">
+	<meta property="twitter:title" content="Crafthead">
+	<meta property="twitter:description" content="Crafthead is a highly scalable, serverless Minecraft avatar rendering solution built on Cloudflare Workers.">
+
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Rajdhani:700&amp;display=swap" rel="stylesheet">
+	<link href="/normalize.css" rel="stylesheet">
+	<link href="/index.css" rel="stylesheet">
+</head>
+
+<body>
+	<div class="friendly-nag">
+		<span class="friendly-nag-content"><a href="https://nodecraft.com/r/crafthead"><img id="logo" alt="Nodecraft" src="/images/nodecraft-powered-vertical.svg" /></a><a id="create-server" href="https://nodecraft.com/r/crafthead">Create Your Server Now</a></span>
+	</div>
+	<header>
+		<h1>Crafthead</h1>
+		<p>A radically fast Minecraft avatar service.</p>
+
+		<div class="heads">
+			<img src="/avatar/652a2bc4e8cd405db7b698156ee2dc09/64" width="64" height="64"
+				alt="Head #1: tuxed (I made this!)">
+			<img src="/avatar/c06f89064c8a49119c29ea1dbd1aab82/64" width="64" height="64"
+				alt="Head #2: Steve">
+			<img src="/avatar/6a085b2c19fb4986b453231aa942bbec/64" width="64" height="64"
+				alt="Head #3: LadyAgnes">
+			<img src="/avatar/853c80ef3c3749fdaa49938b674adae6/64" width="64" height="64"
+				alt="Head #4: jeb_">
+			<img src="/avatar/2f3665cc5e29439bbd14cb6d3a6313a7/64" width="64" height="64"
+				alt="Head #5: Alex">
+		</div>
+
+		<a id="nodecraft-powered" href="https://nodecraft.com/r/crafthead">
+			<img alt="Powered by Nodecraft" src="/images/nodecraft-powered.svg" />
+		</a>
+
+	</header>
+
+	<article>
+		<div id="instructions">
+			<h2>Why use Crafthead?</h2>
+			<ul>
+				<li><strong>Blazing fast</strong> &ndash; no matter where you are, Crafthead is fast, thanks to the power
+					of Cloudflare Workers and Cloudflare's 200+ datacenters worldwide</li>
+				<li><strong>Easy to move to</strong> &ndash; the URL layout is 100% compatible with Minotar's, so it's
+					a quick and easy switch</li>
+				<li><strong>Powered by</strong> <a href="https://nodecraft.com/r/crafthead">Nodecraft</a>, <strong>trusted by</strong> <a href="https://namelessmc.com">NamelessMC</a> and the <a href="https://luckperms.net">LuckPerms project</a></li>
+			</ul>
+
+			<h2>Getting started</h2>
+			<p>
+				Crafthead supports lookups by UUID (dashed or not) and usernames and supports rendering avatars, cubes,
+				retrieving skins and profiles. The URL layout is compatible with Minotar, making migration simple.
+			</p>
+			<p>
+				<strong>Performance tip</strong>: Use UUIDs when possible. Using a username requires an extra API call,
+				which may not be cached!
+			</p>
+
+			<h3>Fetch an avatar</h3>
+			<div class="example">
+				<code class="verb">GET</code>
+				<code class="url">https://crafthead.net/avatar/ecfc3640f601406c9f9f1f857fc76f9d</code>
+				<img src="/avatar/ecfc3640f601406c9f9f1f857fc76f9d" class="render-pixelate" alt="Default example" width="32"
+					height="32">
+			</div>
+
+			<p>Need a different size?</p>
+			<div class="example">
+				<code class="verb">GET</code>
+				<code class="url">https://crafthead.net/avatar/dcc4c006582b4f798f71654b477807c2/128</code>
+				<img src="/avatar/dcc4c006582b4f798f71654b477807c2/128" class="render-pixelate" alt="Default example"
+					width="128" height="128">
+			</div>
+
+			<p>Got a dashed UUID? We will remove the dashes for you.</p>
+			<div class="example">
+				<code class="verb">GET</code>
+				<code class="url">https://crafthead.net/avatar/c6309b6b-8aac-4aab-8fef-a1e6853316ec</code>
+				<img src="/avatar/c6309b6b-8aac-4aab-8fef-a1e6853316ec" class="render-pixelate" alt="Default example"
+					width="32" height="32">
+			</div>
+
+			<p>We support usernames, too.</p>
+			<div class="example">
+				<code class="verb">GET</code>
+				<code class="url">https://crafthead.net/avatar/LadyAgnes</code>
+				<img src="/avatar/LadyAgnes" class="render-pixelate" alt="Default example" width="32" height="32">
+			</div>
+
+			<p>Want a helm?</p>
+			<div class="example">
+				<code class="verb">GET</code>
+				<code class="url">https://crafthead.net/helm/Reply</code>
+				<img src="/helm/Reply" class="render-pixelate" alt="Default example" width="32" height="32">
+			</div>
+
+			<p>Cube heads go well with a cube game.</p>
+			<div class="example">
+				<code class="verb">GET</code>
+				<code class="url">https://crafthead.net/cube/48a0a7e4d5594873a617dc189f76a8a1</code>
+				<img src="/cube/48a0a7e4d5594873a617dc189f76a8a1/32" alt="Default example" width="32">
+			</div>
+
+			<h3>Fetch a player's body</h3>
+			<div class="example">
+				<code class="verb">GET</code>
+				<code class="url">https://crafthead.net/body/48a0a7e4d5594873a617dc189f76a8a1</code>
+				<img src="/body/48a0a7e4d5594873a617dc189f76a8a1/32" class="render-pixelate" alt="Default example" width="32" height="64">
+			</div>
+			<div class="example">
+				<code class="verb">GET</code>
+				<code class="url">https://crafthead.net/armor/body/Reply</code>
+				<img src="/armor/body/Reply/32" class="render-pixelate" alt="Default example" width="32" height="64">
+			</div>
+
+			<h3>Fetch a player's bust</h3>
+			<div class="example">
+				<code class="verb">GET</code>
+				<code class="url">https://crafthead.net/bust/6a085b2c19fb4986b453231aa942bbec</code>
+				<img src="/bust/6a085b2c19fb4986b453231aa942bbec/32" class="render-pixelate" alt="Default example" width="32" height="32">
+			</div>
+			<div class="example">
+				<code class="verb">GET</code>
+				<code class="url">https://crafthead.net/armor/bust/Reply</code>
+				<img src="/armor/bust/Reply/32" class="render-pixelate" alt="Default example" width="32" height="32">
+			</div>
+
+			<h3>Fetch a player's skin</h3>
+			<div class="example">
+				<code class="verb">GET</code>
+				<code class="url">https://crafthead.net/skin/652a2bc4e8cd405db7b698156ee2dc09</code>
+				<img src="/skin/652a2bc4e8cd405db7b698156ee2dc09" class="render-pixelate" alt="Default example" width="64"
+					height="64">
+			</div>
+			<div class="example">
+				<code class="verb">GET</code>
+				<code class="url">https://crafthead.net/skin/Reply</code>
+				<img src="/skin/Reply" class="render-pixelate" alt="Default example" width="64" height="32">
+			</div>
+			<div class="example">
+				<code class="verb">GET</code>
+				<code class="url">https://crafthead.net/skin/char</code>
+				<img src="/skin/char" class="render-pixelate" alt="Default example" width="64" height="32">
+			</div>
+
+			<h3>Fetch a player's cape</h3>
+			<div class="example">
+				<code class="verb">GET</code>
+				<code class="url">https://crafthead.net/cape/1ccef50bf6ae4542b1a9d434384a5b25</code>
+				<img src="/cape/1ccef50bf6ae4542b1a9d434384a5b25/32" class="render-pixelate" alt="Default example" width="20" height="32">
+			</div>
+			<div class="example">
+				<code class="verb">GET</code>
+				<code class="url">https://crafthead.net/cape/LadyAgnes</code>
+				<img src="/cape/LadyAgnes/32" class="render-pixelate" alt="Default example" width="20" height="32">
+			</div>
+
+			<h3>Fetch a player's profile</h3>
+			<div class="example">
+				<code class="verb">GET</code>
+				<code class="url">https://crafthead.net/profile/652a2bc4e8cd405db7b698156ee2dc09</code>
+			</div>
+			<div class="example">
+				<code class="verb">GET</code>
+				<code class="url">https://crafthead.net/profile/Reply</code>
+			</div>
+		</div>
+	</article>
+
+	<footer>
+		<span id="logo-copyright">
+			<div id="logogram">
+				<a href="https://nodecraft.com/r/crafthead">
+					<img alt="Nodecraft" src="/images/logogram.svg" />
+				</a>
+			</div>
+			<span>
+				<div id="nodecraft-copyright">
+					Nodecraft, Inc.
+				</div>
+				<div id="copyright">
+					&copy; 2024 All Rights Reserved
+				</div>
+			</span>
+		</span>
+		<p>
+			<span>Built on <a href="https://workers.cloudflare.com">Cloudflare Workers</a>
+			and <a href="https://rust-lang.org">Rust</a>.</span>
+			<span>Open source on <a href="https://github.com/nodecraft/crafthead">GitHub</a>.</span>
+		</p>
+	</footer>
+</body>
+
+</html>

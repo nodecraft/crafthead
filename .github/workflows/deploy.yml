@@ -1,0 +1,40 @@
+name: Deploy
+on:
+  push:
+    branches:
+      - master
+      - main
+  repository_dispatch:
+
+env:
+  NODE_VERSION: 22
+  WRANGLER_VERSION: 3.99.0
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    if: github.repository_owner == 'nodecraft'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: jetli/wasm-pack-action@v0.4.0
+        with:
+          version: latest
+      - uses: Swatinem/rust-cache@v2
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: Publish
+        uses: cloudflare/wrangler-action@v3.13.0
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          command: "deploy --env production"
+          environment: "production"
+          wranglerVersion: ${{ env.WRANGLER_VERSION }}
+

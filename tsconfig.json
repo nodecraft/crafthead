@@ -1,16 +1,23 @@
 {
-  "compilerOptions": {
-    "target": "ES2020",
-    "module": "commonjs",
-    "lib": [
-      "ES2020",
-      "WebWorker"
-    ],
-    "types": ["@cloudflare/workers-types"],
-    "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true
-  }
+	"compilerOptions": {
+		"target": "ES2022",
+		"module": "ES2022",
+		"lib": [
+			"ESNext"
+		],
+		"types": [
+			"@cloudflare/workers-types/experimental"
+		],
+		"moduleResolution": "bundler",
+		"strict": true,
+		"noImplicitAny": true,
+		"strictNullChecks": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"skipLibCheck": true,
+		"verbatimModuleSyntax": true
+	},
+	"include": [
+		"src/**/*.ts"
+	]
 }

@@ -1,0 +1,28 @@
+{
+	"root": true,
+	"extends": [
+		"@nodecraft/eslint-config/typescript"
+	],
+	"plugins": [
+		"json",
+		"import"
+	],
+	"rules": {
+		"n/no-unsupported-features/node-builtins": "off",
+		"import/order": ["error", {
+			"alphabetize": {
+				"order": "asc",
+				"caseInsensitive": true
+			},
+			"groups": [
+				"builtin",
+				"external",
+				["parent", "sibling"],
+				"index",
+				"type",
+				"object"
+			],
+			"newlines-between": "always"
+		}]
+	}
+}
