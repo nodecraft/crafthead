@@ -101,8 +101,6 @@ pub fn get_rendered_image(
 				Err(_err) => Err(js_sys::Error::new("Couldn't save resized skin.").into()),
 			}
 		}
-		Err(_err) => {
-			Err(js_sys::Error::new("Couldn't load skin.").into())
-		}
+		Err(_err) => Err(js_sys::Error::new("Couldn't load skin.").into()),
 	}
 }

@@ -215,12 +215,7 @@ impl MinecraftSkin {
 			Rgba([0, 0, 0, 0]),
 			&mut scratch,
 		);
-		imageops::overlay(
-			&mut render,
-			&scratch,
-			x_render_offset,
-			z_render_offset,
-		);
+		imageops::overlay(&mut render, &scratch, x_render_offset, z_render_offset);
 
 		// head front
 		let head_front_skew =
