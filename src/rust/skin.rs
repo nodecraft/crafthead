@@ -175,14 +175,13 @@ impl MinecraftSkin {
 		DynamicImage::ImageRgba8(image)
 	}
 
-	pub(crate) fn render_cube(&self, overlay: bool, width: u32) -> DynamicImage {
-		let scale = (width as f32) / 20.0 as f32;
-		let height = (18.5 * scale).ceil() as u32;
-		let _layer_type = match overlay {
-			true => Layer::Both,
-			false => Layer::Bottom,
-		};
-		let mut render = RgbaImage::new(width, height);
+	pub(crate) fn render_cube(&self, size: u32, options: RenderOptions) -> DynamicImage {
+		let scale = (size as f32) / 20.0 as f32;
+
+		let x_render_offset = scale.ceil() as i64;
+		let z_render_offset = x_render_offset / 2;
+
+		let mut render = RgbaImage::new(size, size);
 
 		let z_offset = scale * 3.0;
 		let x_offset = scale * 2.0;
@@ -191,10 +190,18 @@ impl MinecraftSkin {
 		let head_orig_right = self.0.crop_imm(0, 8, 8, 8);
 		let head_orig_front = self.0.crop_imm(8, 8, 8, 8);
 
+		let head_orig_top_overlay = self.0.crop_imm(40, 0, 8, 8);
+		let head_orig_right_overlay = self.0.crop_imm(32, 8, 8, 8);
+		let head_orig_front_overlay = self.0.crop_imm(40, 8, 8, 8);
+
+		// Shade right texture darker to show depth
+		let head_orig_right = head_orig_right.brighten(-4);
+		let head_orig_right_overlay = head_orig_right_overlay.brighten(-4);
+
 		// The warp_into function clears every part of the output image that is not part of the pre-image.
 		// As a workaround, we ask warp_into to draw into a scratch image, overlay the final image with the
 		// scratch image, and let the scratch be overwritten.
-		let mut scratch = RgbaImage::new(width, height);
+		let mut scratch = RgbaImage::new(size, size);
 
 		// head top
 		let head_top_skew =
@@ -208,7 +215,12 @@ impl MinecraftSkin {
 			Rgba([0, 0, 0, 0]),
 			&mut scratch,
 		);
-		imageops::overlay(&mut render, &scratch, 0, 0);
+		imageops::overlay(
+			&mut render,
+			&scratch,
+			x_render_offset.into(),
+			z_render_offset.into(),
+		);
 
 		// head front
 		let head_front_skew =
@@ -224,7 +236,7 @@ impl MinecraftSkin {
 			Rgba([0, 0, 0, 0]),
 			&mut scratch,
 		);
-		imageops::overlay(&mut render, &scratch, 0, 0);
+		imageops::overlay(&mut render, &scratch, x_render_offset, z_render_offset);
 
 		// head right
 		let head_right_skew =
@@ -238,7 +250,39 @@ impl MinecraftSkin {
 			Rgba([0, 0, 0, 0]),
 			&mut scratch,
 		);
-		imageops::overlay(&mut render, &scratch, 0, 0);
+		imageops::overlay(&mut render, &scratch, x_render_offset, z_render_offset);
+
+		if options.armored {
+			// head top overlay
+			warp_into(
+				&head_orig_top_overlay.into_rgba8(),
+				&head_top_skew,
+				Interpolation::Nearest,
+				Rgba([0, 0, 0, 0]),
+				&mut scratch,
+			);
+			imageops::overlay(&mut render, &scratch, x_render_offset, z_render_offset);
+
+			// head front overlay
+			warp_into(
+				&head_orig_front_overlay.into_rgba8(),
+				&head_front_skew,
+				Interpolation::Nearest,
+				Rgba([0, 0, 0, 0]),
+				&mut scratch,
+			);
+			imageops::overlay(&mut render, &scratch, x_render_offset, z_render_offset);
+
+			// head right overlay
+			warp_into(
+				&head_orig_right_overlay.into_rgba8(),
+				&head_right_skew,
+				Interpolation::Nearest,
+				Rgba([0, 0, 0, 0]),
+				&mut scratch,
+			);
+			imageops::overlay(&mut render, &scratch, x_render_offset, z_render_offset);
+		}
 
 		DynamicImage::ImageRgba8(render)
 	}
