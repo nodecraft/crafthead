@@ -19,6 +19,8 @@ function decorateHeaders(interpreted: CraftheadRequest, headers: Headers, hitCac
 	copiedHeaders.set('X-Crafthead-Request-Cache-Hit', hitCache ? 'yes' : 'no');
 	if (!copiedHeaders.has('Content-Type')) {
 		copiedHeaders.set('Content-Type', interpreted.requested === RequestedKind.Profile ? 'application/json' : 'image/png');
+	} else if (copiedHeaders.get('Content-Type') !== 'application/json' && copiedHeaders.get('Content-Type')?.includes?.('text/plain') && interpreted.requested === RequestedKind.Profile) {
+		copiedHeaders.set('Content-Type', 'application/json');
 	} else {
 		console.log(`Content-Type header already on response: ${copiedHeaders.get('Content-Type')}, not overriding.`);
 	}

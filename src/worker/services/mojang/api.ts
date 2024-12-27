@@ -129,7 +129,7 @@ export class DirectMojangApiService implements MojangApiService {
 			};
 			return {
 				result: data,
-				source: 'miss',
+				source: returnedProfile?.meta?.cached_at ? 'hit' : 'miss',
 			};
 		} else if (profileResponse.status === 206 || profileResponse.status === 204) {
 			return {

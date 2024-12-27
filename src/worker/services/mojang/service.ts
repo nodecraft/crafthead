@@ -1,5 +1,5 @@
-import { ALEX_SKIN, STEVE_SKIN } from '../../data';
-import { IdentityKind, TextureKind } from '../../request';
+import { ALEX_SKIN, EMPTY, STEVE_SKIN } from '../../data';
+import { IdentityKind, RequestedKind, TextureKind } from '../../request';
 import {
 	fromHex,
 	javaHashCode,
@@ -66,10 +66,12 @@ export default class MojangRequestService {
 	/**
      * Fetches a texture directly from the Mojang servers. Assumes the request has been normalized already.
      */
-	private async retrieveTextureDirect(request: CraftheadRequest, gatherer: PromiseGatherer, kind: TextureKind): Promise<Response> {
+	private async retrieveTextureDirect(request: CraftheadRequest, gatherer: PromiseGatherer, kind: TextureKind): Promise<TextureResponse> {
 		if (request.identityType === IdentityKind.TextureID) {
 			const textureResponse = await MojangRequestService.fetchTextureFromId(request.identity);
-			return MojangRequestService.constructTextureResponse(textureResponse, request);
+			return {
+				texture: await MojangRequestService.constructTextureResponse(textureResponse, request),
+			};
 		}
 		const rawUuid = fromHex(request.identity);
 		if (uuidVersion(rawUuid) === 4) {
@@ -77,43 +79,50 @@ export default class MojangRequestService {
 			if (lookup.result) {
 				const textureResponse = await MojangRequestService.fetchTextureFromProfile(lookup.result, kind);
 				if (textureResponse) {
-					return MojangRequestService.constructTextureResponse(textureResponse, request, lookup.source);
+					return {
+						texture: await MojangRequestService.constructTextureResponse(textureResponse, request, lookup.source),
+						model: textureResponse.model,
+					};
 				}
-				return new Response(STEVE_SKIN, {
+				return {
+					texture: new Response(STEVE_SKIN, {
+						status: 404,
+						headers: {
+							'X-Crafthead-Profile-Cache-Hit': 'not-found',
+						},
+					}),
+				};
+			}
+			return {
+				texture: new Response(STEVE_SKIN, {
 					status: 404,
 					headers: {
 						'X-Crafthead-Profile-Cache-Hit': 'not-found',
-						'X-Crafthead-Skin-Model': 'default',
 					},
-				});
-			}
-			return new Response(STEVE_SKIN, {
-				status: 404,
-				headers: {
-					'X-Crafthead-Profile-Cache-Hit': 'not-found',
-					'X-Crafthead-Skin-Model': 'default',
-				},
-			});
+				}),
+			};
 		}
 
-		return new Response(STEVE_SKIN, {
-			status: 404,
-			headers: {
-				'X-Crafthead-Profile-Cache-Hit': 'offline-mode',
-				'X-Crafthead-Skin-Model': 'default',
-			},
-		});
+		return {
+			texture: new Response(STEVE_SKIN, {
+				status: 404,
+				headers: {
+					'X-Crafthead-Profile-Cache-Hit': 'offline-mode',
+				},
+			}),
+		};
 	}
 
 	private static async constructTextureResponse(textureResponse: TextureResponse, request: CraftheadRequest, source?: string): Promise<Response> {
 		const buff = await textureResponse.texture.arrayBuffer();
 		if (buff && buff.byteLength > 0) {
+			const headers = new Headers(textureResponse.texture.headers);
+			if (!headers.has('X-Crafthead-Profile-Cache-Hit')) {
+				headers.set('X-Crafthead-Profile-Cache-Hit', source || 'miss');
+			}
 			return new Response(buff, {
 				status: 200,
-				headers: {
-					'X-Crafthead-Profile-Cache-Hit': source || 'miss',
-					'X-Crafthead-Skin-Model': request.model || textureResponse.model || 'default',
-				},
+				headers,
 			});
 		}
 		return new Response(STEVE_SKIN, {
@@ -133,30 +142,41 @@ export default class MojangRequestService {
 
 		const normalized = await this.normalizeRequest(request, gatherer);
 		const skin = await this.retrieveTextureDirect(normalized, gatherer, TextureKind.SKIN);
-		if (skin.status === 404) {
+		if (skin.texture.status === 404) {
 			// Offline mode ID (usually when we have a username and the username isn't valid)
 			const rawUuid = fromHex(normalized.identity);
 			if (Math.abs(javaHashCode(rawUuid)) % 2 === 0) {
 				return new Response(STEVE_SKIN, {
 					headers: {
 						'X-Crafthead-Profile-Cache-Hit': 'invalid-profile',
-						'X-Crafthead-Skin-Model': 'default',
 					},
 				});
 			}
 			return new Response(ALEX_SKIN, {
 				headers: {
 					'X-Crafthead-Profile-Cache-Hit': 'invalid-profile',
-					'X-Crafthead-Skin-Model': 'slim',
 				},
 			});
 		}
-		return skin;
+		if ([RequestedKind.Skin, RequestedKind.Body, RequestedKind.Bust].includes(normalized.requested)) {
+			skin.texture.headers.set('X-Crafthead-Skin-Model', request.model || skin.model || 'default');
+		}
+
+		return skin.texture;
 	}
 
 	async retrieveCape(request: CraftheadRequest, gatherer: PromiseGatherer): Promise<Response> {
 		const normalized = await this.normalizeRequest(request, gatherer);
-		return this.retrieveTextureDirect(normalized, gatherer, TextureKind.CAPE);
+		const cape = await this.retrieveTextureDirect(normalized, gatherer, TextureKind.CAPE);
+		if (cape.texture.status === 404) {
+			return new Response(EMPTY, {
+				status: 404,
+				headers: {
+					'X-Crafthead-Profile-Cache-Hit': 'invalid-profile',
+				},
+			});
+		}
+		return cape.texture;
 	}
 
 	private static async fetchTextureFromProfile(profile: MojangProfile, type: TextureKind): Promise<TextureResponse | undefined> {
@@ -180,8 +200,16 @@ export default class MojangRequestService {
 					throw new Error(`Unable to retrieve texture from Mojang, http status ${textureResponse.status}`);
 				}
 
+				const response = new Response(textureResponse.body);
+				const textureID = textureUrl.split('/').pop();
+				if (textureID) {
+					response.headers.set('X-Crafthead-Texture-ID', textureID);
+				}
 				//console.log('Successfully retrieved texture');
-				return { texture: textureResponse, model: texturesData?.SKIN?.metadata?.model };
+				return {
+					texture: response,
+					model: texturesData?.SKIN?.metadata?.model,
+				};
 			}
 		}
 
