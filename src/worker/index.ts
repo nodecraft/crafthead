@@ -1,5 +1,4 @@
 import { EMPTY } from './data';
-import PromiseGatherer from './promise_gather';
 import { RequestedKind, interpretRequest } from './request';
 import { DirectMojangApiService } from './services/mojang/api';
 import MojangRequestService from './services/mojang/service';
@@ -76,10 +75,10 @@ async function renderImage(skin: Response, request: CraftheadRequest): Promise<R
 	});
 }
 
-async function processRequest(skinService: MojangRequestService, interpreted: CraftheadRequest, gatherer: PromiseGatherer): Promise<Response> {
+async function processRequest(skinService: MojangRequestService, interpreted: CraftheadRequest): Promise<Response> {
 	switch (interpreted.requested) {
 		case RequestedKind.Profile: {
-			const lookup = await skinService.fetchProfile(interpreted, gatherer);
+			const lookup = await skinService.fetchProfile(interpreted);
 			if (!lookup.result) {
 				return new Response(JSON.stringify({ error: 'User does not exist' }), {
 					status: 404,
@@ -99,14 +98,14 @@ async function processRequest(skinService: MojangRequestService, interpreted: Cr
 		case RequestedKind.Cube:
 		case RequestedKind.Body:
 		case RequestedKind.Bust: {
-			const skin = await skinService.retrieveSkin(interpreted, gatherer);
+			const skin = await skinService.retrieveSkin(interpreted);
 			return renderImage(skin, interpreted);
 		}
 		case RequestedKind.Skin: {
-			return skinService.retrieveSkin(interpreted, gatherer);
+			return skinService.retrieveSkin(interpreted);
 		}
 		case RequestedKind.Cape: {
-			const cape = await skinService.retrieveCape(interpreted, gatherer);
+			const cape = await skinService.retrieveCape(interpreted);
 			if (cape.status === 404) {
 				return new Response(EMPTY, {
 					status: 404,
@@ -166,17 +165,14 @@ async function handleRequest(request: Request, env: Env, ctx: ExecutionContext) 
 			// The item is not in the Cloudflare datacenter's cache. We need to process the request further.
 			//console.log('Request not satisfied from cache.');
 
-			const gatherer = new PromiseGatherer();
-
 			const skinService = new MojangRequestService(new DirectMojangApiService(env, request));
-			response = await processRequest(skinService, interpreted, gatherer);
+			response = await processRequest(skinService, interpreted);
 			if (response.ok) {
 				const cacheResponse = response.clone();
 				cacheResponse.headers.set('Content-Type', interpreted.requested === RequestedKind.Profile ? 'application/json' : 'image/png');
 				cacheResponse.headers.set('Cache-Control', 'max-age=14400');
-				gatherer.push(caches.default.put(new Request(cacheKey), cacheResponse));
+				ctx.waitUntil(caches.default.put(new Request(cacheKey), cacheResponse));
 			}
-			await gatherer.all();
 		}
 		const headers = decorateHeaders(interpreted, response.headers, hitCache);
 		writeDataPoint(env.CRAFTHEAD_ANALYTICS, request, {

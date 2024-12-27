@@ -83,3 +83,124 @@ pub(crate) fn fast_overlay(bottom: &mut DynamicImage, top: &DynamicImage, x: u32
 		}
 	}
 }
+
+#[cfg(test)]
+mod tests {
+	use super::*;
+	use image::{Rgba, RgbaImage};
+
+	#[test]
+	fn test_is_image_region_transparent_to_minecraft_transparent() {
+		let mut img = RgbaImage::new(10, 10);
+		img.put_pixel(5, 5, Rgba([0, 0, 0, 127])); // Transparent pixel
+		let img = DynamicImage::ImageRgba8(img);
+		assert!(is_image_region_transparent_to_minecraft(&img, 0, 0, 10, 10));
+	}
+
+	#[test]
+	fn test_is_image_region_transparent_to_minecraft_opaque() {
+		let mut img = RgbaImage::new(10, 10);
+		for y in 0..10 {
+			for x in 0..10 {
+				img.put_pixel(x, y, Rgba([0, 0, 0, 255])); // Fully opaque
+			}
+		}
+		let img = DynamicImage::ImageRgba8(img);
+		assert!(!is_image_region_transparent_to_minecraft(
+			&img, 0, 0, 10, 10
+		));
+	}
+
+	#[test]
+	fn test_apply_minecraft_transparency() {
+		let mut img = RgbaImage::new(10, 10);
+		img.put_pixel(5, 5, Rgba([0, 0, 0, 127])); // Transparent pixel
+		let mut img = DynamicImage::ImageRgba8(img);
+		apply_minecraft_transparency(&mut img);
+		assert_eq!(img.get_pixel(5, 5)[3], 127); // Should remain transparent
+		assert_eq!(img.get_pixel(0, 0)[3], 0); // Should be made transparent
+	}
+
+	#[test]
+	fn test_apply_minecraft_transparency_region() {
+		let mut img = RgbaImage::new(10, 10);
+		img.put_pixel(5, 5, Rgba([0, 0, 0, 127])); // Transparent pixel
+		let mut img = DynamicImage::ImageRgba8(img);
+		apply_minecraft_transparency_region(&mut img, 0, 0, 10, 10);
+		assert_eq!(img.get_pixel(5, 5)[3], 127); // Should remain transparent
+		assert_eq!(img.get_pixel(0, 0)[3], 0); // Should be made transparent
+	}
+
+	#[test]
+	fn test_apply_minecraft_transparency_fully_transparent() {
+		let mut img = RgbaImage::new(10, 10);
+		for y in 0..10 {
+			for x in 0..10 {
+				img.put_pixel(x, y, Rgba([0, 0, 0, 0])); // Fully transparent
+			}
+		}
+		let mut img = DynamicImage::ImageRgba8(img);
+		apply_minecraft_transparency(&mut img);
+		assert_eq!(img.get_pixel(0, 0)[3], 0); // Should remain transparent
+	}
+
+	#[test]
+	fn test_apply_minecraft_transparency_region_fully_transparent() {
+		let mut img = RgbaImage::new(10, 10);
+		for y in 0..10 {
+			for x in 0..10 {
+				img.put_pixel(x, y, Rgba([0, 0, 0, 0])); // Fully transparent
+			}
+		}
+		let mut img = DynamicImage::ImageRgba8(img);
+		apply_minecraft_transparency_region(&mut img, 0, 0, 10, 10);
+		assert_eq!(img.get_pixel(0, 0)[3], 0); // Should remain transparent
+	}
+
+	#[test]
+	fn test_fast_overlay_within_bounds() {
+		let bottom = RgbaImage::new(10, 10);
+		let mut top = RgbaImage::new(5, 5);
+		for y in 0..5 {
+			for x in 0..5 {
+				top.put_pixel(x, y, Rgba([255, 0, 0, 255])); // Red opaque pixel
+			}
+		}
+		let mut bottom = DynamicImage::ImageRgba8(bottom);
+		let top = DynamicImage::ImageRgba8(top);
+		fast_overlay(&mut bottom, &top, 2, 2);
+		assert_eq!(bottom.get_pixel(2, 2), Rgba([255, 0, 0, 255])); // Should be red
+	}
+
+	#[test]
+	fn test_fast_overlay_out_of_bounds() {
+		let bottom = RgbaImage::new(10, 10);
+		let mut top = RgbaImage::new(5, 5);
+		for y in 0..5 {
+			for x in 0..5 {
+				top.put_pixel(x, y, Rgba([255, 0, 0, 255])); // Red opaque pixel
+			}
+		}
+		let mut bottom = DynamicImage::ImageRgba8(bottom);
+		let top = DynamicImage::ImageRgba8(top);
+		fast_overlay(&mut bottom, &top, 8, 8);
+		assert_eq!(bottom.get_pixel(8, 8), Rgba([255, 0, 0, 255])); // Should be red
+		assert_eq!(bottom.get_pixel(9, 9), Rgba([255, 0, 0, 255])); // Should be red
+		assert_eq!(bottom.get_pixel(7, 7), Rgba([0, 0, 0, 0])); // Should be unchanged
+	}
+
+	#[test]
+	fn test_fast_overlay_fully_transparent_top() {
+		let bottom = RgbaImage::new(10, 10);
+		let mut top = RgbaImage::new(5, 5);
+		for y in 0..5 {
+			for x in 0..5 {
+				top.put_pixel(x, y, Rgba([255, 0, 0, 0])); // Fully transparent pixel
+			}
+		}
+		let mut bottom = DynamicImage::ImageRgba8(bottom);
+		let top = DynamicImage::ImageRgba8(top);
+		fast_overlay(&mut bottom, &top, 2, 2);
+		assert_eq!(bottom.get_pixel(2, 2), Rgba([0, 0, 0, 0])); // Should remain unchanged
+	}
+}

@@ -1,4 +1,3 @@
-import type PromiseGatherer from '../../promise_gather';
 import type { Env } from '../../types';
 import type { CacheComputeResult } from '../../util/cache-helper';
 
@@ -41,9 +40,9 @@ export interface PlayerDBProfile {
 }
 
 export interface MojangApiService {
-	lookupUsername(usernames: string, gatherer: PromiseGatherer | null): Promise<MojangUsernameLookupResult | null>;
+	lookupUsername(usernames: string): Promise<MojangUsernameLookupResult | null>;
 
-	fetchProfile(id: string, gatherer: PromiseGatherer | null): Promise<CacheComputeResult<MojangProfile | null>>;
+	fetchProfile(id: string): Promise<CacheComputeResult<MojangProfile | null>>;
 }
 
 const PlayerDBHeaders = {
@@ -58,7 +57,7 @@ export class DirectMojangApiService implements MojangApiService {
 		this.env = env;
 		this.request = request;
 	}
-	async lookupUsername(username: string, gatherer: PromiseGatherer | null): Promise<MojangUsernameLookupResult | null> {
+	async lookupUsername(username: string): Promise<MojangUsernameLookupResult | null> {
 		let lookupResponse: Response;
 		if (this.env.PLAYERDB) {
 			const request = new Request(`https://playerdb.co/api/player/minecraft/${username}`, {
@@ -98,7 +97,7 @@ export class DirectMojangApiService implements MojangApiService {
 		}
 	}
 
-	async fetchProfile(id: string, gatherer: PromiseGatherer | null): Promise<CacheComputeResult<MojangProfile | null>> {
+	async fetchProfile(id: string): Promise<CacheComputeResult<MojangProfile | null>> {
 		let profileResponse: Response;
 		if (this.env.PLAYERDB) {
 			const request = new Request(`https://playerdb.co/api/player/minecraft/${id}`, {

@@ -9,7 +9,6 @@ import {
 } from '../../util/uuid';
 
 import type { MojangApiService, MojangProfile, MojangProfileProperty } from './api';
-import type PromiseGatherer from '../../promise_gather';
 import type { CraftheadRequest } from '../../request';
 import type { CacheComputeResult } from '../../util/cache-helper';
 
@@ -43,17 +42,15 @@ export default class MojangRequestService {
 
 	/**
      * Normalizes the incoming request, such that we only work with UUIDs. A new request bearing an UUID is returned.
-     * @param request the incoming request
-     * @param gatherer any promise gatherer
      */
-	async normalizeRequest(request: CraftheadRequest, gatherer: PromiseGatherer): Promise<CraftheadRequest> {
+	async normalizeRequest(request: CraftheadRequest): Promise<CraftheadRequest> {
 		if (request.identityType === IdentityKind.Uuid || request.identityType === IdentityKind.TextureID) {
 			return request;
 		}
 
 		const normalized: CraftheadRequest = { ...request, identityType: IdentityKind.Uuid };
 
-		const profileLookup = await this.mojangApi.lookupUsername(request.identity, gatherer);
+		const profileLookup = await this.mojangApi.lookupUsername(request.identity);
 		if (profileLookup) {
 			normalized.identity = profileLookup.id;
 		} else {
@@ -66,7 +63,7 @@ export default class MojangRequestService {
 	/**
      * Fetches a texture directly from the Mojang servers. Assumes the request has been normalized already.
      */
-	private async retrieveTextureDirect(request: CraftheadRequest, gatherer: PromiseGatherer, kind: TextureKind): Promise<TextureResponse> {
+	private async retrieveTextureDirect(request: CraftheadRequest, kind: TextureKind): Promise<TextureResponse> {
 		if (request.identityType === IdentityKind.TextureID) {
 			const textureResponse = await MojangRequestService.fetchTextureFromId(request.identity);
 			return {
@@ -75,7 +72,7 @@ export default class MojangRequestService {
 		}
 		const rawUuid = fromHex(request.identity);
 		if (uuidVersion(rawUuid) === 4) {
-			const lookup = await this.mojangApi.fetchProfile(request.identity, gatherer);
+			const lookup = await this.mojangApi.fetchProfile(request.identity);
 			if (lookup.result) {
 				const textureResponse = await MojangRequestService.fetchTextureFromProfile(lookup.result, kind);
 				if (textureResponse) {
@@ -134,14 +131,14 @@ export default class MojangRequestService {
 		});
 	}
 
-	async retrieveSkin(request: CraftheadRequest, gatherer: PromiseGatherer): Promise<Response> {
+	async retrieveSkin(request: CraftheadRequest): Promise<Response> {
 		if (request.identity === 'char' || request.identity === 'MHF_Steve') {
 			// These are special-cased by Minotar.
 			return new Response(STEVE_SKIN);
 		}
 
-		const normalized = await this.normalizeRequest(request, gatherer);
-		const skin = await this.retrieveTextureDirect(normalized, gatherer, TextureKind.SKIN);
+		const normalized = await this.normalizeRequest(request);
+		const skin = await this.retrieveTextureDirect(normalized, TextureKind.SKIN);
 		if (skin.texture.status === 404) {
 			// Offline mode ID (usually when we have a username and the username isn't valid)
 			const rawUuid = fromHex(normalized.identity);
@@ -165,9 +162,9 @@ export default class MojangRequestService {
 		return skin.texture;
 	}
 
-	async retrieveCape(request: CraftheadRequest, gatherer: PromiseGatherer): Promise<Response> {
-		const normalized = await this.normalizeRequest(request, gatherer);
-		const cape = await this.retrieveTextureDirect(normalized, gatherer, TextureKind.CAPE);
+	async retrieveCape(request: CraftheadRequest): Promise<Response> {
+		const normalized = await this.normalizeRequest(request);
+		const cape = await this.retrieveTextureDirect(normalized, TextureKind.CAPE);
 		if (cape.texture.status === 404) {
 			return new Response(EMPTY, {
 				status: 404,
@@ -240,15 +237,15 @@ export default class MojangRequestService {
 		return { texture: textureResponse, model: 'default' };
 	}
 
-	async fetchProfile(request: CraftheadRequest, gatherer: PromiseGatherer): Promise<CacheComputeResult<MojangProfile | null>> {
-		const normalized = await this.normalizeRequest(request, gatherer);
+	async fetchProfile(request: CraftheadRequest): Promise<CacheComputeResult<MojangProfile | null>> {
+		const normalized = await this.normalizeRequest(request);
 		if (!normalized.identity || uuidVersion(fromHex(normalized.identity)) === 3) {
 			return {
 				result: null,
 				source: 'mojang',
 			};
 		}
-		return this.mojangApi.fetchProfile(normalized.identity, gatherer);
+		return this.mojangApi.fetchProfile(normalized.identity);
 	}
 
 	private static extractDataFromTexturesProperty(property: MojangProfileProperty | undefined): MojangTextureData | undefined {
