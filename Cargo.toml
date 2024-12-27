@@ -29,6 +29,7 @@ features = ["png"]
 
 [dev-dependencies]
 wasm-bindgen-test = "0.2"
+clippy = "0.0.302"
 
 [profile.release]
 codegen-units = 1

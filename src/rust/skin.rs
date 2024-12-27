@@ -176,7 +176,7 @@ impl MinecraftSkin {
 	}
 
 	pub(crate) fn render_cube(&self, size: u32, options: RenderOptions) -> DynamicImage {
-		let scale = (size as f32) / 20.0 as f32;
+		let scale = (size as f32) / 20.0_f32;
 
 		let x_render_offset = scale.ceil() as i64;
 		let z_render_offset = x_render_offset / 2;
@@ -215,12 +215,7 @@ impl MinecraftSkin {
 			Rgba([0, 0, 0, 0]),
 			&mut scratch,
 		);
-		imageops::overlay(
-			&mut render,
-			&scratch,
-			x_render_offset.into(),
-			z_render_offset.into(),
-		);
+		imageops::overlay(&mut render, &scratch, x_render_offset, z_render_offset);
 
 		// head front
 		let head_front_skew =
