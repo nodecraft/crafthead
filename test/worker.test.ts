@@ -94,7 +94,7 @@ describe('worker requests', () => {
 		expect(await response.headers.get('content-type')).toContain('image/png');
 	});
 
-	it('responds with image for body on Id', async () => {
+	it('responds with image for body on ID', async () => {
 		const request = new IncomingRequest('http://crafthead.net/body/ef6134805b6244e4a4467fbe85d65513');
 		const ctx = createExecutionContext();
 		const response = await worker.fetch(request, env, ctx);

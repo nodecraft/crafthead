@@ -11,6 +11,7 @@ use skin::*;
 use std::io::Cursor;
 use wasm_bindgen::prelude::*;
 
+#[derive(Debug, PartialEq)]
 enum RenderType {
 	Avatar,
 	Helm,
@@ -102,5 +103,63 @@ pub fn get_rendered_image(
 			}
 		}
 		Err(_err) => Err(js_sys::Error::new("Couldn't load skin.").into()),
+	}
+}
+
+#[cfg(test)]
+mod tests {
+	use super::*;
+
+	#[test]
+	fn test_what_to_render_type_avatar() {
+		assert_eq!(
+			what_to_render_type("avatar".to_string()),
+			Some(RenderType::Avatar)
+		);
+	}
+
+	#[test]
+	fn test_what_to_render_type_helm() {
+		assert_eq!(
+			what_to_render_type("helm".to_string()),
+			Some(RenderType::Helm)
+		);
+	}
+
+	#[test]
+	fn test_what_to_render_type_cube() {
+		assert_eq!(
+			what_to_render_type("cube".to_string()),
+			Some(RenderType::Cube)
+		);
+	}
+
+	#[test]
+	fn test_what_to_render_type_body() {
+		assert_eq!(
+			what_to_render_type("body".to_string()),
+			Some(RenderType::Body)
+		);
+	}
+
+	#[test]
+	fn test_what_to_render_type_bust() {
+		assert_eq!(
+			what_to_render_type("bust".to_string()),
+			Some(RenderType::Bust)
+		);
+	}
+
+	#[test]
+	fn test_what_to_render_type_cape() {
+		assert_eq!(
+			what_to_render_type("cape".to_string()),
+			Some(RenderType::Cape)
+		);
+	}
+
+	#[test]
+	fn test_what_to_render_type_invalid() {
+		assert_eq!(what_to_render_type("invalid".to_string()), None);
 	}
 }

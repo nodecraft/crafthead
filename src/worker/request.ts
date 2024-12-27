@@ -106,6 +106,9 @@ export function interpretRequest(request: Request): CraftheadRequest | null {
 
 	// eslint-disable-next-line prefer-const
 	let [requestedKindString, identity, sizeString] = url.pathname.split('/').slice(sliceAmt);
+	if (!identity) {
+		return null;
+	}
 
 	let size = Number.parseInt(sizeString, 10);
 	if (!size) {

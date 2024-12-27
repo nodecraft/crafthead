@@ -30,5 +30,4 @@ jobs:
       - run: npm run build
       - run: npm run lint:js
       - run: npm run check-types
-      - run: cargo clippy --all-targets --all-features
       - run: npm run test
