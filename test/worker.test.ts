@@ -1,4 +1,5 @@
 import { createExecutionContext, env, waitOnExecutionContext } from 'cloudflare:test';
+import { imageSize } from 'image-size';
 import { describe, expect, it } from 'vitest';
 
 import worker from '../src/worker/index';
@@ -28,6 +29,40 @@ describe('worker requests', () => {
 		const response = await worker.fetch(request, env, ctx);
 		await waitOnExecutionContext(ctx);
 		expect(await response.headers.get('content-type')).toContain('image/png');
+
+		const image = await response.arrayBuffer();
+		const buffer = Buffer.from(image);
+		const { width, height } = imageSize(buffer);
+		expect(width).toBe(180);
+		expect(height).toBe(180);
+	});
+
+	it('responds with max 300px image for avatar on ID', async () => {
+		const request = new IncomingRequest('http://crafthead.net/avatar/ef6134805b6244e4a4467fbe85d65513/512');
+		const ctx = createExecutionContext();
+		const response = await worker.fetch(request, env, ctx);
+		await waitOnExecutionContext(ctx);
+		expect(await response.headers.get('content-type')).toContain('image/png');
+
+		const image = await response.arrayBuffer();
+		const buffer = Buffer.from(image);
+		const { width, height } = imageSize(buffer);
+		expect(width).toBe(300);
+		expect(height).toBe(300);
+	});
+
+	it('responds with min 8px image for avatar on ID', async () => {
+		const request = new IncomingRequest('http://crafthead.net/avatar/ef6134805b6244e4a4467fbe85d65513/2');
+		const ctx = createExecutionContext();
+		const response = await worker.fetch(request, env, ctx);
+		await waitOnExecutionContext(ctx);
+		expect(await response.headers.get('content-type')).toContain('image/png');
+
+		const image = await response.arrayBuffer();
+		const buffer = Buffer.from(image);
+		const { width, height } = imageSize(buffer);
+		expect(width).toBe(8);
+		expect(height).toBe(8);
 	});
 
 	it('responds with image for avatar on ID with dashes', async () => {
@@ -36,6 +71,12 @@ describe('worker requests', () => {
 		const response = await worker.fetch(request, env, ctx);
 		await waitOnExecutionContext(ctx);
 		expect(await response.headers.get('content-type')).toContain('image/png');
+
+		const image = await response.arrayBuffer();
+		const buffer = Buffer.from(image);
+		const { width, height } = imageSize(buffer);
+		expect(width).toBe(180);
+		expect(height).toBe(180);
 	});
 
 	it('responds with image for avatar on username', async () => {
@@ -44,6 +85,12 @@ describe('worker requests', () => {
 		const response = await worker.fetch(request, env, ctx);
 		await waitOnExecutionContext(ctx);
 		expect(await response.headers.get('content-type')).toContain('image/png');
+
+		const image = await response.arrayBuffer();
+		const buffer = Buffer.from(image);
+		const { width, height } = imageSize(buffer);
+		expect(width).toBe(180);
+		expect(height).toBe(180);
 	});
 
 	it('responds with image for cape on ID', async () => {
@@ -52,6 +99,11 @@ describe('worker requests', () => {
 		const response = await worker.fetch(request, env, ctx);
 		await waitOnExecutionContext(ctx);
 		expect(await response.headers.get('content-type')).toContain('image/png');
+
+		const image = await response.arrayBuffer();
+		const buffer = Buffer.from(image);
+		const { height } = imageSize(buffer);
+		expect(height).toBe(180);
 	});
 
 	it('responds with image for cape on username', async () => {
@@ -60,6 +112,11 @@ describe('worker requests', () => {
 		const response = await worker.fetch(request, env, ctx);
 		await waitOnExecutionContext(ctx);
 		expect(await response.headers.get('content-type')).toContain('image/png');
+
+		const image = await response.arrayBuffer();
+		const buffer = Buffer.from(image);
+		const { height } = imageSize(buffer);
+		expect(height).toBe(180);
 	});
 
 	it('responds with image for helm on ID', async () => {
@@ -68,6 +125,12 @@ describe('worker requests', () => {
 		const response = await worker.fetch(request, env, ctx);
 		await waitOnExecutionContext(ctx);
 		expect(await response.headers.get('content-type')).toContain('image/png');
+
+		const image = await response.arrayBuffer();
+		const buffer = Buffer.from(image);
+		const { width, height } = imageSize(buffer);
+		expect(width).toBe(180);
+		expect(height).toBe(180);
 	});
 
 	it('responds with image for helm on username', async () => {
@@ -76,6 +139,12 @@ describe('worker requests', () => {
 		const response = await worker.fetch(request, env, ctx);
 		await waitOnExecutionContext(ctx);
 		expect(await response.headers.get('content-type')).toContain('image/png');
+
+		const image = await response.arrayBuffer();
+		const buffer = Buffer.from(image);
+		const { width, height } = imageSize(buffer);
+		expect(width).toBe(180);
+		expect(height).toBe(180);
 	});
 
 	it('responds with image for cube on ID', async () => {
@@ -84,6 +153,12 @@ describe('worker requests', () => {
 		const response = await worker.fetch(request, env, ctx);
 		await waitOnExecutionContext(ctx);
 		expect(await response.headers.get('content-type')).toContain('image/png');
+
+		const image = await response.arrayBuffer();
+		const buffer = Buffer.from(image);
+		const { width, height } = imageSize(buffer);
+		expect(width).toBe(180);
+		expect(height).toBe(180);
 	});
 
 	it('responds with image for cube on username', async () => {
@@ -92,6 +167,12 @@ describe('worker requests', () => {
 		const response = await worker.fetch(request, env, ctx);
 		await waitOnExecutionContext(ctx);
 		expect(await response.headers.get('content-type')).toContain('image/png');
+
+		const image = await response.arrayBuffer();
+		const buffer = Buffer.from(image);
+		const { width, height } = imageSize(buffer);
+		expect(width).toBe(180);
+		expect(height).toBe(180);
 	});
 
 	it('responds with image for body on ID', async () => {
@@ -100,6 +181,11 @@ describe('worker requests', () => {
 		const response = await worker.fetch(request, env, ctx);
 		await waitOnExecutionContext(ctx);
 		expect(await response.headers.get('content-type')).toContain('image/png');
+
+		const image = await response.arrayBuffer();
+		const buffer = Buffer.from(image);
+		const { height } = imageSize(buffer);
+		expect(height).toBe(360);
 	});
 
 	it('responds with image for body on username', async () => {
@@ -108,6 +194,11 @@ describe('worker requests', () => {
 		const response = await worker.fetch(request, env, ctx);
 		await waitOnExecutionContext(ctx);
 		expect(await response.headers.get('content-type')).toContain('image/png');
+
+		const image = await response.arrayBuffer();
+		const buffer = Buffer.from(image);
+		const { height } = imageSize(buffer);
+		expect(height).toBe(360);
 	});
 
 	it('responds with image for bust on ID', async () => {
@@ -116,6 +207,12 @@ describe('worker requests', () => {
 		const response = await worker.fetch(request, env, ctx);
 		await waitOnExecutionContext(ctx);
 		expect(await response.headers.get('content-type')).toContain('image/png');
+
+		const image = await response.arrayBuffer();
+		const buffer = Buffer.from(image);
+		const { width, height } = imageSize(buffer);
+		expect(width).toBe(180);
+		expect(height).toBe(180);
 	});
 
 	it('responds with image for bust on username', async () => {
@@ -124,6 +221,12 @@ describe('worker requests', () => {
 		const response = await worker.fetch(request, env, ctx);
 		await waitOnExecutionContext(ctx);
 		expect(await response.headers.get('content-type')).toContain('image/png');
+
+		const image = await response.arrayBuffer();
+		const buffer = Buffer.from(image);
+		const { width, height } = imageSize(buffer);
+		expect(width).toBe(180);
+		expect(height).toBe(180);
 	});
 
 	it('responds with image for skin on ID', async () => {
@@ -132,6 +235,11 @@ describe('worker requests', () => {
 		const response = await worker.fetch(request, env, ctx);
 		await waitOnExecutionContext(ctx);
 		expect(await response.headers.get('content-type')).toContain('image/png');
+
+		const image = await response.arrayBuffer();
+		const buffer = Buffer.from(image);
+		const { width } = imageSize(buffer);
+		expect(width).toBe(64);
 	});
 
 	it('responds with image for skin on username', async () => {
@@ -140,6 +248,11 @@ describe('worker requests', () => {
 		const response = await worker.fetch(request, env, ctx);
 		await waitOnExecutionContext(ctx);
 		expect(await response.headers.get('content-type')).toContain('image/png');
+
+		const image = await response.arrayBuffer();
+		const buffer = Buffer.from(image);
+		const { width } = imageSize(buffer);
+		expect(width).toBe(64);
 	});
 
 	it('responds with image for avatar on texture ID', async () => {
@@ -148,6 +261,11 @@ describe('worker requests', () => {
 		const response = await worker.fetch(request, env, ctx);
 		await waitOnExecutionContext(ctx);
 		expect(await response.headers.get('content-type')).toContain('image/png');
+
+		const image = await response.arrayBuffer();
+		const buffer = Buffer.from(image);
+		const { width } = imageSize(buffer);
+		expect(width).toBe(180);
 	});
 
 	it('responds with a matching avatar image by UUID, username, and texture ID', async () => {
