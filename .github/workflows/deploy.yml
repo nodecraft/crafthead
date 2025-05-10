@@ -29,7 +29,7 @@ jobs:
       - run: npm run build
 
       - name: Publish
-        uses: cloudflare/wrangler-action@v3.14.0
+        uses: cloudflare/wrangler-action@v3.14.1
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
