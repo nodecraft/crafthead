@@ -1,12 +1,12 @@
 name = "crafthead-dev"
 main = "src/worker/index.ts"
 workers_dev = true
-compatibility_date = "2024-12-27"
+compatibility_date = "2025-05-07"
 analytics_engine_datasets = [
 	{ binding = "CRAFTHEAD_ANALYTICS" }
 ]
 
-compatibility_flags = ["nodejs_compat", "no_nodejs_compat_v2"]
+compatibility_flags = ["nodejs_compat"]
 
 rules = [
 	{ type = "Data", globs = ["**/*.png"], fallthrough = true }
@@ -17,7 +17,7 @@ directory = "./src/website"
 binding = "ASSETS"
 html_handling = "drop-trailing-slash"
 not_found_handling = "404-page"
-run_worker_first = false
+run_worker_first = true
 
 [build]
 command = "npm run build" # required
@@ -30,5 +30,5 @@ analytics_engine_datasets = [
 	{ binding = "CRAFTHEAD_ANALYTICS" }
 ]
 services = [
-  { binding = "PLAYERDB", service = "playerdb" }
+	{ binding = "PLAYERDB", service = "playerdb" }
 ]
