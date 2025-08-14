@@ -5,6 +5,7 @@ on:
       - master
       - main
   repository_dispatch:
+  workflow_dispatch:
 
 env:
   NODE_VERSION: 22
