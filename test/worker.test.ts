@@ -268,6 +268,38 @@ describe('worker requests', () => {
 		expect(width).toBe(180);
 	});
 
+	it('responds with image for helm on texture ID with leading zero trimmed by Mojang', async () => {
+		// This tests the specific issue: hash 67f7105... (63 chars) should work
+		// even though it's missing the leading zero that would make it 64 chars
+		const request = new IncomingRequest('http://crafthead.net/helm/67f7105027d3d2b8eba224c980ad04d9c5a151b58e373c20fed5a4e4c164c05');
+		const ctx = createExecutionContext();
+		const response = await worker.fetch(request, env, ctx);
+		await waitOnExecutionContext(ctx);
+		expect(await response.headers.get('content-type')).toContain('image/png');
+
+		const image = await response.arrayBuffer();
+		const buffer = Buffer.from(image);
+		const { width, height } = imageSize(buffer);
+		expect(width).toBe(180);
+		expect(height).toBe(180);
+	});
+
+	it('responds with same image for texture ID with and without leading zero', async () => {
+		// Both requests should return the same image since Mojang trims leading zeros
+		const request63 = new IncomingRequest('http://crafthead.net/helm/67f7105027d3d2b8eba224c980ad04d9c5a151b58e373c20fed5a4e4c164c05');
+		const request64 = new IncomingRequest('http://crafthead.net/helm/067f7105027d3d2b8eba224c980ad04d9c5a151b58e373c20fed5a4e4c164c05');
+		const ctx = createExecutionContext();
+		const response63 = await worker.fetch(request63, env, ctx);
+		const response64 = await worker.fetch(request64, env, ctx);
+		await waitOnExecutionContext(ctx);
+		expect(await response63.headers.get('content-type')).toContain('image/png');
+		expect(await response64.headers.get('content-type')).toContain('image/png');
+
+		const image63 = await response63.arrayBuffer();
+		const image64 = await response64.arrayBuffer();
+		expect(image63).toStrictEqual(image64);
+	});
+
 	it('responds with a matching avatar image by UUID, username, and texture ID', async () => {
 		const request1 = new IncomingRequest('http://crafthead.net/avatar/ef6134805b6244e4a4467fbe85d65513');
 		const request2 = new IncomingRequest('http://crafthead.net/avatar/CherryJimbo');
