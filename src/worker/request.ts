@@ -133,7 +133,10 @@ export function interpretRequest(request: Request): CraftheadRequest | null {
 	} else if (identity.length === 36) {
 		identity = identity.replaceAll('-', '');
 		identityType = IdentityKind.Uuid;
-	} else if (identity.length === 64) {
+	} else if (identity.length >= 63 && identity.length <= 64) {
+		// Handle texture IDs, including those with leading zeros trimmed by Mojang
+		// Normalize by trimming leading zeros to match Mojang's storage format
+		identity = identity.replace(/^0+/, '') || '0';
 		identityType = IdentityKind.TextureID;
 	} else {
 		return null;
