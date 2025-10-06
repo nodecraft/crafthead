@@ -20,20 +20,20 @@
 		"test:dev": "vitest --watch"
 	},
 	"devDependencies": {
-		"@cloudflare/vitest-pool-workers": "0.8.64",
-		"@cloudflare/workers-types": "4.20250813.0",
+		"@cloudflare/vitest-pool-workers": "0.9.10",
+		"@cloudflare/workers-types": "4.20251004.0",
 		"@nodecraft/eslint-config": "46.0.0",
-		"@types/node": "22.17.1",
-		"@typescript-eslint/eslint-plugin": "8.39.1",
-		"@typescript-eslint/parser": "8.39.1",
+		"@types/node": "22.18.8",
+		"@typescript-eslint/eslint-plugin": "8.46.0",
+		"@typescript-eslint/parser": "8.46.0",
 		"eslint": "8.57.1",
 		"eslint-plugin-import": "2.32.0",
 		"eslint-plugin-json": "4.0.1",
 		"eslint-plugin-unicorn": "56.0.1",
 		"image-size": "2.0.2",
-		"typescript": "5.9.2",
+		"typescript": "5.9.3",
 		"vitest": "3.2.4",
-		"wrangler": "4.30.0"
+		"wrangler": "4.42.0"
 	},
 	"engines": {
 		"node": ">= 22"
