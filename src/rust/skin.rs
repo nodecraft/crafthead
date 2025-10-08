@@ -118,9 +118,10 @@ impl MinecraftSkin {
 	}
 
 	pub(crate) fn render_body(&self, options: RenderOptions) -> DynamicImage {
-		let layer_type = match options.armored {
-			true => Layer::Both,
-			false => Layer::Bottom,
+		let layer_type = if options.armored {
+			Layer::Both
+		} else {
+			Layer::Bottom
 		};
 
 		let img_width = match options.model {
@@ -135,36 +136,42 @@ impl MinecraftSkin {
 
 		let mut image = RgbaImage::new(img_width, 32);
 
+		// Head (centered)
 		imageops::overlay(
 			&mut image,
 			&self.get_part(layer_type, BodyPart::Head, options.model),
 			arm_width,
 			0,
 		);
+		// Body (centered)
 		imageops::overlay(
 			&mut image,
 			&self.get_part(layer_type, BodyPart::Body, options.model),
 			arm_width,
 			8,
 		);
-		imageops::overlay(
-			&mut image,
-			&self.get_part(layer_type, BodyPart::ArmLeft, options.model),
-			0,
-			8,
-		);
+		// Right Arm (viewer left)
 		imageops::overlay(
 			&mut image,
 			&self.get_part(layer_type, BodyPart::ArmRight, options.model),
-			arm_width + 8,
+			0,
 			8,
 		);
+		// Left Arm (viewer right)
+		imageops::overlay(
+			&mut image,
+			&self.get_part(layer_type, BodyPart::ArmLeft, options.model),
+			i64::from(img_width) - arm_width,
+			8,
+		);
+		// Right Leg
 		imageops::overlay(
 			&mut image,
 			&self.get_part(layer_type, BodyPart::LegLeft, options.model),
 			arm_width,
 			20,
 		);
+		// Left Leg
 		imageops::overlay(
 			&mut image,
 			&self.get_part(layer_type, BodyPart::LegRight, options.model),
@@ -280,5 +287,95 @@ impl MinecraftSkin {
 		}
 
 		DynamicImage::ImageRgba8(render)
+	}
+}
+
+#[cfg(test)]
+mod tests {
+	use super::*;
+	use image::{DynamicImage, Rgba, RgbaImage};
+
+	#[test]
+	fn test_render_body_all_positions() {
+		// Define unique colors for each part
+		let head_color = Rgba([255, 0, 0, 255]); // Red
+		let body_color = Rgba([0, 255, 0, 255]); // Green
+		let left_arm_color = Rgba([0, 0, 255, 255]); // Blue
+		let right_arm_color = Rgba([255, 255, 0, 255]); // Yellow
+		let left_leg_color = Rgba([255, 0, 255, 255]); // Magenta
+		let right_leg_color = Rgba([0, 255, 255, 255]); // Cyan
+
+		// Create a blank modern skin (64x64)
+		let mut skin = RgbaImage::new(64, 64);
+
+		// Fill each part with its color (modern skin layout)
+		// Head (8,8,8,8)
+		for y in 8..16 {
+			for x in 8..16 {
+				skin.put_pixel(x, y, head_color);
+			}
+		}
+		// Body (20,20,8,12)
+		for y in 20..32 {
+			for x in 20..28 {
+				skin.put_pixel(x, y, body_color);
+			}
+		}
+		// Left Arm (44,20,4,12)
+		for y in 20..32 {
+			for x in 44..48 {
+				skin.put_pixel(x, y, left_arm_color);
+			}
+		}
+		// Right Arm (36,52,4,12)
+		for y in 52..64 {
+			for x in 36..40 {
+				skin.put_pixel(x, y, right_arm_color);
+			}
+		}
+		// Left Leg (4,20,4,12)
+		for y in 20..32 {
+			for x in 4..8 {
+				skin.put_pixel(x, y, left_leg_color);
+			}
+		}
+		// Right Leg (20,52,4,12)
+		for y in 52..64 {
+			for x in 20..24 {
+				skin.put_pixel(x, y, right_leg_color);
+			}
+		}
+
+		let skin = MinecraftSkin(DynamicImage::ImageRgba8(skin));
+		let options = RenderOptions {
+			armored: false,
+			model: SkinModel::Regular,
+		};
+		let rendered = skin.render_body(options).into_rgba8();
+
+		// For Regular model: img_width = 16, arm_width = 4
+		// Head: (4, 0) to (11, 7)
+		assert_eq!(rendered.get_pixel(4, 0).0, head_color.0);
+		assert_eq!(rendered.get_pixel(7, 3).0, head_color.0);
+
+		// Body: (4, 8) to (11, 19)
+		assert_eq!(rendered.get_pixel(4, 8).0, body_color.0);
+		assert_eq!(rendered.get_pixel(7, 15).0, body_color.0);
+
+		// Right Arm (viewer left): (0, 8) to (3, 19)
+		assert_eq!(rendered.get_pixel(0, 8).0, right_arm_color.0);
+		assert_eq!(rendered.get_pixel(3, 15).0, right_arm_color.0);
+
+		// Left Arm (viewer right): (12, 8) to (15, 19)
+		assert_eq!(rendered.get_pixel(12, 8).0, left_arm_color.0);
+		assert_eq!(rendered.get_pixel(15, 15).0, left_arm_color.0);
+
+		// Right Leg (viewer left): (4, 20) to (7, 31)
+		assert_eq!(rendered.get_pixel(4, 20).0, left_leg_color.0); // should be left_leg_color (magenta)
+		assert_eq!(rendered.get_pixel(7, 25).0, left_leg_color.0);
+
+		// Left Leg (viewer right): (8, 20) to (11, 31)
+		assert_eq!(rendered.get_pixel(8, 20).0, right_leg_color.0); // should be right_leg_color (cyan)
+		assert_eq!(rendered.get_pixel(11, 25).0, right_leg_color.0);
 	}
 }
