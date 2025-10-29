@@ -192,6 +192,7 @@ export default class MojangRequestService {
 					headers: {
 						'User-Agent': 'Crafthead (+https://crafthead.net)',
 					},
+					signal: AbortSignal.timeout(5000),
 				});
 				if (!textureResponse.ok) {
 					throw new Error(`Unable to retrieve texture from Mojang, http status ${textureResponse.status}`);
@@ -228,6 +229,7 @@ export default class MojangRequestService {
 			headers: {
 				'User-Agent': 'Crafthead (+https://crafthead.net)',
 			},
+			signal: AbortSignal.timeout(5000),
 		});
 		if (!textureResponse.ok) {
 			throw new Error(`Unable to retrieve texture from Mojang, http status ${textureResponse.status}`);

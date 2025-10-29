@@ -63,12 +63,14 @@ export class DirectMojangApiService implements MojangApiService {
 			const request = new Request(`https://playerdb.co/api/player/minecraft/${username}`, {
 				headers: PlayerDBHeaders,
 				cf: this.request?.cf,
+				signal: AbortSignal.timeout(5000),
 			});
 			lookupResponse = await this.env.PLAYERDB.fetch(request);
 		} else {
 			lookupResponse = await fetch(`https://playerdb.co/api/player/minecraft/${username}`, {
 				headers: PlayerDBHeaders,
 				cf: this.request?.cf,
+				signal: AbortSignal.timeout(5000),
 			});
 		}
 
@@ -103,12 +105,14 @@ export class DirectMojangApiService implements MojangApiService {
 			const request = new Request(`https://playerdb.co/api/player/minecraft/${id}`, {
 				headers: PlayerDBHeaders,
 				cf: this.request?.cf,
+				signal: AbortSignal.timeout(5000),
 			});
 			profileResponse = await this.env.PLAYERDB.fetch(request);
 		} else {
 			profileResponse = await fetch(`https://playerdb.co/api/player/minecraft/${id}`, {
 				headers: PlayerDBHeaders,
 				cf: this.request?.cf,
+				signal: AbortSignal.timeout(5000),
 			});
 		}
 		let jsonData: PlayerDBProfile | null = null;
