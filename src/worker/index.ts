@@ -184,13 +184,21 @@ async function handleRequest(request: Request, env: Env, ctx: ExecutionContext) 
 		});
 		return new Response(response.body, { status: response.status, headers });
 	} catch (err) {
+		if ((err as Error).name === 'TimeoutError') {
+			writeDataPoint(env.CRAFTHEAD_ANALYTICS, request, {
+				startTime,
+				kind: interpreted.requestedKindString,
+				identityType: interpreted.identityType,
+				responseCode: 504,
+			});
+			return new Response('Upstream request timed out', { status: 504 });
+		}
 		writeDataPoint(env.CRAFTHEAD_ANALYTICS, request, {
 			startTime,
 			kind: interpreted.requestedKindString,
 			identityType: interpreted.identityType,
 			responseCode: 500,
 		});
-		console.error('Error processing request', err);
 		return new Response((err as Error).toString(), { status: 500 });
 	}
 }
