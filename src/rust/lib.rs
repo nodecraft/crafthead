@@ -54,6 +54,7 @@ impl RenderType {
 	}
 }
 
+#[inline]
 fn what_to_render_type(what: String) -> Option<RenderType> {
 	match what.as_str() {
 		"avatar" => Some(RenderType::Avatar),
@@ -96,7 +97,10 @@ pub fn get_rendered_image(
 				},
 			};
 			let rendered = render_type.unwrap().render(&skin, size, options);
-			let mut result = Cursor::new(Vec::with_capacity(1024));
+			// Better heuristic: ~4 bytes per pixel uncompressed, 50% compression ratio
+			// For body renders, the height is 2x the size
+			let estimated_size = (size * size * 2).max(4096) as usize;
+			let mut result = Cursor::new(Vec::with_capacity(estimated_size));
 			match rendered.write_to(&mut result, image::ImageFormat::Png) {
 				Ok(()) => Ok(Uint8Array::from(&result.get_ref()[..])),
 				Err(_err) => Err(js_sys::Error::new("Couldn't save resized skin.").into()),

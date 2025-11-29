@@ -19,6 +19,7 @@ cfg_if! {
 	}
 }
 
+#[inline]
 fn is_image_region_transparent_to_minecraft(
 	img: &DynamicImage,
 	x: u32,
@@ -39,11 +40,13 @@ fn is_image_region_transparent_to_minecraft(
 	false
 }
 
+#[inline]
 pub(crate) fn apply_minecraft_transparency(img: &mut DynamicImage) {
 	let (width, height) = img.dimensions();
 	apply_minecraft_transparency_region(img, 0, 0, width, height);
 }
 
+#[inline]
 fn apply_minecraft_transparency_region(
 	img: &mut DynamicImage,
 	x: u32,
@@ -64,6 +67,7 @@ fn apply_minecraft_transparency_region(
 	}
 }
 
+#[inline]
 pub(crate) fn fast_overlay(bottom: &mut DynamicImage, top: &DynamicImage, x: u32, y: u32) {
 	// All but a straight port of https://github.com/minotar/imgd/blob/master/process.go#L386
 	// to Rust.

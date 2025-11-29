@@ -1,13 +1,11 @@
 import { EMPTY } from './data';
 import { RequestedKind, interpretRequest } from './request';
-import { DirectMojangApiService } from './services/mojang/api';
-import MojangRequestService from './services/mojang/service';
+import { fetchProfile, retrieveCape, retrieveSkin } from './services/mojang/service';
 import { writeDataPoint } from './util/analytics';
 import { default as CACHE_BUST } from './util/cache-bust';
 import { get_rendered_image } from '../../pkg/mcavatar';
 
 import type { CraftheadRequest } from './request';
-import type { Env } from './types';
 
 function decorateHeaders(interpreted: CraftheadRequest, headers: Headers, hitCache: boolean): Headers {
 	const copiedHeaders = new Headers(headers);
@@ -32,6 +30,15 @@ function getCacheKey(interpreted: CraftheadRequest): string {
 	return `https://crafthead.net/__public${CACHE_BUST}/${interpreted.requested}/${interpreted.armored}/${interpreted.model}/${interpreted.identity.toLocaleLowerCase('en-US')}/${interpreted.size}`;
 }
 
+const RENDER_TYPE_MAP: Record<number, string> = {
+	[RequestedKind.Avatar]: 'avatar',
+	[RequestedKind.Helm]: 'helm',
+	[RequestedKind.Cube]: 'cube',
+	[RequestedKind.Body]: 'body',
+	[RequestedKind.Bust]: 'bust',
+	[RequestedKind.Cape]: 'cape',
+} as const;
+
 async function renderImage(skin: Response, request: CraftheadRequest): Promise<Response> {
 	const { size, requested, armored } = request;
 	const destinationHeaders = new Headers(skin.headers);
@@ -39,35 +46,9 @@ async function renderImage(skin: Response, request: CraftheadRequest): Promise<R
 	const skinArrayBuffer = await skin.arrayBuffer();
 	const skinBuf = new Uint8Array(skinArrayBuffer);
 
-	let which: string;
-	switch (requested) {
-		case RequestedKind.Avatar: {
-			which = 'avatar';
-			break;
-		}
-		case RequestedKind.Helm: {
-			which = 'helm';
-			break;
-		}
-		case RequestedKind.Cube: {
-			which = 'cube';
-			break;
-		}
-		case RequestedKind.Body: {
-			which = 'body';
-			break;
-		}
-		case RequestedKind.Bust: {
-			which = 'bust';
-			break;
-		}
-		case RequestedKind.Cape: {
-			which = 'cape';
-			break;
-		}
-		default: {
-			throw new Error('Unknown requested kind');
-		}
+	const which = RENDER_TYPE_MAP[requested];
+	if (!which) {
+		throw new Error('Unknown requested kind');
 	}
 
 	return new Response(get_rendered_image(skinBuf, size, which, armored, slim), {
@@ -75,10 +56,10 @@ async function renderImage(skin: Response, request: CraftheadRequest): Promise<R
 	});
 }
 
-async function processRequest(skinService: MojangRequestService, interpreted: CraftheadRequest): Promise<Response> {
+async function processRequest(request: Request, interpreted: CraftheadRequest): Promise<Response> {
 	switch (interpreted.requested) {
 		case RequestedKind.Profile: {
-			const lookup = await skinService.fetchProfile(interpreted);
+			const lookup = await fetchProfile(request, interpreted);
 			if (!lookup.result) {
 				return new Response(JSON.stringify({ error: 'User does not exist' }), {
 					status: 404,
@@ -98,14 +79,14 @@ async function processRequest(skinService: MojangRequestService, interpreted: Cr
 		case RequestedKind.Cube:
 		case RequestedKind.Body:
 		case RequestedKind.Bust: {
-			const skin = await skinService.retrieveSkin(interpreted);
+			const skin = await retrieveSkin(request, interpreted);
 			return renderImage(skin, interpreted);
 		}
 		case RequestedKind.Skin: {
-			return skinService.retrieveSkin(interpreted);
+			return retrieveSkin(request, interpreted);
 		}
 		case RequestedKind.Cape: {
-			const cape = await skinService.retrieveCape(interpreted);
+			const cape = await retrieveCape(request, interpreted);
 			if (cape.status === 404) {
 				return new Response(EMPTY, {
 					status: 404,
@@ -122,7 +103,7 @@ async function processRequest(skinService: MojangRequestService, interpreted: Cr
 	}
 }
 
-async function handleRequest(request: Request, env: Env, ctx: ExecutionContext) {
+async function handleRequest(request: Request, env: Cloudflare.Env, ctx: ExecutionContext) {
 	const startTime = new Date();
 	const interpreted = interpretRequest(request);
 	if (!interpreted) {
@@ -165,8 +146,7 @@ async function handleRequest(request: Request, env: Env, ctx: ExecutionContext) 
 			// The item is not in the Cloudflare datacenter's cache. We need to process the request further.
 			//console.log('Request not satisfied from cache.');
 
-			const skinService = new MojangRequestService(new DirectMojangApiService(env, request));
-			response = await processRequest(skinService, interpreted);
+			response = await processRequest(request, interpreted);
 			if (response.ok) {
 				const cacheResponse = response.clone();
 				cacheResponse.headers.set('Content-Type', interpreted.requested === RequestedKind.Profile ? 'application/json' : 'image/png');
@@ -207,4 +187,4 @@ export default {
 	fetch(request, env, ctx): Promise<Response> {
 		return handleRequest(request, env, ctx);
 	},
-} satisfies ExportedHandler<Env>;
+} satisfies ExportedHandler<Cloudflare.Env>;

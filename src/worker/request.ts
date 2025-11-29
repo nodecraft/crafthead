@@ -87,8 +87,9 @@ export function identityTypeEnumToString(kind: IdentityKind): string {
 
 export function interpretRequest(request: Request): CraftheadRequest | null {
 	const url = new URL(request.url);
-	if (url.href.endsWith('.png')) {
-		url.href = url.href.slice(0, Math.max(0, url.href.length - 4));
+	let pathname = url.pathname;
+	if (pathname.endsWith('.png')) {
+		pathname = pathname.slice(0, -4);
 	}
 
 	let model = url.searchParams.get('model');
@@ -99,13 +100,13 @@ export function interpretRequest(request: Request): CraftheadRequest | null {
 	let armored = false;
 	let sliceAmt = 1;
 
-	if (url.pathname.includes('/armor/cube/') || url.pathname.includes('/armor/body/') || url.pathname.includes('/armor/bust/')) {
+	if (pathname.includes('/armor/cube/') || pathname.includes('/armor/body/') || pathname.includes('/armor/bust/')) {
 		armored = true;
 		sliceAmt = 2;
 	}
 
 	// eslint-disable-next-line prefer-const
-	let [requestedKindString, identity, sizeString] = url.pathname.split('/').slice(sliceAmt);
+	let [requestedKindString, identity, sizeString] = pathname.split('/').slice(sliceAmt);
 	if (!identity) {
 		return null;
 	}
