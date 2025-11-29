@@ -7,7 +7,7 @@
 	"main": "worker/index.js",
 	"type": "module",
 	"scripts": {
-		"build": "wasm-pack build --release -t nodejs && node --experimental-strip-types ./helper/fix-wasm-pack-output.ts",
+		"build": "wasm-pack build --release -t nodejs && node ./helper/fix-wasm-pack-output.ts",
 		"check-types": "npm run check-types:server",
 		"check-types:server": "tsc --noemit",
 		"dev": "wrangler dev",
@@ -20,12 +20,12 @@
 		"test:dev": "vitest --watch"
 	},
 	"devDependencies": {
-		"@cloudflare/vitest-pool-workers": "0.10.2",
-		"@cloudflare/workers-types": "4.20251014.0",
+		"@cloudflare/vitest-pool-workers": "0.10.11",
+		"@cloudflare/workers-types": "4.20251128.0",
 		"@nodecraft/eslint-config": "46.0.0",
-		"@types/node": "22.18.13",
-		"@typescript-eslint/eslint-plugin": "8.46.2",
-		"@typescript-eslint/parser": "8.46.2",
+		"@types/node": "24.10.1",
+		"@typescript-eslint/eslint-plugin": "8.48.0",
+		"@typescript-eslint/parser": "8.48.0",
 		"eslint": "8.57.1",
 		"eslint-plugin-import": "2.32.0",
 		"eslint-plugin-json": "4.0.1",
@@ -33,9 +33,9 @@
 		"image-size": "2.0.2",
 		"typescript": "5.9.3",
 		"vitest": "3.2.4",
-		"wrangler": "4.45.2"
+		"wrangler": "4.51.0"
 	},
 	"engines": {
-		"node": ">= 22"
+		"node": ">= 24"
 	}
 }

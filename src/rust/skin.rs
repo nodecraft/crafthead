@@ -43,10 +43,12 @@ const SKEW_A: f32 = 26.0 / 45.0; // 0.57777777
 const SKEW_B: f32 = SKEW_A * 2.0; // 1.15555555
 
 impl MinecraftSkin {
+	#[inline]
 	pub fn new(skin: DynamicImage) -> MinecraftSkin {
 		MinecraftSkin(skin)
 	}
 
+	#[inline]
 	fn version(&self) -> MinecraftSkinVersion {
 		match self.0.dimensions() {
 			(64, 32) => MinecraftSkinVersion::Classic,

@@ -10,15 +10,15 @@ jobs:
     timeout-minutes: 15
     strategy:
       matrix:
-        node: [22]
+        node: [24]
     name: Node ${{ matrix.node }} Test
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: ${{ matrix.node }}
-          cache: 'npm'
+          cache: "npm"
       - uses: dtolnay/rust-toolchain@stable
       - uses: jetli/wasm-pack-action@v0.4.0
         with:
