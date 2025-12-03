@@ -16,6 +16,7 @@ import type { CacheComputeResult } from '../../util/cache-helper';
 interface TextureResponse {
 	texture: Response;
 	model?: string;
+	textureId?: string;
 }
 
 interface MojangTextureData {
@@ -91,15 +92,11 @@ async function fetchTextureFromProfile(profile: MojangProfile, type: TextureKind
 				throw new Error(`Unable to retrieve texture from Mojang, http status ${textureResponse.status}`);
 			}
 
-			const response = new Response(textureResponse.body);
-			const textureID = textureUrl.split('/').pop();
-			if (textureID) {
-				response.headers.set('X-Crafthead-Texture-ID', textureID);
-			}
 			//console.log('Successfully retrieved texture');
 			return {
-				texture: response,
+				texture: textureResponse,
 				model: texturesData?.SKIN?.metadata?.model,
+				textureId: textureUrl.split('/').pop(),
 			};
 		}
 	}
@@ -111,9 +108,10 @@ async function fetchTextureFromProfile(profile: MojangProfile, type: TextureKind
 async function constructTextureResponse(textureResponse: TextureResponse, request: CraftheadRequest, source?: string): Promise<Response> {
 	const buff = await textureResponse.texture.arrayBuffer();
 	if (buff && buff.byteLength > 0) {
-		const headers = new Headers(textureResponse.texture.headers);
-		if (!headers.has('X-Crafthead-Profile-Cache-Hit')) {
-			headers.set('X-Crafthead-Profile-Cache-Hit', source || 'miss');
+		const headers = new Headers();
+		headers.set('X-Crafthead-Profile-Cache-Hit', source || 'miss');
+		if (textureResponse.textureId) {
+			headers.set('X-Crafthead-Texture-ID', textureResponse.textureId);
 		}
 		return new Response(buff, {
 			status: 200,
@@ -129,30 +127,43 @@ async function constructTextureResponse(textureResponse: TextureResponse, reques
 	});
 }
 
+interface NormalizedRequest {
+	request: CraftheadRequest;
+	/** Profile data if fetched during normalization (avoids second lookup) */
+	profile?: MojangProfile;
+}
+
 /**
- * Normalizes the incoming request, such that we only work with UUIDs. A new request bearing an UUID is returned.
+ * Normalizes the incoming request, such that we only work with UUIDs.
+ * Also returns the profile if it was fetched during username lookup (to avoid double lookups).
  */
-async function normalizeRequest(incomingRequest: Request, request: CraftheadRequest): Promise<CraftheadRequest> {
+async function normalizeRequest(incomingRequest: Request, request: CraftheadRequest): Promise<NormalizedRequest> {
 	if (request.identityType === IdentityKind.Uuid || request.identityType === IdentityKind.TextureID) {
-		return request;
+		return { request };
 	}
 
 	const normalized: CraftheadRequest = { ...request, identityType: IdentityKind.Uuid };
 
-	const profileLookup = await mojangApi.lookupUsername(incomingRequest, request.identity);
-	if (profileLookup) {
-		normalized.identity = profileLookup.id;
-	} else {
-		// The lookup failed.
-		normalized.identity = toHex(await offlinePlayerUuid(request.identity));
+	const profile = await mojangApi.lookupUsername(incomingRequest, request.identity);
+	if (profile) {
+		normalized.identity = profile.id;
+		return { request: normalized, profile };
 	}
-	return normalized;
+	// The lookup failed - use offline mode UUID
+	normalized.identity = toHex(await offlinePlayerUuid(request.identity));
+	return { request: normalized };
 }
 
 /**
  * Fetches a texture directly from the Mojang servers. Assumes the request has been normalized already.
+ * @param prefetchedProfile - If provided, skips the profile fetch (avoids double lookup for username requests)
  */
-async function retrieveTextureDirect(incomingRequest: Request, request: CraftheadRequest, kind: TextureKind): Promise<TextureResponse> {
+async function retrieveTextureDirect(
+	incomingRequest: Request,
+	request: CraftheadRequest,
+	kind: TextureKind,
+	prefetchedProfile?: MojangProfile,
+): Promise<TextureResponse> {
 	if (request.identityType === IdentityKind.TextureID) {
 		const textureResponse = await fetchTextureFromId(request.identity);
 		return {
@@ -161,12 +172,23 @@ async function retrieveTextureDirect(incomingRequest: Request, request: Crafthea
 	}
 	const rawUuid = fromHex(request.identity);
 	if (uuidVersion(rawUuid) === 4) {
-		const lookup = await mojangApi.fetchProfile(incomingRequest, request.identity);
-		if (lookup.result) {
-			const textureResponse = await fetchTextureFromProfile(lookup.result, kind);
+		// Use prefetched profile if available, otherwise fetch it
+		let profile: MojangProfile | null;
+		let source: string;
+		if (prefetchedProfile) {
+			profile = prefetchedProfile;
+			source = 'hit'; // Was fetched during normalization
+		} else {
+			const lookup = await mojangApi.fetchProfile(incomingRequest, request.identity);
+			profile = lookup.result;
+			source = lookup.source;
+		}
+
+		if (profile) {
+			const textureResponse = await fetchTextureFromProfile(profile, kind);
 			if (textureResponse) {
 				return {
-					texture: await constructTextureResponse(textureResponse, request, lookup.source),
+					texture: await constructTextureResponse(textureResponse, request, source),
 					model: textureResponse.model,
 				};
 			}
@@ -205,8 +227,8 @@ export async function retrieveSkin(incomingRequest: Request, request: CraftheadR
 		return new Response(STEVE_SKIN);
 	}
 
-	const normalized = await normalizeRequest(incomingRequest, request);
-	const skin = await retrieveTextureDirect(incomingRequest, normalized, TextureKind.SKIN);
+	const { request: normalized, profile } = await normalizeRequest(incomingRequest, request);
+	const skin = await retrieveTextureDirect(incomingRequest, normalized, TextureKind.SKIN, profile);
 	if (skin.texture.status === 404) {
 		// Offline mode ID (usually when we have a username and the username isn't valid)
 		const rawUuid = fromHex(normalized.identity);
@@ -231,8 +253,8 @@ export async function retrieveSkin(incomingRequest: Request, request: CraftheadR
 }
 
 export async function retrieveCape(incomingRequest: Request, request: CraftheadRequest): Promise<Response> {
-	const normalized = await normalizeRequest(incomingRequest, request);
-	const cape = await retrieveTextureDirect(incomingRequest, normalized, TextureKind.CAPE);
+	const { request: normalized, profile } = await normalizeRequest(incomingRequest, request);
+	const cape = await retrieveTextureDirect(incomingRequest, normalized, TextureKind.CAPE, profile);
 	if (cape.texture.status === 404) {
 		return new Response(EMPTY, {
 			status: 404,
@@ -245,11 +267,18 @@ export async function retrieveCape(incomingRequest: Request, request: CraftheadR
 }
 
 export async function fetchProfile(incomingRequest: Request, request: CraftheadRequest): Promise<CacheComputeResult<MojangProfile | null>> {
-	const normalized = await normalizeRequest(incomingRequest, request);
+	const { request: normalized, profile } = await normalizeRequest(incomingRequest, request);
 	if (!normalized.identity || uuidVersion(fromHex(normalized.identity)) === 3) {
 		return {
 			result: null,
 			source: 'mojang',
+		};
+	}
+	// If we already fetched the profile during normalization, use it
+	if (profile) {
+		return {
+			result: profile,
+			source: 'hit',
 		};
 	}
 	return mojangApi.fetchProfile(incomingRequest, normalized.identity);

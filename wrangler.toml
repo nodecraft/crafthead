@@ -1,7 +1,7 @@
 name = "crafthead-dev"
 main = "src/worker/index.ts"
 workers_dev = true
-compatibility_date = "2025-11-29"
+compatibility_date = "2025-11-28"
 analytics_engine_datasets = [
 	{ binding = "CRAFTHEAD_ANALYTICS" }
 ]

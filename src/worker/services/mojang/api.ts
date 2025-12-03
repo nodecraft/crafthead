@@ -45,10 +45,14 @@ const PlayerDBHeaders = {
 	'User-Agent': 'Crafthead (+https://crafthead.net)',
 };
 
+/**
+ * Looks up a username and returns the full profile (including properties/textures).
+ * This avoids needing a separate fetchProfile call since PlayerDB returns everything.
+ */
 export async function lookupUsername(
 	request: Request,
 	username: string,
-): Promise<MojangUsernameLookupResult | null> {
+): Promise<MojangProfile | null> {
 	let lookupResponse: Response;
 	if (env.PLAYERDB) {
 		const playerDbRequest = new Request(`https://playerdb.co/api/player/minecraft/${username}`, {
@@ -78,15 +82,12 @@ export async function lookupUsername(
 	} else {
 		const returnedProfile = jsonData.data?.player;
 
-		// Now we need to mangle this data into the format we expect.
-		const data = {
+		// Return the full profile including properties (textures)
+		return {
 			id: returnedProfile.raw_id,
 			name: returnedProfile.username,
+			properties: returnedProfile.properties,
 		};
-		if (data === undefined) {
-			return null;
-		}
-		return data;
 	}
 }
 
