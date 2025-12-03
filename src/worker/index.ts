@@ -27,7 +27,7 @@ function decorateHeaders(interpreted: CraftheadRequest, headers: Headers, hitCac
 
 
 function getCacheKey(interpreted: CraftheadRequest): string {
-	return `https://crafthead.net/__public${CACHE_BUST}/${interpreted.requested}/${interpreted.armored}/${interpreted.model}/${interpreted.identity.toLocaleLowerCase('en-US')}/${interpreted.size}`;
+	return `https://crafthead.net/__public${CACHE_BUST}/${interpreted.requested}/${interpreted.armored}/${interpreted.model}/${interpreted.identity.toLowerCase()}/${interpreted.size}`;
 }
 
 const RENDER_TYPE_MAP: Record<number, string> = {
@@ -43,8 +43,7 @@ async function renderImage(skin: Response, request: CraftheadRequest): Promise<R
 	const { size, requested, armored } = request;
 	const destinationHeaders = new Headers(skin.headers);
 	const slim = destinationHeaders.get('X-Crafthead-Skin-Model') === 'slim';
-	const skinArrayBuffer = await skin.arrayBuffer();
-	const skinBuf = new Uint8Array(skinArrayBuffer);
+	const skinBuf = await skin.bytes();
 
 	const which = RENDER_TYPE_MAP[requested];
 	if (!which) {
