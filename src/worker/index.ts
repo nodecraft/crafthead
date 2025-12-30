@@ -120,7 +120,7 @@ async function handleRequest(request: Request, env: Cloudflare.Env, ctx: Executi
 				writeDataPoint(env.CRAFTHEAD_ANALYTICS, request, {
 					startTime,
 					kind: '_asset',
-					responseCode: 404,
+					responseCode: 500,
 				});
 				const probableError = err as Error;
 				return new Response(probableError?.message || probableError.toString(), { status: 500 });

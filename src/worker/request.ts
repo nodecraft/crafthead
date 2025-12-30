@@ -134,10 +134,25 @@ export function interpretRequest(request: Request): CraftheadRequest | null {
 	} else if (identity.length === 36) {
 		identity = identity.replaceAll('-', '');
 		identityType = IdentityKind.Uuid;
-	} else if (identity.length >= 63 && identity.length <= 64) {
-		// Handle texture IDs, including those with leading zeros trimmed by Mojang
-		// Normalize by trimming leading zeros to match Mojang's storage format
+	} else if (identity.length > 16 && identity.length <= 90) {
+		// Validate hex characters first
+		if (!/^[\da-f]+$/i.test(identity)) {
+			console.error(`Invalid texture ID format: contains non-hexadecimal characters. Identity: ${identity.slice(0, 20)}...`);
+			return null;
+		}
+
+		// Handle texture IDs with any number of leading zeros
+		// Mojang stores these hashes with leading zeros already stripped, so we need to
+		// normalize user input (which may have 0-N leading zeros) to match the stored format
+		// Accept range of 17-90 chars (SHA-256 is 64 chars + up to 26 leading zeros)
 		identity = identity.replace(/^0+/, '') || '0';
+
+		// Validate that the normalized hash is at most 64 chars (SHA-256 hash length)
+		if (identity.length > 64) {
+			console.error(`Invalid texture ID: normalized length ${identity.length} exceeds 64 characters`);
+			return null;
+		}
+
 		identityType = IdentityKind.TextureID;
 	} else {
 		return null;

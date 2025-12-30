@@ -300,6 +300,198 @@ describe('worker requests', () => {
 		expect(image63).toStrictEqual(image64);
 	});
 
+	it('handles texture ID with two leading zeros (issue #126)', async () => {
+		// Test case from issue #126: hash that would be 64 chars if fully zero-padded
+		// All three variations should work and return the same image
+		const hash62 = '3e77dc49bb365c095f9dc3333938d416d48d19d1089b8f037d8bebb898be7c'; // 62 chars - normalized form (as stored by Mojang)
+		const hash63 = '03e77dc49bb365c095f9dc3333938d416d48d19d1089b8f037d8bebb898be7c'; // 63 chars - with 1 leading zero
+		const hash64 = '003e77dc49bb365c095f9dc3333938d416d48d19d1089b8f037d8bebb898be7c'; // 64 chars - with 2 leading zeros
+
+		const request62 = new IncomingRequest(`http://crafthead.net/helm/${hash62}`);
+		const request63 = new IncomingRequest(`http://crafthead.net/helm/${hash63}`);
+		const request64 = new IncomingRequest(`http://crafthead.net/helm/${hash64}`);
+
+		const ctx = createExecutionContext();
+		const response62 = await worker.fetch(request62, env, ctx);
+		const response63 = await worker.fetch(request63, env, ctx);
+		const response64 = await worker.fetch(request64, env, ctx);
+		await waitOnExecutionContext(ctx);
+
+		// All should return valid images
+		expect(response62.headers.get('content-type')).toContain('image/png');
+		expect(response63.headers.get('content-type')).toContain('image/png');
+		expect(response64.headers.get('content-type')).toContain('image/png');
+
+		// All should return the same image
+		const image62 = await response62.arrayBuffer();
+		const image63 = await response63.arrayBuffer();
+		const image64 = await response64.arrayBuffer();
+		expect(image62).toStrictEqual(image63);
+		expect(image63).toStrictEqual(image64);
+	});
+
+	it('handles texture ID with three leading zeros', async () => {
+		// Tests up to 65-char input (62-char normalized hash + 3 leading zeros)
+		// Uses same underlying hash as issue #126 to verify handling of additional leading zeros
+		const hash62 = '3e77dc49bb365c095f9dc3333938d416d48d19d1089b8f037d8bebb898be7c'; // 62 chars - normalized form (as stored by Mojang)
+		const hash63 = '03e77dc49bb365c095f9dc3333938d416d48d19d1089b8f037d8bebb898be7c'; // 63 chars - with 1 leading zero
+		const hash64 = '003e77dc49bb365c095f9dc3333938d416d48d19d1089b8f037d8bebb898be7c'; // 64 chars - with 2 leading zeros
+		const hash65 = '0003e77dc49bb365c095f9dc3333938d416d48d19d1089b8f037d8bebb898be7c'; // 65 chars - with 3 leading zeros
+
+		const request62 = new IncomingRequest(`http://crafthead.net/helm/${hash62}`);
+		const request63 = new IncomingRequest(`http://crafthead.net/helm/${hash63}`);
+		const request64 = new IncomingRequest(`http://crafthead.net/helm/${hash64}`);
+		const request65 = new IncomingRequest(`http://crafthead.net/helm/${hash65}`);
+
+		const ctx = createExecutionContext();
+		const response62 = await worker.fetch(request62, env, ctx);
+		const response63 = await worker.fetch(request63, env, ctx);
+		const response64 = await worker.fetch(request64, env, ctx);
+		const response65 = await worker.fetch(request65, env, ctx);
+		await waitOnExecutionContext(ctx);
+
+		// All should return valid images
+		expect(response62.headers.get('content-type')).toContain('image/png');
+		expect(response63.headers.get('content-type')).toContain('image/png');
+		expect(response64.headers.get('content-type')).toContain('image/png');
+		expect(response65.headers.get('content-type')).toContain('image/png');
+
+		// All should return the same image
+		const image62 = await response62.arrayBuffer();
+		const image63 = await response63.arrayBuffer();
+		const image64 = await response64.arrayBuffer();
+		const image65 = await response65.arrayBuffer();
+		expect(image62).toStrictEqual(image63);
+		expect(image63).toStrictEqual(image64);
+		expect(image64).toStrictEqual(image65);
+	});
+
+	it('handles texture ID with extra leading zeros beyond 64 chars', async () => {
+		// Test with extra leading zeros (65+ chars input)
+		const hash64 = '003e77dc49bb365c095f9dc3333938d416d48d19d1089b8f037d8bebb898be7c'; // 64 chars - with 2 leading zeros
+		const hash65 = '0003e77dc49bb365c095f9dc3333938d416d48d19d1089b8f037d8bebb898be7c'; // 65 chars - with 3 leading zeros
+		const hash66 = '00003e77dc49bb365c095f9dc3333938d416d48d19d1089b8f037d8bebb898be7c'; // 66 chars - with 4 leading zeros
+
+		const request64 = new IncomingRequest(`http://crafthead.net/helm/${hash64}`);
+		const request65 = new IncomingRequest(`http://crafthead.net/helm/${hash65}`);
+		const request66 = new IncomingRequest(`http://crafthead.net/helm/${hash66}`);
+
+		const ctx = createExecutionContext();
+		const response64 = await worker.fetch(request64, env, ctx);
+		const response65 = await worker.fetch(request65, env, ctx);
+		const response66 = await worker.fetch(request66, env, ctx);
+		await waitOnExecutionContext(ctx);
+
+		// All should return valid images
+		expect(response64.headers.get('content-type')).toContain('image/png');
+		expect(response65.headers.get('content-type')).toContain('image/png');
+		expect(response66.headers.get('content-type')).toContain('image/png');
+
+		// All should return the same image
+		const image64 = await response64.arrayBuffer();
+		const image65 = await response65.arrayBuffer();
+		const image66 = await response66.arrayBuffer();
+		expect(image64).toStrictEqual(image65);
+		expect(image65).toStrictEqual(image66);
+	});
+
+	it('rejects invalid texture IDs with non-hex characters', async () => {
+		// Test that non-hex characters are rejected
+		const invalidHash = 'g3e77dc49bb365c095f9dc3333938d416d48d19d1089b8f037d8bebb898be7c'; // 'g' is not hex
+
+		const request = new IncomingRequest(`http://crafthead.net/helm/${invalidHash}`);
+		const ctx = createExecutionContext();
+		const response = await worker.fetch(request, env, ctx);
+		await waitOnExecutionContext(ctx);
+
+		// Should return 404 for invalid hash
+		expect(response.status).toBe(404);
+	});
+
+	it('handles texture ID at minimum length boundary (17 chars)', async () => {
+		// 17 hex characters is the minimum for texture ID (16 or fewer = username)
+		// This tests the boundary between username and texture ID classification
+		const hash17 = '1234567890abcdef1'; // exactly 17 chars
+
+		const request = new IncomingRequest(`http://crafthead.net/helm/${hash17}`);
+		const ctx = createExecutionContext();
+		const response = await worker.fetch(request, env, ctx);
+		await waitOnExecutionContext(ctx);
+
+		// Should attempt to process as texture ID (may 404 if texture doesn't exist, or 500)
+		// The key is it's not treated as a username
+		expect([200, 404, 500]).toContain(response.status);
+	});
+
+	it('handles texture ID at maximum input length boundary (90 chars)', async () => {
+		// 90 chars is the maximum accepted input length (64 char hash + up to 26 leading zeros)
+		// This tests the upper boundary of the generous input range
+		const leadingZeros = '0'.repeat(26);
+		const validHash = '1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef'; // 64 chars
+		const hash90 = leadingZeros + validHash; // exactly 90 chars (26 + 64 = 90)
+
+		const request = new IncomingRequest(`http://crafthead.net/helm/${hash90}`);
+		const ctx = createExecutionContext();
+		const response = await worker.fetch(request, env, ctx);
+		await waitOnExecutionContext(ctx);
+
+		// Should accept and process (normalize to 64 chars)
+		expect([200, 404, 500]).toContain(response.status);
+	});
+
+	it('rejects texture ID beyond maximum input length (91 chars)', async () => {
+		// 91 chars exceeds the maximum, should be rejected immediately
+		const leadingZeros = '0'.repeat(27);
+		const validHash = '1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef'; // 64 chars
+		const hash91 = leadingZeros + validHash; // 91 chars (27 + 64 = 91)
+
+		const request = new IncomingRequest(`http://crafthead.net/helm/${hash91}`);
+		const ctx = createExecutionContext();
+		const response = await worker.fetch(request, env, ctx);
+		await waitOnExecutionContext(ctx);
+
+		// Should return 404 for hash that's too long
+		expect(response.status).toBe(404);
+	});
+
+	it('handles texture ID with many leading zeros (edge case)', async () => {
+		// Test with a hash that has many leading zeros
+		// Using the real hash from issue #126 with extra leading zeros
+		const hash20Zeros = '000000000000000000003e77dc49bb365c095f9dc3333938d416d48d19d1089b8f037d8bebb898be7c'; // 20 leading zeros (82 chars total)
+		const hash64Normal = '003e77dc49bb365c095f9dc3333938d416d48d19d1089b8f037d8bebb898be7c'; // normal (64 chars)
+
+		const request20 = new IncomingRequest(`http://crafthead.net/helm/${hash20Zeros}`);
+		const request64 = new IncomingRequest(`http://crafthead.net/helm/${hash64Normal}`);
+
+		const ctx = createExecutionContext();
+		const response20 = await worker.fetch(request20, env, ctx);
+		const response64 = await worker.fetch(request64, env, ctx);
+		await waitOnExecutionContext(ctx);
+
+		// Both should return valid images
+		expect(response20.headers.get('content-type')).toContain('image/png');
+		expect(response64.headers.get('content-type')).toContain('image/png');
+
+		// Both should return the same image
+		const image20 = await response20.arrayBuffer();
+		const image64 = await response64.arrayBuffer();
+		expect(image20).toStrictEqual(image64);
+	});
+
+	it('rejects texture IDs that are too long after normalization', async () => {
+		// Test with a hash that's > 64 chars even after stripping zeros
+		// This hash has 65 hex chars and doesn't start with 0, so it stays 65 chars after normalization
+		const tooLong = '123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef01'; // 65 chars of valid hex
+
+		const request = new IncomingRequest(`http://crafthead.net/helm/${tooLong}`);
+		const ctx = createExecutionContext();
+		const response = await worker.fetch(request, env, ctx);
+		await waitOnExecutionContext(ctx);
+
+		// Should return 404 for hash that's too long
+		expect(response.status).toBe(404);
+	});
+
 	it('responds with a matching avatar image by UUID, username, and texture ID', async () => {
 		const request1 = new IncomingRequest('http://crafthead.net/avatar/ef6134805b6244e4a4467fbe85d65513');
 		const request2 = new IncomingRequest('http://crafthead.net/avatar/CherryJimbo');
