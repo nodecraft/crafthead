@@ -8,6 +8,7 @@ use imageproc::geometric_transformations::{warp_into, Interpolation, Projection}
 /// TODO: Update texture coordinates when Hytale skin format is known
 pub(crate) struct HytaleSkin(DynamicImage);
 
+#[allow(dead_code)] // Stub for future use when Hytale format is known
 #[derive(Copy, Clone, PartialEq)]
 pub(crate) enum HytaleSkinVersion {
 	Standard, // Assumed standard format, update when known
@@ -51,6 +52,7 @@ impl HytaleSkin {
 		HytaleSkin(skin)
 	}
 
+	#[allow(dead_code)] // Stub for future use when Hytale format is known
 	#[inline]
 	fn version(&self) -> HytaleSkinVersion {
 		// TODO: Update when Hytale skin format dimensions are known
