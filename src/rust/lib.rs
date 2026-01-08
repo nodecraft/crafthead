@@ -2,16 +2,18 @@ extern crate cfg_if;
 extern crate image;
 extern crate wasm_bindgen;
 
-mod skin;
+mod hytale;
+mod minecraft;
 mod utils;
 
+use hytale::HytaleSkin;
 use image::DynamicImage;
 use js_sys::Uint8Array;
-use skin::*;
+use minecraft::*;
 use std::io::Cursor;
 use wasm_bindgen::prelude::*;
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone, Copy)]
 enum RenderType {
 	Avatar,
 	Helm,
@@ -21,13 +23,24 @@ enum RenderType {
 	Cape,
 }
 
-struct RenderOptions {
-	armored: bool,
-	model: SkinModel,
+#[derive(Debug, PartialEq, Clone, Copy)]
+enum Game {
+	Minecraft,
+	Hytale,
+}
+
+pub(crate) struct RenderOptions {
+	pub armored: bool,
+	pub model: SkinModel,
 }
 
 impl RenderType {
-	fn render(self, img: &MinecraftSkin, size: u32, options: RenderOptions) -> DynamicImage {
+	fn render_minecraft(
+		self,
+		img: &MinecraftSkin,
+		size: u32,
+		options: RenderOptions,
+	) -> DynamicImage {
 		match self {
 			RenderType::Avatar => img
 				.get_part(Layer::Bottom, BodyPart::Head, options.model)
@@ -52,6 +65,62 @@ impl RenderType {
 			}
 		}
 	}
+
+	fn render_hytale(self, img: &HytaleSkin, size: u32, options: RenderOptions) -> DynamicImage {
+		use hytale::{BodyPart as HytaleBodyPart, Layer as HytaleLayer};
+
+		match self {
+			RenderType::Avatar => img
+				.get_part(
+					HytaleLayer::Bottom,
+					HytaleBodyPart::Head,
+					options.model.into(),
+				)
+				.resize(size, size, image::imageops::FilterType::Nearest),
+			RenderType::Helm => img
+				.get_part(
+					HytaleLayer::Both,
+					HytaleBodyPart::Head,
+					options.model.into(),
+				)
+				.resize(size, size, image::imageops::FilterType::Nearest),
+			RenderType::Cube => img.render_cube(size, options.into()),
+			RenderType::Body => img.render_body(options.into()).resize(
+				size,
+				size * 2,
+				image::imageops::FilterType::Nearest,
+			),
+			RenderType::Bust => img.render_body(options.into()).crop(0, 0, 16, 16).resize(
+				size,
+				size,
+				image::imageops::FilterType::Nearest,
+			),
+			RenderType::Cape => {
+				img.get_cape()
+					.resize(size, size, image::imageops::FilterType::Nearest)
+			}
+		}
+	}
+}
+
+// Conversion from skin::SkinModel to hytale::SkinModel
+impl From<SkinModel> for hytale::SkinModel {
+	fn from(model: SkinModel) -> Self {
+		match model {
+			SkinModel::Slim => hytale::SkinModel::Slim,
+			SkinModel::Regular => hytale::SkinModel::Regular,
+		}
+	}
+}
+
+// Conversion from RenderOptions to hytale-compatible options
+impl From<RenderOptions> for crate::hytale::RenderOptions {
+	fn from(opts: RenderOptions) -> Self {
+		crate::hytale::RenderOptions {
+			armored: opts.armored,
+			model: opts.model.into(),
+		}
+	}
 }
 
 #[inline]
@@ -67,6 +136,15 @@ fn what_to_render_type(what: String) -> Option<RenderType> {
 	}
 }
 
+#[inline]
+fn string_to_game(game: &str) -> Option<Game> {
+	match game {
+		"minecraft" => Some(Game::Minecraft),
+		"hytale" => Some(Game::Hytale),
+		_ => None,
+	}
+}
+
 #[wasm_bindgen]
 pub fn get_rendered_image(
 	skin_image: Uint8Array,
@@ -74,29 +152,45 @@ pub fn get_rendered_image(
 	what: String,
 	armored: bool,
 	slim: bool,
+	game: String,
 ) -> Result<Uint8Array, JsValue> {
+	let game_type = string_to_game(&game);
+	if game_type.is_none() {
+		return Err(js_sys::Error::new(&format!("Unknown game '{}'.", game)).into());
+	}
+	let game_type = game_type.unwrap();
+
 	let render_type = what_to_render_type(what);
 	if render_type.is_none() {
 		return Err(js_sys::Error::new("Invalid render type.").into());
 	}
+	let render_type = render_type.unwrap();
 
 	let image_copy = skin_image.to_vec();
 
 	let skin_result = image::load_from_memory_with_format(&image_copy, image::ImageFormat::Png);
 	match skin_result {
 		Ok(skin_img) => {
-			let skin = MinecraftSkin::new(skin_img);
-			let options = match slim {
-				true => RenderOptions {
-					armored,
-					model: SkinModel::Slim,
-				},
-				false => RenderOptions {
-					armored,
-					model: SkinModel::Regular,
+			let options = RenderOptions {
+				armored,
+				model: if slim {
+					SkinModel::Slim
+				} else {
+					SkinModel::Regular
 				},
 			};
-			let rendered = render_type.unwrap().render(&skin, size, options);
+
+			let rendered = match game_type {
+				Game::Minecraft => {
+					let skin = MinecraftSkin::new(skin_img);
+					render_type.render_minecraft(&skin, size, options)
+				}
+				Game::Hytale => {
+					let skin = HytaleSkin::new(skin_img);
+					render_type.render_hytale(&skin, size, options)
+				}
+			};
+
 			// Better heuristic: ~4 bytes per pixel uncompressed, 50% compression ratio
 			// For body renders, the height is 2x the size
 			let estimated_size = (size * size * 2).max(4096) as usize;
@@ -165,5 +259,20 @@ mod tests {
 	#[test]
 	fn test_what_to_render_type_invalid() {
 		assert_eq!(what_to_render_type("invalid".to_string()), None);
+	}
+
+	#[test]
+	fn test_string_to_game_minecraft() {
+		assert_eq!(string_to_game("minecraft"), Some(Game::Minecraft));
+	}
+
+	#[test]
+	fn test_string_to_game_hytale() {
+		assert_eq!(string_to_game("hytale"), Some(Game::Hytale));
+	}
+
+	#[test]
+	fn test_string_to_game_invalid() {
+		assert_eq!(string_to_game("unknown"), None);
 	}
 }
