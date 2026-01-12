@@ -1,6 +1,7 @@
 import { EMPTY } from './data';
-import { RequestedKind, interpretRequest } from './request';
-import { fetchProfile, retrieveCape, retrieveSkin } from './services/mojang/service';
+import { Game, RequestedKind, interpretRequest } from './request';
+import * as hytaleService from './services/hytale/service';
+import * as mojangService from './services/mojang/service';
 import { writeDataPoint } from './util/analytics';
 import { default as CACHE_BUST } from './util/cache-bust';
 import { get_rendered_image } from '../../pkg/mcavatar';
@@ -27,7 +28,12 @@ function decorateHeaders(interpreted: CraftheadRequest, headers: Headers, hitCac
 
 
 function getCacheKey(interpreted: CraftheadRequest): string {
-	return `https://crafthead.net/__public${CACHE_BUST}/${interpreted.requested}/${interpreted.armored}/${interpreted.model}/${interpreted.identity.toLowerCase()}/${interpreted.size}`;
+	// use old cache key for minecraft requests
+	if (interpreted.game === Game.Minecraft) {
+		return `https://crafthead.net/__public${CACHE_BUST}/${interpreted.requested}/${interpreted.armored}/${interpreted.model}/${interpreted.identity.toLowerCase()}/${interpreted.size}`;
+	}
+	// new cache key format for hytale and future games
+	return `https://crafthead.net/__public${CACHE_BUST}/${interpreted.game}/${interpreted.requested}/${interpreted.armored}/${interpreted.model}/${interpreted.identity.toLowerCase()}/${interpreted.size}`;
 }
 
 const RENDER_TYPE_MAP: Record<number, string> = {
@@ -40,7 +46,7 @@ const RENDER_TYPE_MAP: Record<number, string> = {
 } as const;
 
 async function renderImage(skin: Response, request: CraftheadRequest): Promise<Response> {
-	const { size, requested, armored } = request;
+	const { size, requested, armored, game } = request;
 	const destinationHeaders = new Headers(skin.headers);
 	const slim = destinationHeaders.get('X-Crafthead-Skin-Model') === 'slim';
 	const skinBuf = await skin.bytes();
@@ -50,15 +56,31 @@ async function renderImage(skin: Response, request: CraftheadRequest): Promise<R
 		throw new Error('Unknown requested kind');
 	}
 
-	return new Response(get_rendered_image(skinBuf, size, which, armored, slim), {
+	return new Response(get_rendered_image(skinBuf, size, which, armored, slim, game), {
 		headers: destinationHeaders,
 	});
 }
 
+function getService(game: Game) {
+	switch (game) {
+		case Game.Minecraft: {
+			return mojangService;
+		}
+		case Game.Hytale: {
+			return hytaleService;
+		}
+		default: {
+			return mojangService;
+		}
+	}
+}
+
 async function processRequest(request: Request, interpreted: CraftheadRequest): Promise<Response> {
+	const service = getService(interpreted.game);
+
 	switch (interpreted.requested) {
 		case RequestedKind.Profile: {
-			const lookup = await fetchProfile(request, interpreted);
+			const lookup = await service.fetchProfile(request, interpreted);
 			if (!lookup.result) {
 				return new Response(JSON.stringify({ error: 'User does not exist' }), {
 					status: 404,
@@ -78,14 +100,14 @@ async function processRequest(request: Request, interpreted: CraftheadRequest): 
 		case RequestedKind.Cube:
 		case RequestedKind.Body:
 		case RequestedKind.Bust: {
-			const skin = await retrieveSkin(request, interpreted);
+			const skin = await service.retrieveSkin(request, interpreted);
 			return renderImage(skin, interpreted);
 		}
 		case RequestedKind.Skin: {
-			return retrieveSkin(request, interpreted);
+			return service.retrieveSkin(request, interpreted);
 		}
 		case RequestedKind.Cape: {
-			const cape = await retrieveCape(request, interpreted);
+			const cape = await service.retrieveCape(request, interpreted);
 			if (cape.status === 404) {
 				return new Response(EMPTY, {
 					status: 404,

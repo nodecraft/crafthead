@@ -545,6 +545,110 @@ describe('worker requests', () => {
 	});
 });
 
+describe('minecraft prefix routes', () => {
+	it('/minecraft/avatar returns same image as /avatar', async () => {
+		const legacyRequest = new IncomingRequest('http://crafthead.net/avatar/ef6134805b6244e4a4467fbe85d65513/64');
+		const prefixedRequest = new IncomingRequest('http://crafthead.net/minecraft/avatar/ef6134805b6244e4a4467fbe85d65513/64');
+
+		const ctx = createExecutionContext();
+		const legacyResponse = await worker.fetch(legacyRequest, env, ctx);
+		const prefixedResponse = await worker.fetch(prefixedRequest, env, ctx);
+		await waitOnExecutionContext(ctx);
+
+		expect(legacyResponse.headers.get('content-type')).toContain('image/png');
+		expect(prefixedResponse.headers.get('content-type')).toContain('image/png');
+
+		const legacyImage = await legacyResponse.arrayBuffer();
+		const prefixedImage = await prefixedResponse.arrayBuffer();
+		expect(legacyImage).toStrictEqual(prefixedImage);
+	});
+
+	it('/minecraft/helm returns same image as /helm', async () => {
+		const legacyRequest = new IncomingRequest('http://crafthead.net/helm/ef6134805b6244e4a4467fbe85d65513/64');
+		const prefixedRequest = new IncomingRequest('http://crafthead.net/minecraft/helm/ef6134805b6244e4a4467fbe85d65513/64');
+
+		const ctx = createExecutionContext();
+		const legacyResponse = await worker.fetch(legacyRequest, env, ctx);
+		const prefixedResponse = await worker.fetch(prefixedRequest, env, ctx);
+		await waitOnExecutionContext(ctx);
+
+		expect(legacyResponse.headers.get('content-type')).toContain('image/png');
+		expect(prefixedResponse.headers.get('content-type')).toContain('image/png');
+
+		const legacyImage = await legacyResponse.arrayBuffer();
+		const prefixedImage = await prefixedResponse.arrayBuffer();
+		expect(legacyImage).toStrictEqual(prefixedImage);
+	});
+
+	it('/minecraft/cube returns same image as /cube', async () => {
+		const legacyRequest = new IncomingRequest('http://crafthead.net/cube/ef6134805b6244e4a4467fbe85d65513/64');
+		const prefixedRequest = new IncomingRequest('http://crafthead.net/minecraft/cube/ef6134805b6244e4a4467fbe85d65513/64');
+
+		const ctx = createExecutionContext();
+		const legacyResponse = await worker.fetch(legacyRequest, env, ctx);
+		const prefixedResponse = await worker.fetch(prefixedRequest, env, ctx);
+		await waitOnExecutionContext(ctx);
+
+		expect(legacyResponse.headers.get('content-type')).toContain('image/png');
+		expect(prefixedResponse.headers.get('content-type')).toContain('image/png');
+
+		const legacyImage = await legacyResponse.arrayBuffer();
+		const prefixedImage = await prefixedResponse.arrayBuffer();
+		expect(legacyImage).toStrictEqual(prefixedImage);
+	});
+
+	it('/minecraft/body returns same image as /body', async () => {
+		const legacyRequest = new IncomingRequest('http://crafthead.net/body/ef6134805b6244e4a4467fbe85d65513/64');
+		const prefixedRequest = new IncomingRequest('http://crafthead.net/minecraft/body/ef6134805b6244e4a4467fbe85d65513/64');
+
+		const ctx = createExecutionContext();
+		const legacyResponse = await worker.fetch(legacyRequest, env, ctx);
+		const prefixedResponse = await worker.fetch(prefixedRequest, env, ctx);
+		await waitOnExecutionContext(ctx);
+
+		expect(legacyResponse.headers.get('content-type')).toContain('image/png');
+		expect(prefixedResponse.headers.get('content-type')).toContain('image/png');
+
+		const legacyImage = await legacyResponse.arrayBuffer();
+		const prefixedImage = await prefixedResponse.arrayBuffer();
+		expect(legacyImage).toStrictEqual(prefixedImage);
+	});
+
+	it('/minecraft/bust returns same image as /bust', async () => {
+		const legacyRequest = new IncomingRequest('http://crafthead.net/bust/ef6134805b6244e4a4467fbe85d65513/64');
+		const prefixedRequest = new IncomingRequest('http://crafthead.net/minecraft/bust/ef6134805b6244e4a4467fbe85d65513/64');
+
+		const ctx = createExecutionContext();
+		const legacyResponse = await worker.fetch(legacyRequest, env, ctx);
+		const prefixedResponse = await worker.fetch(prefixedRequest, env, ctx);
+		await waitOnExecutionContext(ctx);
+
+		expect(legacyResponse.headers.get('content-type')).toContain('image/png');
+		expect(prefixedResponse.headers.get('content-type')).toContain('image/png');
+
+		const legacyImage = await legacyResponse.arrayBuffer();
+		const prefixedImage = await prefixedResponse.arrayBuffer();
+		expect(legacyImage).toStrictEqual(prefixedImage);
+	});
+
+	it('/minecraft/skin returns same image as /skin', async () => {
+		const legacyRequest = new IncomingRequest('http://crafthead.net/skin/ef6134805b6244e4a4467fbe85d65513');
+		const prefixedRequest = new IncomingRequest('http://crafthead.net/minecraft/skin/ef6134805b6244e4a4467fbe85d65513');
+
+		const ctx = createExecutionContext();
+		const legacyResponse = await worker.fetch(legacyRequest, env, ctx);
+		const prefixedResponse = await worker.fetch(prefixedRequest, env, ctx);
+		await waitOnExecutionContext(ctx);
+
+		expect(legacyResponse.headers.get('content-type')).toContain('image/png');
+		expect(prefixedResponse.headers.get('content-type')).toContain('image/png');
+
+		const legacyImage = await legacyResponse.arrayBuffer();
+		const prefixedImage = await prefixedResponse.arrayBuffer();
+		expect(legacyImage).toStrictEqual(prefixedImage);
+	});
+});
+
 describe('worker headers', () => {
 	it('responds with expected headers', async () => {
 		const request = new IncomingRequest('http://crafthead.net/avatar/ef6134805b6244e4a4467fbe85d65513');

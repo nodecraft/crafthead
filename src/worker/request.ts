@@ -1,5 +1,11 @@
 /* eslint-disable no-restricted-syntax */
 
+// Game determines which game the request is for.
+export enum Game {
+	Minecraft = 'minecraft',
+	Hytale = 'hytale',
+}
+
 // RequestedKind determines the kind of request the user is making.
 export enum RequestedKind {
 	Skin,
@@ -27,6 +33,7 @@ export enum TextureKind {
 /* eslint-enable no-restricted-syntax */
 
 export interface CraftheadRequest {
+	game: Game;
 	requested: RequestedKind;
 	requestedKindString: string;
 	identity: string;
@@ -97,6 +104,16 @@ export function interpretRequest(request: Request): CraftheadRequest | null {
 		model = null;
 	}
 
+	// Parse game prefix from URL
+	let game = Game.Minecraft; // Default to Minecraft for legacy URLs
+	if (pathname.startsWith('/minecraft/')) {
+		game = Game.Minecraft;
+		pathname = pathname.slice('/minecraft'.length); // Keep the leading /
+	} else if (pathname.startsWith('/hytale/')) {
+		game = Game.Hytale;
+		pathname = pathname.slice('/hytale'.length); // Keep the leading /
+	}
+
 	let armored = false;
 	let sliceAmt = 1;
 
@@ -158,5 +175,5 @@ export function interpretRequest(request: Request): CraftheadRequest | null {
 		return null;
 	}
 
-	return { requested, requestedKindString, identityType, identity, size, armored, model };
+	return { game, requested, requestedKindString, identityType, identity, size, armored, model };
 }

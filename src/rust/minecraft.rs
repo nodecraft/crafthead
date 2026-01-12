@@ -1,7 +1,7 @@
 extern crate image;
 
-use crate::skin::BodyPart::{ArmLeft, Body, Head, LegLeft};
-use crate::skin::Layer::Bottom;
+use crate::minecraft::BodyPart::{ArmLeft, Body, Head, LegLeft};
+use crate::minecraft::Layer::Bottom;
 use crate::utils::{apply_minecraft_transparency, fast_overlay};
 use crate::RenderOptions;
 use image::{imageops, DynamicImage, GenericImageView, Rgba, RgbaImage};
