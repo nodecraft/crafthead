@@ -134,13 +134,23 @@ interface NormalizedRequest {
 
 /**
  * Normalizes the incoming request, such that we only work with UUIDs.
- * Also returns the profile if it was fetched during username lookup (to avoid double lookups).
+ * Always fetches the profile to get the username (needed for text avatars and future skin support).
  */
 async function normalizeRequest(incomingRequest: Request, request: CraftheadRequest): Promise<NormalizedRequest> {
-	if (request.identityType === IdentityKind.Uuid || request.identityType === IdentityKind.TextureID) {
+	if (request.identityType === IdentityKind.TextureID) {
 		return { request };
 	}
 
+	if (request.identityType === IdentityKind.Uuid) {
+		// UUID provided - fetch profile to get username
+		const lookup = await hytaleApi.fetchProfile(incomingRequest, request.identity);
+		if (lookup.result) {
+			return { request, profile: lookup.result };
+		}
+		return { request };
+	}
+
+	// Username provided - look up to get UUID and profile
 	const normalized: CraftheadRequest = { ...request, identityType: IdentityKind.Uuid };
 
 	const profile = await hytaleApi.lookupUsername(incomingRequest, request.identity);
@@ -223,8 +233,13 @@ async function retrieveTextureDirect(
  * TEMPORARY: Renders a text-based avatar with username initials.
  * Replace with real skin rendering once Hytale skin support is implemented.
  */
-export function renderAvatar(request: CraftheadRequest): Response {
-	const imageData = render_text_avatar(request.identity, request.size);
+export async function renderAvatar(incomingRequest: Request, request: CraftheadRequest): Promise<Response> {
+	const { profile } = await normalizeRequest(incomingRequest, request);
+
+	// Use the username from profile if available, otherwise fall back to the original identity
+	const username = profile?.name ?? request.identity;
+
+	const imageData = render_text_avatar(username, request.size);
 	return new Response(imageData, {
 		headers: {
 			'Content-Type': 'image/png',
@@ -236,8 +251,8 @@ export function renderAvatar(request: CraftheadRequest): Response {
 /**
  * TEMPORARY: Returns a text avatar since real Hytale skins aren't implemented yet.
  */
-export function retrieveSkin(_incomingRequest: Request, request: CraftheadRequest): Response {
-	return renderAvatar(request);
+export async function retrieveSkin(incomingRequest: Request, request: CraftheadRequest): Promise<Response> {
+	return renderAvatar(incomingRequest, request);
 }
 
 /**
