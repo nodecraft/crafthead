@@ -8,6 +8,12 @@ import { get_rendered_image } from '../../pkg/mcavatar';
 
 import type { CraftheadRequest } from './request';
 
+interface DirectRenderService {
+	renderAvatar(request: CraftheadRequest): Response;
+}
+
+type GameService = typeof mojangService | typeof hytaleService;
+
 function decorateHeaders(interpreted: CraftheadRequest, headers: Headers, hitCache: boolean): Headers {
 	const copiedHeaders = new Headers(headers);
 
@@ -61,7 +67,7 @@ async function renderImage(skin: Response, request: CraftheadRequest): Promise<R
 	});
 }
 
-function getService(game: Game) {
+function getService(game: Game): GameService {
 	switch (game) {
 		case Game.Minecraft: {
 			return mojangService;
@@ -73,6 +79,10 @@ function getService(game: Game) {
 			return mojangService;
 		}
 	}
+}
+
+function hasRenderAvatar(service: GameService): service is GameService & DirectRenderService {
+	return 'renderAvatar' in service;
 }
 
 async function processRequest(request: Request, interpreted: CraftheadRequest): Promise<Response> {
@@ -100,6 +110,9 @@ async function processRequest(request: Request, interpreted: CraftheadRequest): 
 		case RequestedKind.Cube:
 		case RequestedKind.Body:
 		case RequestedKind.Bust: {
+			if (hasRenderAvatar(service)) {
+				return service.renderAvatar(interpreted);
+			}
 			const skin = await service.retrieveSkin(request, interpreted);
 			return renderImage(skin, interpreted);
 		}
@@ -112,7 +125,7 @@ async function processRequest(request: Request, interpreted: CraftheadRequest): 
 				return new Response(EMPTY, {
 					status: 404,
 					headers: {
-						'X-Crafthead-Profile-Cache-Hit': 'invalid-profile',
+						'X-Crafthead-Profile-Cache-Hit': cape.headers.get('X-Crafthead-Profile-Cache-Hit') || 'invalid-profile',
 					},
 				});
 			}

@@ -1,9 +1,9 @@
 import * as hytaleApi from './api';
+import { render_text_avatar } from '../../../../pkg/mcavatar';
 import { EMPTY, HYTALE_DEFAULT_SKIN } from '../../data';
 import { IdentityKind, RequestedKind, TextureKind } from '../../request';
 import {
 	fromHex,
-	javaHashCode,
 	offlinePlayerUuid,
 	toHex,
 	uuidVersion,
@@ -219,36 +219,37 @@ async function retrieveTextureDirect(
 	};
 }
 
-export async function retrieveSkin(incomingRequest: Request, request: CraftheadRequest): Promise<Response> {
-	const { request: normalized, profile } = await normalizeRequest(incomingRequest, request);
-	const skin = await retrieveTextureDirect(incomingRequest, normalized, TextureKind.SKIN, profile);
-	if (skin.texture.status === 404) {
-		// Return default Hytale skin for invalid profiles
-		return new Response(HYTALE_DEFAULT_SKIN, {
-			headers: {
-				'X-Crafthead-Profile-Cache-Hit': 'invalid-profile',
-			},
-		});
-	}
-	if ([RequestedKind.Skin, RequestedKind.Body, RequestedKind.Bust].includes(normalized.requested)) {
-		skin.texture.headers.set('X-Crafthead-Skin-Model', request.model || skin.model || 'default');
-	}
-
-	return skin.texture;
+/**
+ * TEMPORARY: Renders a text-based avatar with username initials.
+ * Replace with real skin rendering once Hytale skin support is implemented.
+ */
+export function renderAvatar(request: CraftheadRequest): Response {
+	const imageData = render_text_avatar(request.identity, request.size);
+	return new Response(imageData, {
+		headers: {
+			'Content-Type': 'image/png',
+			'X-Crafthead-Profile-Cache-Hit': 'text-avatar',
+		},
+	});
 }
 
-export async function retrieveCape(incomingRequest: Request, request: CraftheadRequest): Promise<Response> {
-	const { request: normalized, profile } = await normalizeRequest(incomingRequest, request);
-	const cape = await retrieveTextureDirect(incomingRequest, normalized, TextureKind.CAPE, profile);
-	if (cape.texture.status === 404) {
-		return new Response(EMPTY, {
-			status: 404,
-			headers: {
-				'X-Crafthead-Profile-Cache-Hit': 'invalid-profile',
-			},
-		});
-	}
-	return cape.texture;
+/**
+ * TEMPORARY: Returns a text avatar since real Hytale skins aren't implemented yet.
+ */
+export function retrieveSkin(_incomingRequest: Request, request: CraftheadRequest): Response {
+	return renderAvatar(request);
+}
+
+/**
+ * Hytale capes are not supported yet.
+ */
+export function retrieveCape(_incomingRequest: Request, _request: CraftheadRequest): Response {
+	return new Response(EMPTY, {
+		status: 404,
+		headers: {
+			'X-Crafthead-Profile-Cache-Hit': 'not-supported',
+		},
+	});
 }
 
 export async function fetchProfile(incomingRequest: Request, request: CraftheadRequest): Promise<CacheComputeResult<HytaleProfile | null>> {

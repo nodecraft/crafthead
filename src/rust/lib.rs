@@ -4,6 +4,7 @@ extern crate wasm_bindgen;
 
 mod hytale;
 mod minecraft;
+mod text_avatar;
 mod utils;
 
 use hytale::HytaleSkin;
@@ -201,6 +202,21 @@ pub fn get_rendered_image(
 			}
 		}
 		Err(_err) => Err(js_sys::Error::new("Couldn't load skin.").into()),
+	}
+}
+
+/// Render a text-based avatar with username initials and deterministic background color
+/// TEMPORARY: Used for Hytale until real skin support is implemented
+#[wasm_bindgen]
+pub fn render_text_avatar(username: String, size: u32) -> Result<Uint8Array, JsValue> {
+	let image = text_avatar::render_text_avatar(&username, size);
+	let dynamic = DynamicImage::ImageRgba8(image);
+
+	let estimated_size = (size * size * 2).max(4096) as usize;
+	let mut result = Cursor::new(Vec::with_capacity(estimated_size));
+	match dynamic.write_to(&mut result, image::ImageFormat::Png) {
+		Ok(()) => Ok(Uint8Array::from(&result.get_ref()[..])),
+		Err(_err) => Err(js_sys::Error::new("Couldn't render text avatar.").into()),
 	}
 }
 
