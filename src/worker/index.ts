@@ -9,7 +9,7 @@ import { get_rendered_image } from '../../pkg/mcavatar';
 import type { CraftheadRequest } from './request';
 
 interface DirectRenderService {
-	renderAvatar(request: CraftheadRequest): Response;
+	renderAvatar(incomingRequest: Request, request: CraftheadRequest): Promise<Response>;
 }
 
 type GameService = typeof mojangService | typeof hytaleService;
@@ -111,7 +111,7 @@ async function processRequest(request: Request, interpreted: CraftheadRequest): 
 		case RequestedKind.Body:
 		case RequestedKind.Bust: {
 			if (hasRenderAvatar(service)) {
-				return service.renderAvatar(interpreted);
+				return service.renderAvatar(request, interpreted);
 			}
 			const skin = await service.retrieveSkin(request, interpreted);
 			return renderImage(skin, interpreted);
