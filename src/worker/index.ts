@@ -195,6 +195,7 @@ async function handleRequest(request: Request, env: Cloudflare.Env, ctx: Executi
 			identityType: interpreted.identityType,
 			responseCode: response.status,
 			cached: hitCache,
+			game: interpreted.game,
 		});
 		return new Response(response.body, { status: response.status, headers });
 	} catch (err) {
@@ -204,6 +205,7 @@ async function handleRequest(request: Request, env: Cloudflare.Env, ctx: Executi
 				kind: interpreted.requestedKindString,
 				identityType: interpreted.identityType,
 				responseCode: 504,
+				game: interpreted.game,
 			});
 			return new Response('Upstream request timed out', { status: 504 });
 		}
@@ -212,6 +214,7 @@ async function handleRequest(request: Request, env: Cloudflare.Env, ctx: Executi
 			kind: interpreted.requestedKindString,
 			identityType: interpreted.identityType,
 			responseCode: 500,
+			game: interpreted.game,
 		});
 		return new Response((err as Error).toString(), { status: 500 });
 	}
