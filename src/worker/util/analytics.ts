@@ -8,6 +8,7 @@ type AnalyticsData = {
 	identityType?: IdentityKind;
 	cached?: boolean;
 	responseCode?: number;
+	game?: string;
 };
 
 export function writeDataPoint(
@@ -40,6 +41,7 @@ export function writeDataPoint(
 			// crafthead data
 			data?.kind || 'unknown',
 			identityKindString,
+			data?.game || 'unknown',
 		],
 		doubles: [
 			(request.cf?.asn as number) || 0,
