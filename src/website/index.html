@@ -33,19 +33,19 @@
 	</div>
 	<header>
 		<h1>Crafthead</h1>
-		<p>A radically fast Minecraft avatar service.</p>
+		<p>A radically fast Minecraft & Hytale avatar service.</p>
 
 		<div class="heads">
 			<img src="/avatar/652a2bc4e8cd405db7b698156ee2dc09/64" width="64" height="64"
 				alt="Head #1: tuxed (I made this!)">
 			<img src="/avatar/c06f89064c8a49119c29ea1dbd1aab82/64" width="64" height="64"
 				alt="Head #2: Steve">
-			<img src="/avatar/6a085b2c19fb4986b453231aa942bbec/64" width="64" height="64"
-				alt="Head #3: LadyAgnes">
+			<img src="/hytale/avatar/3d853ff5-e368-4540-987a-dabda4662cae/64" width="64" height="64"
+				alt="Head #3: mja00">
 			<img src="/avatar/853c80ef3c3749fdaa49938b674adae6/64" width="64" height="64"
 				alt="Head #4: jeb_">
-			<img src="/avatar/2f3665cc5e29439bbd14cb6d3a6313a7/64" width="64" height="64"
-				alt="Head #5: Alex">
+			<img src="/hytale/avatar/4ca010da-0886-4da2-af15-2307491b6293/64" width="64" height="64"
+				alt="Head #5: Nodecraft">
 		</div>
 
 		<a id="nodecraft-powered" href="https://nodecraft.com/r/crafthead">
@@ -75,6 +75,12 @@
 				which may not be cached!
 			</p>
 
+			<div class="tabs-container">
+				<button class="tab-button active" data-tab="minecraft">Minecraft</button>
+				<button class="tab-button" data-tab="hytale">Hytale</button>
+			</div>
+
+			<div class="tab-content" data-tab="minecraft">
 			<h3>Fetch an avatar</h3>
 			<div class="example">
 				<code class="verb">GET</code>
@@ -183,6 +189,113 @@
 				<code class="verb">GET</code>
 				<code class="url">https://crafthead.net/profile/Reply</code>
 			</div>
+			</div>
+
+			<div class="tab-content" data-tab="hytale" style="display: none;">
+			<h3>Fetch an avatar</h3>
+			<div class="example">
+				<code class="verb">GET</code>
+				<code class="url">https://crafthead.net/hytale/avatar/3d853ff5e3684540987adabda4662cae</code>
+				<img src="/hytale/avatar/3d853ff5e3684540987adabda4662cae" class="render-pixelate" alt="Default example" width="32"
+					height="32">
+			</div>
+
+			<p>Need a different size?</p>
+			<div class="example">
+				<code class="verb">GET</code>
+				<code class="url">https://crafthead.net/hytale/avatar/4ca010da08864da2af152307491b6293/128</code>
+				<img src="/hytale/avatar/4ca010da08864da2af152307491b6293/128" class="render-pixelate" alt="Default example"
+					width="128" height="128">
+			</div>
+
+			<p>Got a dashed UUID? We will remove the dashes for you.</p>
+			<div class="example">
+				<code class="verb">GET</code>
+				<code class="url">https://crafthead.net/hytale/avatar/3d853ff5-e368-4540-987a-dabda4662cae</code>
+				<img src="/hytale/avatar/3d853ff5-e368-4540-987a-dabda4662cae" class="render-pixelate" alt="Default example"
+					width="32" height="32">
+			</div>
+
+			<p>We support usernames, too.</p>
+			<div class="example">
+				<code class="verb">GET</code>
+				<code class="url">https://crafthead.net/hytale/avatar/mja00</code>
+				<img src="/hytale/avatar/mja00" class="render-pixelate" alt="Default example" width="32" height="32">
+			</div>
+
+			<p>Want a helm?</p>
+			<div class="example">
+				<code class="verb">GET</code>
+				<code class="url">https://crafthead.net/hytale/helm/3d853ff5e3684540987adabda4662cae</code>
+				<img src="/hytale/helm/3d853ff5e3684540987adabda4662cae" class="render-pixelate" alt="Default example" width="32" height="32">
+			</div>
+
+			<p>Cube heads go well with a cube game.</p>
+			<div class="example">
+				<code class="verb">GET</code>
+				<code class="url">https://crafthead.net/hytale/cube/4ca010da08864da2af152307491b6293</code>
+				<img src="/hytale/cube/4ca010da08864da2af152307491b6293/32" alt="Default example" width="32">
+			</div>
+
+			<h3>Fetch a player's body</h3>
+			<div class="example">
+				<code class="verb">GET</code>
+				<code class="url">https://crafthead.net/hytale/body/3d853ff5e3684540987adabda4662cae</code>
+				<img src="/hytale/body/3d853ff5e3684540987adabda4662cae/32" class="render-pixelate" alt="Default example" width="32" height="64">
+			</div>
+			<div class="example">
+				<code class="verb">GET</code>
+				<code class="url">https://crafthead.net/hytale/armor/body/mja00</code>
+				<img src="/hytale/armor/body/mja00/32" class="render-pixelate" alt="Default example" width="32" height="64">
+			</div>
+
+			<h3>Fetch a player's bust</h3>
+			<div class="example">
+				<code class="verb">GET</code>
+				<code class="url">https://crafthead.net/hytale/bust/4ca010da08864da2af152307491b6293</code>
+				<img src="/hytale/bust/4ca010da08864da2af152307491b6293/32" class="render-pixelate" alt="Default example" width="32" height="32">
+			</div>
+			<div class="example">
+				<code class="verb">GET</code>
+				<code class="url">https://crafthead.net/hytale/armor/bust/mja00</code>
+				<img src="/hytale/armor/bust/mja00/32" class="render-pixelate" alt="Default example" width="32" height="32">
+			</div>
+
+			<h3>Fetch a player's skin</h3>
+			<div class="example">
+				<code class="verb">GET</code>
+				<code class="url">https://crafthead.net/hytale/skin/3d853ff5e3684540987adabda4662cae</code>
+				<img src="/hytale/skin/3d853ff5e3684540987adabda4662cae" class="render-pixelate" alt="Default example" width="64"
+					height="64">
+			</div>
+			<div class="example">
+				<code class="verb">GET</code>
+				<code class="url">https://crafthead.net/hytale/skin/mja00</code>
+				<img src="/hytale/skin/mja00" class="render-pixelate" alt="Default example" width="64" height="32">
+			</div>
+
+			<h3>Fetch a player's cape</h3>
+			<div class="example">
+				<code class="verb">GET</code>
+				<code class="url">https://crafthead.net/hytale/cape/4ca010da08864da2af152307491b6293</code>
+				<img src="/hytale/cape/4ca010da08864da2af152307491b6293/32" class="render-pixelate" alt="Default example" width="20" height="32">
+			</div>
+			<div class="example">
+				<code class="verb">GET</code>
+				<code class="url">https://crafthead.net/hytale/cape/mja00</code>
+				<img src="/hytale/cape/mja00/32" class="render-pixelate" alt="Default example" width="20" height="32">
+			</div>
+
+			<h3>Fetch a player's profile</h3>
+			<div class="example">
+				<code class="verb">GET</code>
+				<code class="url">https://crafthead.net/hytale/profile/3d853ff5e3684540987adabda4662cae</code>
+			</div>
+			<div class="example">
+				<code class="verb">GET</code>
+				<code class="url">https://crafthead.net/hytale/profile/mja00</code>
+			</div>
+			</div>
 		</div>
 	</article>
 
@@ -208,6 +321,36 @@
 			<span>Open source on <a href="https://github.com/nodecraft/crafthead">GitHub</a>.</span>
 		</p>
 	</footer>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			const tabButtons = document.querySelectorAll('.tab-button');
+			const tabContents = document.querySelectorAll('.tab-content');
+
+			tabButtons.forEach(button => {
+				button.addEventListener('click', function() {
+					const targetTab = this.getAttribute('data-tab');
+
+					// Remove active class from all buttons
+					tabButtons.forEach(btn => btn.classList.remove('active'));
+
+					// Add active class to clicked button
+					this.classList.add('active');
+
+					// Hide all tab contents
+					tabContents.forEach(content => {
+						content.style.display = 'none';
+					});
+
+					// Show selected tab content
+					const selectedContent = document.querySelector(`.tab-content[data-tab="${targetTab}"]`);
+					if (selectedContent) {
+						selectedContent.style.display = 'block';
+					}
+				});
+			});
+		});
+	</script>
 </body>
 
 </html>

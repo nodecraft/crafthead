@@ -223,6 +223,42 @@ article h2#h2-404 {
 	flex-grow: 1;
 }
 
+.tabs-container {
+	display: flex;
+	flex-direction: row;
+	gap: 0.5rem;
+	margin: 2rem 0 1rem 0;
+	border-bottom: 2px solid var(--cool-1300);
+}
+
+.tab-button {
+	background: transparent;
+	border: none;
+	border-bottom: 2px solid transparent;
+	color: var(--cool-200);
+	cursor: pointer;
+	font-family: 'Rajdhani', sans-serif;
+	font-size: 1.25rem;
+	font-weight: 700;
+	padding: 0.75rem 1.5rem;
+	transition: color 0.2s ease, border-color 0.2s ease;
+	margin-bottom: -2px;
+}
+
+.tab-button:hover {
+	color: var(--blue-700);
+	border-bottom-color: var(--blue-700);
+}
+
+.tab-button.active {
+	color: var(--blue-800);
+	border-bottom-color: var(--blue-800);
+}
+
+.tab-content {
+	display: block;
+}
+
 @media screen and (max-width: 600px) {
 	.example {
 		flex-direction: column-reverse;
@@ -243,5 +279,15 @@ article h2#h2-404 {
 		align-items: center;
 		gap: 1rem;
 		padding: 1rem 0.25rem 0.25rem 0.25rem;
+	}
+
+	.tabs-container {
+		flex-wrap: wrap;
+		gap: 0.25rem;
+	}
+
+	.tab-button {
+		font-size: 1rem;
+		padding: 0.5rem 1rem;
 	}
 }
