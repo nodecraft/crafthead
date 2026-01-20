@@ -1,5 +1,8 @@
 import * as hytaleApi from './api';
-import { render_text_avatar } from '../../../../pkg/mcavatar';
+import { loadHytaleAssets } from './assets';
+import { ASSET_MANIFEST } from './cosmetic-assets-manifest';
+import { getRequiredAssetPaths, resolveSkin } from './cosmetic-registry';
+import { render_hytale_3d, render_text_avatar } from '../../../../pkg/mcavatar';
 import { EMPTY, HYTALE_DEFAULT_SKIN } from '../../data';
 import { IdentityKind, RequestedKind, TextureKind } from '../../request';
 import {
@@ -230,22 +233,147 @@ async function retrieveTextureDirect(
 }
 
 /**
- * TEMPORARY: Renders a text-based avatar with username initials.
- * Replace with real skin rendering once Hytale skin support is implemented.
+ * Renders a Hytale avatar using the 3D renderer.
+ * Falls back to text avatar if 3D rendering fails.
  */
 export async function renderAvatar(incomingRequest: Request, request: CraftheadRequest): Promise<Response> {
 	const { profile } = await normalizeRequest(incomingRequest, request);
-
-	// Use the username from profile if available, otherwise fall back to the original identity
 	const username = profile?.name ?? request.identity;
 
-	const imageData = render_text_avatar(username, request.size);
-	return new Response(imageData, {
-		headers: {
-			'Content-Type': 'image/png',
-			'X-Crafthead-Profile-Cache-Hit': 'text-avatar',
-		},
-	});
+	try {
+		// Load bundled Hytale assets (base model and animation)
+		const assets = loadHytaleAssets();
+
+
+
+		// ... (inside renderAvatar)
+
+		// If player has skin configuration, resolve cosmetics
+		const cosmeticsForWasm: any[] = [];
+		let resolvedSkin: ReturnType<typeof resolveSkin> | undefined;
+
+		if (profile?.skin) {
+			resolvedSkin = resolveSkin(profile.skin);
+			const requiredAssets = getRequiredAssetPaths(resolvedSkin);
+
+			// Log resolved cosmetics for debugging
+			console.log(`Player ${username} skin resolved:`, {
+				cosmeticsCount: resolvedSkin.cosmetics.length,
+				requiredAssets: {
+					models: requiredAssets.models.length,
+					textures: requiredAssets.textures.length,
+					gradients: requiredAssets.gradients.length,
+				},
+			});
+
+			// Load cosmetic assets
+			for (const cosmetic of resolvedSkin.cosmetics) {
+				if (cosmetic.modelPath && cosmetic.texturePath) {
+					const modelJson = ASSET_MANIFEST[cosmetic.modelPath];
+					const textureData = ASSET_MANIFEST[cosmetic.texturePath];
+
+					// Resolve gradient texture if present
+					let tintTextureBytes: Uint8Array | undefined;
+					if (cosmetic.gradientTexturePath) {
+						const tintData = ASSET_MANIFEST[cosmetic.gradientTexturePath];
+						if (tintData) {
+							tintTextureBytes = new Uint8Array(tintData);
+						} else {
+							console.warn(`Missing gradient asset for cosmetic ${cosmetic.id}:`, cosmetic.gradientTexturePath);
+						}
+					}
+
+					if (modelJson && textureData) {
+						cosmeticsForWasm.push({
+							model_json: modelJson,
+							texture_bytes: new Uint8Array(textureData),
+							tint_colors: cosmetic.baseColor,
+							tint_texture_bytes: tintTextureBytes,
+						});
+					} else {
+						console.warn(`Missing asset for cosmetic ${cosmetic.id}:`, {
+							model: cosmetic.modelPath,
+							texture: cosmetic.texturePath,
+							foundModel: Boolean(modelJson),
+							foundTexture: Boolean(textureData),
+						});
+					}
+				}
+			}
+		} else {
+			console.log(`Player ${username} has no skin configuration`);
+		}
+
+		// Map RequestedKind to view type
+		const viewType = mapRequestedKindToViewType(request.requested);
+
+		console.log('Rendering with cosmetics count:', cosmeticsForWasm.length);
+
+
+		// Prepare base skin tint texture
+		let baseSkinTintTexture: Uint8Array | undefined;
+		if (resolvedSkin?.skinTone?.gradientTexturePath) {
+			const tintData = ASSET_MANIFEST[resolvedSkin.skinTone.gradientTexturePath];
+			if (tintData) {
+				baseSkinTintTexture = new Uint8Array(tintData);
+			}
+		}
+
+		// Render using 3D engine
+		const imageData = render_hytale_3d(
+			assets.modelJson,
+			assets.animationJson,
+			assets.textureBytes,
+			cosmeticsForWasm,
+			resolvedSkin?.skinTone?.baseColor,
+			baseSkinTintTexture,
+			viewType,
+			request.size,
+		);
+
+		return new Response(imageData, {
+			headers: {
+				'Content-Type': 'image/png',
+				'X-Crafthead-Renderer': 'hytale-3d',
+				'X-Crafthead-Has-Skin': profile?.skin ? 'true' : 'false',
+			},
+		});
+	} catch (error) {
+		// Fall back to text avatar on error
+		console.error('Hytale 3D rendering failed:', error);
+
+		const imageData = render_text_avatar(username, request.size);
+		return new Response(imageData, {
+			headers: {
+				'Content-Type': 'image/png',
+				'X-Crafthead-Renderer': 'text-avatar-fallback',
+			},
+		});
+	}
+}
+
+/**
+ * Maps Crafthead RequestedKind to HytaleSkinRenderer view type
+ */
+function mapRequestedKindToViewType(kind: RequestedKind): string {
+	switch (kind) {
+		case RequestedKind.Avatar:
+		case RequestedKind.Helm: {
+			return 'avatar';
+		}
+		case RequestedKind.Cube: {
+			return 'cube';
+		}
+		case RequestedKind.Body: {
+			return 'body';
+		}
+		case RequestedKind.Bust: {
+			return 'bust';
+		}
+		default: {
+			return 'avatar';
+		}
+	}
 }
 
 /**

@@ -24,6 +24,7 @@ const GLOB_PATTERNS: string[] = [
 	// Get all blocky models
 	'Common/Characters/*.blockymodel',
 	'Common/Characters/**/*.blockymodel',
+	'Common/Characters/Animations/Default/Idle.blockyanim',
 	// Get all character pngs
 	'Common/Characters/*.png',
 	'Common/Characters/**/*.png',

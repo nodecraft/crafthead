@@ -2,3 +2,4 @@ dist
 node_modules
 target
 pkg
+src/worker/services/hytale/cosmetic-assets-manifest.ts

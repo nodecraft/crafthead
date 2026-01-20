@@ -2,14 +2,23 @@ name = "crafthead-dev"
 main = "src/worker/index.ts"
 workers_dev = true
 compatibility_date = "2025-11-28"
-analytics_engine_datasets = [
-	{ binding = "CRAFTHEAD_ANALYTICS" }
-]
+analytics_engine_datasets = [{ binding = "CRAFTHEAD_ANALYTICS" }]
 
 compatibility_flags = ["nodejs_compat"]
 
 rules = [
-	{ type = "Data", globs = ["**/*.png"], fallthrough = true }
+	{ type = "Data", globs = [
+		"**/*.png",
+	], fallthrough = true },
+	{ type = "Text", globs = [
+		"**/*.blockymodel",
+	], fallthrough = true },
+	{ type = "Text", globs = [
+		"**/*.blockyanim",
+	], fallthrough = true },
+	{ type = "Text", globs = [
+		"**/Cosmetics/**/*.json",
+	], fallthrough = true },
 ]
 
 [assets]
@@ -26,13 +35,9 @@ command = "npm run build" # required
 name = "crafthead"
 main = "src/worker/index.ts"
 route = { pattern = "crafthead.net/*", zone_name = "crafthead.net" }
-analytics_engine_datasets = [
-	{ binding = "CRAFTHEAD_ANALYTICS" }
-]
-services = [
-	{ binding = "PLAYERDB", service = "playerdb" }
-]
+analytics_engine_datasets = [{ binding = "CRAFTHEAD_ANALYTICS" }]
+services = [{ binding = "PLAYERDB", service = "playerdb" }]
 
 [env.production.observability]
 enabled = true
-traces = {enabled = true}
+traces = { enabled = true }

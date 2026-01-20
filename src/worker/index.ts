@@ -173,8 +173,9 @@ async function handleRequest(request: Request, env: Cloudflare.Env, ctx: Executi
 	//console.log('Request interpreted as ', interpreted);
 
 	try {
-		const cacheKey = getCacheKey(interpreted);
-		let response = await caches.default.match(new Request(cacheKey));
+		// const cacheKey = getCacheKey(interpreted);
+		// let response = await caches.default.match(new Request(cacheKey));
+		let response: Response | undefined;
 		const hitCache = Boolean(response);
 		if (!response) {
 			// The item is not in the Cloudflare datacenter's cache. We need to process the request further.
@@ -185,7 +186,7 @@ async function handleRequest(request: Request, env: Cloudflare.Env, ctx: Executi
 				const cacheResponse = response.clone();
 				cacheResponse.headers.set('Content-Type', interpreted.requested === RequestedKind.Profile ? 'application/json' : 'image/png');
 				cacheResponse.headers.set('Cache-Control', 'max-age=14400');
-				ctx.waitUntil(caches.default.put(new Request(cacheKey), cacheResponse));
+				// ctx.waitUntil(caches.default.put(new Request(cacheKey), cacheResponse));
 			}
 		}
 		const headers = decorateHeaders(interpreted, response.headers, hitCache);

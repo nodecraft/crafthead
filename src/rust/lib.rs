@@ -220,6 +220,64 @@ pub fn render_text_avatar(username: String, size: u32) -> Result<Uint8Array, JsV
 	}
 }
 
+/// Render a Hytale character using the full 3D renderer
+///
+/// This function wraps HytaleSkinRenderer's WASM API for use in Crafthead.
+/// It accepts pre-loaded model JSON, animation JSON, and texture bytes.
+///
+/// # Arguments
+/// * `model_json` - BlockyModel JSON string (e.g., Player.blockymodel contents)
+/// * `animation_json` - BlockyAnimation JSON string (e.g., Idle.blockyanim contents)
+/// * `texture_bytes` - PNG texture data as Uint8Array
+/// * `view_type` - View type: "avatar", "helm", "cube", "body", "bust"
+/// * `size` - Output image size (width for square, width for body)
+///
+/// # Returns
+/// PNG image bytes as Uint8Array on success
+#[wasm_bindgen]
+pub fn render_hytale_3d(
+	model_json: String,
+	animation_json: String,
+	texture_bytes: Uint8Array,
+	cosmetics: JsValue,
+	base_skin_tint: Option<Vec<String>>,
+	base_skin_tint_texture: Option<Uint8Array>,
+	view_type: String,
+	size: u32,
+) -> Result<Uint8Array, JsValue> {
+	let texture_vec = texture_bytes.to_vec();
+
+	// Determine output dimensions based on view type
+	let (width, height) = match view_type.as_str() {
+		"body" | "full_body_front" => (size, size * 2),
+		_ => (size, size),
+	};
+
+	// Map Crafthead view types to HytaleSkinRenderer camera types
+	let camera_type = match view_type.as_str() {
+		"avatar" | "helm" | "headshot" => "headshot",
+		"cube" | "isometric_head" => "isometric_head",
+		"bust" | "player_bust" => "player_bust",
+		"body" | "full_body_front" => "full_body_front",
+		_ => "headshot",
+	};
+
+	// Call HytaleSkinRenderer's WASM function
+	let png_bytes = hytale_skin_renderer::wasm::render_hytale_with_cosmetics(
+		&model_json,
+		&animation_json,
+		&texture_vec,
+		cosmetics,
+		base_skin_tint,
+		base_skin_tint_texture.map(|b| b.to_vec()),
+		camera_type,
+		width,
+		height,
+	)?;
+
+	Ok(Uint8Array::from(&png_bytes[..]))
+}
+
 #[cfg(test)]
 mod tests {
 	use super::*;

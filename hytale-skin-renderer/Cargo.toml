@@ -1,0 +1,41 @@
+[package]
+name = "hytale-skin-renderer"
+version = "0.1.0"
+edition = "2021"
+authors = ["HytaleSkinRenderer Contributors"]
+
+[lib]
+name = "hytale_skin_renderer"
+path = "src/lib.rs"
+
+# Binaries require the "cli" feature (not available in WASM builds)
+# These are disabled by default to support WASM compilation
+# To run binaries: cargo run --features cli --bin <name>
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+image = { version = "0.25", default-features = false, features = ["png"] }
+glam = "0.28"
+
+# CLI support (optional - not available for WASM)
+clap = { version = "4.4", features = ["derive"], optional = true }
+
+# WASM support (optional)
+wasm-bindgen = { version = "0.2", optional = true }
+js-sys = { version = "0.3", optional = true }
+serde-wasm-bindgen = "0.6"
+
+[features]
+default = []
+cli = ["clap", "gif"]
+gif = ["image/gif"]
+wasm = ["wasm-bindgen", "js-sys"]
+
+[dev-dependencies]
+# Test utilities if needed
+
+[profile.release]
+codegen-units = 1
+opt-level = "s"
+lto = true

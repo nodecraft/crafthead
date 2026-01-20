@@ -6,11 +6,35 @@ export interface HytaleProfile {
 	id: string;
 	name: string;
 	properties: HytaleProfileProperty[];
+	skin?: HytaleSkin | null;
 }
 
 export interface HytaleProfileProperty {
 	name: string;
 	value: string;
+}
+
+export interface HytaleSkin {
+	bodyCharacteristic: string;
+	underwear: string;
+	face: string;
+	ears: string;
+	mouth: string;
+	haircut: string;
+	facialHair: string | null;
+	eyebrows: string;
+	eyes: string;
+	pants: string | null;
+	overpants: string | null;
+	undertop: string | null;
+	overtop: string | null;
+	shoes: string | null;
+	headAccessory: string | null;
+	faceAccessory: string | null;
+	earAccessory: string | null;
+	skinFeature: string | null;
+	gloves: string | null;
+	cape: string | null;
 }
 
 export interface PlayerDBHytaleProfileData {
@@ -22,7 +46,7 @@ export interface PlayerDBHytaleProfileData {
 		id: string;
 		raw_id: string;
 		avatar: string;
-		skin_texture: string;
+		skin: HytaleSkin | null; // TODO: Type this to Hytale skin
 		properties: HytaleProfileProperty[];
 	};
 }
@@ -80,6 +104,7 @@ export async function lookupUsername(
 			id: returnedProfile.raw_id,
 			name: returnedProfile.username,
 			properties: returnedProfile.properties,
+			skin: returnedProfile.skin,
 		};
 	}
 }
@@ -116,6 +141,7 @@ export async function fetchProfile(
 			id: returnedProfile.raw_id,
 			name: returnedProfile.username,
 			properties: returnedProfile.properties,
+			skin: returnedProfile.skin,
 		};
 		return {
 			result: data,
