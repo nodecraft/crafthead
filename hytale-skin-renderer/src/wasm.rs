@@ -108,7 +108,7 @@ pub fn render_hytale_with_cosmetics(
 	let cosmetics: Vec<Cosmetic> = serde_wasm_bindgen::from_value(cosmetics_js)?;
 
 	// Parse model and animation
-	let mut model = models::parse_blockymodel(model_json)
+	let model = models::parse_blockymodel(model_json)
 		.map_err(|e| JsValue::from_str(&format!("Model parse error: {}", e)))?;
 	let animation = models::parse_blockyanim(animation_json)
 		.map_err(|e| JsValue::from_str(&format!("Animation parse error: {}", e)))?;

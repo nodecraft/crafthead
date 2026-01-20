@@ -1,9 +1,8 @@
-use crate::{cosmetics, geometry, models, renderer, scene, skin, texture};
+use crate::{cosmetics, geometry, models, renderer, scene, texture};
 use std::collections::HashMap;
 use std::path::Path;
 use std::sync::Arc;
 
-use crate::log_debug;
 
 /// Extended face that includes node name for tint mapping and specific texture/tint
 pub type TintedFace = renderer::RenderableFace;
