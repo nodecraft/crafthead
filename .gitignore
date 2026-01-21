@@ -13,3 +13,7 @@ node_modules/
 dist/
 assets/*
 !assets/README.md
+hytale-skin-renderer/target/
+
+# Localflare generated files
+.localflare/

@@ -1,10 +1,12 @@
+import { env } from 'cloudflare:workers';
+
 import * as hytaleApi from './api';
 import { loadHytaleAssets } from './assets';
-import { ASSET_MANIFEST } from './cosmetic-assets-manifest';
 import { getRequiredAssetPaths, resolveSkin } from './cosmetic-registry';
 import { render_hytale_3d, render_text_avatar } from '../../../../pkg/mcavatar';
 import { EMPTY, HYTALE_DEFAULT_SKIN } from '../../data';
 import { IdentityKind, RequestedKind, TextureKind } from '../../request';
+import { readAssetFile } from '../../util/files';
 import {
 	fromHex,
 	offlinePlayerUuid,
@@ -233,6 +235,30 @@ async function retrieveTextureDirect(
 }
 
 /**
+ * Maps Crafthead RequestedKind to HytaleSkinRenderer view type
+ */
+function mapRequestedKindToViewType(kind: RequestedKind): string {
+	switch (kind) {
+		case RequestedKind.Avatar:
+		case RequestedKind.Helm: {
+			return 'avatar';
+		}
+		case RequestedKind.Cube: {
+			return 'cube';
+		}
+		case RequestedKind.Body: {
+			return 'body';
+		}
+		case RequestedKind.Bust: {
+			return 'bust';
+		}
+		default: {
+			return 'avatar';
+		}
+	}
+}
+
+/**
  * Renders a Hytale avatar using the 3D renderer.
  * Falls back to text avatar if 3D rendering fails.
  */
@@ -242,21 +268,20 @@ export async function renderAvatar(incomingRequest: Request, request: CraftheadR
 
 	try {
 		// Load bundled Hytale assets (base model and animation)
-		const assets = loadHytaleAssets();
+		const assets = await loadHytaleAssets();
 
 
 
 		// ... (inside renderAvatar)
 
-		// If player has skin configuration, resolve cosmetics
-		const cosmeticsForWasm: any[] = [];
 		let resolvedSkin: ReturnType<typeof resolveSkin> | undefined;
+		const assetPaths: string[] = [];
+		const assetBytes: Uint8Array[] = [];
 
 		if (profile?.skin) {
 			resolvedSkin = resolveSkin(profile.skin);
 			const requiredAssets = getRequiredAssetPaths(resolvedSkin);
 
-			// Log resolved cosmetics for debugging
 			console.log(`Player ${username} skin resolved:`, {
 				cosmeticsCount: resolvedSkin.cosmetics.length,
 				requiredAssets: {
@@ -266,67 +291,77 @@ export async function renderAvatar(incomingRequest: Request, request: CraftheadR
 				},
 			});
 
-			// Load cosmetic assets
-			for (const cosmetic of resolvedSkin.cosmetics) {
-				if (cosmetic.modelPath && cosmetic.texturePath) {
-					const modelJson = ASSET_MANIFEST[cosmetic.modelPath];
-					const textureData = ASSET_MANIFEST[cosmetic.texturePath];
+			const assetSet = new Set<string>([
+				...requiredAssets.models,
+				...requiredAssets.textures,
+				...requiredAssets.gradients,
+				'Cosmetics/CharacterCreator/HaircutFallbacks.json',
+				'Cosmetics/CharacterCreator/Faces.json',
+				'Cosmetics/CharacterCreator/Eyes.json',
+				'Cosmetics/CharacterCreator/Eyebrows.json',
+				'Cosmetics/CharacterCreator/Mouths.json',
+				'Cosmetics/CharacterCreator/Ears.json',
+				'Cosmetics/CharacterCreator/Haircuts.json',
+				'Cosmetics/CharacterCreator/FacialHair.json',
+				'Cosmetics/CharacterCreator/Underwear.json',
+				'Cosmetics/CharacterCreator/FaceAccessory.json',
+				'Cosmetics/CharacterCreator/Capes.json',
+				'Cosmetics/CharacterCreator/EarAccessory.json',
+				'Cosmetics/CharacterCreator/Gloves.json',
+				'Cosmetics/CharacterCreator/HeadAccessory.json',
+				'Cosmetics/CharacterCreator/GradientSets.json',
+				'Cosmetics/CharacterCreator/Overpants.json',
+				'Cosmetics/CharacterCreator/Overtops.json',
+				'Cosmetics/CharacterCreator/Pants.json',
+				'Cosmetics/CharacterCreator/Shoes.json',
+				'Cosmetics/CharacterCreator/SkinFeatures.json',
+				'Cosmetics/CharacterCreator/Undertops.json',
+			]);
 
-					// Resolve gradient texture if present
-					let tintTextureBytes: Uint8Array | undefined;
-					if (cosmetic.gradientTexturePath) {
-						const tintData = ASSET_MANIFEST[cosmetic.gradientTexturePath];
-						if (tintData) {
-							tintTextureBytes = new Uint8Array(tintData);
-						} else {
-							console.warn(`Missing gradient asset for cosmetic ${cosmetic.id}:`, cosmetic.gradientTexturePath);
-						}
-					}
-
-					if (modelJson && textureData) {
-						cosmeticsForWasm.push({
-							model_json: modelJson,
-							texture_bytes: new Uint8Array(textureData),
-							tint_colors: cosmetic.baseColor,
-							tint_texture_bytes: tintTextureBytes,
-						});
-					} else {
-						console.warn(`Missing asset for cosmetic ${cosmetic.id}:`, {
-							model: cosmetic.modelPath,
-							texture: cosmetic.texturePath,
-							foundModel: Boolean(modelJson),
-							foundTexture: Boolean(textureData),
-						});
-					}
-				}
+			for (const assetPath of assetSet) {
+				const data = await readAssetFile(assetPath, env);
+				const providerPath = assetPath.startsWith('Common/')
+					? `assets/${assetPath}`
+					: `assets/Common/${assetPath}`;
+				assetPaths.push(providerPath);
+				assetBytes.push(new Uint8Array(data));
 			}
 		} else {
 			console.log(`Player ${username} has no skin configuration`);
 		}
 
-		// Map RequestedKind to view type
 		const viewType = mapRequestedKindToViewType(request.requested);
+		const defaultSkin = {
+			bodyCharacteristic: 'Default.10',
+			underwear: null,
+			face: null,
+			ears: null,
+			mouth: null,
+			haircut: null,
+			facialHair: null,
+			eyebrows: null,
+			eyes: null,
+			pants: null,
+			overpants: null,
+			undertop: null,
+			overtop: null,
+			shoes: null,
+			headAccessory: null,
+			faceAccessory: null,
+			earAccessory: null,
+			skinFeature: null,
+			gloves: null,
+			cape: null,
+		};
+		const skinConfigJson = JSON.stringify({ skin: profile?.skin ?? defaultSkin });
 
-		console.log('Rendering with cosmetics count:', cosmeticsForWasm.length);
-
-
-		// Prepare base skin tint texture
-		let baseSkinTintTexture: Uint8Array | undefined;
-		if (resolvedSkin?.skinTone?.gradientTexturePath) {
-			const tintData = ASSET_MANIFEST[resolvedSkin.skinTone.gradientTexturePath];
-			if (tintData) {
-				baseSkinTintTexture = new Uint8Array(tintData);
-			}
-		}
-
-		// Render using 3D engine
 		const imageData = render_hytale_3d(
 			assets.modelJson,
 			assets.animationJson,
 			assets.textureBytes,
-			cosmeticsForWasm,
-			resolvedSkin?.skinTone?.baseColor,
-			baseSkinTintTexture,
+			skinConfigJson,
+			assetPaths,
+			assetBytes,
 			viewType,
 			request.size,
 		);
@@ -349,30 +384,6 @@ export async function renderAvatar(incomingRequest: Request, request: CraftheadR
 				'X-Crafthead-Renderer': 'text-avatar-fallback',
 			},
 		});
-	}
-}
-
-/**
- * Maps Crafthead RequestedKind to HytaleSkinRenderer view type
- */
-function mapRequestedKindToViewType(kind: RequestedKind): string {
-	switch (kind) {
-		case RequestedKind.Avatar:
-		case RequestedKind.Helm: {
-			return 'avatar';
-		}
-		case RequestedKind.Cube: {
-			return 'cube';
-		}
-		case RequestedKind.Body: {
-			return 'body';
-		}
-		case RequestedKind.Bust: {
-			return 'bust';
-		}
-		default: {
-			return 'avatar';
-		}
 	}
 }
 

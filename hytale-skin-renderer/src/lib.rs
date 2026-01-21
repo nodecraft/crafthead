@@ -3,6 +3,7 @@
 //! A Rust library for parsing and rendering Hytale blockymodel files to PNG images.
 
 pub mod animation;
+pub mod asset_provider;
 pub mod camera;
 pub mod cosmetic_attachment;
 pub mod cosmetics;

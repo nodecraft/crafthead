@@ -12,6 +12,7 @@
 		"check-types:server": "tsc --noemit",
 		"dev": "wrangler dev",
 		"extract-hytale-assets": "node scripts/extract-hytale-assets.ts",
+		"upload-assets-to-r2": "node scripts/upload-assets-to-r2.ts",
 		"lint": "npm run lint:js && npm run lint:rs && npm run check-types",
 		"lint:js": "eslint \"**/*.{js,mjs,cjs,ts}\" \"**/*.json\"",
 		"lint:js:fix": "npm run lint:js -- --fix",

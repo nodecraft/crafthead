@@ -9,17 +9,16 @@ compatibility_flags = ["nodejs_compat"]
 rules = [
 	{ type = "Data", globs = [
 		"**/*.png",
-	], fallthrough = true },
-	{ type = "Text", globs = [
-		"**/*.blockymodel",
-	], fallthrough = true },
-	{ type = "Text", globs = [
-		"**/*.blockyanim",
-	], fallthrough = true },
-	{ type = "Text", globs = [
-		"**/Cosmetics/**/*.json",
+		"!assets/",
 	], fallthrough = true },
 ]
+
+[[r2_buckets]]
+binding = "HYTALE_ASSETS"
+bucket_name = "hytale-assets"
+
+[vars]
+NODE_ENV = "development"
 
 [assets]
 directory = "./src/website"
@@ -37,6 +36,13 @@ main = "src/worker/index.ts"
 route = { pattern = "crafthead.net/*", zone_name = "crafthead.net" }
 analytics_engine_datasets = [{ binding = "CRAFTHEAD_ANALYTICS" }]
 services = [{ binding = "PLAYERDB", service = "playerdb" }]
+
+[[env.production.r2_buckets]]
+binding = "HYTALE_ASSETS"
+bucket_name = "hytale-assets"
+
+[env.production.vars]
+NODE_ENV = "production"
 
 [env.production.observability]
 enabled = true

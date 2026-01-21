@@ -3,6 +3,10 @@
  *
  * Loads and indexes CharacterCreator JSON files for cosmetic lookups.
  * Provides methods to resolve cosmetic IDs to their definitions.
+ *
+ * NOTE: These JSON files are bundled with the worker because they contain only
+ * metadata (file paths, IDs, color definitions) and are not copyright-infringing
+ * game assets. The actual model/texture/animation files are loaded from R2.
  */
 
 import { SLOT_TO_FILE } from './types';

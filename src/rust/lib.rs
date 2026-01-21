@@ -239,21 +239,19 @@ pub fn render_hytale_3d(
 	model_json: String,
 	animation_json: String,
 	texture_bytes: Uint8Array,
-	cosmetics: JsValue,
-	base_skin_tint: Option<Vec<String>>,
-	base_skin_tint_texture: Option<Uint8Array>,
+	skin_config_json: String,
+	asset_paths: Vec<String>,
+	asset_bytes: Vec<Uint8Array>,
 	view_type: String,
 	size: u32,
 ) -> Result<Uint8Array, JsValue> {
 	let texture_vec = texture_bytes.to_vec();
 
-	// Determine output dimensions based on view type
 	let (width, height) = match view_type.as_str() {
 		"body" | "full_body_front" => (size, size * 2),
 		_ => (size, size),
 	};
 
-	// Map Crafthead view types to HytaleSkinRenderer camera types
 	let camera_type = match view_type.as_str() {
 		"avatar" | "helm" | "headshot" => "headshot",
 		"cube" | "isometric_head" => "isometric_head",
@@ -262,14 +260,13 @@ pub fn render_hytale_3d(
 		_ => "headshot",
 	};
 
-	// Call HytaleSkinRenderer's WASM function
-	let png_bytes = hytale_skin_renderer::wasm::render_hytale_with_cosmetics(
+	let png_bytes = hytale_skin_renderer::wasm::render_hytale_with_pipeline(
 		&model_json,
 		&animation_json,
 		&texture_vec,
-		cosmetics,
-		base_skin_tint,
-		base_skin_tint_texture.map(|b| b.to_vec()),
+		&skin_config_json,
+		asset_paths,
+		asset_bytes,
 		camera_type,
 		width,
 		height,

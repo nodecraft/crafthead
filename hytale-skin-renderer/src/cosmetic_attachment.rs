@@ -3,6 +3,7 @@ use std::collections::HashMap;
 use std::path::Path;
 use std::sync::Arc;
 
+use crate::asset_provider::AssetProvider;
 
 /// Extended face that includes node name for tint mapping and specific texture/tint
 pub type TintedFace = renderer::RenderableFace;
@@ -84,11 +85,33 @@ pub fn add_single_shape_tinted(
 pub fn load_and_attach_cosmetic(
 	cosmetic_id: &str,
 	registry: &HashMap<String, cosmetics::CosmeticDefinition>,
+	gradient_sets: &HashMap<String, cosmetics::GradientSet>,
+	scene: &scene::SceneGraph,
+	faces: &mut Vec<TintedFace>,
+	shapes: &mut Vec<models::Shape>,
+	tint_config: &renderer::TintConfig,
+) {
+	load_and_attach_cosmetic_with_provider(
+		cosmetic_id,
+		registry,
+		gradient_sets,
+		scene,
+		faces,
+		shapes,
+		tint_config,
+		None,
+	);
+}
+
+pub fn load_and_attach_cosmetic_with_provider(
+	cosmetic_id: &str,
+	registry: &HashMap<String, cosmetics::CosmeticDefinition>,
 	_gradient_sets: &HashMap<String, cosmetics::GradientSet>,
 	scene: &scene::SceneGraph,
 	faces: &mut Vec<TintedFace>,
 	shapes: &mut Vec<models::Shape>,
 	tint_config: &renderer::TintConfig,
+	asset_provider: Option<&dyn AssetProvider>,
 ) {
 	if let Some(def) = registry.get(cosmetic_id) {
 		let model_path_str = match &def.model {
@@ -100,27 +123,50 @@ pub fn load_and_attach_cosmetic(
 			None => return,
 		};
 
-		let model_path = Path::new("assets/Common").join(model_path_str);
+		let model = if let Some(provider) = asset_provider {
+			let path = format!("assets/Common/{}", model_path_str);
+			match provider.load_bytes(&path) {
+				Ok(bytes) => {
+					let model_json = String::from_utf8(bytes)
+						.map_err(|e| crate::Error::InvalidData(e.to_string()));
+					match model_json {
+						Ok(json) => models::parse_blockymodel(&json).ok(),
+						Err(_) => None,
+					}
+				}
+				Err(e) => {
+					eprintln!("  Failed to load model: {:?}", e);
+					None
+				}
+			}
+		} else {
+			let model_path = Path::new("assets/Common").join(model_path_str);
+			models::parse_blockymodel_from_file(&model_path).ok()
+		};
 
-		if let Ok(model) = models::parse_blockymodel_from_file(&model_path) {
-			let texture_path = Path::new("assets/Common").join(texture_path_str);
-			let texture = texture::Texture::from_file(&texture_path)
-				.ok()
-				.map(Arc::new);
+		if let Some(model) = model {
+			let texture = if let Some(provider) = asset_provider {
+				let texture_path = format!("assets/Common/{}", texture_path_str);
+				match provider.load_bytes(&texture_path) {
+					Ok(bytes) => texture::Texture::from_bytes(&bytes).ok().map(Arc::new),
+					Err(e) => {
+						eprintln!("  Failed to load texture: {:?}", e);
+						None
+					}
+				}
+			} else {
+				let texture_path = Path::new("assets/Common").join(texture_path_str);
+				texture::Texture::from_file(&texture_path)
+					.ok()
+					.map(Arc::new)
+			};
 
 			let tint = match def.gradient_set.as_deref() {
 				Some("Skin") => Some(Arc::new(tint_config.skin.clone())),
 				Some("Hair") => tint_config.hair.as_ref().map(|t| Arc::new(t.clone())),
 				Some("Eyes_Gradient") => tint_config.eyes.as_ref().map(|t| Arc::new(t.clone())),
-				Some(_set_id) => {
-					// Try to find a default tint for this set?
-					// Usually this function (`load_and_attach_cosmetic`) is for simple attachments without color params.
-					// So we probably don't have a specific color to look up.
-					// But if it needs a tint from a set, we might default to something?
-					// For now, let's keep the None behavior unless we want to default to "Black" or similar.
-					None
-				}
-				_ => None,
+				Some(_) => None,
+				None => None,
 			};
 
 			for root_node in &model.nodes {
@@ -147,7 +193,8 @@ pub fn load_and_attach_cosmetic(
 					);
 				}
 			}
-		} else {
+		} else if let Some(model_path_str) = def.model.as_ref() {
+			let model_path = Path::new("assets/Common").join(model_path_str);
 			eprintln!("  Failed to load model: {:?}", model_path);
 		}
 	} else {
@@ -165,6 +212,30 @@ pub fn attach_variant(
 	shapes: &mut Vec<models::Shape>,
 	tint_config: &renderer::TintConfig,
 ) {
+	attach_variant_with_provider(
+		def,
+		variant_id,
+		_registry,
+		gradient_sets,
+		scene,
+		faces,
+		shapes,
+		tint_config,
+		None,
+	);
+}
+
+pub fn attach_variant_with_provider(
+	def: &cosmetics::CosmeticDefinition,
+	variant_id: &str,
+	_registry: &HashMap<String, cosmetics::CosmeticDefinition>,
+	gradient_sets: &HashMap<String, cosmetics::GradientSet>,
+	scene: &scene::SceneGraph,
+	faces: &mut Vec<TintedFace>,
+	shapes: &mut Vec<models::Shape>,
+	tint_config: &renderer::TintConfig,
+	asset_provider: Option<&dyn AssetProvider>,
+) {
 	if let Some(variants) = &def.variants {
 		if let Some(variant) = variants.get(variant_id) {
 			let mut variant_def = def.clone();
@@ -175,7 +246,7 @@ pub fn attach_variant(
 			let mut temp_registry = HashMap::new();
 			temp_registry.insert(vid.clone(), variant_def);
 
-			load_and_attach_cosmetic(
+			load_and_attach_cosmetic_with_provider(
 				&vid,
 				&temp_registry,
 				gradient_sets,
@@ -183,6 +254,7 @@ pub fn attach_variant(
 				faces,
 				shapes,
 				tint_config,
+				asset_provider,
 			);
 		}
 	}
@@ -318,6 +390,28 @@ pub fn attach_cosmetic(
 	shapes: &mut Vec<models::Shape>,
 	tint_config: &renderer::TintConfig,
 ) {
+	attach_cosmetic_with_provider(
+		id_full,
+		registry,
+		gradient_sets,
+		scene,
+		faces,
+		shapes,
+		tint_config,
+		None,
+	);
+}
+
+pub fn attach_cosmetic_with_provider(
+	id_full: &str,
+	registry: &HashMap<String, cosmetics::CosmeticDefinition>,
+	gradient_sets: &HashMap<String, cosmetics::GradientSet>,
+	scene: &scene::SceneGraph,
+	faces: &mut Vec<TintedFace>,
+	shapes: &mut Vec<models::Shape>,
+	tint_config: &renderer::TintConfig,
+	asset_provider: Option<&dyn AssetProvider>,
+) {
 	let parts: Vec<&str> = id_full.split('.').collect();
 	let cosmetic_id = parts[0];
 
@@ -331,7 +425,15 @@ pub fn attach_cosmetic(
 	let modifiers = parts.iter().skip(1).copied().collect::<Vec<&str>>();
 
 	if let Some(def) = registry.get(cosmetic_id) {
+		let registry_key = if registry.contains_key(id_full) {
+			id_full
+		} else {
+			cosmetic_id
+		};
+		let def = registry.get(registry_key).unwrap_or(def);
+
 		// 1. Resolve Variant
+
 		// Find if any modifier matches a variant key.
 		let variant_id = def.variants.as_ref().and_then(|variants| {
 			modifiers
@@ -349,17 +451,52 @@ pub fn attach_cosmetic(
 		let (model_path_opt, texture_path_opt, texture_base_colors) =
 			resolve_model_and_texture(def, variant_id, color_id);
 
-		if let Some(model_path_str) = model_path_opt {
-			let model_path = Path::new("assets/Common").join(model_path_str);
-			if let Ok(model) = models::parse_blockymodel_from_file(&model_path) {
+		if let Some(ref model_path_str) = model_path_opt {
+			let model = if let Some(provider) = asset_provider {
+				let path = format!("assets/Common/{}", model_path_str);
+				let bytes = provider.load_bytes(&path).map_err(|e| {
+					eprintln!("  Failed to load cosmetic model: {:?}", e);
+					e
+				});
+				match bytes {
+					Ok(model_bytes) => {
+						let model_json = String::from_utf8(model_bytes)
+							.map_err(|e| crate::Error::InvalidData(e.to_string()));
+						match model_json {
+							Ok(json) => models::parse_blockymodel(&json).ok(),
+							Err(_) => None,
+						}
+					}
+					Err(_) => None,
+				}
+			} else {
+				let model_path = Path::new("assets/Common").join(model_path_str);
+				models::parse_blockymodel_from_file(&model_path).ok()
+			};
+
+			if let Some(model) = model {
 				// 4. Load Texture
 				let texture = if let Some(tex_path_str) = texture_path_opt {
-					let tex_path = Path::new("assets/Common").join(tex_path_str);
-					match texture::Texture::from_file(&tex_path) {
-						Ok(tex) => Some(Arc::new(tex)),
-						Err(e) => {
-							eprintln!("  Failed to load cosmetic texture: {:?} - {}", tex_path, e);
-							None
+					if let Some(provider) = asset_provider {
+						let tex_path = format!("assets/Common/{}", tex_path_str);
+						match provider.load_bytes(&tex_path) {
+							Ok(bytes) => texture::Texture::from_bytes(&bytes).ok().map(Arc::new),
+							Err(e) => {
+								eprintln!("  Failed to load cosmetic texture: {:?}", e);
+								None
+							}
+						}
+					} else {
+						let tex_path = Path::new("assets/Common").join(tex_path_str);
+						match texture::Texture::from_file(&tex_path) {
+							Ok(tex) => Some(Arc::new(tex)),
+							Err(e) => {
+								eprintln!(
+									"  Failed to load cosmetic texture: {:?} - {}",
+									tex_path, e
+								);
+								None
+							}
 						}
 					}
 				} else {
@@ -381,21 +518,52 @@ pub fn attach_cosmetic(
 							if let Some(color) = color_id {
 								// CHANGED: Use registry lookup first
 								if let Some(set) = gradient_sets.get(other_gradient) {
-									if let Some(grad_def) = set.gradients.get(color) {
-										if let Some(texture_path_str) = &grad_def.texture {
-											let gradient_path = if texture_path_str
-												.starts_with("TintGradients")
-											{
-												Path::new("assets/Common").join(texture_path_str)
+									let gradient_key = if set.gradients.contains_key(color) {
+										color.to_string()
+									} else {
+										let fallback = format!("{}_{}", color, other_gradient);
+										if set.gradients.contains_key(&fallback) {
+											fallback
+										} else {
+											let fallback = format!("{}_{}", other_gradient, color);
+											if set.gradients.contains_key(&fallback) {
+												fallback
 											} else {
-												Path::new("assets/Common/TintGradients")
-													.join(texture_path_str)
-											};
+												color.to_string()
+											}
+										}
+									};
+									if let Some(grad_def) = set.gradients.get(&gradient_key) {
+										if let Some(texture_path_str) = &grad_def.texture {
+											let gradient_path =
+												if texture_path_str.starts_with("TintGradients") {
+													format!("assets/Common/{}", texture_path_str)
+												} else {
+													format!(
+														"assets/Common/TintGradients/{}",
+														texture_path_str
+													)
+												};
 
-											let gradient =
-												texture::TintGradient::from_file(&gradient_path)
-													.ok()
-													.map(Arc::new);
+											let gradient = if let Some(provider) = asset_provider {
+												match provider.load_bytes(&gradient_path) {
+													Ok(bytes) => {
+														texture::TintGradient::from_bytes(&bytes)
+															.ok()
+															.map(Arc::new)
+													}
+													Err(e) => {
+														eprintln!("  Failed to load gradient texture: {:?}", e);
+														None
+													}
+												}
+											} else {
+												texture::TintGradient::from_file(Path::new(
+													&gradient_path,
+												))
+												.ok()
+												.map(Arc::new)
+											};
 											gradient
 										} else {
 											None
@@ -405,12 +573,28 @@ pub fn attach_cosmetic(
 									}
 								} else {
 									// Fallback to old behavior
-									let gradient_path = Path::new("assets/Common/TintGradients")
-										.join(other_gradient)
-										.join(format!("{}.png", color));
-									texture::TintGradient::from_file(&gradient_path)
-										.ok()
-										.map(Arc::new)
+									let gradient_path = format!(
+										"assets/Common/TintGradients/{}/{}.png",
+										other_gradient, color
+									);
+									if let Some(provider) = asset_provider {
+										match provider.load_bytes(&gradient_path) {
+											Ok(bytes) => texture::TintGradient::from_bytes(&bytes)
+												.ok()
+												.map(Arc::new),
+											Err(e) => {
+												eprintln!(
+													"  Failed to load gradient texture: {:?}",
+													e
+												);
+												None
+											}
+										}
+									} else {
+										texture::TintGradient::from_file(Path::new(&gradient_path))
+											.ok()
+											.map(Arc::new)
+									}
 								}
 							} else {
 								// Fallback: try "Black" or similar if needed, or just None
@@ -446,7 +630,8 @@ pub fn attach_cosmetic(
 						);
 					}
 				}
-			} else {
+			} else if let Some(ref model_path_str) = model_path_opt {
+				let model_path = Path::new("assets/Common").join(model_path_str);
 				eprintln!("  Failed to load cosmetic model: {:?}", model_path);
 			}
 		}

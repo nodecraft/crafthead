@@ -5,7 +5,10 @@
 
 use wasm_bindgen::prelude::*;
 
-use crate::{animation, camera, geometry, models, output, renderer, scene, texture};
+use crate::asset_provider::{AssetProvider, MemoryAssetProvider};
+use crate::{
+	animation, camera, geometry, models, output, render_pipeline, renderer, scene, skin, texture,
+};
 
 /// Render a Hytale character to PNG bytes
 ///
@@ -91,129 +94,62 @@ pub struct Cosmetic {
 	pub tint_texture_bytes: Option<Vec<u8>>,
 }
 
-/// Render a Hytale character with cosmetics to PNG bytes
+/// Render a Hytale character using the full pipeline (WASM-friendly)
 #[wasm_bindgen]
-pub fn render_hytale_with_cosmetics(
+pub fn render_hytale_with_pipeline(
 	model_json: &str,
 	animation_json: &str,
 	base_texture_bytes: &[u8],
-	cosmetics_js: JsValue,
-	base_tint_colors: Option<Vec<String>>,
-	base_tint_texture_bytes: Option<Vec<u8>>,
+	skin_config_json: &str,
+	asset_paths: Vec<String>,
+	asset_bytes: Vec<js_sys::Uint8Array>,
 	view_type: &str,
 	width: u32,
 	height: u32,
 ) -> Result<Vec<u8>, JsValue> {
-	// Deserialize cosmetics
-	let cosmetics: Vec<Cosmetic> = serde_wasm_bindgen::from_value(cosmetics_js)?;
+	let asset_bytes_vec: Vec<Vec<u8>> = asset_bytes.into_iter().map(|b| b.to_vec()).collect();
+	let provider = MemoryAssetProvider::new(asset_paths, asset_bytes_vec)
+		.map_err(|e| JsValue::from_str(&format!("Asset map error: {}", e)))?;
 
-	// Parse model and animation
+	let registry = std::sync::Arc::new(
+		crate::cosmetics::CosmeticRegistry::load_from_provider(&provider, "assets/Common")
+			.map_err(|e| JsValue::from_str(&format!("Registry load error: {}", e)))?,
+	);
+
+	let fallbacks = provider
+		.load_bytes("assets/Common/Cosmetics/CharacterCreator/HaircutFallbacks.json")
+		.ok()
+		.and_then(|bytes| {
+			serde_json::from_slice::<std::collections::HashMap<String, String>>(&bytes).ok()
+		})
+		.unwrap_or_else(std::collections::HashMap::new);
+
 	let model = models::parse_blockymodel(model_json)
 		.map_err(|e| JsValue::from_str(&format!("Model parse error: {}", e)))?;
 	let animation = models::parse_blockyanim(animation_json)
 		.map_err(|e| JsValue::from_str(&format!("Animation parse error: {}", e)))?;
 
-	// Load textures
-	// Index 0 is base texture
+	let mut renderer = render_pipeline::BodyRenderer::new_from_data(
+		model,
+		animation,
+		registry,
+		fallbacks,
+		(256, 256),
+	)
+	.map_err(|e| JsValue::from_str(&format!("Renderer init error: {}", e)))?;
+
+	let skin_config = skin::SkinConfig::from_str(skin_config_json)
+		.map_err(|e| JsValue::from_str(&format!("Skin config error: {}", e)))?;
+
+	let mut provider = provider;
+
+	renderer
+		.apply_skin_with_provider(&skin_config, &mut provider, "assets/Common")
+		.map_err(|e| JsValue::from_str(&format!("Skin config error: {}", e)))?;
+
 	let base_texture = texture::Texture::from_bytes(base_texture_bytes)
 		.map_err(|e| JsValue::from_str(&format!("Base texture load error: {}", e)))?;
 
-	let mut textures = vec![std::sync::Arc::new(base_texture)];
-	// Create base tint if provided
-	let base_tint = if let Some(texture_bytes) = base_tint_texture_bytes {
-		// Prioritize texture tint
-		texture::TintGradient::from_bytes(&texture_bytes)
-			.map(std::sync::Arc::new)
-			.ok()
-	} else if let Some(colors) = base_tint_colors {
-		Some(std::sync::Arc::new(texture::TintGradient::from_hex_colors(
-			&colors,
-		)))
-	} else {
-		None
-	};
-	let mut tints = vec![base_tint];
-
-	// Parse cosmetic models and textures
-	let mut cosmetic_graphs = Vec::new();
-
-	for (i, cosmetic) in cosmetics.iter().enumerate() {
-		let cosmetic_model = models::parse_blockymodel(&cosmetic.model_json)
-			.map_err(|e| JsValue::from_str(&format!("Cosmetic {} model parse error: {}", i, e)))?;
-
-		let cosmetic_texture = texture::Texture::from_bytes(&cosmetic.texture_bytes)
-			.map_err(|e| JsValue::from_str(&format!("Cosmetic {} texture load error: {}", i, e)))?;
-
-		textures.push(std::sync::Arc::new(cosmetic_texture));
-
-		// Create tint gradient if provided
-		let cosmetic_tint = if let Some(texture_bytes) = &cosmetic.tint_texture_bytes {
-			texture::TintGradient::from_bytes(texture_bytes)
-				.map(std::sync::Arc::new)
-				.ok()
-		} else if let Some(colors) = &cosmetic.tint_colors {
-			Some(std::sync::Arc::new(texture::TintGradient::from_hex_colors(
-				colors,
-			)))
-		} else {
-			None
-		};
-		tints.push(cosmetic_tint);
-
-		let graph = scene::SceneGraph::from_blockymodel(&cosmetic_model)
-			.map_err(|e| JsValue::from_str(&format!("Cosmetic {} graph error: {}", i, e)))?;
-
-		cosmetic_graphs.push(graph);
-	}
-
-	// Sample animation
-	let pose = animation::sample_animation(&animation, 0.0);
-
-	// Create base scene graph
-	let mut scene_graph = scene::SceneGraph::from_blockymodel_with_pose(&model, &pose, None)
-		.map_err(|e| JsValue::from_str(&format!("Scene graph error: {}", e)))?;
-
-	// Merge cosmetics (starting from texture index 1)
-	for (i, graph) in cosmetic_graphs.into_iter().enumerate() {
-		scene_graph.merge_graph(graph, i + 1);
-	}
-
-	// Collect visible shapes and generate geometry
-	let visible_shapes = scene_graph.get_visible_shapes();
-	let mut faces = Vec::new();
-	for (node, transform) in &visible_shapes {
-		if let Some(ref shape) = node.shape {
-			let geom = geometry::generate_geometry(shape, *transform);
-			for face in geom {
-				let specific_texture = node.texture_id.map(|id| {
-					if id < textures.len() {
-						textures[id].clone()
-					} else {
-						textures[0].clone()
-					}
-				});
-
-				faces.push(renderer::RenderableFace {
-					face,
-					transform: *transform,
-					shape: Some(shape.clone()),
-					node_name: Some(node.name.clone()),
-					texture: specific_texture,
-					tint: if let Some(id) = node.texture_id {
-						if id < tints.len() {
-							tints[id].clone()
-						} else {
-							None
-						}
-					} else {
-						tints[0].clone()
-					},
-				});
-			}
-		}
-	}
-
-	// Select camera based on view type
 	let cam: Box<dyn camera::CameraProjection> = match view_type {
 		"headshot" => Box::new(camera::PerspectiveCamera::headshot()),
 		"isometric_head" => Box::new(camera::PerspectiveCamera::isometric_head()),
@@ -224,12 +160,16 @@ pub fn render_hytale_with_cosmetics(
 		_ => Box::new(camera::PerspectiveCamera::headshot()),
 	};
 
-	// Render scene
-	// Pass base texture as default (though specific textures will override it)
-	let image = renderer::render_scene(&faces, &textures[0], cam.as_ref(), width, height)
-		.map_err(|e| JsValue::from_str(&format!("Render error: {}", e)))?;
+	let image = renderer::render_scene_tinted(
+		&renderer.faces,
+		&base_texture,
+		cam.as_ref(),
+		width,
+		height,
+		&renderer.tint_config,
+	)
+	.map_err(|e| JsValue::from_str(&format!("Render error: {}", e)))?;
 
-	// Export to PNG bytes
 	output::export_png_bytes(&image).map_err(|e| JsValue::from_str(&format!("Export error: {}", e)))
 }
 

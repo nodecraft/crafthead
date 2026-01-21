@@ -1,18 +1,6 @@
-/**
- * Hytale Asset Loader
- *
- * Loads Hytale rendering assets (model, animation, texture) for use with the
- * HytaleSkinRenderer WASM module.
- *
- * For development: Assets are bundled via imports
- * For production: Assets would be loaded from R2 (TODO)
- */
+import { env } from 'cloudflare:workers';
 
-// Import model, animation, and texture files
-// These are bundled at build time via wrangler rules
-import idleAnimationJson from '../../../../assets/hytale/Common/Characters/Animations/Default/Idle.blockyanim';
-import playerModelJson from '../../../../assets/hytale/Common/Characters/Player.blockymodel';
-import playerTextureData from '../../../../assets/hytale/Common/Characters/Player_Textures/Player_Greyscale.png';
+import { readAssetFile } from '../../util/files';
 
 /**
  * Cached Hytale rendering assets
@@ -23,30 +11,49 @@ export interface HytaleAssets {
 	textureBytes: Uint8Array;
 }
 
-// Cache the loaded assets
-let cachedAssets: HytaleAssets | null = null;
+// Cache the loaded assets or the loading promise to prevent race conditions
+let cache: HytaleAssets | Promise<HytaleAssets> | null = null;
 
 /**
  * Load Hytale rendering assets
  *
- * Assets are bundled at build time, so this is effectively synchronous.
+ * Assets are loaded from R2 or disk asynchronously.
  * Returns cached assets after first load.
  */
-export function loadHytaleAssets(): HytaleAssets {
-	if (cachedAssets) {
-		return cachedAssets;
+export async function loadHytaleAssets(): Promise<HytaleAssets> {
+	// If we have cached assets (not a promise), return them
+	if (cache && !(cache instanceof Promise)) {
+		return cache;
 	}
 
-	// Convert ArrayBuffer to Uint8Array for the texture
-	const textureBytes = new Uint8Array(playerTextureData);
+	// If already loading (cache is a promise), wait for it
+	if (cache instanceof Promise) {
+		return cache;
+	}
 
-	cachedAssets = {
-		modelJson: playerModelJson,
-		animationJson: idleAnimationJson,
-		textureBytes,
-	};
+	// Start loading and cache the promise
+	const loadingPromise = (async () => {
+		const playerTextureData = await readAssetFile('Common/Characters/Player_Textures/Player_Greyscale.png', env);
+		const playerModelJson = await readAssetFile('Common/Characters/Player.blockymodel', env);
+		const idleAnimationJson = await readAssetFile('Common/Characters/Animations/Default/Idle.blockyanim', env);
 
-	return cachedAssets;
+		// Convert ArrayBuffer to Uint8Array for the texture
+		const textureBytes = new Uint8Array(playerTextureData);
+
+		const assets: HytaleAssets = {
+			modelJson: new TextDecoder().decode(playerModelJson),
+			animationJson: new TextDecoder().decode(idleAnimationJson),
+			textureBytes,
+		};
+
+		// Replace the promise with the actual assets
+		cache = assets;
+		return assets;
+	})();
+
+	// Cache the promise so concurrent calls wait for the same load
+	cache = loadingPromise;
+	return loadingPromise;
 }
 
 /**
@@ -54,7 +61,8 @@ export function loadHytaleAssets(): HytaleAssets {
  */
 export function hasHytaleAssets(): boolean {
 	try {
-		return Boolean(playerModelJson) && Boolean(idleAnimationJson) && Boolean(playerTextureData);
+		const assets = cache && !(cache instanceof Promise) ? cache : null;
+		return Boolean(assets?.modelJson) && Boolean(assets?.animationJson) && Boolean(assets?.textureBytes);
 	} catch {
 		return false;
 	}
