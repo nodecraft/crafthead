@@ -231,8 +231,24 @@ export async function resolveCosmetic(
 		const variant = definition.Variants[parsed.variant];
 		if (variant) {
 			modelPath = variant.Model ?? definition.Model ?? null;
-			texturePath = variant.GreyscaleTexture ?? variant.Texture ?? null;
-			if (variant.BaseColor) {
+
+			// Check variant.Textures for color-specific textures
+			if (parsed.color && variant.Textures) {
+				const colorTexture = variant.Textures[parsed.color];
+				if (colorTexture) {
+					texturePath = colorTexture.Texture;
+					if (colorTexture.BaseColor) {
+						baseColor = colorTexture.BaseColor;
+					}
+				}
+			}
+
+			// Fallback to direct texture properties
+			if (!texturePath) {
+				texturePath = variant.GreyscaleTexture ?? variant.Texture ?? null;
+			}
+
+			if (variant.BaseColor && !baseColor) {
 				baseColor = variant.BaseColor;
 			}
 		}
