@@ -22,13 +22,16 @@
 		"test:dev": "vitest --watch"
 	},
 	"devDependencies": {
+		"@aws-sdk/client-s3": "3.972.0",
 		"@cloudflare/vitest-pool-workers": "0.11.1",
 		"@cloudflare/workers-types": "4.20251230.0",
 		"@nodecraft/eslint-config": "46.0.0",
 		"@types/node": "24.10.4",
+		"@types/picomatch": "4.0.2",
 		"@types/yauzl": "2.10.3",
 		"@typescript-eslint/eslint-plugin": "8.51.0",
 		"@typescript-eslint/parser": "8.51.0",
+		"dotenv": "17.2.3",
 		"eslint": "8.57.1",
 		"eslint-plugin-import": "2.32.0",
 		"eslint-plugin-json": "4.0.1",

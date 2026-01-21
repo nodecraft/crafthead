@@ -2,7 +2,10 @@
  * Upload all Hytale assets from assets/hytale/ to R2 bucket
  *
  * This script recursively reads all files from assets/hytale/ and uploads them
- * to the Cloudflare R2 bucket via the /upload-asset HTTP endpoint.
+ * to the Cloudflare R2 bucket via either:
+ * - HTTP endpoint (default, via /upload-asset)
+ * - S3-compatible protocol (via UPLOAD_METHOD=s3)
+ *
  * Files are uploaded in parallel for better performance.
  */
 
@@ -10,12 +13,27 @@ import { readFile, readdir, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import 'dotenv/config';
+import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ASSETS_DIR = path.resolve(__dirname, '../assets/hytale');
 
-// Default to localhost:8787 (wrangler dev default), but allow override via env
+// Upload method: 'http' (default) or 's3'
+const UPLOAD_METHOD = (process.env.UPLOAD_METHOD || 'http').toLowerCase();
+
+// HTTP endpoint configuration
 const UPLOAD_ENDPOINT = process.env.UPLOAD_ENDPOINT || 'http://localhost:8787/upload-asset';
+
+// S3 configuration (for R2)
+const R2_ENDPOINT = process.env.R2_ENDPOINT;
+const R2_ACCESS_KEY_ID = process.env.R2_ACCESS_KEY_ID;
+const R2_SECRET_ACCESS_KEY = process.env.R2_SECRET_ACCESS_KEY;
+const R2_BUCKET = process.env.R2_BUCKET || 'hytale-assets';
+
+// Optional prefix to prepend to all S3 keys (e.g., "assets/" would make keys "assets/Common/...")
+const R2_KEY_PREFIX = process.env.R2_KEY_PREFIX || '';
 
 /**
  * Recursively get all files from a directory
@@ -61,9 +79,27 @@ function getContentType(filePath: string): string {
 }
 
 /**
+ * Initialize S3 client for R2
+ */
+function initializeS3Client(): S3Client {
+	if (!R2_ENDPOINT || !R2_ACCESS_KEY_ID || !R2_SECRET_ACCESS_KEY) {
+		throw new Error('S3 upload method selected but missing required credentials. Please set R2_ENDPOINT, R2_ACCESS_KEY_ID, and R2_SECRET_ACCESS_KEY environment variables.');
+	}
+
+	return new S3Client({
+		region: 'auto',
+		endpoint: R2_ENDPOINT,
+		credentials: {
+			accessKeyId: R2_ACCESS_KEY_ID,
+			secretAccessKey: R2_SECRET_ACCESS_KEY,
+		},
+	});
+}
+
+/**
  * Upload a single file to R2 via HTTP endpoint
  */
-async function uploadFile(absolutePath: string, relativePath: string): Promise<{ success: boolean; error?: string; }> {
+async function uploadViaHttp(absolutePath: string, relativePath: string): Promise<{ success: boolean; error?: string; }> {
 	try {
 		// Read file content
 		const fileContent = await readFile(absolutePath);
@@ -93,11 +129,47 @@ async function uploadFile(absolutePath: string, relativePath: string): Promise<{
 }
 
 /**
+ * Upload a single file to R2 via S3-compatible protocol
+ */
+async function uploadViaS3(s3Client: S3Client, absolutePath: string, relativePath: string): Promise<{ success: boolean; error?: string; }> {
+	try {
+		// Read file content
+		const fileContent = await readFile(absolutePath);
+		const contentType = getContentType(relativePath);
+
+		// Apply prefix if configured
+		const key = R2_KEY_PREFIX ? `${R2_KEY_PREFIX}${relativePath}` : relativePath;
+		console.log('Uploading to R2:', key);
+
+		const command = new PutObjectCommand({
+			Bucket: R2_BUCKET,
+			Key: key,
+			Body: fileContent,
+			ContentType: contentType,
+		});
+
+		await s3Client.send(command);
+		return { success: true };
+	} catch (error) {
+		return { success: false, error: (error as Error).message };
+	}
+}
+
+/**
  * Main upload function with parallel uploads
  */
 async function uploadAssets(): Promise<void> {
 	console.log(`Scanning assets in ${ASSETS_DIR}...`);
-	console.log(`Using upload endpoint: ${UPLOAD_ENDPOINT}\n`);
+
+	// Validate and log upload method configuration
+	if (UPLOAD_METHOD === 's3') {
+		console.log(`Upload method: S3 (via ${R2_BUCKET})`);
+		console.log(`R2 Endpoint: ${R2_ENDPOINT}`);
+	} else {
+		console.log('Upload method: HTTP');
+		console.log(`Upload endpoint: ${UPLOAD_ENDPOINT}`);
+	}
+	console.log('');
 
 	// Check if directory exists
 	try {
@@ -128,8 +200,14 @@ async function uploadAssets(): Promise<void> {
 		errors: [] as Array<{ file: string; error: string; }>,
 	};
 
+	// Initialize upload method
+	let s3Client: S3Client | null = null;
+	if (UPLOAD_METHOD === 's3') {
+		s3Client = initializeS3Client();
+	}
+
 	// Upload files in parallel batches (throttled to avoid overwhelming wrangler)
-	const CONCURRENT_UPLOADS = 20; // Reduced from 20 to avoid overwhelming wrangler
+	const CONCURRENT_UPLOADS = 20;
 	let completed = 0;
 
 	console.log(`Uploading ${stats.total} files with up to ${CONCURRENT_UPLOADS} concurrent uploads...\n`);
@@ -139,7 +217,12 @@ async function uploadAssets(): Promise<void> {
 
 		const results = await Promise.allSettled(
 			batch.map(async ({ absolutePath, relativePath }) => {
-				const result = await uploadFile(absolutePath, relativePath);
+				let result: { success: boolean; error?: string; };
+				if (UPLOAD_METHOD === 's3') {
+					result = await uploadViaS3(s3Client!, absolutePath, relativePath);
+				} else {
+					result = await uploadViaHttp(absolutePath, relativePath);
+				}
 				completed++;
 
 				// Update progress
