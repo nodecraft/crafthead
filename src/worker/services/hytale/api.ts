@@ -95,6 +95,8 @@ export async function lookupUsername(
 	}
 	if (lookupResponse.status === 204 || jsonData?.code === 'hytale.invalid_username') {
 		return null;
+	} else if (lookupResponse.status === 400 && jsonData?.code === 'hytale.not_found') {
+		return null;
 	} else if (!lookupResponse.ok || !jsonData) {
 		throw new Error('Unable to lookup UUID for username, http status ' + lookupResponse.status);
 	} else {

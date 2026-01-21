@@ -102,58 +102,55 @@ function generateAndReturnTextAvatar(username: string, request: CraftheadRequest
 export async function renderAvatar(incomingRequest: Request, request: CraftheadRequest): Promise<Response> {
 	const { profile } = await normalizeRequest(incomingRequest, request);
 	const username = profile?.name ?? request.identity;
+	if (!profile?.skin) {
+		// TODO: Replace with a deterministic skin generator
+		return generateAndReturnTextAvatar(username, request);
+	}
 
 	try {
 		// Load bundled Hytale assets (base model and animation)
 		const assets = await loadHytaleAssets();
 
-		let resolvedSkin: Awaited<ReturnType<typeof resolveSkin>> | undefined;
+		const resolvedSkin = await resolveSkin(profile.skin);
 		const assetPaths: string[] = [];
 		const assetBytes: Uint8Array[] = [];
 
-		if (profile?.skin) {
-			resolvedSkin = await resolveSkin(profile.skin);
-			const requiredAssets = getRequiredAssetPaths(resolvedSkin);
+		const requiredAssets = getRequiredAssetPaths(resolvedSkin);
 
-			const assetSet = new Set<string>([
-				...requiredAssets.models,
-				...requiredAssets.textures,
-				...requiredAssets.gradients,
-				'Cosmetics/CharacterCreator/HaircutFallbacks.json',
-				'Cosmetics/CharacterCreator/Faces.json',
-				'Cosmetics/CharacterCreator/Eyes.json',
-				'Cosmetics/CharacterCreator/Eyebrows.json',
-				'Cosmetics/CharacterCreator/Mouths.json',
-				'Cosmetics/CharacterCreator/Ears.json',
-				'Cosmetics/CharacterCreator/Haircuts.json',
-				'Cosmetics/CharacterCreator/FacialHair.json',
-				'Cosmetics/CharacterCreator/Underwear.json',
-				'Cosmetics/CharacterCreator/FaceAccessory.json',
-				'Cosmetics/CharacterCreator/Capes.json',
-				'Cosmetics/CharacterCreator/EarAccessory.json',
-				'Cosmetics/CharacterCreator/Gloves.json',
-				'Cosmetics/CharacterCreator/HeadAccessory.json',
-				'Cosmetics/CharacterCreator/GradientSets.json',
-				'Cosmetics/CharacterCreator/Overpants.json',
-				'Cosmetics/CharacterCreator/Overtops.json',
-				'Cosmetics/CharacterCreator/Pants.json',
-				'Cosmetics/CharacterCreator/Shoes.json',
-				'Cosmetics/CharacterCreator/SkinFeatures.json',
-				'Cosmetics/CharacterCreator/Undertops.json',
-			]);
+		const assetSet = new Set<string>([
+			...requiredAssets.models,
+			...requiredAssets.textures,
+			...requiredAssets.gradients,
+			'Cosmetics/CharacterCreator/HaircutFallbacks.json',
+			'Cosmetics/CharacterCreator/Faces.json',
+			'Cosmetics/CharacterCreator/Eyes.json',
+			'Cosmetics/CharacterCreator/Eyebrows.json',
+			'Cosmetics/CharacterCreator/Mouths.json',
+			'Cosmetics/CharacterCreator/Ears.json',
+			'Cosmetics/CharacterCreator/Haircuts.json',
+			'Cosmetics/CharacterCreator/FacialHair.json',
+			'Cosmetics/CharacterCreator/Underwear.json',
+			'Cosmetics/CharacterCreator/FaceAccessory.json',
+			'Cosmetics/CharacterCreator/Capes.json',
+			'Cosmetics/CharacterCreator/EarAccessory.json',
+			'Cosmetics/CharacterCreator/Gloves.json',
+			'Cosmetics/CharacterCreator/HeadAccessory.json',
+			'Cosmetics/CharacterCreator/GradientSets.json',
+			'Cosmetics/CharacterCreator/Overpants.json',
+			'Cosmetics/CharacterCreator/Overtops.json',
+			'Cosmetics/CharacterCreator/Pants.json',
+			'Cosmetics/CharacterCreator/Shoes.json',
+			'Cosmetics/CharacterCreator/SkinFeatures.json',
+			'Cosmetics/CharacterCreator/Undertops.json',
+		]);
 
-			for (const assetPath of assetSet) {
-				const data = await readAssetFile(assetPath, env);
-				const providerPath = assetPath.startsWith('Common/')
-					? `assets/${assetPath}`
-					: `assets/Common/${assetPath}`;
-				assetPaths.push(providerPath);
-				assetBytes.push(new Uint8Array(data));
-			}
-		} else {
-			console.log(`Player ${username} has no skin configuration`);
-			// Don't even try to render, just fallback to the text avatar
-			return generateAndReturnTextAvatar(username, request);
+		for (const assetPath of assetSet) {
+			const data = await readAssetFile(assetPath, env);
+			const providerPath = assetPath.startsWith('Common/')
+				? `assets/${assetPath}`
+				: `assets/Common/${assetPath}`;
+			assetPaths.push(providerPath);
+			assetBytes.push(new Uint8Array(data));
 		}
 
 		const viewType = mapRequestedKindToViewType(request.requested);
