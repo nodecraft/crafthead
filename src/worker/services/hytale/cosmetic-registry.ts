@@ -407,10 +407,11 @@ export function getRequiredAssetPaths(resolvedSkin: ResolvedSkin): {
 }
 
 export function getCosmeticJsonBytes(): { path: string; bytes: Uint8Array; }[] {
+	const reusableTextEncoder = new TextEncoder();
 	return COSMETIC_FILES.map(({ path, content }) => {
 		return {
 			path,
-			bytes: new TextEncoder().encode(typeof content === 'string' ? content : JSON.stringify(content)),
+			bytes: reusableTextEncoder.encode(typeof content === 'string' ? content : JSON.stringify(content)),
 		};
 	});
 }
