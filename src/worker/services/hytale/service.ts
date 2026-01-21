@@ -1,3 +1,5 @@
+import pLimit from 'p-limit';
+
 import * as hytaleApi from './api';
 import { loadHytaleAssets } from './assets';
 import { getRequiredAssetPaths, resolveSkin } from './cosmetic-registry';
@@ -209,13 +211,19 @@ export async function renderAvatar(incomingRequest: Request, request: CraftheadR
 			'Cosmetics/CharacterCreator/Undertops.json',
 		]);
 
-		for (const assetPath of assetSet) {
-			const data = await readAssetFile(assetPath, env);
+		const limit = pLimit(5);
+		const assetPromises = [...assetSet].map(async (assetPath) => {
+			const data = await limit(() => readAssetFile(assetPath, env));
 			const providerPath = assetPath.startsWith('Common/')
 				? `assets/${assetPath}`
 				: `assets/Common/${assetPath}`;
-			assetPaths.push(providerPath);
-			assetBytes.push(new Uint8Array(data));
+			return { providerPath, bytes: new Uint8Array(data) };
+		});
+
+		const results = await Promise.all(assetPromises);
+		for (const result of results) {
+			assetPaths.push(result.providerPath);
+			assetBytes.push(result.bytes);
 		}
 
 		const viewType = mapRequestedKindToViewType(request.requested);
