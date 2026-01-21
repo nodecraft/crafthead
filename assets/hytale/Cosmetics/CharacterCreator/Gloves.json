@@ -1,0 +1,241 @@
+[
+  {
+    "Id": "BasicGloves_Basic",
+    "Name": "avatarCustomization.gloves.BasicGloves_Basic.name",
+    "Model": "Cosmetics/Gloves/BasicGloves.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Gloves/BasicGloves_Greyscale.png",
+    "GradientSet": "Faded_Leather"
+  },
+  {
+    "Id": "BoxingGloves",
+    "Name": "avatarCustomization.gloves.BoxingGloves.name",
+    "Model": "Cosmetics/Gloves/BoxingGloves.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Gloves/BoxingGloves_Greyscale.png",
+    "GradientSet": "Shiny_Fabric"
+  },
+  {
+    "Id": "FlowerBracer",
+    "Name": "avatarCustomization.gloves.FlowerBracer.name",
+    "Model": "Cosmetics/Gloves/Bracers.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Gloves/Bracers_Greyscale.png",
+    "GradientSet": "Ornamented_Metal"
+  },
+  {
+    "Id": "MiningGloves",
+    "Name": "avatarCustomization.gloves.MiningGloves.name",
+    "Model": "Cosmetics/Gloves/MiningGloves.blockymodel",
+    "Textures": {
+      "Brown": {
+        "Texture": "Cosmetics/Gloves/MiningGloves_Brown.png",
+        "BaseColor": [
+          "#734c2f"
+        ]
+      },
+      "Black": {
+        "Texture": "Cosmetics/Gloves/MiningGloves_Black.png",
+        "BaseColor": [
+          "#000000"
+        ]
+      }
+    }
+  },
+  {
+    "Id": "GoldenBracelets",
+    "Name": "avatarCustomization.gloves.GoldenBracelets.name",
+    "Model": "Cosmetics/Gloves/GoldenBracelets.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Gloves/GoldenBracelets_Greyscale.png",
+    "GradientSet": "Ornamented_Metal"
+  },
+  {
+    "Name": "avatarCustomization.gloves.LeatherMittens.name",
+    "Model": "Cosmetics/Gloves/BoxingGloves.blockymodel",
+    "Id": "LeatherMittens",
+    "GreyscaleTexture": "Cosmetics/Gloves/LeatherMittens_Greyscale.png",
+    "GradientSet": "Faded_Leather"
+  },
+  {
+    "Name": "avatarCustomization.gloves.Straps_Leather.name",
+    "Model": "Cosmetics/Gloves/Leather_Straps.blockymodel",
+    "Id": "Straps_Leather",
+    "GreyscaleTexture": "Cosmetics/Gloves/Leather_Straps_Greyscale.png",
+    "GradientSet": "Faded_Leather"
+  },
+  {
+    "Id": "Shackles_Feran",
+    "Name": "avatarCustomization.gloves.Shackles_Feran.name",
+    "Model": "Cosmetics/Gloves/Shackles_Feran.blockymodel",
+    "Textures": {
+      "Rusty": {
+        "Texture": "Cosmetics/Gloves/Shackles_Feran_Texture.png",
+        "BaseColor": [
+          "#836a6a"
+        ]
+      }
+    }
+  },
+  {
+    "Id": "CatacombCrawler_Gloves",
+    "Name": "avatarCustomization.gloves.CatacombCrawler_Gloves.name",
+    "Model": "Cosmetics/Gloves/LongDetail_Gloves.blockymodel",
+    "Textures": {
+      "Default": {
+        "Texture": "Cosmetics/Gloves/LongDetail_Gloves_Textures/TombAdventurerGloves_Texture.png",
+        "BaseColor": [
+          "#714d3f"
+        ]
+      }
+    }
+  },
+  {
+    "Id": "Hope_Of_Gaia_Gloves",
+    "Name": "avatarCustomization.gloves.Hope_Of_Gaia_Gloves.name",
+    "Model": "Cosmetics/Gloves/GaiaPure_Gloves.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Gloves/GaiaPure_Gloves_Texture.png",
+    "GradientSet": "Pastel_Cotton",
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Gloves_Void_Hero",
+    "Name": "avatarCustomization.gloves.Void_Hero_Gloves.name",
+    "Model": "Cosmetics/Gloves/LongDetail_Gloves.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Gloves/LongDetail_Gloves_Textures/LongDetail_Gloves_Void_Hero_Texture.png",
+    "GradientSet": "Fantasy_Cotton",
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "LongGloves_Popstar",
+    "Name": "avatarCustomization.gloves.LongGloves_Popstar.name",
+    "Model": "Cosmetics/Gloves/LongGloves.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Gloves/LongGloves_Textures/PopstarGloves_Texture.png",
+    "GradientSet": "Fantasy_Cotton_Dark",
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Gloves_Medium_Featherbound",
+    "Name": "avatarCustomization.gloves.Featherbound_glove.name",
+    "Model": "Cosmetics/Gloves/Medium_Gloves.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Gloves/Featherbound_Gloves_Texture.png",
+    "GradientSet": "Hair",
+    "Entitlements": [
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Arctic_Scout_Gloves",
+    "Name": "avatarCustomization.gloves.Arctic_Scout_Gloves.name",
+    "Model": "Cosmetics/Gloves/Gloves_Rolled_Sleeves.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Gloves/Artic_Gloves_Texture.png",
+    "GradientSet": "Faded_Leather",
+    "Entitlements": [
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Scavenger_Gloves",
+    "Name": "avatarCustomization.gloves.Scavenger_Gloves.name",
+    "Model": "Cosmetics/Gloves/Scavenger_Gloves.blockymodel",
+    "Textures": {
+      "Brown": {
+        "BaseColor": [
+          "#644848"
+        ],
+        "Texture": "Cosmetics/Gloves/Scavenger_Gloves_Texture.png"
+      }
+    },
+    "Entitlements": [
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Bracer_Daisy",
+    "Name": "avatarCustomization.gloves.Bracer_Daisy.name",
+    "Model": "Cosmetics/Gloves/Bracers.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Gloves/Bracers_Petal.png",
+    "GradientSet": "Flashy_Synthetic"
+  },
+  {
+    "Id": "LongGloves_Savanna",
+    "Name": "avatarCustomization.gloves.LongGloves_Savanna.name",
+    "Model": "Cosmetics/Gloves/LongGloves.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Gloves/LongGloves_Textures/Gloves_Savannah_Explorer.png",
+    "GradientSet": "Colored_Cotton",
+    "Entitlements": [
+      "game.base",
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Gloves_Wasteland_Marauder",
+    "Name": "avatarCustomization.gloves.Gloves_Wasteland_Marauder.name",
+    "Model": "Cosmetics/Gloves/LongDetail_Gloves.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Gloves/LongDetail_Gloves_Textures/Wasteland_Marauder_Texture.png",
+    "GradientSet": "Faded_Leather",
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Gloves_Blazen_Wizard",
+    "Name": "avatarCustomization.gloves.Gloves_Blazen_Wizard.name",
+    "Model": "Cosmetics/Gloves/BasicGloves.blockymodel",
+    "Textures": {
+      "Purple": {
+        "BaseColor": [
+          "#483353"
+        ],
+        "Texture": "Cosmetics/Gloves/Blazen_Wizard.png"
+      },
+      "Red": {
+        "BaseColor": [
+          "#ce4040"
+        ],
+        "Texture": "Cosmetics/Gloves/Blazen_Wizard_Glove_Red.png"
+      },
+      "Green": {
+        "BaseColor": [
+          "#41b389"
+        ],
+        "Texture": "Cosmetics/Gloves/Blazen_Wizard_Glove_Green.png"
+      }
+    },
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "Name": "avatarCustomization.gloves.Merchant_Gloves.name",
+    "Model": "Cosmetics/Gloves/LongGloves.blockymodel",
+    "Id": "Merchant_Gloves",
+    "GreyscaleTexture": "Cosmetics/Gloves/LongGloves_Textures/Merchant_Mittens_Texture.png",
+    "GradientSet": "Colored_Cotton",
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Battleworn_Gloves",
+    "Name": "avatarCustomization.gloves.Battleworn_Gloves.name",
+    "Model": "Cosmetics/Gloves/Battleworn_Gloves.blockymodel",
+    "Textures": {
+      "Brown": {
+        "BaseColor": [
+          "#734c2f"
+        ],
+        "Texture": "Cosmetics/Gloves/Battleworn_Gloves_Texture.png"
+      }
+    },
+    "Entitlements": [
+      "game.founder"
+    ]
+  }
+]

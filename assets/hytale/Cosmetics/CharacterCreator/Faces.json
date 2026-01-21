@@ -1,0 +1,116 @@
+[
+  {
+    "Id": "Face_Neutral",
+    "Name": "avatarCustomization.faces.Face_Neutral.name",
+    "Model": "Characters/Body_Attachments/Faces/Player_Face_Detached.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Faces/Faces_Detached_Textures/Face.png",
+    "GradientSet": "Skin",
+    "IsDefaultAsset": true
+  },
+  {
+    "Id": "Face_Neutral_Freckles",
+    "Name": "avatarCustomization.faces.Face_Neutral_Freckles.name",
+    "Model": "Characters/Body_Attachments/Faces/Player_Face_Detached.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Faces/Faces_Detached_Textures/Face_Neutral_Freckles.png",
+    "GradientSet": "Skin",
+    "IsDefaultAsset": true
+  },
+  {
+    "Id": "Face_Sunken",
+    "Name": "avatarCustomization.faces.Face_Sunken.name",
+    "Model": "Characters/Body_Attachments/Faces/Player_Face_Detached.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Faces/Faces_Detached_Textures/Face_Sunken.png",
+    "GradientSet": "Skin"
+  },
+  {
+    "Name": "avatarCustomization.faces.Face_Tired_Eyes.name",
+    "Model": "Characters/Body_Attachments/Faces/Player_Face_Detached.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Faces/Faces_Detached_Textures/Tired_Eyes.png",
+    "GradientSet": "Skin",
+    "Id": "Face_Tired_Eyes"
+  },
+  {
+    "Id": "Face_Stubble",
+    "Name": "avatarCustomization.faces.Face_Stubble.name",
+    "Model": "Characters/Body_Attachments/Faces/Player_Face_Detached.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Faces/Faces_Detached_Textures/Face_Stubble.png",
+    "GradientSet": "Skin"
+  },
+  {
+    "Id": "Face_Scar",
+    "Name": "avatarCustomization.faces.Face_Scar.name",
+    "Model": "Characters/Body_Attachments/Faces/Player_Face_Detached.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Faces/Faces_Detached_Textures/Face_Scar.png",
+    "GradientSet": "Skin"
+  },
+  {
+    "Name": "avatarCustomization.faces.Face_Aged.name",
+    "Model": "Characters/Body_Attachments/Faces/Player_Face_Detached.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Faces/Faces_Detached_Textures/Older_Face.png",
+    "GradientSet": "Skin",
+    "Id": "Face_Aged"
+  },
+  {
+    "Name": "avatarCustomization.faces.Face_Older2.name",
+    "Model": "Characters/Body_Attachments/Faces/Player_Face_Detached.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Faces/Faces_Detached_Textures/Older_Face2.png",
+    "GradientSet": "Skin",
+    "Id": "Face_Older2"
+  },
+  {
+    "Name": "avatarCustomization.faces.Face_Almond_Eyes.name",
+    "Model": "Characters/Body_Attachments/Faces/Player_Face_Detached.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Faces/Faces_Detached_Textures/Almond_Eyes_Face.png",
+    "GradientSet": "Skin",
+    "Id": "Face_Almond_Eyes"
+  },
+  {
+    "Name": "avatarCustomization.faces.Face_MakeUp.name",
+    "Model": "Characters/Body_Attachments/Faces/Player_Face_Detached.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Faces/Faces_Detached_Textures/MakeUp_Face.png",
+    "GradientSet": "Skin",
+    "Id": "Face_MakeUp"
+  },
+  {
+    "Name": "avatarCustomization.faces.Face_Make_Up_2.name",
+    "Model": "Characters/Body_Attachments/Faces/Player_Face_Detached.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Faces/Faces_Detached_Textures/MakeUp_Face2.png",
+    "GradientSet": "Skin",
+    "Id": "Face_Make_Up_2"
+  },
+  {
+    "Name": "avatarCustomization.faces.Face_MakeUp_Freckles.name",
+    "Model": "Characters/Body_Attachments/Faces/Player_Face_Detached.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Faces/Faces_Detached_Textures/MakeUp_Face5.png",
+    "GradientSet": "Skin",
+    "Id": "Face_MakeUp_Freckles"
+  },
+  {
+    "Name": "avatarCustomization.faces.Face_MakeUp_Highlight.name",
+    "Model": "Characters/Body_Attachments/Faces/Player_Face_Detached.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Faces/Faces_Detached_Textures/MakeUp_Face7.png",
+    "GradientSet": "Skin",
+    "Id": "Face_MakeUp_Highlight"
+  },
+  {
+    "Name": "avatarCustomization.faces.Face_MakeUp_6.name",
+    "Model": "Characters/Body_Attachments/Faces/Player_Face_Detached.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Faces/Faces_Detached_Textures/MakeUp_Face6.png",
+    "GradientSet": "Skin",
+    "Id": "Face_MakeUp_6"
+  },
+  {
+    "Name": "avatarCustomization.faces.Face_MakeUp_Older.name",
+    "Model": "Characters/Body_Attachments/Faces/Player_Face_Detached.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Faces/Faces_Detached_Textures/MakeUp_Older_Face.png",
+    "GradientSet": "Skin",
+    "Id": "Face_MakeUp_Older"
+  },
+  {
+    "Id": "Face_MakeUp_Older2",
+    "Name": "avatarCustomization.faces.Face_MakeUp_Older2.name",
+    "Model": "Characters/Body_Attachments/Faces/Player_Face_Detached.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Faces/Faces_Detached_Textures/MakeUp_Older_Face2.png",
+    "GradientSet": "Skin"
+  }
+]

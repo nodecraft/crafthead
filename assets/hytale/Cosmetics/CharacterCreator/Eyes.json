@@ -1,0 +1,66 @@
+[
+  {
+    "Id": "Medium_Eyes",
+    "Name": "avatarCustomization.eyes.Medium_Eyes.name",
+    "Model": "Characters/Body_Attachments/Eyes/Eyes.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Eyes/Eyes_Textures/Greyscale.png",
+    "GradientSet": "Eyes_Gradient",
+    "IsDefaultAsset": true
+  },
+  {
+    "Id": "Large_Eyes",
+    "Name": "avatarCustomization.eyes.Large_Eyes.name",
+    "Model": "Characters/Body_Attachments/Eyes/Eyes.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Eyes/Eyes_Textures/Greyscale_Large.png",
+    "GradientSet": "Eyes_Gradient"
+  },
+  {
+    "Name": "avatarCustomization.eyes.Plain_Eyes.name",
+    "Model": "Characters/Body_Attachments/Eyes/Eyes.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Eyes/Eyes_Textures/Plain_Greyscale.png",
+    "GradientSet": "Eyes_Gradient",
+    "Id": "Plain_Eyes"
+  },
+  {
+    "Name": "avatarCustomization.eyes.Almond_Eyes.name",
+    "Model": "Characters/Body_Attachments/Eyes/Eyes.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Eyes/Eyes_Textures/Almond_Greyscale.png",
+    "GradientSet": "Eyes_Gradient",
+    "Id": "Almond_Eyes"
+  },
+  {
+    "Name": "avatarCustomization.eyes.Square_Eyes.name",
+    "Model": "Characters/Body_Attachments/Eyes/Eyes.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Eyes/Eyes_Textures/Eyes_Square_Pupil.png",
+    "GradientSet": "Eyes_Gradient",
+    "Id": "Square_Eyes"
+  },
+  {
+    "Id": "Reptile_Eyes",
+    "Name": "avatarCustomization.eyes.Reptile_Eyes.name",
+    "Model": "Characters/Body_Attachments/Eyes/Eyes.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Eyes/Eyes_Textures/Reptile_Eye.png",
+    "GradientSet": "Eyes_Gradient"
+  },
+  {
+    "Id": "Cat_Eyes",
+    "Name": "avatarCustomization.eyes.Cat_Eyes.name",
+    "Model": "Characters/Body_Attachments/Eyes/Eyes.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Eyes/Eyes_Textures/Cat_Eye.png",
+    "GradientSet": "Eyes_Gradient"
+  },
+  {
+    "Id": "Demonic_Eyes",
+    "Name": "avatarCustomization.eyes.Demonic_Eyes.name",
+    "Model": "Characters/Body_Attachments/Eyes/Eyes.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Eyes/Eyes_Textures/Demonic_Eyes_Texture.png",
+    "GradientSet": "Eyes_Gradient"
+  },
+  {
+    "Id": "Goat_Eyes",
+    "Name": "avatarCustomization.eyes.Goat_Eyes.name",
+    "Model": "Characters/Body_Attachments/Eyes/Eyes.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Eyes/Eyes_Textures/Goat_Greyscale.png",
+    "GradientSet": "Eyes_Gradient"
+  }
+]

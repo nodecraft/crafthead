@@ -1,0 +1,17 @@
+[
+  {
+    "Id": "Default",
+    "Model": "Characters/Player.blockymodel",
+    "Name": "avatarCustomization.bodyCharacteristics.Default.name",
+    "GradientSet": "Skin",
+    "GreyscaleTexture": "Characters/Player_Textures/Player_Greyscale.png",
+    "IsDefaultAsset": true
+  },
+  {
+    "Id": "Muscular",
+    "Model": "Characters/Player.blockymodel",
+    "Name": "avatarCustomization.bodyCharacteristics.Muscular.name",
+    "GradientSet": "Skin",
+    "GreyscaleTexture": "Characters/Player_Textures/Player_Muscular_Greyscale.png"
+  }
+]

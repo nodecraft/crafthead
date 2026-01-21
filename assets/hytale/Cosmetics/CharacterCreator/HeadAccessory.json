@@ -1,0 +1,656 @@
+[
+  {
+    "HeadAccessoryType": "Simple",
+    "Id": "Goggles",
+    "Name": "avatarCustomization.headaccessory.Goggles.name",
+    "Model": "Cosmetics/Head/Goggles.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/Goggles_Texture.png",
+    "GradientSet": "Colored_Cotton",
+    "Entitlements": [
+      "game.base",
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "HeadAccessoryType": "FullyCovering",
+    "Id": "Hoodie",
+    "Name": "avatarCustomization.headaccessory.Hoodie.name",
+    "Model": "Cosmetics/Head/Hoodie.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/Hoodie_Textures/Hoodie_Fantasy_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "HeadAccessoryType": "Simple",
+    "Id": "GiHeadband",
+    "Name": "avatarCustomization.headaccessory.GiHeadband.name",
+    "Model": "Cosmetics/Head/GiHeadband.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/GiHeadband_Textures/GiHeadband_Greyscale_Texture.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "HeadAccessoryType": "Simple",
+    "Id": "ForeheadProtector",
+    "Name": "avatarCustomization.headaccessory.ForeheadProtector.name",
+    "Model": "Cosmetics/Head/ForeheadProtector.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/ForeheadProtector_Textures/ForeheadProtector_Greyscale.png",
+    "GradientSet": "Ornamented_Metal"
+  },
+  {
+    "HeadAccessoryType": "Simple",
+    "Id": "FlowerCrown",
+    "Name": "avatarCustomization.headaccessory.FlowerCrown.name",
+    "Model": "Cosmetics/Head/FlowerCrown.blockymodel",
+    "Textures": {
+      "Pink": {
+        "Texture": "Cosmetics/Head/FlowerCrown_Textures/Pink.png",
+        "BaseColor": [
+          "#d74a9a"
+        ]
+      },
+      "White": {
+        "Texture": "Cosmetics/Head/FlowerCrown_Textures/White.png",
+        "BaseColor": [
+          "#ffffff"
+        ]
+      },
+      "Yellow": {
+        "Texture": "Cosmetics/Head/FlowerCrown_Textures/Yellow.png",
+        "BaseColor": [
+          "#f7de25"
+        ]
+      }
+    }
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "Bandana",
+    "Name": "avatarCustomization.headaccessory.Bandana.name",
+    "Model": "Cosmetics/Head/Bandana.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/Bandana_Textures/Bandana_Skulls_Greyscale_Texture.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "FloppyBeanie",
+    "Name": "avatarCustomization.headaccessory.FloppyBeanie.name",
+    "Model": "Cosmetics/Head/FloppyBeanie.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/FloppyBeanie_Textures/FloppyBeanie_Greyscale_Texture.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "BunnyBeanie",
+    "Name": "avatarCustomization.headaccessory.BunnyBeanie.name",
+    "Model": "Cosmetics/Head/BunnyBeanie.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/BunnyBeanie_Textures/BunnyBeanie_Greyscale_Texture.png",
+    "GradientSet": "Flashy_Synthetic"
+  },
+  {
+    "HeadAccessoryType": "Simple",
+    "Id": "Headband",
+    "Name": "avatarCustomization.headaccessory.Headband.name",
+    "Model": "Cosmetics/Head/Headband.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/Headband_Textures/Headband_Greyscale_Texture.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "CatBeanie",
+    "Name": "avatarCustomization.headaccessory.CatBeanie.name",
+    "Model": "Cosmetics/Head/CatBeanie.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/CatBeanie_Textures/CatBeanie_Greyscale_Texture.png",
+    "GradientSet": "Flashy_Synthetic"
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "FrogBeanie",
+    "Name": "avatarCustomization.headaccessory.FrogBeanie.name",
+    "Model": "Cosmetics/Head/CatBeanie.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/CatBeanie_Textures/FrogBeanie_Greyscale_Texture.png",
+    "GradientSet": "Flashy_Synthetic"
+  },
+  {
+    "HeadAccessoryType": "Simple",
+    "Id": "WorkoutCap",
+    "Name": "avatarCustomization.headaccessory.WorkoutCap.name",
+    "Model": "Cosmetics/Head/WorkoutCap.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/WorkoutCap_Textures/WorkoutCap_Greyscale_Texture.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "HeadAccessoryType": "Simple",
+    "Id": "HeadDaliah",
+    "Name": "avatarCustomization.headaccessory.HeadDaliah.name",
+    "Model": "Cosmetics/Head/HairDahlia.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/Head_Flower_Textures/Dahlia_Greyscale_Texture.png",
+    "GradientSet": "Shiny_Fabric"
+  },
+  {
+    "HeadAccessoryType": "Simple",
+    "Id": "HairRose",
+    "Name": "avatarCustomization.headaccessory.HairRose.name",
+    "Model": "Cosmetics/Head/HairRose.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/HairRose_Textures/HairRose_Greyscale_Texture.png",
+    "GradientSet": "Pastel_Cotton"
+  },
+  {
+    "HeadAccessoryType": "Simple",
+    "Id": "HairPeony",
+    "Name": "avatarCustomization.headaccessory.HairPeony.name",
+    "Model": "Cosmetics/Head/HairPeony.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/HairPeony_Textures/HairPeony_Greyscale_Texture.png",
+    "GradientSet": "Flashy_Synthetic"
+  },
+  {
+    "HeadAccessoryType": "Simple",
+    "Id": "HairDaisy",
+    "Name": "avatarCustomization.headaccessory.HairDaisy.name",
+    "Model": "Cosmetics/Head/HairDaisy.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/HairDaisy_Textures/HairDaisy_Greyscale_Texture.png",
+    "GradientSet": "Flashy_Synthetic"
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "Logo_Cap",
+    "Name": "avatarCustomization.headaccessory.Logo_Cap.name",
+    "Textures": {
+      "Black": {
+        "Texture": "Cosmetics/Head/LogoCap_Textures/Black.png",
+        "BaseColor": [
+          "#000000"
+        ]
+      },
+      "Hypixel": {
+        "Texture": "Cosmetics/Head/LogoCap_Textures/Hypixel.png",
+        "BaseColor": [
+          "#ffffff"
+        ]
+      },
+      "Pixel": {
+        "Texture": "Cosmetics/Head/LogoCap_Textures/Pixel.png",
+        "BaseColor": [
+          "#ffffff"
+        ]
+      }
+    },
+    "Variants": {
+      "Movie_Hat": {
+        "Model": "Cosmetics/Head/LogoCap.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Head/LogoCap_Textures/Black.png",
+        "NameKey": "avatarCustomization.variants.headaccessory.Logo_Cap_Movie.name"
+      },
+      "Hypixel": {
+        "NameKey": "avatarCustomization.variants.headaccessory.Logo_Cap_Hypixel.name",
+        "Model": "Cosmetics/Head/LogoCap.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Head/LogoCap_Textures/Hypixel.png"
+      },
+      "Heart": {
+        "NameKey": "avatarCustomization.variants.headaccessory.Logo_Cap_Heart.name",
+        "Model": "Cosmetics/Head/LogoCap.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Head/LogoCap_Textures/Pixel.png"
+      }
+    },
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "BanjoHat",
+    "Name": "avatarCustomization.headaccessory.BanjoHat.name",
+    "Model": "Cosmetics/Head/PointyHat.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/StrawHat_Textures/Straw_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "WitchHat",
+    "Name": "avatarCustomization.headaccessory.WitchHat.name",
+    "Model": "Cosmetics/Head/PointyHat.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/StrawHat_Textures/WitchHat_Greyscale_Texture.png",
+    "GradientSet": "Fantasy_Cotton_Dark"
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "StrawHat",
+    "Name": "avatarCustomization.headaccessory.StrawHat.name",
+    "Model": "Cosmetics/Head/StrawHat.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/StrawHat_Textures/Straw_Greyscale.png",
+    "GradientSet": "Colored_Cotton",
+    "Textures": {
+      "Rotten": {
+        "Texture": "Cosmetics/Head/StrawHat_Textures/StrawHat_Rotten_Texture.png",
+        "BaseColor": [
+          "#5f543c"
+        ]
+      }
+    }
+  },
+  {
+    "HeadAccessoryType": "Simple",
+    "Id": "PirateBandana",
+    "Name": "avatarCustomization.headaccessory.PirateBandana.name",
+    "Model": "Cosmetics/Head/PirateBandana.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/PirateBandana_Textures/PirateBandana_Greyscale_Texture.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "HeadAccessoryType": "Simple",
+    "Id": "HairHibiscus",
+    "Name": "avatarCustomization.headaccessory.HairHibiscus.name",
+    "Model": "Cosmetics/Head/Hibiscus.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/Hibiscus_Textures/Hibiscus_Greyscale_Texture.png",
+    "GradientSet": "Shiny_Fabric"
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "SantaHat",
+    "Name": "avatarCustomization.headaccessory.SantaHat.name",
+    "Model": "Cosmetics/Head/SantaHat.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/SantaHat_Texture/SantaHat_Greyscale_Texture.png",
+    "GradientSet": "Fantasy_Cotton"
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "ElfHat",
+    "Name": "avatarCustomization.headaccessory.ElfHat.name",
+    "Model": "Cosmetics/Head/ElfHat.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/ElfHat_Textures/ElfHat_Greyscale_Texture.png",
+    "GradientSet": "Flashy_Synthetic"
+  },
+  {
+    "HeadAccessoryType": "Simple",
+    "Id": "Head_Crown",
+    "Name": "avatarCustomization.headaccessory.Head_Crown.name",
+    "Model": "Cosmetics/Head/KingsCrown.blockymodel",
+    "Textures": {
+      "Red": {
+        "Texture": "Cosmetics/Head/KingsCrown_Red.png",
+        "BaseColor": [
+          "#9c1d1d"
+        ]
+      }
+    }
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "HeadphonesDadCap",
+    "Name": "avatarCustomization.headaccessory.HeadphonesDadCap.name",
+    "Model": "Cosmetics/Head/HeadphonesDadCap.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/HeadphonesDadCap_Textures/HeadphonesDadCap_Greyscale_Texture.png",
+    "GradientSet": "Flashy_Synthetic"
+  },
+  {
+    "HeadAccessoryType": "Simple",
+    "Id": "Headphones",
+    "Name": "avatarCustomization.headaccessory.Headphones.name",
+    "Model": "Cosmetics/Head/Headphones.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/HeadphonesDadCap_Textures/HeadphonesDadCap_Greyscale_Texture.png",
+    "GradientSet": "Flashy_Synthetic"
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "Beanie",
+    "Name": "avatarCustomization.headaccessory.Beanie.name",
+    "Model": "Cosmetics/Head/Beanie.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/Beanie_Textures/Beanie_Greyscale_Texture.png",
+    "GradientSet": "Flashy_Synthetic"
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "BandanaSkull",
+    "Name": "avatarCustomization.headaccessory.BandanaSkull.name",
+    "Model": "Cosmetics/Head/BandanaLogo.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/BandanaLogo_Textures/BandanaLogo_Skull_Greyscale_Texture.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "StripedBeanie",
+    "Name": "avatarCustomization.headaccessory.StripedBeanie.name",
+    "Model": "Cosmetics/Head/Beanie.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/Beanie_Textures/Beanie_Stripped_Greyscale_Texture.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "HeadAccessoryType": "Simple",
+    "Id": "Head_Tiara",
+    "Name": "avatarCustomization.headaccessory.Head_Tiara.name",
+    "Model": "Cosmetics/Head/Tiara.blockymodel",
+    "Textures": {
+      "Silver": {
+        "Texture": "Cosmetics/Head/Tiara_Silver.png",
+        "BaseColor": [
+          "#ededed"
+        ]
+      }
+    }
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "Viking_Helmet",
+    "Name": "avatarCustomization.headaccessory.Viking_Helmet.name",
+    "Model": "Cosmetics/Head/VikingHelmet.blockymodel",
+    "Textures": {
+      "Grey": {
+        "Texture": "Cosmetics/Head/VikingHelmet_Grey.png",
+        "BaseColor": [
+          "#a1a1a1"
+        ]
+      }
+    }
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "Pirate_Captain_Hat",
+    "Name": "avatarCustomization.headaccessory.Pirate_Captain_Hat.name",
+    "Model": "Cosmetics/Head/PirateCaptain.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/PirateCaptain_Textures/PirateCaptain_Greyscale_Texture.png",
+    "GradientSet": "Faded_Leather"
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "TopHat",
+    "Name": "avatarCustomization.headaccessory.TopHat.name",
+    "Model": "Cosmetics/Head/TopHat.blockymodel",
+    "Textures": {
+      "Red": {
+        "Texture": "Cosmetics/Head/TopHat_Red.png",
+        "BaseColor": [
+          "#9c1d1d"
+        ]
+      }
+    }
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "CowboyHat",
+    "Name": "avatarCustomization.headaccessory.CowboyHat.name",
+    "Model": "Cosmetics/Head/CowboyHat.blockymodel",
+    "Textures": {
+      "Red": {
+        "Texture": "Cosmetics/Head/CowboyHat_Red.png",
+        "BaseColor": [
+          "#9c1d1d"
+        ]
+      }
+    }
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "RusticBeanie",
+    "Name": "avatarCustomization.headaccessory.RusticBeanie.name",
+    "Model": "Cosmetics/Head/Scavenger_Hat.blockymodel",
+    "Textures": {
+      "Brown": {
+        "Texture": "Cosmetics/Head/Scavenger_Hat_Brown.png",
+        "BaseColor": [
+          "#734c2f"
+        ]
+      }
+    }
+  },
+  {
+    "HeadAccessoryType": "FullyCovering",
+    "Name": "avatarCustomization.headaccessory.LeatherCap.name",
+    "Model": "Cosmetics/Head/LeatherCap.blockymodel",
+    "Id": "LeatherCap",
+    "GreyscaleTexture": "Cosmetics/Head/LeatherCap_texture.png",
+    "GradientSet": "Faded_Leather"
+  },
+  {
+    "HeadAccessoryType": "Simple",
+    "Name": "avatarCustomization.headaccessory.Ribbon.name",
+    "Model": "Cosmetics/Head/Ribbon.blockymodel",
+    "Id": "Ribbon",
+    "GreyscaleTexture": "Cosmetics/Head/Ribbon_Textures/Ribbon_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "Bunny_Ears",
+    "Name": "avatarCustomization.headaccessory.Bunny_Ears.name",
+    "Model": "Cosmetics/Head/BunnyEars.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/BunnyEars_Textures/Greyscale.png",
+    "GradientSet": "Hair"
+  },
+  {
+    "Id": "Head_Bandage",
+    "Name": "avatarCustomization.headaccessory.Head_Bandage.name",
+    "Model": "Cosmetics/Head/Head_Bandage.blockymodel",
+    "Textures": {
+      "White": {
+        "Texture": "Cosmetics/Head/Head_Bandage_Textures/Head_Bandage_White.png",
+        "BaseColor": [
+          "#ffffff"
+        ]
+      }
+    },
+    "DisableCharacterPartCategory": "Haircut"
+  },
+  {
+    "HeadAccessoryType": "Simple",
+    "Id": "AcornNecktie",
+    "Name": "avatarCustomization.headaccessory.AcornNecktie.name",
+    "Model": "Cosmetics/Head/AcornNecktie.blockymodel",
+    "Textures": {
+      "Acorn": {
+        "Texture": "Cosmetics/Head/AcornAccessories_Texture.png",
+        "BaseColor": [
+          "#7b4729"
+        ]
+      }
+    }
+  },
+  {
+    "HeadAccessoryType": "Simple",
+    "Id": "AcornHairclip",
+    "Name": "avatarCustomization.headaccessory.AcornHairclip.name",
+    "Model": "Cosmetics/Head/AcornHairclip.blockymodel",
+    "Textures": {
+      "Acorn": {
+        "Texture": "Cosmetics/Head/AcornAccessories_Texture.png",
+        "BaseColor": [
+          "#7b4729"
+        ]
+      }
+    }
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "Forest_Guardian_Hat",
+    "Name": "avatarCustomization.headaccessory.Forest_Guardian_Hat.name",
+    "Model": "Cosmetics/Head/MossyHat.blockymodel",
+    "Textures": {
+      "Mossy": {
+        "Texture": "Cosmetics/Head/MossyHat_Textures/MossyHat_Texture.png",
+        "BaseColor": [
+          "#587b29"
+        ]
+      }
+    },
+    "GreyscaleTexture": "Cosmetics/Head/MossyHat_Textures/MossyHat_Texture.png",
+    "GradientSet": "Fantasy_Cotton_Dark",
+    "Entitlements": [
+      "game.base",
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "HeadAccessoryType": "FullyCovering",
+    "Id": "Hoodie_Feran",
+    "Name": "avatarCustomization.headaccessory.Hoodie_Feran.name",
+    "Model": "Cosmetics/Head/Hoodie_Feran.blockymodel",
+    "Textures": {
+      "Brown": {
+        "Texture": "Cosmetics/Head/Hoodie_Feran_Brown.png",
+        "BaseColor": [
+          "#674f48"
+        ]
+      }
+    }
+  },
+  {
+    "HeadAccessoryType": "Simple",
+    "Id": "ExplorerGoggles",
+    "Name": "avatarCustomization.headaccessory.ExplorerGoggles.name",
+    "Model": "Cosmetics/Head/WideGoggles.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/WideGoggles_Textures/WideGoggles_Texture.png",
+    "GradientSet": "Colored_Cotton",
+    "Entitlements": [
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Hope_Of_Gaia_Crown",
+    "Name": "avatarCustomization.headaccessory.Hope_Of_Gaia_Crown.name",
+    "Model": "Cosmetics/Head/GaiaPure_Crown.blockymodel",
+    "Entitlements": [
+      "game.founder"
+    ],
+    "Textures": {
+      "Default": {
+        "Texture": "Cosmetics/Head/GaiaPure_Crown_Texture.png",
+        "BaseColor": [
+          "#5a9a34"
+        ]
+      }
+    }
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "FrostwardenSet_Hat",
+    "Name": "avatarCustomization.headaccessory.FrostwardenSet_Hat.name",
+    "Model": "Cosmetics/Head/FrostyWarm_Hat.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/FrostyWarm_Hat_Texture.png",
+    "GradientSet": "Colored_Cotton",
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "Arctic_Scout_Hat",
+    "Name": "avatarCustomization.headaccessory.Arctic_Scout_Hat.name",
+    "Model": "Cosmetics/Head/Logo_Hat_Large.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/Popstar_Hat_Textures/Artic_Scout.png",
+    "GradientSet": "Colored_Cotton",
+    "Entitlements": [
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "Savanna_Scout_Hat",
+    "Name": "avatarCustomization.headaccessory.Savanna_Scout_Hat.name",
+    "Model": "Cosmetics/Head/Savanna_Explorer_Hat.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/Savanna_Explorer_Hat_Texture.png",
+    "GradientSet": "Colored_Cotton",
+    "Entitlements": [
+      "game.base",
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "BulkyBeanie",
+    "Name": "avatarCustomization.headaccessory.BulkyBeanie.name",
+    "Model": "Cosmetics/Head/Bulky_Beanie.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/Bulky_Beanie_Textures/Bulky_Beanie_Greyscale.png",
+    "GradientSet": "Fantasy_Cotton_Dark"
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "Hat_Popstar",
+    "Name": "avatarCustomization.headaccessory.Hat_Popstar.name",
+    "Model": "Cosmetics/Head/Logo_Hat_Large.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/Popstar_Hat_Textures/Popstar_Hat_Texture.png",
+    "GradientSet": "Fantasy_Cotton_Dark",
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "ShapedCap_Chill",
+    "Name": "avatarCustomization.headaccessory.ShapedCap_Chill.name",
+    "Model": "Cosmetics/Head/Shaped_Cap.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/Shaped_Cap_Textures/ChillGaia_Cap_Texture.png",
+    "GradientSet": "Fantasy_Cotton"
+  },
+  {
+    "HeadAccessoryType": "FullyCovering",
+    "Id": "Hoodie_Ornated",
+    "Name": "avatarCustomization.headaccessory.Featherbound_Hood.name",
+    "Model": "Cosmetics/Head/Hoodie_Ornated.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/Featherbound_Hoodie.png",
+    "GradientSet": "Hair",
+    "Entitlements": [
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Headband_Void_Hero",
+    "Name": "avatarCustomization.headaccessory.Void_Hero_Headband.name",
+    "Model": "Cosmetics/Head/HeadBand_Void_Hero.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/HeadBand_Void_Hero_Texture.png",
+    "GradientSet": "Fantasy_Cotton",
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "HeadAccessoryType": "FullyCovering",
+    "Id": "Hood_Blazen_Wizard",
+    "Name": "avatarCustomization.headaccessory.Hood_Blazen_Wizard.name",
+    "Model": "Cosmetics/Head/Hoodie_LongEnd.blockymodel",
+    "Textures": {
+      "Purple": {
+        "BaseColor": [
+          "#52365f"
+        ],
+        "Texture": "Cosmetics/Head/Blazen_Wizard_Hoodie_Texture.png"
+      },
+      "Red": {
+        "BaseColor": [
+          "#b42b2b"
+        ],
+        "Texture": "Cosmetics/Head/Blazen_Wizard_Hoodie_Red_Texture.png"
+      },
+      "Green": {
+        "BaseColor": [
+          "#369a65"
+        ],
+        "Texture": "Cosmetics/Head/Blazen_Wizard_Hoodie_Green_Texture.png"
+      }
+    },
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "Merchant_Beret",
+    "Name": "avatarCustomization.headaccessory.Merchant_Beret.name",
+    "Model": "Cosmetics/Head/Merchant_Hat.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/Merchant_Hat_Textures/Merchant_Hat_Orange.png",
+    "GradientSet": "Colored_Cotton",
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "HeadAccessoryType": "FullyCovering",
+    "Id": "Battleworn_Helm",
+    "Name": "avatarCustomization.headaccessory.Battleworn_Helm.name",
+    "Model": "Cosmetics/Head/Battleworn_Helm.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/Battleworn_Helm_Texture.png",
+    "GradientSet": "Colored_Cotton",
+    "Entitlements": [
+      "game.founder"
+    ]
+  }
+]

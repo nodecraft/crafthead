@@ -1,0 +1,45 @@
+[
+  {
+    "Id": "Default",
+    "Model": "Characters/Body_Attachments/Ears/Ears1.blockymodel",
+    "Name": "avatarCustomization.ears.Default.name",
+    "GradientSet": "Skin",
+    "GreyscaleTexture": "Characters/Body_Attachments/Ears/Ears.png",
+    "IsDefaultAsset": true
+  },
+  {
+    "Id": "Elf_Ears",
+    "Name": "avatarCustomization.ears.Elf_Ears.name",
+    "GradientSet": "Skin",
+    "Model": "Cosmetics/Head/Elf_Ear.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/Elf_Ear_Greyscale.png"
+  },
+  {
+    "Id": "Elf_Ears_Large",
+    "Name": "avatarCustomization.ears.Elf_Ears_Large.name",
+    "GradientSet": "Skin",
+    "Model": "Cosmetics/Head/Elf_Ear_Large_Up.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/Elf_Ear_Large_Greyscale.png"
+  },
+  {
+    "Id": "Elf_Ears_Large_Down",
+    "Name": "avatarCustomization.ears.Elf_Ears_Large_Down.name",
+    "GradientSet": "Skin",
+    "Model": "Cosmetics/Head/Elf_Ear_Large_Down.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/Elf_Ear_Large_Greyscale.png"
+  },
+  {
+    "Id": "Elf_Ears_Small",
+    "Name": "avatarCustomization.ears.Elf_Ears_Small.name",
+    "GradientSet": "Skin",
+    "Model": "Characters/Body_Attachments/Ears/Elf_Ear_Small.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Ears/Elf_Ear_Small_Texture.png"
+  },
+  {
+    "Id": "Ogre_Ears",
+    "Name": "avatarCustomization.ears.Ogre_Ears.name",
+    "GradientSet": "Skin",
+    "Model": "Cosmetics/Head/Ogre_Ear.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/Ogre_Ear_Greyscale.png"
+  }
+]

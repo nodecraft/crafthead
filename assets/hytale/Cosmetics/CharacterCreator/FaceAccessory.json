@@ -1,0 +1,161 @@
+[
+  {
+    "Id": "EyePatch",
+    "Name": "avatarCustomization.faceaccessory.EyePatch.name",
+    "Model": "Cosmetics/Face_Accessories/EyePatch.blockymodel",
+    "Textures": {
+      "Black": {
+        "Texture": "Cosmetics/Face_Accessories/EyePatch_Texture.png",
+        "BaseColor": [
+          "#000000"
+        ]
+      }
+    }
+  },
+  {
+    "Id": "Glasses",
+    "Name": "avatarCustomization.faceaccessory.Glasses.name",
+    "Model": "Cosmetics/Face_Accessories/Glasses.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Face_Accessories/Glasses_Textures/Glasses_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "LargeGlasses",
+    "Name": "avatarCustomization.faceaccessory.LargeGlasses.name",
+    "Model": "Cosmetics/Face_Accessories/Glasses.blockymodel",
+    "Textures": {
+      "Brown": {
+        "Texture": "Cosmetics/Face_Accessories/Glasses_Textures/Glasses_Brown.png",
+        "BaseColor": [
+          "#734c2f"
+        ]
+      }
+    }
+  },
+  {
+    "Id": "MedicalEyePatch",
+    "Name": "avatarCustomization.faceaccessory.MedicalEyePatch.name",
+    "Model": "Cosmetics/Face_Accessories/MedicalEyePatch.blockymodel",
+    "Textures": {
+      "White": {
+        "Texture": "Cosmetics/Face_Accessories/MedicalEyePatch_White.png",
+        "BaseColor": [
+          "#ffffff"
+        ]
+      }
+    }
+  },
+  {
+    "Id": "MouthCover",
+    "Name": "avatarCustomization.faceaccessory.MouthCover.name",
+    "Model": "Cosmetics/Face_Accessories/MouthCover.blockymodel",
+    "Textures": {
+      "White": {
+        "Texture": "Cosmetics/Face_Accessories/MouthCover_White.png",
+        "BaseColor": [
+          "#ffffff"
+        ]
+      }
+    }
+  },
+  {
+    "Id": "MouthWheat",
+    "Name": "avatarCustomization.faceaccessory.MouthWheat.name",
+    "Model": "Cosmetics/Face_Accessories/MouthWheat.blockymodel",
+    "Textures": {
+      "Green": {
+        "Texture": "Cosmetics/Face_Accessories/MouthWheat_Green.png",
+        "BaseColor": [
+          "#57b53f"
+        ]
+      }
+    }
+  },
+  {
+    "Id": "ColouredGlasses",
+    "Name": "avatarCustomization.faceaccessory.ColouredGlasses.name",
+    "Model": "Cosmetics/Face_Accessories/Glasses.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Face_Accessories/Glasses_Textures/Rounded_Square_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "CrazyGlasses",
+    "Name": "avatarCustomization.faceaccessory.CrazyGlasses.name",
+    "Model": "Cosmetics/Face_Accessories/Glasses.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Face_Accessories/Glasses_Textures/Crazy_Glasses_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "RoundGlasses",
+    "Name": "avatarCustomization.faceaccessory.RoundGlasses.name",
+    "Model": "Cosmetics/Face_Accessories/Glasses.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Face_Accessories/Glasses_Textures/Round_Glasses_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "HeartGlasses",
+    "Name": "avatarCustomization.faceaccessory.HeartGlasses.name",
+    "Model": "Cosmetics/Face_Accessories/Glasses.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Face_Accessories/Glasses_Textures/Heart_Glasses_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "AgentGlasses",
+    "Name": "avatarCustomization.faceaccessory.AgentGlasses.name",
+    "Model": "Cosmetics/Face_Accessories/Glasses.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Face_Accessories/Glasses_Textures/Agent_Glasses_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "SunGlasses",
+    "Name": "avatarCustomization.faceaccessory.SunGlasses.name",
+    "Model": "Cosmetics/Face_Accessories/Glasses.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Face_Accessories/Glasses_Textures/Sunglasses_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "AviatorGlasses",
+    "Name": "avatarCustomization.faceaccessory.AviatorGlasses.name",
+    "Model": "Cosmetics/Face_Accessories/Glasses.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Face_Accessories/Glasses_Textures/Aviators_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "BusinessGlasses",
+    "Name": "avatarCustomization.faceaccessory.BusinessGlasses.name",
+    "Model": "Cosmetics/Face_Accessories/Glasses.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Face_Accessories/Glasses_Textures/Business_Glasses_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "Plaster",
+    "Name": "avatarCustomization.faceaccessory.Plaster.name",
+    "Model": "Cosmetics/Face_Accessories/Plaster.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Face_Accessories/Plaster_Textures/Plaster_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "Glasses_Monocle",
+    "Name": "avatarCustomization.faceaccessory.Glasses_Monocle.name",
+    "Model": "Cosmetics/Face_Accessories/Glasses.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Face_Accessories/Glasses_Textures/Monocle_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "GlassesTiny",
+    "Name": "avatarCustomization.faceaccessory.GlassesTiny.name",
+    "Model": "Cosmetics/Face_Accessories/Glasses.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Face_Accessories/Glasses_Textures/GlassesTiny_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "Goggles_Wasteland_Marauder",
+    "Name": "avatarCustomization.faceaccessory.Goggles_Wasteland_Marauder.name",
+    "Model": "Cosmetics/Face_Accessories/Goggles_Wasteland_Marauder.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Face_Accessories/Goggles_Wasteland_Marauder_Texture.png",
+    "GradientSet": "Faded_Leather",
+    "Entitlements": [
+      "game.founder"
+    ]
+  }
+]

@@ -11,8 +11,6 @@ node_modules/
 .idea
 .wrangler/
 dist/
-assets/*
-!assets/README.md
 hytale-skin-renderer/target/
 
 # Localflare generated files

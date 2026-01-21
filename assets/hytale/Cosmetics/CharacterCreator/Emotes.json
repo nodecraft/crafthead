@@ -1,0 +1,122 @@
+[
+  {
+    "Id": "Idle",
+    "Animation": "Characters/Animations/Default/Idle.blockyanim",
+    "Speed": 0.5,
+    "Name": "avatarCustomization.emotes.Idle.name"
+  },
+  {
+    "Id": "Walk",
+    "Animation": "Characters/Animations/Default/Walk.blockyanim",
+    "Speed": 0.85,
+    "Name": "avatarCustomization.emotes.Walk.name"
+  },
+  {
+    "Id": "WalkBackward",
+    "Animation": "Characters/Animations/Default/Walk_Backward.blockyanim",
+    "Speed": 0.9,
+    "Name": "avatarCustomization.emotes.WalkBackward.name"
+  },
+  {
+    "Id": "Run",
+    "Animation": "Characters/Animations/Default/Run.blockyanim",
+    "Speed": 0.8,
+    "Name": "avatarCustomization.emotes.Run.name"
+  },
+  {
+    "Id": "Jump",
+    "Animation": "Characters/Animations/Default/Jump.blockyanim",
+    "Speed": 0.8,
+    "Name": "avatarCustomization.emotes.Jump.name"
+  },
+  {
+    "Id": "JumpFar",
+    "Animation": "Characters/Animations/Default/Jump_Far.blockyanim",
+    "Speed": 0.8,
+    "Name": "avatarCustomization.emotes.JumpFar.name"
+  },
+  {
+    "Id": "Crouch",
+    "Animation": "Characters/Animations/Default/Crouch.blockyanim",
+    "Speed": 0.5,
+    "Name": "avatarCustomization.emotes.Crouch.name"
+  },
+  {
+    "Id": "CrouchWalk",
+    "Animation": "Characters/Animations/Default/Crouch_Walk.blockyanim",
+    "Speed": 0.6,
+    "Name": "avatarCustomization.emotes.CrouchWalk.name"
+  },
+  {
+    "Id": "CrouchWalkBackward",
+    "Animation": "Characters/Animations/Default/Crouch_Walk_Backward.blockyanim",
+    "Speed": 0.6,
+    "Name": "avatarCustomization.emotes.CrouchWalkBackward.name"
+  },
+  {
+    "Id": "FlyIdle",
+    "Animation": "Characters/Animations/Fly/Fly_Idle.blockyanim",
+    "Speed": 1,
+    "Name": "avatarCustomization.emotes.FlyIdle.name"
+  },
+  {
+    "Id": "Fly",
+    "Animation": "Characters/Animations/Fly/Fly.blockyanim",
+    "Speed": 1,
+    "Name": "avatarCustomization.emotes.Fly.name"
+  },
+  {
+    "Id": "FlyBackward",
+    "Animation": "Characters/Animations/Fly/Fly_Backward.blockyanim",
+    "Speed": 1,
+    "Name": "avatarCustomization.emotes.FlyBackward.name"
+  },
+  {
+    "Id": "FlyFast",
+    "Animation": "Characters/Animations/Fly/Fly_Fast.blockyanim",
+    "Speed": 1,
+    "Name": "avatarCustomization.emotes.FlyFast.name"
+  },
+  {
+    "Id": "SwimIdle",
+    "Animation": "Characters/Animations/Swim/Swim_Idle.blockyanim",
+    "Speed": 1,
+    "Name": "avatarCustomization.emotes.SwimIdle.name"
+  },
+  {
+    "Id": "Swim",
+    "Animation": "Characters/Animations/Swim/Swim.blockyanim",
+    "Speed": 1,
+    "Name": "avatarCustomization.emotes.Swim.name"
+  },
+  {
+    "Id": "SwimBackward",
+    "Animation": "Characters/Animations/Swim/Swim_Backward.blockyanim",
+    "Speed": 1,
+    "Name": "avatarCustomization.emotes.SwimBackward.name"
+  },
+  {
+    "Id": "SwimFast",
+    "Animation": "Characters/Animations/Swim/Swim_Fast.blockyanim",
+    "Speed": 1,
+    "Name": "avatarCustomization.emotes.SwimFast.name"
+  },
+  {
+    "Id": "Wave",
+    "Animation": "Characters/Animations/Emote/Wave.blockyanim",
+    "Speed": 1,
+    "Name": "avatarCustomization.emotes.Wave.name"
+  },
+  {
+    "Id": "WaveDouble",
+    "Animation": "Characters/Animations/Emote/Double_Wave.blockyanim",
+    "Speed": 1,
+    "Name": "avatarCustomization.emotes.WaveDouble.name"
+  },
+  {
+    "Id": "Laugh",
+    "Animation": "Characters/Animations/Taunt/Laugh.blockyanim",
+    "Speed": 1.0,
+    "Name": "avatarCustomization.emotes.Laugh.name"
+  }
+]

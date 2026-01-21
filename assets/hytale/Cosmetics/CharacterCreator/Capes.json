@@ -1,0 +1,377 @@
+[
+  {
+    "Id": "Cape_Royal_Emissary",
+    "Name": "avatarCustomization.capes.Cape_Royal_Emissary.name",
+    "GradientSet": "Colored_Cotton",
+    "Variants": {
+      "Neck_Piece": {
+        "NameKey": "avatarCustomization.variants.default",
+        "Model": "Cosmetics/Capes/Cape_Basic.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Capes/Cape_Basic_Textures/Cape_Trimmed_Texture.png"
+      },
+      "NoNeck": {
+        "NameKey": "avatarCustomization.variants.capes.no_neck",
+        "Model": "Cosmetics/Capes/Cape_Basic_NoNeck.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Capes/Cape_Basic_Textures/Cape_Trimmed_Texture.png"
+      }
+    },
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Cape_New_Beginning",
+    "Name": "avatarCustomization.capes.Cape_New_Beginning.name",
+    "Variants": {
+      "Neck_Piece": {
+        "NameKey": "avatarCustomization.variants.default",
+        "Model": "Cosmetics/Capes/Cape_Cursebreaker_Gold.blockymodel",
+        "Textures": {
+          "White": {
+            "Texture": "Cosmetics/Capes/Cape_Cursebreaker_Gold_Texture.png",
+            "BaseColor": [
+              "#d9ab00"
+            ]
+          }
+        }
+      },
+      "NoNeck": {
+        "NameKey": "avatarCustomization.variants.capes.no_neck",
+        "Model": "Cosmetics/Capes/Cape_Cursebreaker_Gold_NoShoulderPads.blockymodel",
+        "Textures": {
+          "White": {
+            "Texture": "Cosmetics/Capes/Cape_Cursebreaker_Gold_Texture.png",
+            "BaseColor": [
+              "#dfa21d"
+            ]
+          }
+        }
+      }
+    },
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Cape_Forest_Guardian",
+    "Name": "avatarCustomization.capes.Cape_Forest_Guardian.name",
+    "Variants": {
+      "Neck_Piece": {
+        "NameKey": "avatarCustomization.variants.default",
+        "Model": "Cosmetics/Capes/Cape_Mossy.blockymodel",
+        "Textures": {
+          "Green": {
+            "Texture": "Cosmetics/Capes/Cape_Mossy_Textures/Cape_Mossy_Texture.png",
+            "BaseColor": [
+              "#7d8517"
+            ]
+          }
+        }
+      },
+      "NoNeck": {
+        "NameKey": "avatarCustomization.variants.capes.no_neck",
+        "Model": "Cosmetics/Capes/Cape_Mossy_NoNeck.blockymodel",
+        "Textures": {
+          "Green": {
+            "Texture": "Cosmetics/Capes/Cape_Mossy_Textures/Cape_Mossy_Texture.png",
+            "BaseColor": [
+              "#7d8517"
+            ]
+          }
+        }
+      }
+    },
+    "Entitlements": [
+      "game.base",
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Cape_PopStar",
+    "Name": "avatarCustomization.capes.Cape_PopStar.name",
+    "Model": "Cosmetics/Capes/Cape_PopStar.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Capes/Cape_PopStar_Textures/Cape_PopStar_Texture.png",
+    "GradientSet": "Fantasy_Cotton_Dark",
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Cape_Scavenger",
+    "Name": "avatarCustomization.capes.Cape_Scavenger.name",
+    "Variants": {
+      "Neck_Piece": {
+        "NameKey": "avatarCustomization.variants.default",
+        "Model": "Cosmetics/Capes/Cape_Scavenger.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Capes/Cape_Scavenger_Texture.png"
+      },
+      "NoNeck": {
+        "NameKey": "avatarCustomization.variants.capes.no_neck",
+        "Model": "Cosmetics/Capes/Cape_Scavenger_NoNeck.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Capes/Cape_Scavenger_Texture.png"
+      }
+    },
+    "GradientSet": "Fantasy_Cotton_Dark",
+    "Entitlements": [
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Cape_Knight",
+    "Name": "avatarCustomization.capes.Cape_Knight.name",
+    "GradientSet": "Colored_Cotton",
+    "Variants": {
+      "Neck_Piece": {
+        "NameKey": "avatarCustomization.variants.default",
+        "Model": "Cosmetics/Capes/Cape_Basic.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Capes/Cape_Basic_Textures/Cape_Basic_Texture.png"
+      },
+      "NoNeck": {
+        "NameKey": "avatarCustomization.variants.capes.no_neck",
+        "Model": "Cosmetics/Capes/Cape_Basic_NoNeck.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Capes/Cape_Basic_Textures/Cape_Basic_Texture.png"
+      }
+    },
+    "Entitlements": [
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Cape_Seasons",
+    "Name": "avatarCustomization.capes.Cape_Seasons.name",
+    "Variants": {
+      "Neck_Piece": {
+        "NameKey": "avatarCustomization.variants.default",
+        "Model": "Cosmetics/Capes/Cape_Leaves.blockymodel",
+        "Textures": {
+          "Red": {
+            "Texture": "Cosmetics/Capes/Cape_Leaves_Textures/Cape_Leaves_Red_Texture.png",
+            "BaseColor": [
+              "#853a42"
+            ]
+          },
+          "Green": {
+            "Texture": "Cosmetics/Capes/Cape_Leaves_Textures/Cape_Leaves_Green_Texture.png",
+            "BaseColor": [
+              "#618928"
+            ]
+          }
+        }
+      },
+      "NoNeck": {
+        "NameKey": "avatarCustomization.variants.capes.no_neck",
+        "Model": "Cosmetics/Capes/Cape_Leaves_NoNeck.blockymodel",
+        "Textures": {
+          "Red": {
+            "Texture": "Cosmetics/Capes/Cape_Leaves_Textures/Cape_Leaves_Red_Texture.png",
+            "BaseColor": [
+              "#853a42"
+            ]
+          },
+          "Green": {
+            "Texture": "Cosmetics/Capes/Cape_Leaves_Textures/Cape_Leaves_Green_Texture.png",
+            "BaseColor": [
+              "#618928"
+            ]
+          }
+        }
+      }
+    },
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Hope_Of_Gaia_Cape",
+    "Name": "avatarCustomization.capes.Hope_Of_Gaia_Cape.name",
+    "GradientSet": "Ornamented_Metal",
+    "Variants": {
+      "Neck_Piece": {
+        "NameKey": "avatarCustomization.variants.default",
+        "Model": "Cosmetics/Capes/Cape_Royal_Leaf.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Capes/Cape_Royal_Leaf_Texture.png"
+      },
+      "NoNeck": {
+        "NameKey": "avatarCustomization.variants.capes.no_neck",
+        "Model": "Cosmetics/Capes/Cape_Royal_Leaf_NoNeck.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Capes/Cape_Royal_Leaf_Texture.png"
+      }
+    },
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Cape_Blazen_Wizard",
+    "Name": "avatarCustomization.capes.Cape_Blazen_Wizard.name",
+    "Variants": {
+      "Neck_Piece": {
+        "NameKey": "avatarCustomization.variants.default",
+        "Model": "Cosmetics/Capes/Cape_Skeleton_Wizard02.blockymodel",
+        "Textures": {
+          "Dark Purple": {
+            "Texture": "Cosmetics/Capes/Cape_Skeleton_Wizard02_Textures/Cape_Skeleton_Wizard_DarkPurple.png",
+            "BaseColor": [
+              "#3f375b"
+            ]
+          },
+          "Green": {
+            "Texture": "Cosmetics/Capes/Cape_Skeleton_Wizard02_Textures/Cape_Skeleton_Wizard_Green.png",
+            "BaseColor": [
+              "#468447"
+            ]
+          },
+          "Red": {
+            "Texture": "Cosmetics/Capes/Cape_Skeleton_Wizard02_Textures/Cape_Skeleton_Wizard_Red.png",
+            "BaseColor": [
+              "#c22234"
+            ]
+          }
+        }
+      },
+      "NoNeck": {
+        "NameKey": "avatarCustomization.variants.capes.no_neck",
+        "Model": "Cosmetics/Capes/Cape_Skeleton_Wizard02_NoNeck.blockymodel",
+        "Textures": {
+          "Dark Purple": {
+            "Texture": "Cosmetics/Capes/Cape_Skeleton_Wizard02_Textures/Cape_Skeleton_Wizard_DarkPurple.png",
+            "BaseColor": [
+              "#3f375b"
+            ]
+          },
+          "Green": {
+            "Texture": "Cosmetics/Capes/Cape_Skeleton_Wizard02_Textures/Cape_Skeleton_Wizard_Green.png",
+            "BaseColor": [
+              "#468447"
+            ]
+          },
+          "Red": {
+            "Texture": "Cosmetics/Capes/Cape_Skeleton_Wizard02_Textures/Cape_Skeleton_Wizard_Red.png",
+            "BaseColor": [
+              "#c22234"
+            ]
+          }
+        }
+      }
+    },
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Cape_King",
+    "Name": "avatarCustomization.capes.Cape_King.name",
+    "GradientSet": "Colored_Cotton",
+    "Variants": {
+      "Neck_Piece": {
+        "NameKey": "avatarCustomization.variants.default",
+        "Model": "Cosmetics/Capes/Cape_King.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Capes/Cape_King_Texture.png"
+      },
+      "NoNeck": {
+        "NameKey": "avatarCustomization.variants.capes.no_neck",
+        "Model": "Cosmetics/Capes/Cape_King_NoNeck.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Capes/Cape_King_Texture.png"
+      }
+    },
+    "Entitlements": [
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Cape_Void_Hero",
+    "Name": "avatarCustomization.capes.Void_Hero_Cape.name",
+    "Variants": {
+      "Neck_Piece": {
+        "NameKey": "avatarCustomization.variants.default",
+        "Model": "Cosmetics/Capes/Cape_Void_Hero.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Capes/Void_Hero_Cape.png"
+      },
+      "NoNeck": {
+        "NameKey": "avatarCustomization.variants.capes.no_neck",
+        "Model": "Cosmetics/Capes/Cape_Void_Hero_NoNeck.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Capes/Void_Hero_Cape.png"
+      }
+    },
+    "GradientSet": "Fantasy_Cotton",
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Cape_Featherbound",
+    "Name": "avatarCustomization.capes.Cape_Featherbound.name",
+    "GradientSet": "Hair",
+    "Model": "Cosmetics/Capes/Cape_Feathers_Ornated.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Capes/Cape_Featherbound_Texture.png",
+    "Entitlements": [
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "FrostwardenSet_Cape",
+    "Name": "avatarCustomization.capes.FrostwardenSet_Cape.name",
+    "GradientSet": "Colored_Cotton",
+    "Variants": {
+      "Neck_Piece": {
+        "NameKey": "avatarCustomization.variants.default",
+        "Model": "Cosmetics/Capes/Cape_Frosty.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Capes/Cape_Frosty_Texture.png"
+      },
+      "NoNeck": {
+        "NameKey": "avatarCustomization.variants.capes.no_neck",
+        "Model": "Cosmetics/Capes/Cape_Frosty_NoNeck.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Capes/Cape_Frosty_Texture.png"
+      }
+    },
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Cape_Bannerlord",
+    "Name": "avatarCustomization.capes.Cape_Bannerlord.name",
+    "GradientSet": "Fantasy_Cotton_Dark",
+    "Variants": {
+      "Neck_Piece": {
+        "NameKey": "avatarCustomization.variants.default",
+        "Model": "Cosmetics/Capes/Cape_Bannerlord.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Capes/Cape_Bannerlord_Texture.png"
+      },
+      "NoNeck": {
+        "NameKey": "avatarCustomization.variants.capes.no_neck",
+        "Model": "Cosmetics/Capes/Cape_Bannerlord_NoNeck.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Capes/Cape_Bannerlord_Texture.png"
+      }
+    },
+    "Entitlements": [
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Cape_Wasteland_Marauder",
+    "Name": "avatarCustomization.capes.Cape_Wasteland_Marauder.name",
+    "GradientSet": "Fantasy_Cotton_Dark",
+    "Variants": {
+      "Neck_Piece": {
+        "NameKey": "avatarCustomization.variants.default",
+        "Model": "Cosmetics/Capes/Cape_Wasteland_Marauder.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Capes/Cape_Wasteland_Marauder_Texture.png"
+      },
+      "NoNeck": {
+        "NameKey": "avatarCustomization.variants.capes.no_neck",
+        "Model": "Cosmetics/Capes/Cape_Wasteland_Marauder_NoNeck.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Capes/Cape_Wasteland_Marauder_Texture.png"
+      }
+    },
+    "Entitlements": [
+      "game.founder"
+    ]
+  }
+]

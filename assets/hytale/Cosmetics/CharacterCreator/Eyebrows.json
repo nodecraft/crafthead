@@ -1,0 +1,101 @@
+[
+  {
+    "Id": "Medium",
+    "Name": "avatarCustomization.eyebrows.Medium.name",
+    "Model": "Characters/Body_Attachments/Eyebrows/Eyebrows_Medium.blockymodel",
+    "IsDefaultAsset": true,
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Eyebrows/Medium_Greyscale.png"
+  },
+  {
+    "Id": "Thin",
+    "Name": "avatarCustomization.eyebrows.Thin.name",
+    "Model": "Characters/Body_Attachments/Eyebrows/Eyebrows_Medium.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Eyebrows/Thin_Greyscale.png"
+  },
+  {
+    "Id": "Thick",
+    "Name": "avatarCustomization.eyebrows.Thick.name",
+    "Model": "Characters/Body_Attachments/Eyebrows/Eyebrows_Medium.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Eyebrows/Thick_Greyscale.png"
+  },
+  {
+    "Id": "Bushy",
+    "Name": "avatarCustomization.eyebrows.Bushy.name",
+    "Model": "Characters/Body_Attachments/Eyebrows/Bushy.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Eyebrows/Bushy_Greyscale.png"
+  },
+  {
+    "Id": "Shaved",
+    "Name": "avatarCustomization.eyebrows.Shaved.name",
+    "Model": "Characters/Body_Attachments/Eyebrows/Shaved.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Eyebrows/Shaved_Greyscale.png"
+  },
+  {
+    "Id": "SmallRound",
+    "Name": "avatarCustomization.eyebrows.SmallRound.name",
+    "Model": "Characters/Body_Attachments/Eyebrows/Eyebrows_Medium.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Eyebrows/SmallRound_Greyscale.png"
+  },
+  {
+    "Id": "Large",
+    "Name": "avatarCustomization.eyebrows.Large.name",
+    "Model": "Characters/Body_Attachments/Eyebrows/Eyebrows_Medium.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Eyebrows/Large_Greyscale.png"
+  },
+  {
+    "Id": "RoundThin",
+    "Name": "avatarCustomization.eyebrows.RoundThin.name",
+    "Model": "Characters/Body_Attachments/Eyebrows/Eyebrows_Medium.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Eyebrows/RoundThin_Greyscale.png"
+  },
+  {
+    "Id": "Angry",
+    "Name": "avatarCustomization.eyebrows.Angry.name",
+    "Model": "Characters/Body_Attachments/Eyebrows/Eyebrows_Medium.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Eyebrows/Angry_Greyscale.png"
+  },
+  {
+    "Id": "Plucked",
+    "Name": "avatarCustomization.eyebrows.Plucked.name",
+    "Model": "Characters/Body_Attachments/Eyebrows/Eyebrows_Medium.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Eyebrows/Plucked_Greyscale.png"
+  },
+  {
+    "Id": "Square",
+    "Name": "avatarCustomization.eyebrows.Square.name",
+    "Model": "Characters/Body_Attachments/Eyebrows/Eyebrows_Medium.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Eyebrows/Square_Greyscale.png"
+  },
+  {
+    "Id": "Serious",
+    "Name": "avatarCustomization.eyebrows.Serious.name",
+    "Model": "Characters/Body_Attachments/Eyebrows/Eyebrows_Medium.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Eyebrows/Serious_Greyscale.png"
+  },
+  {
+    "Id": "BushyThin",
+    "Name": "avatarCustomization.eyebrows.BushyThin.name",
+    "Model": "Characters/Body_Attachments/Eyebrows/Eyebrows_Medium.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Eyebrows/BushyThin_Greyscale.png"
+  },
+  {
+    "Name": "avatarCustomization.eyebrows.Heavy.name",
+    "Model": "Characters/Body_Attachments/Eyebrows/Eyebrows_Medium.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Eyebrows/Feral.png",
+    "Id": "Heavy"
+  }
+]

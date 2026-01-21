@@ -1,0 +1,413 @@
+[
+  {
+    "Id": "SurvivorShirtBoy",
+    "Name": "avatarCustomization.undertops.SurvivorShirtBoy.name",
+    "Model": "Cosmetics/Undertops/Top.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/Top_Textures/Survivor_Boy.png",
+    "GradientSet": "Fantasy_Cotton"
+  },
+  {
+    "Id": "Wide_Neck_Shirt",
+    "Name": "avatarCustomization.undertops.Wide_Neck_Shirt.name",
+    "Model": "Cosmetics/Undertops/Tshirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/Tshirt_Textures/Wideneck_Tshirt_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "VNeck_Shirt",
+    "Name": "avatarCustomization.undertops.VNeck_Shirt.name",
+    "Model": "Cosmetics/Undertops/Tshirt.blockymodel",
+    "GradientSet": "Colored_Cotton",
+    "GreyscaleTexture": "Cosmetics/Undertops/Tshirt_Textures/VNeck_Greyscale.png"
+  },
+  {
+    "Id": "Belt_Shirt",
+    "Name": "avatarCustomization.undertops.Belt_Shirt.name",
+    "Model": "Cosmetics/Undertops/Tshirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/Tshirt_Textures/BeltShirt_Greyscale.png",
+    "GradientSet": "Fantasy_Cotton_Dark"
+  },
+  {
+    "Id": "Short_Sleeves_Shirt",
+    "Name": "avatarCustomization.undertops.Short_Sleeves_Shirt.name",
+    "Model": "Cosmetics/Undertops/Tshirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/Tshirt_Textures/ShortSleeves_Greyscale.png",
+    "GradientSet": "Fantasy_Cotton"
+  },
+  {
+    "Id": "LongSleeveShirt",
+    "Name": "avatarCustomization.undertops.LongSleeveShirt.name",
+    "Model": "Cosmetics/Undertops/LongSleeveShirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/LongSleeveShirt_Textures/Peasant_Long_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "VikingShirt",
+    "Name": "avatarCustomization.undertops.VikingShirt.name",
+    "Model": "Cosmetics/Undertops/LongSleeveShirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/LongSleeveShirt_Textures/Viking_Greyscale.png",
+    "GradientSet": "Fantasy_Cotton_Dark"
+  },
+  {
+    "Id": "LongSleeveShirt_GoldTrim",
+    "Name": "avatarCustomization.undertops.LongSleeveShirt_GoldTrim.name",
+    "Model": "Cosmetics/Undertops/LongSleeveShirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/LongSleeveShirt_Textures/Goldtrim_Greyscale.png",
+    "GradientSet": "Fantasy_Cotton_Dark"
+  },
+  {
+    "Id": "LongSleeveShirt_ButtonUp",
+    "Name": "avatarCustomization.undertops.LongSleeveShirt_ButtonUp.name",
+    "Model": "Cosmetics/Undertops/LongSleeveShirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/LongSleeveShirt_Textures/ButtonUp_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "HeartCamisole",
+    "Name": "avatarCustomization.undertops.HeartCamisole.name",
+    "Model": "Cosmetics/Undertops/Top.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/Top_Textures/Heart_Camisole_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "DoubleShirt",
+    "Name": "avatarCustomization.undertops.DoubleShirt.name",
+    "Model": "Cosmetics/Undertops/LongSleeveShirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/LongSleeveShirt_Textures/Double_Shirt_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "DipCut",
+    "Name": "avatarCustomization.undertops.DipCut.name",
+    "Model": "Cosmetics/Undertops/Tshirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/Tshirt_Textures/Dipcut_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "Tshirt_Logo",
+    "Name": "avatarCustomization.undertops.Tshirt_Logo.name",
+    "GradientSet": "Colored_Cotton",
+    "Variants": {
+      "Skull": {
+        "Model": "Cosmetics/Undertops/Tshirt.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Undertops/Tshirt_Textures/Skull_Tshirt_Texture_Greyscale.png",
+        "Icon": "CharacterCreator/VariantIcons/Skull.png",
+        "NameKey": "avatarCustomization.variants.pattern.skull"
+      },
+      "Star": {
+        "Model": "Cosmetics/Undertops/Tshirt.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Undertops/Tshirt_Textures/Star_Shirt_Texture_Greyscale.png",
+        "Icon": "CharacterCreator/VariantIcons/Star.png",
+        "NameKey": "avatarCustomization.variants.pattern.star"
+      },
+      "Gaia": {
+        "Model": "Cosmetics/Undertops/Tshirt.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Undertops/Tshirt_Textures/Gaia_Shirt_Greyscale.png",
+        "Icon": "CharacterCreator/VariantIcons/Gaia.png",
+        "NameKey": "avatarCustomization.variants.pattern.gaia"
+      },
+      "Unicorn": {
+        "NameKey": "avatarCustomization.variants.pattern.unicorn",
+        "Model": "Cosmetics/Undertops/Tshirt.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Undertops/Tshirt_Textures/Unicorn_Shirt_Greyscale.png",
+        "Icon": "CharacterCreator/VariantIcons/Unicorn.png"
+      },
+      "Cat": {
+        "NameKey": "avatarCustomization.variants.pattern.cat",
+        "Model": "Cosmetics/Undertops/Tshirt.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Undertops/Tshirt_Textures/Cat_TShirt_Greyscale.png",
+        "Icon": "CharacterCreator/VariantIcons/Cat.png"
+      },
+      "Bunny": {
+        "NameKey": "avatarCustomization.variants.pattern.bunny",
+        "Model": "Cosmetics/Undertops/Tshirt.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Undertops/Tshirt_Textures/Bunny_Tshirt_Greyscale.png",
+        "Icon": "CharacterCreator/VariantIcons/Bunny.png"
+      },
+      "Play_Dark": {
+        "NameKey": "avatarCustomization.variants.pattern.play",
+        "Model": "Cosmetics/Undertops/Tshirt.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Undertops/Tshirt_Textures/Playshirt_Black_Greyscale.png",
+        "Icon": "CharacterCreator/VariantIcons/Play.png"
+      },
+      "Play_Inverted": {
+        "NameKey": "avatarCustomization.variants.pattern.play_inverted",
+        "Model": "Cosmetics/Undertops/Tshirt.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Undertops/Tshirt_Textures/Playshirt_White_Greyscale.png",
+        "Icon": "CharacterCreator/VariantIcons/Play_Inverted.png"
+      }
+    }
+  },
+  {
+    "Id": "ColouredSleeves",
+    "Name": "avatarCustomization.undertops.ColouredSleeves.name",
+    "Model": "Cosmetics/Undertops/Tshirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/Tshirt_Textures/Coloured_Sleeves_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "SmartShirt",
+    "Name": "avatarCustomization.undertops.SmartShirt.name",
+    "Model": "Cosmetics/Undertops/LongSleeveShirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/LongSleeveShirt_Textures/Smart_Shirt_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "RibbedLongShirt",
+    "Name": "avatarCustomization.undertops.RibbedLongShirt.name",
+    "Model": "Cosmetics/Undertops/LongSleeveShirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/LongSleeveShirt_Textures/Ribbed_Shirt_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "StripedLong",
+    "Name": "avatarCustomization.undertops.StripedLong.name",
+    "Model": "Cosmetics/Undertops/LongSleeveShirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/LongSleeveShirt_Textures/Striped_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "Undertops_Tubetop",
+    "Name": "avatarCustomization.undertops.Undertops_Tubetop.name",
+    "Model": "Cosmetics/Undertops/Top.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/Top_Textures/Tubetop_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "SpaghettiStrap",
+    "Name": "avatarCustomization.undertops.SpaghettiStrap.name",
+    "Model": "Cosmetics/Undertops/Top.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/Top_Textures/SpaghettiStrap_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "ColouredStripes",
+    "Name": "avatarCustomization.undertops.ColouredStripes.name",
+    "Model": "Cosmetics/Undertops/Tshirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/Tshirt_Textures/Colored_Stripes_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "TieShirt",
+    "Name": "avatarCustomization.undertops.TieShirt.name",
+    "Model": "Cosmetics/Undertops/LongSleeveShirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/LongSleeveShirt_Textures/Tie_Shirt_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "FarmerTop",
+    "Name": "avatarCustomization.undertops.FarmerTop.name",
+    "Model": "Cosmetics/Undertops/LongSleeveShirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/LongSleeveShirt_Textures/Farmer_Shirt_Greyscale.png",
+    "GradientSet": "Fantasy_Cotton_Dark"
+  },
+  {
+    "Id": "LongSleevePeasantTop",
+    "Name": "avatarCustomization.undertops.LongSleevePeasantTop.name",
+    "Model": "Cosmetics/Undertops/LongSleeveShirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/LongSleeveShirt_Textures/Villager_Shirt_Greyscale.png",
+    "GradientSet": "Pastel_Cotton"
+  },
+  {
+    "Id": "PaintSpillShirt",
+    "Name": "avatarCustomization.undertops.PaintSpillShirt.name",
+    "Model": "Cosmetics/Undertops/LongSleeveShirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/LongSleeveShirt_Textures/Paintspill_Shirt_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "FlowerShirt",
+    "Name": "avatarCustomization.undertops.FlowerShirt.name",
+    "Model": "Cosmetics/Undertops/LongSleeveShirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/LongSleeveShirt_Textures/Rose_Shirt_Greyscale.png",
+    "GradientSet": "Pastel_Cotton"
+  },
+  {
+    "Id": "PastelFade",
+    "Name": "avatarCustomization.undertops.PastelFade.name",
+    "Model": "Cosmetics/Undertops/LongSleeveShirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/LongSleeveShirt_Textures/PastelFade_Shirt_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "PastelTracksuit",
+    "Name": "avatarCustomization.undertops.PastelTracksuit.name",
+    "Model": "Cosmetics/Undertops/LongSleeveShirt.blockymodel",
+    "Textures": {
+      "YellowPastel+PinkPastel+BluePastel": {
+        "Texture": "Cosmetics/Undertops/LongSleeveShirt_Textures/Pastel_Tracksuit_Shirt.png",
+        "BaseColor": [
+          "#fff295",
+          "#f8a7d5",
+          "#94c7e1"
+        ]
+      }
+    }
+  },
+  {
+    "Id": "CostumeShirt",
+    "Name": "avatarCustomization.undertops.CostumeShirt.name",
+    "Model": "Cosmetics/Undertops/LongSleeveShirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/LongSleeveShirt_Textures/Costume_Greyscale.png",
+    "GradientSet": "Pastel_Cotton"
+  },
+  {
+    "Name": "avatarCustomization.undertops.School_Shirt.name",
+    "Model": "Cosmetics/Undertops/Tshirt.blockymodel",
+    "GradientSet": "Colored_Cotton",
+    "GreyscaleTexture": "Cosmetics/Undertops/Tshirt_Textures/School.png",
+    "Id": "School_Shirt"
+  },
+  {
+    "Id": "Frilly_Shirt",
+    "Name": "avatarCustomization.undertops.Frilly_Shirt.name",
+    "Model": "Cosmetics/Undertops/Tshirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/Tshirt_Textures/Frilly_Shirt.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Name": "avatarCustomization.undertops.School_Ribbon_Shirt.name",
+    "Model": "Cosmetics/Undertops/Tshirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/Tshirt_Textures/School_Ribbon_Greyscale.png",
+    "GradientSet": "Colored_Cotton",
+    "Id": "School_Ribbon_Shirt"
+  },
+  {
+    "Id": "School_Blazer_Shirt",
+    "Name": "avatarCustomization.undertops.School_Blazer_Shirt.name",
+    "Model": "Cosmetics/Undertops/Tshirt.blockymodel",
+    "Textures": {
+      "Default": {
+        "Texture": "Cosmetics/Undertops/Tshirt_Textures/School_Blazer.png",
+        "BaseColor": [
+          "#373343"
+        ]
+      }
+    }
+  },
+  {
+    "Name": "avatarCustomization.undertops.Crinkled_Top.name",
+    "Model": "Cosmetics/Undertops/Tshirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/Tshirt_Textures/Crinkled_Greyscale.png",
+    "GradientSet": "Fantasy_Cotton_Dark",
+    "Id": "Crinkled_Top"
+  },
+  {
+    "Name": "avatarCustomization.undertops.Flowy_Shirt.name",
+    "Model": "Cosmetics/Undertops/LongSleeveShirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/LongSleeveShirt_Textures/Flowy_Shirt_Greyscale.png",
+    "GradientSet": "Pastel_Cotton",
+    "Id": "Flowy_Shirt"
+  },
+  {
+    "Name": "avatarCustomization.undertops.Stylish_Belt_Shirt.name",
+    "Model": "Cosmetics/Undertops/Tshirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/Tshirt_Textures/Stylish_Belt.png",
+    "GradientSet": "Fantasy_Cotton",
+    "Id": "Stylish_Belt_Shirt"
+  },
+  {
+    "Name": "avatarCustomization.undertops.Amazon_Top.name",
+    "Model": "Cosmetics/Undertops/Top.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/Top_Textures/Amazon.png",
+    "GradientSet": "Shiny_Fabric",
+    "Id": "Amazon_Top"
+  },
+  {
+    "Name": "avatarCustomization.undertops.Mercenary_Top.name",
+    "Model": "Cosmetics/Undertops/Top.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/Top_Textures/Mercenary_Top.png",
+    "GradientSet": "Faded_Leather",
+    "Id": "Mercenary_Top"
+  },
+  {
+    "Id": "Forest_Guardian_LongShirt",
+    "Name": "avatarCustomization.undertops.Forest_Guardian_LongShirt.name",
+    "Model": "Cosmetics/Undertops/LongSleeveShirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/LongSleeveShirt_Textures/Mossy_Shirt_Texture.png",
+    "GradientSet": "Fantasy_Cotton_Dark",
+    "Entitlements": [
+      "game.base",
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "CatacombCrawler_Undertop",
+    "Name": "avatarCustomization.undertops.CatacombCrawler_Undertop.name",
+    "Model": "Cosmetics/Undertops/Tshirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/Tshirt_Textures/CatacombCrawler_Top_Texture.png",
+    "GradientSet": "Fantasy_Cotton_Dark"
+  },
+  {
+    "Id": "FrostwardenSet_Top",
+    "Name": "avatarCustomization.undertops.FrostwardenSet_Top.name",
+    "Model": "Cosmetics/Undertops/BasicUndertop.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/BasicTop_Textures/FrostyF_Top_Texture.png",
+    "GradientSet": "Colored_Cotton",
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "Name": "avatarCustomization.undertops.Voidbearer_CursedArm.name",
+    "Model": "Cosmetics/Undertops/Voidbearer_CursedArm.blockymodel",
+    "Id": "Voidbearer_CursedArm",
+    "Textures": {
+      "Purple": {
+        "Texture": "Cosmetics/Undertops/Voidbearer_CursedArm_Texture.png",
+        "BaseColor": [
+          "#5833ab"
+        ]
+      }
+    },
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Top_Wasteland_Marauder",
+    "Name": "avatarCustomization.undertops.Top_Wasteland_Marauder.name",
+    "Model": "Cosmetics/Undertops/Top.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/Top_Textures/Top_Wasteland_Marauder.png",
+    "GradientSet": "Fantasy_Cotton_Dark",
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Bannerlord_Chainmail",
+    "Name": "avatarCustomization.undertops.Bannerlord_Chainmail.name",
+    "Model": "Cosmetics/Undertops/LongSleeveShirt.blockymodel",
+    "Textures": {
+      "Iron": {
+        "Texture": "Cosmetics/Undertops/LongSleeveShirt_Textures/Bannerlord_Undertop_Iron.png",
+        "BaseColor": [
+          "#544f49"
+        ]
+      },
+      "IronFresh": {
+        "Texture": "Cosmetics/Undertops/LongSleeveShirt_Textures/Bannerlord_Undertop_Iron_Fresh.png",
+        "BaseColor": [
+          "#878787"
+        ]
+      },
+      "Copper": {
+        "Texture": "Cosmetics/Undertops/LongSleeveShirt_Textures/Bannerlord_Undertop_Copper.png",
+        "BaseColor": [
+          "#ab4f1a"
+        ]
+      },
+      "Blued": {
+        "Texture": "Cosmetics/Undertops/LongSleeveShirt_Textures/Bannerlord_Undertop_Blued.png",
+        "BaseColor": [
+          "#414959"
+        ]
+      }
+    },
+    "Entitlements": [
+      "game.deluxe",
+      "game.founder"
+    ]
+  }
+]

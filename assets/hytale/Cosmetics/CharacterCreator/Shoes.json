@@ -1,0 +1,504 @@
+[
+  {
+    "Id": "BasicBoots",
+    "Name": "avatarCustomization.shoes.BasicBoots.name",
+    "Model": "Cosmetics/Shoes/BootsBasic.blockymodel",
+    "Textures": {
+      "Black": {
+        "Texture": "Cosmetics/Shoes/BootsBasic_Textures/Black.png",
+        "BaseColor": [
+          "#000000"
+        ]
+      },
+      "Brown": {
+        "Texture": "Cosmetics/Shoes/BootsBasic_Textures/Brown.png",
+        "BaseColor": [
+          "#734c2f"
+        ]
+      }
+    }
+  },
+  {
+    "Id": "ScavenverLeatherBoots",
+    "Name": "avatarCustomization.shoes.ScavenverLeatherBoots.name",
+    "Model": "Cosmetics/Shoes/BootsBasic.blockymodel",
+    "Textures": {
+      "Brown": {
+        "Texture": "Cosmetics/Shoes/BootsBasic_Textures/Scavenger_Leather.png",
+        "BaseColor": [
+          "#2e1d10"
+        ]
+      },
+      "BrownLight": {
+        "Texture": "Cosmetics/Shoes/BootsBasic_Textures/Rotten_Leather.png",
+        "BaseColor": [
+          "#734c2f"
+        ]
+      }
+    }
+  },
+  {
+    "Id": "Boots_Thick",
+    "Name": "avatarCustomization.shoes.Boots_Thick.name",
+    "Model": "Cosmetics/Shoes/Boots_Thick.blockymodel",
+    "Textures": {
+      "Brown": {
+        "Texture": "Cosmetics/Shoes/Boots_Thick_Textures/Leather_Light.png",
+        "BaseColor": [
+          "#734c2f"
+        ]
+      }
+    }
+  },
+  {
+    "Id": "BasicSandals",
+    "Name": "avatarCustomization.shoes.BasicSandals.name",
+    "Model": "Cosmetics/Shoes/Sandals.blockymodel",
+    "Textures": {
+      "Brown": {
+        "Texture": "Cosmetics/Shoes/Sandals_basic.png",
+        "BaseColor": [
+          "#734c2f"
+        ]
+      }
+    }
+  },
+  {
+    "Id": "BasicShoes",
+    "Name": "avatarCustomization.shoes.BasicShoes.name",
+    "Model": "Cosmetics/Shoes/Shoes.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/Shoes_Textures/Shoes_Rubbon_Greyscale.png",
+    "GradientSet": "Faded_Leather"
+  },
+  {
+    "Id": "SnowBoots",
+    "Name": "avatarCustomization.shoes.SnowBoots.name",
+    "Model": "Cosmetics/Shoes/Boots_Thick.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/Boots_Thick_Textures/Snowboots_Greyscale.png",
+    "GradientSet": "Faded_Leather"
+  },
+  {
+    "Id": "Arctic",
+    "Name": "avatarCustomization.shoes.Boots_Polar.name",
+    "Model": "Cosmetics/Shoes/HeavyBoots.blockymodel",
+    "Textures": {
+      "Brown": {
+        "Texture": "Cosmetics/Shoes/HeavyBoots_Textures/ArcticFur_Brown.png",
+        "BaseColor": [
+          "#734c2f"
+        ]
+      }
+    }
+  },
+  {
+    "Id": "HeavyLeather",
+    "Name": "avatarCustomization.shoes.HeavyLeather.name",
+    "Model": "Cosmetics/Shoes/HeavyBoots.blockymodel",
+    "Textures": {
+      "Black": {
+        "Texture": "Cosmetics/Shoes/HeavyBoots_Textures/HeavyLeather_Black.png",
+        "BaseColor": [
+          "#000000"
+        ]
+      }
+    }
+  },
+  {
+    "Id": "ThickSandals",
+    "Name": "avatarCustomization.shoes.ThickSandals.name",
+    "Model": "Cosmetics/Shoes/HeavyBoots.blockymodel",
+    "Textures": {
+      "Brown": {
+        "Texture": "Cosmetics/Shoes/HeavyBoots_Textures/ThinkSandals_Brown.png",
+        "BaseColor": [
+          "#734c2f"
+        ]
+      }
+    }
+  },
+  {
+    "Id": "Sneakers_Sneakers",
+    "Name": "avatarCustomization.shoes.Sneakers_Sneakers.name",
+    "Model": "Cosmetics/Shoes/Sneakers.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/Sneakers_Textures/Sneakers_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "HiBoots",
+    "Name": "avatarCustomization.shoes.HiBoots.name",
+    "Model": "Cosmetics/Shoes/HiBoots.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/HiBoots_Textures/HiBoots_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "AdventurerBoots",
+    "Name": "avatarCustomization.shoes.AdventurerBoots.name",
+    "Model": "Cosmetics/Shoes/Boots_Leather.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/Boots_Leather_Textures/Adventurer_Greyscale.png",
+    "GradientSet": "Flashy_Synthetic"
+  },
+  {
+    "Id": "BannerlordBoots",
+    "Name": "avatarCustomization.shoes.BannerlordBoots.name",
+    "Model": "Cosmetics/Shoes/Boots_Leather.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/Boots_Leather_Textures/Bannerlord_Greyscale.png",
+    "GradientSet": "Fantasy_Cotton_Dark",
+    "Entitlements": [
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "DesertBoots",
+    "Name": "avatarCustomization.shoes.DesertBoots.name",
+    "Model": "Cosmetics/Shoes/Boots_Leather.blockymodel",
+    "Textures": {
+      "Blue": {
+        "Texture": "Cosmetics/Shoes/Boots_Leather_Textures/Desert_Blue.png",
+        "BaseColor": [
+          "#3080a8"
+        ]
+      }
+    }
+  },
+  {
+    "Id": "SlipOns",
+    "Name": "avatarCustomization.shoes.SlipOns.name",
+    "Model": "Cosmetics/Shoes/Slipons.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/SlipOns_Textures/SlipOns_Greyscale.png",
+    "GradientSet": "Flashy_Synthetic"
+  },
+  {
+    "Id": "MinerBoots",
+    "Name": "avatarCustomization.shoes.MinerBoots.name",
+    "Model": "Cosmetics/Shoes/HeavyBoots.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/HeavyBoots_Textures/Worker_Greyscale.png",
+    "GradientSet": "Faded_Leather"
+  },
+  {
+    "Id": "Wellies",
+    "Name": "avatarCustomization.shoes.Wellies.name",
+    "Model": "Cosmetics/Shoes/HeavyBoots.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/HeavyBoots_Textures/Wellies_Greyscale.png",
+    "GradientSet": "Fantasy_Cotton_Dark"
+  },
+  {
+    "Id": "Trainers",
+    "Name": "avatarCustomization.shoes.Trainers.name",
+    "Model": "Cosmetics/Shoes/Trainers.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/Trainers_Textures/Trainers_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "SantaBoots",
+    "Name": "avatarCustomization.shoes.SantaBoots.name",
+    "Model": "Cosmetics/Shoes/Boots_Leather.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/Boots_Leather_Textures/Santa_Greyscale.png",
+    "GradientSet": "Fantasy_Cotton"
+  },
+  {
+    "Id": "ElfBoots",
+    "Name": "avatarCustomization.shoes.ElfBoots.name",
+    "Model": "Cosmetics/Shoes/ElfBoots.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/ElfBoots_Textures/ElfBoots_Greyscale.png",
+    "GradientSet": "Flashy_Synthetic"
+  },
+  {
+    "Id": "GoldenBangle",
+    "Name": "avatarCustomization.shoes.GoldenBangle.name",
+    "Model": "Cosmetics/Shoes/Bangle.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/Bangle_Texture/Bangle_Greyscale.png",
+    "GradientSet": "Ornamented_Metal"
+  },
+  {
+    "Id": "Boots_Long",
+    "Name": "avatarCustomization.shoes.Boots_Long.name",
+    "Model": "Cosmetics/Shoes/Boots_Long.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/Boots_Long_Textures/Leather_Greyscale.png",
+    "GradientSet": "Faded_Leather"
+  },
+  {
+    "Name": "avatarCustomization.shoes.LeatherBoots.name",
+    "Model": "Cosmetics/Shoes/Boots_Leather.blockymodel",
+    "Id": "LeatherBoots",
+    "GreyscaleTexture": "Cosmetics/Shoes/Boots_Leather_Textures/Leather_Greyscale.png",
+    "GradientSet": "Faded_Leather"
+  },
+  {
+    "Name": "avatarCustomization.shoes.Gem_Shoes.name",
+    "Model": "Cosmetics/Shoes/Shoes.blockymodel",
+    "Id": "Gem_Shoes",
+    "Textures": {
+      "Black": {
+        "Texture": "Cosmetics/Shoes/Shoes_Textures/Black.png",
+        "BaseColor": [
+          "#000000"
+        ]
+      }
+    }
+  },
+  {
+    "Name": "avatarCustomization.shoes.FashionableBoots.name",
+    "Model": "Cosmetics/Shoes/FashionableBoots.blockymodel",
+    "Id": "FashionableBoots",
+    "GreyscaleTexture": "Cosmetics/Shoes/FashionableBoots_Textures/FashionableBoots_Red.png",
+    "GradientSet": "Faded_Leather"
+  },
+  {
+    "Id": "Icecream_Shoes",
+    "Name": "avatarCustomization.shoes.Icecream_Shoes.name",
+    "Model": "Cosmetics/Shoes/Icecream_Shoes.blockymodel",
+    "Textures": {
+      "Strawberry": {
+        "Texture": "Cosmetics/Shoes/Icecream_Shoes_Texture.png",
+        "BaseColor": [
+          "#f93a6d"
+        ]
+      }
+    }
+  },
+  {
+    "Id": "BasicShoes_Shiny",
+    "Name": "avatarCustomization.shoes.BasicShoes_Shiny.name",
+    "Model": "Cosmetics/Shoes/Shoes.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/Shoes_Textures/Shiny_Shoes_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "BasicShoes_Buckle",
+    "Name": "avatarCustomization.shoes.BasicShoes_Buckle.name",
+    "Model": "Cosmetics/Shoes/Shoes.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/Shoes_Textures/Shoes_Buckle_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "BasicShoes_Strap",
+    "Name": "avatarCustomization.shoes.BasicShoes_Strap.name",
+    "Model": "Cosmetics/Shoes/Shoes.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/Shoes_Textures/Shoes_Strap_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "BasicShoes_Sandals",
+    "Name": "avatarCustomization.shoes.BasicShoes_Sandals.name",
+    "Model": "Cosmetics/Shoes/Shoes.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/Shoes_Textures/Shoes_Sandal_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "Boots_Voyager",
+    "Name": "avatarCustomization.shoes.Boots_Voyager.name",
+    "Model": "Cosmetics/Shoes/QuiltedBoots.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/QuiltedBoots_Textures/QuiltedBoots_Texture.png",
+    "GradientSet": "Colored_Cotton",
+    "Entitlements": [
+      "game.base",
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Hope_Of_Gaia_Boots",
+    "Name": "avatarCustomization.shoes.Hope_Of_Gaia_Boots.name",
+    "Model": "Cosmetics/Shoes/GaiaPureBoots.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/GaiaPureBoots_Texture.png",
+    "GradientSet": "Ornamented_Metal",
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "DaisyShoes",
+    "Name": "avatarCustomization.shoes.DaisyShoes.name",
+    "Model": "Cosmetics/Shoes/VineShoes.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/VineShoes_Textures/VineShoes_Texture.png",
+    "GradientSet": "Flashy_Synthetic"
+  },
+  {
+    "Id": "CatacombCrawler_Boots",
+    "Name": "avatarCustomization.shoes.CatacombCrawler_Boots.name",
+    "Model": "Cosmetics/Shoes/HeavyWedgeBoots.blockymodel",
+    "Textures": {
+      "Default": {
+        "Texture": "Cosmetics/Shoes/HeavyWedgeBoots_Textures/HeavyWedge_TombExplorer_Texture.png",
+        "BaseColor": [
+          "#795449"
+        ]
+      }
+    }
+  },
+  {
+    "Id": "FrostwardenSet_Boots",
+    "Name": "avatarCustomization.shoes.FrostwardenSet_Boots.name",
+    "Model": "Cosmetics/Shoes/FrostyWarm_Boots.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/FrostyWarm_Boots_Textures/FrostyWarmBoots_Texture.png",
+    "GradientSet": "Colored_Cotton",
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Arctic_Scout_Boots",
+    "Name": "avatarCustomization.shoes.Arctic_Scout_Boots.name",
+    "Model": "Cosmetics/Shoes/FrostyCoolBoots.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/FrostyCoolBoots_Textures/FrostyCoolBoots_Texture.png",
+    "GradientSet": "Colored_Cotton",
+    "Entitlements": [
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "HeeledBoots_Savanna",
+    "Name": "avatarCustomization.shoes.HeeledBoots_Savanna.name",
+    "Model": "Cosmetics/Shoes/HeeledShoes.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/HeeledShoes_Textures/Savana_Shoes_Texture.png",
+    "GradientSet": "Colored_Cotton",
+    "Entitlements": [
+      "game.base",
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "HeeledBoots_Popstar",
+    "Name": "avatarCustomization.shoes.HeeledBoots_Popstar.name",
+    "Model": "Cosmetics/Shoes/HeeledShoes.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/HeeledShoes_Textures/PopstarShoes_Texture.png",
+    "GradientSet": "Fantasy_Cotton_Dark",
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Scavenger_HeeledBoots",
+    "Name": "avatarCustomization.shoes.Scavenger_HeeledBoots.name",
+    "Model": "Cosmetics/Shoes/Scavenger_HeeledBoot.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/Scavenger_HeeledBoot_Textures/Scavenger_HeeledBoot_Texture.png",
+    "GradientSet": "Colored_Cotton",
+    "Entitlements": [
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Slipons_CoolGaia",
+    "Name": "avatarCustomization.shoes.SliponsCoolGaia.name",
+    "Model": "Cosmetics/Shoes/BasicSlipons.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/BasicSlipons_Textures/CoolGaia_Slipons_Texture.png",
+    "GradientSet": "Fantasy_Cotton_Dark"
+  },
+  {
+    "Id": "Voidbearer_Boots",
+    "Name": "avatarCustomization.shoes.Voidbearer_Boots.name",
+    "Model": "Cosmetics/Shoes/Voidbearer_Boots.blockymodel",
+    "Textures": {
+      "Brown": {
+        "Texture": "Cosmetics/Shoes/Voidbearer_Boots_Textures/Voidbearer_Boots_DarkGold.png",
+        "BaseColor": [
+          "#472912"
+        ]
+      }
+    },
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Shoes_Ornated",
+    "Name": "avatarCustomization.shoes.Featherbound_Shoes.name",
+    "Model": "Cosmetics/Shoes/Shoes_Ornated.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/Shoes_Textures/Featherbound_Shoes_Texture.png",
+    "GradientSet": "Hair",
+    "Entitlements": [
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "Name": "avatarCustomization.shoes.Forest_Guardian_Boots.name",
+    "Model": "Cosmetics/Shoes/Boots_Thick.blockymodel",
+    "Id": "Forest_Guardian_Boots",
+    "GreyscaleTexture": "Cosmetics/Shoes/Boots_Thick_Textures/Mossy_Boots.png",
+    "GradientSet": "Faded_Leather",
+    "Entitlements": [
+      "game.base",
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Boots_Void_Hero",
+    "Name": "avatarCustomization.shoes.Void_Hero_Boots.name",
+    "Model": "Cosmetics/Shoes/Boots_Leather.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/Boots_Leather_Textures/Void_Hero_Boots.png",
+    "GradientSet": "Fantasy_Cotton",
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Sneakers_Wasteland_Marauder",
+    "Name": "avatarCustomization.shoes.Sneakers_Wasteland_Marauder.name",
+    "Model": "Cosmetics/Shoes/Sneakers.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/Sneakers_Textures/Wasteland_Marauders_Snearkers_Texture.png",
+    "GradientSet": "Fantasy_Cotton_Dark",
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Boots_Blazen_Wizard",
+    "Name": "avatarCustomization.shoes.Boots_Blazen_Wizard.name",
+    "Model": "Cosmetics/Shoes/AngledBoots.blockymodel",
+    "Textures": {
+      "Purple": {
+        "Texture": "Cosmetics/Shoes/AngledBoots_Textures/Blazen_Wizard_Boots.png",
+        "BaseColor": [
+          "#593586"
+        ]
+      },
+      "Green": {
+        "Texture": "Cosmetics/Shoes/AngledBoots_Textures/Blazen_Wizard_Boots_Green.png",
+        "BaseColor": [
+          "#33ae87"
+        ]
+      },
+      "Red": {
+        "Texture": "Cosmetics/Shoes/AngledBoots_Textures/Blazen_Wizard_Boots_Red.png",
+        "BaseColor": [
+          "#bd2d2d"
+        ]
+      }
+    },
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Merchant_Boots",
+    "Name": "avatarCustomization.shoes.Merchant_Boots.name",
+    "Model": "Cosmetics/Shoes/Boots_Low.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/Boots_Low_Textures/Merchant_Boots_Texture.png",
+    "GradientSet": "Colored_Cotton",
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Battleworn_Boots",
+    "Name": "avatarCustomization.shoes.Battleworn_Boots.name",
+    "Model": "Cosmetics/Shoes/Battleworn_Boots.blockymodel",
+    "Textures": {
+      "Brown": {
+        "Texture": "Cosmetics/Shoes/Battleworn_Boots_Texture.png",
+        "BaseColor": [
+          "#734c2f"
+        ]
+      }
+    },
+    "Entitlements": [
+      "game.founder"
+    ]
+  }
+]

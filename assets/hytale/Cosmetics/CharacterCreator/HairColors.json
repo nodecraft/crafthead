@@ -1,0 +1,156 @@
+[
+  {
+    "Id": "Black",
+    "BaseColor": [
+      "#090a1f"
+    ],
+    "Texture": "Characters/Haircuts/Hair_Tint_Gradients/Black.png"
+  },
+  {
+    "Id": "BrownDark",
+    "BaseColor": [
+      "#200e0f"
+    ],
+    "Texture": "Characters/Haircuts/Hair_Tint_Gradients/Brown_Dark.png"
+  },
+  {
+    "Id": "Brown",
+    "BaseColor": [
+      "#512614"
+    ],
+    "Texture": "Characters/Haircuts/Hair_Tint_Gradients/Brown.png"
+  },
+  {
+    "Id": "BrownLight",
+    "BaseColor": [
+      "#774219"
+    ],
+    "Texture": "Characters/Haircuts/Hair_Tint_Gradients/Brown_Light.png"
+  },
+  {
+    "Id": "BlondPlatinum",
+    "BaseColor": [
+      "#f1d161"
+    ],
+    "Texture": "Characters/Haircuts/Hair_Tint_Gradients/Blond_Platinum.png"
+  },
+  {
+    "Id": "BlondSand",
+    "BaseColor": [
+      "#c6b089"
+    ],
+    "Texture": "Characters/Haircuts/Hair_Tint_Gradients/Blond_Sand.png"
+  },
+  {
+    "Id": "BlondCaramel",
+    "BaseColor": [
+      "#9d7f45"
+    ],
+    "Texture": "Characters/Haircuts/Hair_Tint_Gradients/Blond_Caramel.png"
+  },
+  {
+    "Id": "Blond",
+    "BaseColor": [
+      "#c48c43"
+    ],
+    "Texture": "Characters/Haircuts/Hair_Tint_Gradients/Blond.png"
+  },
+  {
+    "Id": "Copper",
+    "BaseColor": [
+      "#d46732"
+    ],
+    "Texture": "Characters/Haircuts/Hair_Tint_Gradients/Copper.png"
+  },
+  {
+    "Id": "Red",
+    "BaseColor": [
+      "#910909"
+    ],
+    "Texture": "Characters/Haircuts/Hair_Tint_Gradients/Red.png"
+  },
+  {
+    "Id": "RedDark",
+    "BaseColor": [
+      "#42040e"
+    ],
+    "Texture": "Characters/Haircuts/Hair_Tint_Gradients/Red_Dark.png"
+  },
+  {
+    "Id": "Pink",
+    "BaseColor": [
+      "#951966"
+    ],
+    "Texture": "Characters/Haircuts/Hair_Tint_Gradients/Pink.png"
+  },
+  {
+    "Id": "Bubblegum",
+    "BaseColor": [
+      "#dd3c79"
+    ],
+    "Texture": "Characters/Haircuts/Hair_Tint_Gradients/Bubblegum.png"
+  },
+  {
+    "Id": "Purple",
+    "BaseColor": [
+      "#3f2155"
+    ],
+    "Texture": "Characters/Haircuts/Hair_Tint_Gradients/Purple.png"
+  },
+  {
+    "Id": "Blue",
+    "BaseColor": [
+      "#054c94"
+    ],
+    "Texture": "Characters/Haircuts/Hair_Tint_Gradients/Blue.png"
+  },
+  {
+    "Id": "BlueLight",
+    "BaseColor": [
+      "#9acadd"
+    ],
+    "Texture": "Characters/Haircuts/Hair_Tint_Gradients/Blue_Light.png"
+  },
+  {
+    "Id": "Turquoise",
+    "BaseColor": [
+      "#309b8e"
+    ],
+    "Texture": "Characters/Haircuts/Hair_Tint_Gradients/Turquoise.png"
+  },
+  {
+    "Id": "Green",
+    "BaseColor": [
+      "#11882a"
+    ],
+    "Texture": "Characters/Haircuts/Hair_Tint_Gradients/Green.png"
+  },
+  {
+    "Id": "Grey",
+    "BaseColor": [
+      "#62626f"
+    ],
+    "Texture": "Characters/Haircuts/Hair_Tint_Gradients/Grey.png"
+  },
+  {
+    "Id": "GreyAsh",
+    "BaseColor": [
+      "#9e9c8f"
+    ],
+    "Texture": "Characters/Haircuts/Hair_Tint_Gradients/Grey_Ash.png"
+  },
+  {
+    "Id": "White",
+    "BaseColor": [
+      "#e6e6e7"
+    ],
+    "Texture": "Characters/Haircuts/Hair_Tint_Gradients/White.png"
+  },
+  {
+    "Id": "PinkBerry",
+    "BaseColor": [
+      "#bb4957"
+    ],
+    "Texture": "Characters/Haircuts/Hair_Tint_Gradients/Pink_Berry.png"
+  }
+]

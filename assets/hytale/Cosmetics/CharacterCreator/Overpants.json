@@ -1,0 +1,67 @@
+[
+  {
+    "Id": "KneePads",
+    "Name": "avatarCustomization.overpants.KneePads.name",
+    "Model": "Cosmetics/Overpants/KneePads.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overpants/KneePads_Greyscale.png",
+    "GradientSet": "Ornamented_Metal"
+  },
+  {
+    "Id": "LongSocks_Plain",
+    "Name": "avatarCustomization.overpants.LongSocks_Plain.name",
+    "Model": "Cosmetics/Overpants/Long_Socks.blockymodel",
+    "Textures": {
+      "Default": {
+        "Texture": "Cosmetics/Overpants/Long_Socks_Textures/PlainSocks_Greyscale.png",
+        "BaseColor": [
+          "#ece9e9"
+        ]
+      }
+    }
+  },
+  {
+    "Id": "LongSocks_BasicWrap",
+    "Name": "avatarCustomization.overpants.LongSocks_BasicWrap.name",
+    "Model": "Cosmetics/Overpants/Long_Socks.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overpants/Long_Socks_Textures/BasicWrap_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "LongSocks_School",
+    "Name": "avatarCustomization.overpants.LongSocks_School.name",
+    "Model": "Cosmetics/Overpants/Long_Socks.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overpants/Long_Socks_Textures/SchoolSocks_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "LongSocks_Striped",
+    "Name": "avatarCustomization.overpants.LongSocks_Striped.name",
+    "Model": "Cosmetics/Overpants/Long_Socks.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overpants/Long_Socks_Textures/StripedSocks_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "LongSocks_Bow",
+    "Name": "avatarCustomization.overpants.LongSocks_Bow.name",
+    "Model": "Cosmetics/Overpants/Long_Socks.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overpants/Long_Socks_Textures/BowStockings_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "LongSocks_Torn",
+    "Name": "avatarCustomization.overpants.Featherbound_Socks.name",
+    "Model": "Cosmetics/Overpants/Long_Socks.blockymodel",
+    "Entitlements": [
+      "game.deluxe",
+      "game.founder"
+    ],
+    "Textures": {
+      "Torn": {
+        "Texture": "Cosmetics/Overpants/Long_Socks_Textures/Featherbound_Stockings_Texture.png",
+        "BaseColor": [
+          "#a69c7e"
+        ]
+      }
+    }
+  }
+]
