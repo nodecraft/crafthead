@@ -1,6 +1,4 @@
-// @ts-expect-error - node:fs/promises is available with nodejs_compat flag
-import { readFile, readdir, stat } from 'node:fs/promises';
-// @ts-expect-error - node:path is available with nodejs_compat flag
+import { readdir } from 'node:fs/promises';
 import pathModule from 'node:path';
 
 import { EMPTY } from './data';
