@@ -277,6 +277,7 @@ export async function resolveCosmetic(
 		'Common/Characters/Player.blockymodel',
 		'Common/Characters/Animations/Default/Idle.blockyanim',
 		'Common/Characters/Player_Textures/Player_Greyscale.png',
+		'Common/Characters/Player_Textures/Player_Muscular_Greyscale.png',
 	]);
 
 	return {
