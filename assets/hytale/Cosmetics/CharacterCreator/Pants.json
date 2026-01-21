@@ -1,0 +1,549 @@
+[
+  {
+    "Id": "ApprenticePants",
+    "Name": "avatarCustomization.pants.ApprenticePants.name",
+    "Model": "Cosmetics/Pants/Pants_Large.blockymodel",
+    "Textures": {
+      "Brown": {
+        "Texture": "Cosmetics/Pants/Pants_Large_Textures/Apprentice_Brown.png",
+        "BaseColor": [
+          "#734c2f"
+        ]
+      },
+      "BrownLight": {
+        "Texture": "Cosmetics/Pants/Pants_Large_Textures/Fiber.png",
+        "BaseColor": [
+          "#7c4b24"
+        ]
+      },
+      "Black": {
+        "Texture": "Cosmetics/Pants/Pants_Large_Textures/Black.png",
+        "BaseColor": [
+          "#000000"
+        ]
+      }
+    }
+  },
+  {
+    "Id": "LeatherPants",
+    "Name": "avatarCustomization.pants.LeatherPants.name",
+    "Model": "Cosmetics/Pants/Pants_Straight.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Pants/Pants_Straight_Textures/Leather_Greyscale.png",
+    "GradientSet": "Faded_Leather"
+  },
+  {
+    "Id": "SurvivorPants",
+    "Name": "avatarCustomization.pants.SurvivorPants.name",
+    "Model": "Cosmetics/Pants/Pants_Asymetrical.blockymodel",
+    "Textures": {
+      "Brown": {
+        "Texture": "Cosmetics/Pants/Pants_Asymetrical_Textures/Survivor_Brown.png",
+        "BaseColor": [
+          "#734c2f"
+        ]
+      }
+    }
+  },
+  {
+    "Id": "StripedPants",
+    "Name": "avatarCustomization.pants.StripedPants.name",
+    "Model": "Cosmetics/Pants/Pants_Straight.blockymodel",
+    "Textures": {
+      "Brown": {
+        "Texture": "Cosmetics/Pants/Pants_Straight_Textures/Striped_Brown.png",
+        "BaseColor": [
+          "#734c2f"
+        ]
+      }
+    }
+  },
+  {
+    "Id": "CostumePants",
+    "Name": "avatarCustomization.pants.CostumePants.name",
+    "Model": "Cosmetics/Pants/Pants_Slim.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Pants/Pants_Slim_Textures/Costume_Greyscale.png",
+    "GradientSet": "Pastel_Cotton"
+  },
+  {
+    "Id": "ShortyRolled",
+    "Name": "avatarCustomization.pants.ShortyRolled.name",
+    "Model": "Cosmetics/Pants/Shorty_Rolled.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Pants/Shorty_Rolled_Textures/Fantasy_Jean_Greyscale.png",
+    "GradientSet": "Jean_Generic"
+  },
+  {
+    "Id": "Jeans",
+    "Name": "avatarCustomization.pants.Jeans.name",
+    "Model": "Cosmetics/Pants/Pants_Straight.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Pants/Pants_Straight_Textures/Jean_Fantasy_Greyscale.png",
+    "GradientSet": "Jean_Generic"
+  },
+  {
+    "Id": "GiPants",
+    "Name": "avatarCustomization.pants.GiPants.name",
+    "Model": "Cosmetics/Pants/Pants_Straight.blockymodel",
+    "Textures": {
+      "White": {
+        "Texture": "Cosmetics/Pants/Pants_Straight_Textures/Gi_White.png",
+        "BaseColor": [
+          "#ffffff"
+        ]
+      }
+    }
+  },
+  {
+    "Id": "Forest_Bermuda",
+    "Name": "avatarCustomization.pants.Forest_Bermuda.name",
+    "Model": "Cosmetics/Pants/Short_Bermuda.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Pants/Short_Bermuda_Textures/Forest_Greyscale.png",
+    "GradientSet": "Fantasy_Cotton_Dark"
+  },
+  {
+    "Id": "BulkySuede",
+    "Name": "avatarCustomization.pants.BulkySuede.name",
+    "Model": "Cosmetics/Pants/Pants_Straight.blockymodel",
+    "Textures": {
+      "Brown": {
+        "Texture": "Cosmetics/Pants/Pants_Straight_Textures/Pants_Brown.png",
+        "BaseColor": [
+          "#734c2f"
+        ]
+      }
+    }
+  },
+  {
+    "Id": "Pants_Straight_WreckedJeans",
+    "Name": "avatarCustomization.pants.Pants_Straight_WreckedJeans.name",
+    "Model": "Cosmetics/Pants/Pants_Straight.blockymodel",
+    "GradientSet": "Jean_Generic",
+    "GreyscaleTexture": "Cosmetics/Pants/Pants_Straight_Textures/Wrecked_Greyscale.png"
+  },
+  {
+    "Id": "Pants_Slim",
+    "Name": "avatarCustomization.pants.Pants_Slim.name",
+    "Model": "Cosmetics/Pants/Pants_Slim.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Pants/Pants_Slim_Textures/Jean_Tight_Greyscale.png",
+    "GradientSet": "Jean_Generic"
+  },
+  {
+    "Id": "Dungarees",
+    "Name": "avatarCustomization.pants.Dungarees.name",
+    "Variants": {
+      "ShortDungareesRegular": {
+        "Model": "Cosmetics/Pants/Short_Dungarees.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Pants/Short_Dungarees_Textures/Short_Dungarees_Greyscale.png",
+        "NameKey": "avatarCustomization.variants.pants.dungareesshorts"
+      },
+      "ShortDungareesSlacks": {
+        "Model": "Cosmetics/Pants/Short_Dungarees.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Pants/Short_Dungarees_Textures/Dungarees_Slacks.png",
+        "NameKey": "avatarCustomization.variants.pants.bracedshorts"
+      }
+    },
+    "GradientSet": "Jean_Generic"
+  },
+  {
+    "Id": "StylishShorts",
+    "Name": "avatarCustomization.pants.StylishShorts.name",
+    "Model": "Cosmetics/Pants/Shorty_Slim.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Pants/Shorty_Slim_Textures/Stylish_Greyscale.png",
+    "GradientSet": "Flashy_Synthetic"
+  },
+  {
+    "Id": "JeansStrapped",
+    "Name": "avatarCustomization.pants.JeansStrapped.name",
+    "Model": "Cosmetics/Pants/Shorty_Slim.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Pants/Shorty_Slim_Textures/Jean_Fantasy_Geyscale_Texture.png",
+    "GradientSet": "Jean_Generic"
+  },
+  {
+    "Id": "Villager_Bermuda",
+    "Name": "avatarCustomization.pants.Villager_Bermuda.name",
+    "Model": "Cosmetics/Pants/Short_Bermuda.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Pants/Short_Bermuda_Textures/Villager_Bermuda_Greyscale.png",
+    "GradientSet": "Fantasy_Cotton"
+  },
+  {
+    "Id": "ExplorerShorts",
+    "Name": "avatarCustomization.pants.ExplorerShorts.name",
+    "Model": "Cosmetics/Pants/Shorty_Slim.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Pants/Shorty_Slim_Textures/Explorer_Greyscale.png",
+    "GradientSet": "Faded_Leather",
+    "Entitlements": [
+      "game.base",
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Explorer_Trousers",
+    "Name": "avatarCustomization.pants.Explorer_Trousers.name",
+    "Model": "Cosmetics/Pants/Pants_Asymetrical.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Pants/Pants_Asymetrical_Textures/Explorer_Greyscale.png",
+    "GradientSet": "Faded_Leather"
+  },
+  {
+    "Id": "PinstripeTrousers",
+    "Name": "avatarCustomization.pants.PinstripeTrousers.name",
+    "Model": "Cosmetics/Pants/Pants_Straight.blockymodel",
+    "GradientSet": "Shiny_Fabric",
+    "GreyscaleTexture": "Cosmetics/Pants/Pants_Straight_Textures/Pinstripe_Greyscale.png"
+  },
+  {
+    "Id": "Pants_Slim_Faded",
+    "Name": "avatarCustomization.pants.Pants_Slim_Faded.name",
+    "Model": "Cosmetics/Pants/Pants_Slim.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Pants/Pants_Slim_Textures/Jean_Ultrafaded_Greyscale.png",
+    "GradientSet": "Jean_Generic"
+  },
+  {
+    "Id": "Pants_Slim_Tracksuit",
+    "Name": "avatarCustomization.pants.Pants_Slim_Tracksuit.name",
+    "Model": "Cosmetics/Pants/Pants_Slim.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Pants/Pants_Slim_Textures/Tracksuit_Greyscale.png",
+    "GradientSet": "Flashy_Synthetic"
+  },
+  {
+    "Id": "LongDungarees",
+    "Name": "avatarCustomization.pants.LongDungarees.name",
+    "Variants": {
+      "LongDungareesRegular": {
+        "Model": "Cosmetics/Pants/LongDungarees.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Pants/LongDungarees_Textures/Long_Dungarees_Greyscale.png",
+        "NameKey": "avatarCustomization.variants.pants.dungarees"
+      },
+      "LongDungareesSlacks": {
+        "Model": "Cosmetics/Pants/LongDungarees.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Pants/LongDungarees_Textures/Long_Dungarees_Slacks.png",
+        "NameKey": "avatarCustomization.variants.pants.bracedpants"
+      }
+    },
+    "GradientSet": "Jean_Generic"
+  },
+  {
+    "Id": "KhakiShorts",
+    "Name": "avatarCustomization.pants.KhakiShorts.name",
+    "Model": "Cosmetics/Pants/Shorty_Slim.blockymodel",
+    "Textures": {
+      "Yellow": {
+        "Texture": "Cosmetics/Pants/Shorty_Slim_Textures/Khaki_Yellow.png",
+        "BaseColor": [
+          "#f7de25"
+        ]
+      }
+    }
+  },
+  {
+    "Id": "ColouredKhaki",
+    "Name": "avatarCustomization.pants.ColouredKhaki.name",
+    "Model": "Cosmetics/Pants/Pants_Straight.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Pants/Pants_Straight_Textures/Khaki_Greyscale.png",
+    "GradientSet": "Flashy_Synthetic"
+  },
+  {
+    "Id": "Leggings",
+    "Name": "avatarCustomization.pants.Leggings.name",
+    "Model": "Cosmetics/Pants/Short_Slim.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Pants/Short_Slim_Textures/Leggins_Greyscale.png",
+    "GradientSet": "Flashy_Synthetic"
+  },
+  {
+    "Id": "Colored_Trousers",
+    "Name": "avatarCustomization.pants.Colored_Trousers.name",
+    "Model": "Cosmetics/Pants/Pants_Slim.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Pants/Pants_Slim_Textures/Trousers_Greyscale.png",
+    "GradientSet": "Flashy_Synthetic"
+  },
+  {
+    "Name": "avatarCustomization.pants.Slim_Short.name",
+    "Model": "Cosmetics/Pants/Short_Slim.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Pants/Short_Slim_Textures/Slim_Short_Greyscale.png",
+    "GradientSet": "Jean_Generic",
+    "Id": "Slim_Short"
+  },
+  {
+    "Name": "avatarCustomization.pants.Shorty_Rotten.name",
+    "Model": "Cosmetics/Pants/Shorty_Slim.blockymodel",
+    "Id": "Shorty_Rotten",
+    "Textures": {
+      "Brown": {
+        "Texture": "Cosmetics/Pants/Shorty_Slim_Textures/Zombie_Brown.png",
+        "BaseColor": [
+          "#613e28"
+        ]
+      }
+    }
+  },
+  {
+    "Id": "SimpleSkirt",
+    "Name": "avatarCustomization.pants.SimpleSkirt.name",
+    "Model": "Cosmetics/Overpants/Skirt_Straight.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overpants/Skirt_Straight_Textures/A_Line_Greyscale.png",
+    "GradientSet": "Pastel_Cotton"
+  },
+  {
+    "Id": "DenimSkirt",
+    "Name": "avatarCustomization.pants.DenimSkirt.name",
+    "Model": "Cosmetics/Overpants/Skirt_Straight.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overpants/Skirt_Straight_Textures/Demin_Greyscale.png",
+    "GradientSet": "Jean_Generic"
+  },
+  {
+    "Id": "GoldtrimSkirt",
+    "Name": "avatarCustomization.pants.GoldtrimSkirt.name",
+    "Model": "Cosmetics/Overpants/Skirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overpants/Skirt_Textures/Goldtrim_Greyscale.png",
+    "GradientSet": "Fantasy_Cotton"
+  },
+  {
+    "Id": "DesertDress",
+    "Name": "avatarCustomization.pants.DesertDress.name",
+    "Model": "Cosmetics/Overpants/Dress.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overpants/Dress_Textures/Tribal_Dress_Greyscale.png",
+    "GradientSet": "Fantasy_Cotton"
+  },
+  {
+    "Id": "Skirt",
+    "Name": "avatarCustomization.pants.Skirt.name",
+    "Model": "Cosmetics/Overpants/Skirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overpants/Skirt_Textures/Pleated_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "Frilly_Skirt",
+    "Name": "avatarCustomization.pants.Frilly_Skirt.name",
+    "Model": "Cosmetics/Overpants/Skirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overpants/Skirt_Textures/Frilly_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Name": "avatarCustomization.pants.Crinkled_Skirt.name",
+    "Model": "Cosmetics/Overpants/Skirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overpants/Skirt_Textures/Crinkled_Greyscale.png",
+    "GradientSet": "Fantasy_Cotton_Dark",
+    "Id": "Crinkled_Skirt"
+  },
+  {
+    "Id": "Icecream_Skirt",
+    "Name": "avatarCustomization.pants.Icecream_Skirt.name",
+    "Model": "Cosmetics/Overpants/Icecream_Skirt.blockymodel",
+    "Textures": {
+      "Chocolate": {
+        "BaseColor": [
+          "#6c2828"
+        ],
+        "Texture": "Cosmetics/Overpants/Icecream_Skirt_Texture.png"
+      },
+      "Strawberry": {
+        "BaseColor": [
+          "#ff2c89"
+        ],
+        "Texture": "Cosmetics/Overpants/Icecream_Skirt_Textures/Icecream_Skirt_Strawberry.png"
+      }
+    }
+  },
+  {
+    "Name": "avatarCustomization.pants.Bermuda_Rolled.name",
+    "Model": "Cosmetics/Pants/Short_Slim.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Pants/Short_Slim_Textures/Short_Slim_Rolled_Texture.png",
+    "GradientSet": "Jean_Generic",
+    "Id": "Bermuda_Rolled"
+  },
+  {
+    "Id": "Long_Dress",
+    "Name": "avatarCustomization.pants.Long_Dress.name",
+    "Model": "Cosmetics/Overpants/Dress.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overpants/Dress_Textures/Dress_Basic_Texture.png",
+    "GradientSet": "Fantasy_Cotton"
+  },
+  {
+    "Name": "avatarCustomization.pants.Shorty_Mossy.name",
+    "Model": "Cosmetics/Pants/Shorty_Slim.blockymodel",
+    "Id": "Shorty_Mossy",
+    "Textures": {
+      "Green": {
+        "Texture": "Cosmetics/Pants/Shorty_Slim_Textures/Mossy_Shorts.png",
+        "BaseColor": [
+          "#62773f"
+        ]
+      }
+    }
+  },
+  {
+    "Id": "DaisySkirt",
+    "Name": "avatarCustomization.pants.DaisySkirt.name",
+    "Model": "Cosmetics/Pants/Skirt_MoreFlaps.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Pants/Skirt_MoreFlaps_Textures/Skirt_Daisy_Petals.png",
+    "GradientSet": "Flashy_Synthetic"
+  },
+  {
+    "Id": "CatacombCrawler_Shorts",
+    "Name": "avatarCustomization.pants.CatacombCrawler_Shorts.name",
+    "Model": "Cosmetics/Pants/CatacombCrawler_Short.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Pants/CatacombCrawler_Short_Texture.png",
+    "GradientSet": "Jean_Generic"
+  },
+  {
+    "Id": "FrostwardenSet_Skirt",
+    "Name": "avatarCustomization.pants.FrostwardenSet_Skirt.name",
+    "Model": "Cosmetics/Pants/HighSkirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Pants/HighSkirt_Textures/FrostyWarm_Skirt_Texture.png",
+    "GradientSet": "Colored_Cotton",
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Scavenger_Pants",
+    "Name": "avatarCustomization.pants.Scavenger_Pants.name",
+    "Model": "Cosmetics/Pants/Pants_Complex.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Pants/Pants_Complex_Texture/Scavenger_Pants_Texture.png",
+    "GradientSet": "Jean_Generic",
+    "Entitlements": [
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "HighSkirt_Popstar",
+    "Name": "avatarCustomization.pants.HighSkirtPopstar.name",
+    "Model": "Cosmetics/Pants/HighSkirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Pants/HighSkirt_Textures/PopstarSkirt_Texture.png",
+    "GradientSet": "Fantasy_Cotton_Dark",
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "SkaterShorts_Chunky",
+    "Name": "avatarCustomization.pants.SkaterShorts_Chunky.name",
+    "Model": "Cosmetics/Pants/Skater_Shorts.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Pants/Skater_Shorts_Textures/Skater_Shorts_Chunky.png",
+    "GradientSet": "Jean_Generic"
+  },
+  {
+    "Id": "Voidbearer_Pants",
+    "Name": "avatarCustomization.pants.Voidbearer_Pants.name",
+    "Model": "Cosmetics/Pants/Voidbearer_Pants.blockymodel",
+    "GradientSet": "Faded_Leather",
+    "GreyscaleTexture": "Cosmetics/Pants/Voidbearer_Pants_Textures/Voidbearer_Pants_Gold_Greyscale.png",
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Short_Ample",
+    "Name": "avatarCustomization.pants.Featherbound_Short.name",
+    "Model": "Cosmetics/Pants/Shorty_Ample.blockymodel",
+    "Textures": {
+      "Green": {
+        "BaseColor": [
+          "#2e3e1f"
+        ],
+        "Texture": "Cosmetics/Pants/Featherbound_Texture.png"
+      }
+    },
+    "Entitlements": [
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Forest_Guardian",
+    "Name": "avatarCustomization.pants.Forest_Guardian_Trousers.name",
+    "Model": "Cosmetics/Pants/Pants_Asymetrical.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Pants/Pants_Asymetrical_Textures/Mossy_Trousers.png",
+    "GradientSet": "Fantasy_Cotton_Dark",
+    "Entitlements": [
+      "game.base",
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Pants_Arctic_Scout",
+    "Name": "avatarCustomization.pants.Arctic_Scout_Pants.name",
+    "Model": "Cosmetics/Pants/Pants_Straight.blockymodel",
+    "GradientSet": "Fantasy_Cotton",
+    "GreyscaleTexture": "Cosmetics/Pants/Artic_Scout_Pants.png",
+    "Entitlements": [
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Pants_Void_Hero",
+    "Name": "avatarCustomization.pants.Void_Hero_Pants.name",
+    "Model": "Cosmetics/Pants/Pants_Straight.blockymodel",
+    "Entitlements": [
+      "game.founder"
+    ],
+    "Textures": {
+      "Default": {
+        "BaseColor": [
+          "#1b4139"
+        ],
+        "Texture": "Cosmetics/Pants/Void_Hero_Pants.png"
+      }
+    }
+  },
+  {
+    "Id": "Hope_Of_Gaia_Skirt",
+    "Name": "avatarCustomization.pants.Hope_Of_Gaia_Skirt.name",
+    "Model": "Cosmetics/Pants/Skirt_Petals.blockymodel",
+    "Textures": {
+      "Green": {
+        "Texture": "Cosmetics/Pants/PetalSkirt_Textures/Skirt_Leaves.png",
+        "BaseColor": [
+          "#2e9128"
+        ]
+      }
+    },
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Skirt_Savanna",
+    "Name": "avatarCustomization.pants.Skirt_Savanna.name",
+    "Model": "Cosmetics/Overpants/Skirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Pants/Skirt_Savannah_Greyscale.png",
+    "GradientSet": "Colored_Cotton",
+    "Entitlements": [
+      "game.base",
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "Pants_Wasteland_Marauder",
+    "Name": "avatarCustomization.pants.Pants_Wasteland_Marauder.name",
+    "Model": "Cosmetics/Pants/Pants_Straight.blockymodel",
+    "GradientSet": "Fantasy_Cotton_Dark",
+    "GreyscaleTexture": "Cosmetics/Pants/Pants_Straight_Textures/Wasteland_Marauder_Pants.png",
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "Name": "avatarCustomization.pants.Merchant_Pants.name",
+    "Model": "Cosmetics/Pants/Short_Bermuda_Belted.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Pants/Short_Bermuda_Belted_Textures/Merchant_Belted_Pants_Orange.png",
+    "GradientSet": "Colored_Cotton",
+    "Id": "Merchant_Pants",
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "BannerlordQuilted",
+    "Name": "avatarCustomization.pants.BannerlordQuilted.name",
+    "Model": "Cosmetics/Pants/Pants_Straight.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Pants/Pants_Straight_Textures/Bannerlord_Pants.png",
+    "GradientSet": "Fantasy_Cotton_Dark",
+    "Entitlements": [
+      "game.deluxe",
+      "game.founder"
+    ]
+  }
+]

@@ -1,3 +1,6 @@
+import { readdir } from 'node:fs/promises';
+import pathModule from 'node:path';
+
 import { EMPTY } from './data';
 import { Game, RequestedKind, interpretRequest } from './request';
 import * as hytaleService from './services/hytale/service';
@@ -85,7 +88,49 @@ function hasRenderAvatar(service: GameService): service is GameService & DirectR
 	return 'renderAvatar' in service;
 }
 
-async function processRequest(request: Request, interpreted: CraftheadRequest): Promise<Response> {
+/**
+ * Get content type based on file extension
+ */
+function getContentType(filePath: string): string {
+	const ext = pathModule.extname(filePath).toLowerCase();
+	switch (ext) {
+		case '.png': {
+			return 'image/png';
+		}
+		case '.json': {
+			return 'application/json';
+		}
+		case '.blockymodel':
+		case '.blockyanim': {
+			return 'application/octet-stream';
+		}
+		default: {
+			return 'application/octet-stream';
+		}
+	}
+}
+
+/**
+ * Recursively get all files from a directory
+ */
+async function getAllFiles(dirPath: string, basePath: string = dirPath): Promise<string[]> {
+	const files: string[] = [];
+	const entries = await readdir(dirPath, { withFileTypes: true });
+
+	for (const entry of entries) {
+		const fullPath = pathModule.join(dirPath, entry.name);
+		if (entry.isDirectory()) {
+			const subFiles = await getAllFiles(fullPath, basePath);
+			files.push(...subFiles);
+		} else {
+			files.push(fullPath);
+		}
+	}
+
+	return files;
+}
+
+async function processRequest(request: Request, interpreted: CraftheadRequest, env: Cloudflare.Env, ctx: ExecutionContext): Promise<Response> {
 	const service = getService(interpreted.game);
 
 	switch (interpreted.requested) {
@@ -111,7 +156,7 @@ async function processRequest(request: Request, interpreted: CraftheadRequest): 
 		case RequestedKind.Body:
 		case RequestedKind.Bust: {
 			if (hasRenderAvatar(service)) {
-				return service.renderAvatar(request, interpreted);
+				return service.renderAvatar(request, interpreted, env, ctx);
 			}
 			const skin = await service.retrieveSkin(request, interpreted);
 			return renderImage(skin, interpreted);
@@ -137,8 +182,77 @@ async function processRequest(request: Request, interpreted: CraftheadRequest): 
 	}
 }
 
+/**
+ * Upload a single asset file to R2
+ */
+async function uploadSingleAssetToR2(filePath: string, fileContent: ArrayBuffer, contentType: string, env: Cloudflare.Env): Promise<{ success: boolean; error?: string; }> {
+	if (!env.HYTALE_ASSETS) {
+		return { success: false, error: 'R2 bucket HYTALE_ASSETS is not available' };
+	}
+
+	try {
+		// Upload to R2
+		await env.HYTALE_ASSETS.put(filePath, fileContent, {
+			httpMetadata: {
+				contentType,
+			},
+		});
+
+		return { success: true };
+	} catch (err) {
+		return { success: false, error: (err as Error).message };
+	}
+}
+
 async function handleRequest(request: Request, env: Cloudflare.Env, ctx: ExecutionContext) {
 	const startTime = new Date();
+
+	// Only ever enable this in development. It's a debug endpoint.
+	if (env.WORKER_ENV === 'development') {
+		const url = new URL(request.url);
+		if (url.pathname === '/upload-asset' && request.method === 'POST') {
+			const requestContentType = request.headers.get('Content-Type') || '';
+
+			if (requestContentType.includes('application/json')) {
+				// Legacy format - just filePath (not used anymore but kept for compatibility)
+				const body = await request.json();
+				const { filePath } = body as { filePath?: string; };
+				if (!filePath) {
+					return new Response(JSON.stringify({ success: false, error: 'filePath is required' }), {
+						status: 400,
+						headers: { 'Content-Type': 'application/json' },
+					});
+				}
+				return new Response(JSON.stringify({ success: false, error: 'File content must be provided in request body' }), {
+					status: 400,
+					headers: { 'Content-Type': 'application/json' },
+				});
+			}
+
+			// New format: multipart/form-data with file content
+			const formData = await request.formData();
+			const filePath = formData.get('filePath') as string | null;
+			const file = formData.get('file') as File | null;
+			const fileContentType = formData.get('contentType') as string | null;
+
+			if (!filePath || !file) {
+				return new Response(JSON.stringify({ success: false, error: 'filePath and file are required' }), {
+					status: 400,
+					headers: { 'Content-Type': 'application/json' },
+				});
+			}
+
+			const fileContent = await file.arrayBuffer();
+			const contentType = fileContentType || getContentType(filePath);
+			const result = await uploadSingleAssetToR2(filePath, fileContent, contentType, env);
+
+			return new Response(JSON.stringify(result), {
+				status: result.success ? 200 : 500,
+				headers: { 'Content-Type': 'application/json' },
+			});
+		}
+	}
+
 	const interpreted = interpretRequest(request);
 	if (!interpreted) {
 		// We don't understand this request.
@@ -180,7 +294,7 @@ async function handleRequest(request: Request, env: Cloudflare.Env, ctx: Executi
 			// The item is not in the Cloudflare datacenter's cache. We need to process the request further.
 			//console.log('Request not satisfied from cache.');
 
-			response = await processRequest(request, interpreted);
+			response = await processRequest(request, interpreted, env, ctx);
 			if (response.ok) {
 				const cacheResponse = response.clone();
 				cacheResponse.headers.set('Content-Type', interpreted.requested === RequestedKind.Profile ? 'application/json' : 'image/png');

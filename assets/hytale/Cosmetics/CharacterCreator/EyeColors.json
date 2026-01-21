@@ -1,0 +1,98 @@
+[
+  {
+    "Id": "Blue",
+    "BaseColor": [
+      "#5391c1"
+    ]
+  },
+  {
+    "Id": "Turquoise",
+    "BaseColor": [
+      "#31a1af"
+    ]
+  },
+  {
+    "Id": "Black",
+    "BaseColor": [
+      "#191111"
+    ]
+  },
+  {
+    "Id": "Grey",
+    "BaseColor": [
+      "#8a9295"
+    ]
+  },
+  {
+    "Id": "Hazelnut",
+    "BaseColor": [
+      "#7d4e33"
+    ]
+  },
+  {
+    "Id": "Honey",
+    "BaseColor": [
+      "#a97f37"
+    ]
+  },
+  {
+    "Id": "Purple",
+    "BaseColor": [
+      "#441858"
+    ]
+  },
+  {
+    "Id": "White",
+    "BaseColor": [
+      "#edefef"
+    ]
+  },
+  {
+    "Id": "Brown",
+    "BaseColor": [
+      "#5f2f2f"
+    ]
+  },
+  {
+    "Id": "Orange",
+    "BaseColor": [
+      "#d78d4c"
+    ]
+  },
+  {
+    "Id": "GreenDark",
+    "BaseColor": [
+      "#11552c"
+    ]
+  },
+  {
+    "Id": "Lime",
+    "BaseColor": [
+      "#b8f347"
+    ]
+  },
+  {
+    "Id": "OceanBlue",
+    "BaseColor": [
+      "#2b2a77"
+    ]
+  },
+  {
+    "Id": "IceBlue",
+    "BaseColor": [
+      "#72f2f4"
+    ]
+  },
+  {
+    "Id": "Pink",
+    "BaseColor": [
+      "#ff4cd3"
+    ]
+  },
+  {
+    "Id": "Green",
+    "BaseColor": [
+      "#65c74f"
+    ]
+  }
+]

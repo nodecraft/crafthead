@@ -1,0 +1,31 @@
+[
+   {
+    "Id": "Suit",
+    "Model": "Cosmetics/Underwears/Underwear.blockymodel",
+    "Name": "avatarCustomization.underwear.Suit.name",
+    "GradientSet": "Colored_Cotton",
+    "GreyscaleTexture": "Cosmetics/Underwears/Underwear_Textures/Underwear_Suit_Texture.png",
+    "IsDefaultAsset": true
+  },
+  {
+    "Id": "Bandeau",
+    "Model": "Cosmetics/Underwears/Underwear.blockymodel",
+    "Name": "avatarCustomization.underwear.Bandeau.name",
+    "GradientSet": "Colored_Cotton",
+    "GreyscaleTexture": "Cosmetics/Underwears/Underwear_Textures/Underwear_Bandeau_Texture.png"
+  },
+  {
+    "Id": "Boxer",
+    "Model": "Cosmetics/Underwears/Underwear.blockymodel",
+    "Name": "avatarCustomization.underwear.Boxer.name",
+    "GradientSet": "Colored_Cotton",
+    "GreyscaleTexture": "Cosmetics/Underwears/Underwear_Textures/Underwear_Boxer_Texture.png"
+  },
+  {
+    "Id": "Bra",
+    "Model": "Cosmetics/Underwears/Underwear.blockymodel",
+    "Name": "avatarCustomization.underwear.Bra.name",
+    "GradientSet": "Colored_Cotton",
+    "GreyscaleTexture": "Cosmetics/Underwears/Underwear_Textures/Underwear_Bra_Texture.png"
+  }
+]

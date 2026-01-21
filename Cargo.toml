@@ -13,6 +13,9 @@ cfg-if = "1.0"
 wasm-bindgen = "0.2"
 js-sys = "0.3.77"
 imageproc = { version = "0.25.0", default-features = false }
+hytale-skin-renderer = { path = "./src/hytale-skin-renderer", default-features = false, features = [
+	"wasm",
+] }
 
 # The `console_error_panic_hook` crate provides better debugging of panics by
 # logging them with `console.error`. This is great for development, but requires

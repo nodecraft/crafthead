@@ -2,15 +2,28 @@ name = "crafthead-dev"
 main = "src/worker/index.ts"
 workers_dev = true
 compatibility_date = "2025-11-28"
-analytics_engine_datasets = [
-	{ binding = "CRAFTHEAD_ANALYTICS" }
-]
+analytics_engine_datasets = [{ binding = "CRAFTHEAD_ANALYTICS" }]
 
 compatibility_flags = ["nodejs_compat"]
 
 rules = [
-	{ type = "Data", globs = ["**/*.png"], fallthrough = true }
+	{ type = "Data", globs = [
+		"**/*.png",
+		"!assets/**/*.png",
+		"assets/hytale/Cosmetics/CharacterCreator/*.json",
+	], fallthrough = true },
 ]
+
+[[r2_buckets]]
+binding = "HYTALE_ASSETS"
+bucket_name = "hytale-assets"
+
+[[r2_buckets]]
+binding = "HYTALE_RENDERS_CACHE"
+bucket_name = "hytale-renders-cache"
+
+[vars]
+WORKER_ENV = "development"
 
 [assets]
 directory = "./src/website"
@@ -26,13 +39,20 @@ command = "npm run build" # required
 name = "crafthead"
 main = "src/worker/index.ts"
 route = { pattern = "crafthead.net/*", zone_name = "crafthead.net" }
-analytics_engine_datasets = [
-	{ binding = "CRAFTHEAD_ANALYTICS" }
-]
-services = [
-	{ binding = "PLAYERDB", service = "playerdb" }
-]
+analytics_engine_datasets = [{ binding = "CRAFTHEAD_ANALYTICS" }]
+services = [{ binding = "PLAYERDB", service = "playerdb" }]
+
+[[env.production.r2_buckets]]
+binding = "HYTALE_ASSETS"
+bucket_name = "hytale-assets"
+
+[[env.production.r2_buckets]]
+binding = "HYTALE_RENDERS_CACHE"
+bucket_name = "hytale-renders-cache"
+
+[env.production.vars]
+WORKER_ENV = "production"
 
 [env.production.observability]
 enabled = true
-traces = {enabled = true}
+traces = { enabled = true }

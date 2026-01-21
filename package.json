@@ -1,7 +1,7 @@
 {
 	"name": "crafthead",
 	"version": "1.0.0",
-	"repository": "git@github.com:astei/crafthead.git",
+	"repository": "git@github.com:nodecraft/crafthead.git",
 	"license": "MIT",
 	"author": "Andrew Steinborn <git@steinborn.me>",
 	"main": "worker/index.js",
@@ -11,29 +11,37 @@
 		"check-types": "npm run check-types:server",
 		"check-types:server": "tsc --noemit",
 		"dev": "wrangler dev",
+		"extract-hytale-assets": "node scripts/extract-hytale-assets.ts",
+		"upload-assets-to-r2": "node scripts/upload-assets-to-r2.ts",
 		"lint": "npm run lint:js && npm run lint:rs && npm run check-types",
 		"lint:js": "eslint \"**/*.{js,mjs,cjs,ts}\" \"**/*.json\"",
 		"lint:js:fix": "npm run lint:js -- --fix",
 		"lint:rs": "cargo fmt --all --check && cargo clippy --all-targets --all-features",
 		"lint:rs:fix": "cargo fmt --all && cargo clippy --all-targets --all-features --fix",
-		"test": "vitest --run && cargo test",
+		"test": "vitest --run && cargo test && cargo test -p hytale-skin-renderer",
 		"test:dev": "vitest --watch"
 	},
 	"devDependencies": {
+		"@aws-sdk/client-s3": "3.972.0",
 		"@cloudflare/vitest-pool-workers": "0.11.1",
 		"@cloudflare/workers-types": "4.20251230.0",
 		"@nodecraft/eslint-config": "46.0.0",
 		"@types/node": "24.10.4",
+		"@types/picomatch": "4.0.2",
+		"@types/yauzl": "2.10.3",
 		"@typescript-eslint/eslint-plugin": "8.51.0",
 		"@typescript-eslint/parser": "8.51.0",
+		"dotenv": "17.2.3",
 		"eslint": "8.57.1",
 		"eslint-plugin-import": "2.32.0",
 		"eslint-plugin-json": "4.0.1",
 		"eslint-plugin-unicorn": "56.0.1",
 		"image-size": "2.0.2",
+		"picomatch": "4.0.3",
 		"typescript": "5.9.3",
 		"vitest": "3.2.4",
-		"wrangler": "4.54.0"
+		"wrangler": "4.54.0",
+		"yauzl": "3.2.0"
 	},
 	"engines": {
 		"node": ">= 24"

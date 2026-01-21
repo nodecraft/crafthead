@@ -11,3 +11,8 @@ node_modules/
 .idea
 .wrangler/
 dist/
+src/hytale-skin-renderer/target/
+.env
+
+# Localflare generated files
+.localflare/

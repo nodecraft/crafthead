@@ -1,0 +1,440 @@
+[
+  {
+    "Id": "Red",
+    "BaseColor": [
+      "#9c1d1d"
+    ]
+  },
+  {
+    "Id": "Orange",
+    "BaseColor": [
+      "#d67b27"
+    ]
+  },
+  {
+    "Id": "Yellow",
+    "BaseColor": [
+      "#f7de25"
+    ]
+  },
+  {
+    "Id": "Lime",
+    "BaseColor": [
+      "#b2e045"
+    ]
+  },
+  {
+    "Id": "BrownLight",
+    "BaseColor": [
+      "#7c4b24"
+    ]
+  },
+  {
+    "Id": "BrownDark",
+    "BaseColor": [
+      "#2f1512"
+    ]
+  },
+  {
+    "Id": "Green",
+    "BaseColor": [
+      "#57b53f"
+    ]
+  },
+  {
+    "Id": "Turquoise",
+    "BaseColor": [
+      "#3fb3b5"
+    ]
+  },
+  {
+    "Id": "Blue",
+    "BaseColor": [
+      "#3080a8"
+    ]
+  },
+  {
+    "Id": "Purple",
+    "BaseColor": [
+      "#5f46b9"
+    ]
+  },
+  {
+    "Id": "Violet",
+    "BaseColor": [
+      "#9947c5"
+    ]
+  },
+  {
+    "Id": "Pink",
+    "BaseColor": [
+      "#d74a9a"
+    ]
+  },
+  {
+    "Id": "Bubblegum",
+    "BaseColor": [
+      "#d74a9a"
+    ]
+  },
+  {
+    "Id": "Golden",
+    "BaseColor": [
+      "#f7e736"
+    ]
+  },
+  {
+    "Id": "Gold",
+    "BaseColor": [
+      "#f7e736"
+    ]
+  },
+  {
+    "Id": "Copper",
+    "BaseColor": [
+      "#d46b16"
+    ]
+  },
+  {
+    "Id": "Silver",
+    "BaseColor": [
+      "#ededed"
+    ]
+  },
+  {
+    "Id": "Air",
+    "BaseColor": [
+      "#c7e3ed"
+    ]
+  },
+  {
+    "Id": "Earth",
+    "BaseColor": [
+      "#212121"
+    ]
+  },
+  {
+    "Id": "Electricity",
+    "BaseColor": [
+      "#d46b16"
+    ]
+  },
+  {
+    "Id": "Fire",
+    "BaseColor": [
+      "#d46b16"
+    ]
+  },
+  {
+    "Id": "Gaia",
+    "BaseColor": [
+      "#ffffff"
+    ]
+  },
+  {
+    "Id": "Otium",
+    "BaseColor": [
+      "#ffffff"
+    ]
+  },
+  {
+    "Id": "Verin",
+    "BaseColor": [
+      "#ffffff"
+    ]
+  },
+  {
+    "Id": "Water",
+    "BaseColor": [
+      "#ffffff"
+    ]
+  },
+  {
+    "Id": "RedDark",
+    "BaseColor": [
+      "#ed9595"
+    ]
+  },
+  {
+    "Id": "OrangeDark",
+    "BaseColor": [
+      "#f9b171"
+    ]
+  },
+  {
+    "Id": "YellowDark",
+    "BaseColor": [
+      "#fff295"
+    ]
+  },
+  {
+    "Id": "LimeDark",
+    "BaseColor": [
+      "#deff92"
+    ]
+  },
+  {
+    "Id": "GreenDark",
+    "BaseColor": [
+      "#adeb9f"
+    ]
+  },
+  {
+    "Id": "TurquoiseDark",
+    "BaseColor": [
+      "#b1ebed"
+    ]
+  },
+  {
+    "Id": "BlueDark",
+    "BaseColor": [
+      "#94c7e1"
+    ]
+  },
+  {
+    "Id": "PurpleDark",
+    "BaseColor": [
+      "#ac9bef"
+    ]
+  },
+  {
+    "Id": "VioletDark",
+    "BaseColor": [
+      "#d7a8ef"
+    ]
+  },
+  {
+    "Id": "PinkDark",
+    "BaseColor": [
+      "#f8a7d5"
+    ]
+  },
+  {
+    "Id": "RedPastel",
+    "BaseColor": [
+      "#ed9595"
+    ]
+  },
+  {
+    "Id": "OrangePastel",
+    "BaseColor": [
+      "#f9b171"
+    ]
+  },
+  {
+    "Id": "YellowPastel",
+    "BaseColor": [
+      "#fff295"
+    ]
+  },
+  {
+    "Id": "LimePastel",
+    "BaseColor": [
+      "#deff92"
+    ]
+  },
+  {
+    "Id": "GreenPastel",
+    "BaseColor": [
+      "#adeb9f"
+    ]
+  },
+  {
+    "Id": "TurquoisePastel",
+    "BaseColor": [
+      "#b1ebed"
+    ]
+  },
+  {
+    "Id": "BluePastel",
+    "BaseColor": [
+      "#94c7e1"
+    ]
+  },
+  {
+    "Id": "PurplePastel",
+    "BaseColor": [
+      "#ac9bef"
+    ]
+  },
+  {
+    "Id": "VioletPastel",
+    "BaseColor": [
+      "#d7a8ef"
+    ]
+  },
+  {
+    "Id": "PinkPastel",
+    "BaseColor": [
+      "#f8a7d5"
+    ]
+  },
+  {
+    "Id": "Jean_Black",
+    "BaseColor": [
+      "#393939"
+    ]
+  },
+  {
+    "Id": "Jean_Grey_Dark",
+    "BaseColor": [
+      "#111111"
+    ]
+  },
+  {
+    "Id": "Jean_Blue",
+    "BaseColor": [
+      "#6877a0"
+    ]
+  },
+  {
+    "Id": "Jean_Grey",
+    "BaseColor": [
+      "#a7a7a7"
+    ]
+  },
+  {
+    "Id": "Slacks",
+    "BaseColor": [
+      "#6877a0"
+    ]
+  },
+  {
+    "Id": "Black",
+    "BaseColor": [
+      "#000000"
+    ]
+  },
+  {
+    "Id": "Brown",
+    "BaseColor": [
+      "#734c2f"
+    ]
+  },
+  {
+    "Id": "White",
+    "BaseColor": [
+      "#ffffff"
+    ]
+  },
+  {
+    "Id": "Grey",
+    "BaseColor": [
+      "#a1a1a1"
+    ]
+  },
+  {
+    "Id": "Pinkcute",
+    "BaseColor": [
+      "#e651a1"
+    ]
+  },
+  {
+    "Id": "Kuma",
+    "BaseColor": [
+      "#ffffff"
+    ]
+  },
+  {
+    "Id": "Neko",
+    "BaseColor": [
+      "#ffffff"
+    ]
+  },
+  {
+    "Id": "Smiley",
+    "BaseColor": [
+      "#ffffff"
+    ]
+  },
+  {
+    "Id": "Smiley2",
+    "BaseColor": [
+      "#ffffff"
+    ]
+  },
+  {
+    "Id": "Hypixel",
+    "BaseColor": [
+      "#ffffff"
+    ]
+  },
+  {
+    "Id": "Pixel",
+    "BaseColor": [
+      "#ffffff"
+    ]
+  },
+  {
+    "Id": "Plum",
+    "BaseColor": [
+      "#9740bb"
+    ]
+  },
+  {
+    "Id": "Striped",
+    "BaseColor": [
+      "#ffffff"
+    ]
+  },
+  {
+    "Id": "Coat",
+    "BaseColor": [
+      "#ffffff"
+    ]
+  },
+  {
+    "Id": "Beige",
+    "BaseColor": [
+      "#a19481"
+    ]
+  },
+  {
+    "Id": "TartanBlue",
+    "BaseColor": [
+      "#4062bb"
+    ]
+  },
+  {
+    "Id": "TartanBrown",
+    "BaseColor": [
+      "#774616"
+    ]
+  },
+  {
+    "Id": "TartanGreen",
+    "BaseColor": [
+      "#cff277"
+    ]
+  },
+  {
+    "Id": "TartanGrey",
+    "BaseColor": [
+      "#a7a7a7"
+    ]
+  },
+  {
+    "Id": "TartanPink",
+    "BaseColor": [
+      "#e651a1"
+    ]
+  },
+  {
+    "Id": "Tartan_Red",
+    "BaseColor": [
+      "#921616"
+    ]
+  },
+  {
+    "Id": "Peasant",
+    "BaseColor": [
+      "#ffffff"
+    ]
+  },
+  {
+    "Id": "ShortGrey",
+    "BaseColor": [
+      "#6877a0"
+    ]
+  }
+]

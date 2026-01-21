@@ -1,0 +1,922 @@
+[
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "Morning",
+    "Name": "avatarCustomization.haircuts.Morning.name",
+    "Model": "Characters/Haircuts/Morning.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Morning_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "Bangs",
+    "Name": "avatarCustomization.haircuts.Bangs.name",
+    "Model": "Characters/Haircuts/Bangs.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Bangs_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "Quiff",
+    "Name": "avatarCustomization.haircuts.Quiff.name",
+    "Model": "Characters/Haircuts/Quiff.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Quiff_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "Lazy",
+    "Name": "avatarCustomization.haircuts.Lazy.name",
+    "Model": "Characters/Haircuts/Lazy.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Lazy_Greyscale.png"
+  },
+  {
+    "HairType": "Medium",
+    "RequiresGenericHaircut": false,
+    "Id": "BobCut",
+    "Name": "avatarCustomization.haircuts.BobCut.name",
+    "Model": "Characters/Haircuts/BobCut.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/BobCut_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "Messy",
+    "Name": "avatarCustomization.haircuts.Messy.name",
+    "Model": "Characters/Haircuts/Messy.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Messy_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "Viking",
+    "Name": "avatarCustomization.haircuts.Viking.name",
+    "Model": "Characters/Haircuts/Viking.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Viking_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "Fringe",
+    "Name": "avatarCustomization.haircuts.Fringe.name",
+    "Model": "Characters/Haircuts/Fringe.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Fringe_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "PonyTail",
+    "Name": "avatarCustomization.haircuts.PonyTail.name",
+    "Model": "Characters/Haircuts/PonyTail.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/PonyTail_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "Bun",
+    "Name": "avatarCustomization.haircuts.Bun.name",
+    "Model": "Characters/Haircuts/Bun.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Bun_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "Braid",
+    "Name": "avatarCustomization.haircuts.Braid.name",
+    "Model": "Characters/Haircuts/Braid.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Braid_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "BraidDouble",
+    "Name": "avatarCustomization.haircuts.BraidDouble.name",
+    "Model": "Characters/Haircuts/BraidDouble.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/BraidDouble_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "ShortDreads",
+    "Name": "avatarCustomization.haircuts.ShortDreads.name",
+    "Model": "Characters/Haircuts/ShortDreads.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/ShortDreads_Texture.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "Undercut",
+    "Name": "avatarCustomization.haircuts.Undercut.name",
+    "Model": "Characters/Haircuts/Undercut.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Undercut_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "Samurai",
+    "Name": "avatarCustomization.haircuts.Samurai.name",
+    "Model": "Characters/Haircuts/Samurai.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Samurai_Greyscale.png"
+  },
+  {
+    "HairType": "Medium",
+    "RequiresGenericHaircut": true,
+    "Id": "DoublePart",
+    "Name": "avatarCustomization.haircuts.DoublePart.name",
+    "Model": "Characters/Haircuts/DoublePart.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/DoublePart_Greyscale.png"
+  },
+  {
+    "HairType": "Long",
+    "RequiresGenericHaircut": true,
+    "Id": "Rustic",
+    "Name": "avatarCustomization.haircuts.Rustic.name",
+    "Model": "Characters/Haircuts/Rustic.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Rustic_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "RoseBun",
+    "Name": "avatarCustomization.haircuts.RoseBun.name",
+    "Model": "Characters/Haircuts/RoseBun.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/RoseBun_Greyscale.png"
+  },
+  {
+    "HairType": "Medium",
+    "RequiresGenericHaircut": true,
+    "Id": "SideBuns",
+    "Name": "avatarCustomization.haircuts.SideBuns.name",
+    "Model": "Characters/Haircuts/SideBuns.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/SideBuns_Greyscale.png"
+  },
+  {
+    "HairType": "Medium",
+    "RequiresGenericHaircut": true,
+    "Id": "SmallPigtails",
+    "Name": "avatarCustomization.haircuts.SmallPigtails.name",
+    "Model": "Characters/Haircuts/SmallPigtails.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/SmallPigtails_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "Stylish",
+    "Name": "avatarCustomization.haircuts.Stylish.name",
+    "Model": "Characters/Haircuts/Stylish.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Stylish_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "Mohawk",
+    "Name": "avatarCustomization.haircuts.Mohawk.name",
+    "Model": "Characters/Haircuts/Mohawk.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Mohawk_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "BowlCut",
+    "Name": "avatarCustomization.haircuts.BowlCut.name",
+    "Model": "Characters/Haircuts/BowlCut.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/BowlCut_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": false,
+    "Id": "Emo",
+    "Name": "avatarCustomization.haircuts.Emo.name",
+    "Model": "Characters/Haircuts/Emo.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Emo_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "Pigtails",
+    "Name": "avatarCustomization.haircuts.Pigtails.name",
+    "Model": "Characters/Haircuts/Pigtails.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Pigtails_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "Sideslick",
+    "Name": "avatarCustomization.haircuts.Sideslick.name",
+    "Model": "Characters/Haircuts/Sideslick.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Sideslick_Greyscale.png"
+  },
+  {
+    "HairType": "Medium",
+    "RequiresGenericHaircut": true,
+    "Id": "SingleSidePigtail",
+    "Name": "avatarCustomization.haircuts.SingleSidePigtail.name",
+    "Model": "Characters/Haircuts/SingleSidePigtail.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/SingleSidePigtail_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "Slickback",
+    "Name": "avatarCustomization.haircuts.Slickback.name",
+    "GradientSet": "Hair",
+    "Variants": {
+      "SlickbackClean": {
+        "Model": "Characters/Haircuts/Slickback.blockymodel",
+        "GreyscaleTexture": "Characters/Haircuts/Slickback_Textures/Slickback_Greyscale.png",
+        "NameKey": "avatarCustomization.variants.default"
+      },
+      "SlickbackCowlick": {
+        "Model": "Characters/Haircuts/Slickback.blockymodel",
+        "GreyscaleTexture": "Characters/Haircuts/Slickback_Textures/Slickback_Cowlick_Greyscale.png",
+        "NameKey": "avatarCustomization.variants.haircuts.SlickbackCowlick.name"
+      }
+    }
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "WavyPonytail",
+    "Name": "avatarCustomization.haircuts.WavyPonytail.name",
+    "Model": "Characters/Haircuts/WavyPonytail.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/WavyPonytail_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "Wings",
+    "Name": "avatarCustomization.haircuts.Wings.name",
+    "Model": "Characters/Haircuts/Wings.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Wings_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "ChopsticksPonyTail",
+    "Name": "avatarCustomization.haircuts.ChopsticksPonyTail.name",
+    "Model": "Characters/Haircuts/ChopsticksPonyTail.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/ChopsticksPonyTail_Greyscale.png"
+  },
+  {
+    "HairType": "Long",
+    "RequiresGenericHaircut": true,
+    "Id": "Curly",
+    "Name": "avatarCustomization.haircuts.Curly.name",
+    "Model": "Characters/Haircuts/Curly.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Curly_Greyscale.png"
+  },
+  {
+    "HairType": "Medium",
+    "RequiresGenericHaircut": true,
+    "Id": "MessyBobcut",
+    "Name": "avatarCustomization.haircuts.MessyBobcut.name",
+    "Model": "Characters/Haircuts/MessyBobcut.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/MessyBobcut_Greyscale.png"
+  },
+  {
+    "HairType": "Medium",
+    "RequiresGenericHaircut": true,
+    "Id": "Simple",
+    "Name": "avatarCustomization.haircuts.Simple.name",
+    "Model": "Characters/Haircuts/SimpleBobcut.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/SimpleBobcut_Greyscale.png"
+  },
+  {
+    "HairType": "Medium",
+    "RequiresGenericHaircut": true,
+    "Id": "WidePonytail",
+    "Name": "avatarCustomization.haircuts.WidePonytail.name",
+    "Model": "Characters/Haircuts/WidePonytail.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/WidePonytail_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "RaiderMohawk",
+    "Name": "avatarCustomization.haircuts.RaiderMohawk.name",
+    "Model": "Characters/Haircuts/RaiderMohawk.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/RaiderMohawk_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "MidSinglePart",
+    "Name": "avatarCustomization.haircuts.MidSinglePart.name",
+    "Model": "Characters/Haircuts/MidSinglePart.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/MidSinglePart_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "AfroPuffs",
+    "Name": "avatarCustomization.haircuts.AfroPuffs.name",
+    "Model": "Characters/Haircuts/AfroPuffs.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/AfroPuffs_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "PuffyQuiff",
+    "Name": "avatarCustomization.haircuts.PuffyQuiff.name",
+    "Model": "Characters/Haircuts/PuffyQuiff.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/PuffyQuiff_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": false,
+    "Id": "GenericPuffy",
+    "Name": "avatarCustomization.haircuts.GenericPuffy.name",
+    "Model": "Characters/Haircuts/Puffy.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Puffy_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "PuffyPonytail",
+    "Name": "avatarCustomization.haircuts.PuffyPonytail.name",
+    "Model": "Characters/Haircuts/PuffyPonytail.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/PuffyPonytail_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "FighterBuns",
+    "Name": "avatarCustomization.haircuts.FighterBuns.name",
+    "Model": "Characters/Haircuts/FighterBuns.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/FighterBuns_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": false,
+    "Id": "MaleElf",
+    "Name": "avatarCustomization.haircuts.MaleElf.name",
+    "Model": "Characters/Haircuts/MaleElf.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/MaleElf_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": false,
+    "Id": "Windswept",
+    "Name": "avatarCustomization.haircuts.Windswept.name",
+    "Model": "Characters/Haircuts/Windswept.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Windswept_Greyscale.png"
+  },
+  {
+    "HairType": "Medium",
+    "RequiresGenericHaircut": true,
+    "Id": "SidePonytail",
+    "Name": "avatarCustomization.haircuts.SidePonytail.name",
+    "Model": "Characters/Haircuts/SidePonytail.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/SidePonytail_Greyscale.png"
+  },
+  {
+    "HairType": "Medium",
+    "RequiresGenericHaircut": true,
+    "Id": "PonyBuns",
+    "Name": "avatarCustomization.haircuts.PonyBuns.name",
+    "Model": "Characters/Haircuts/PonyBuns.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/PonyBuns_Greyscale.png"
+  },
+  {
+    "HairType": "Medium",
+    "RequiresGenericHaircut": true,
+    "Id": "ElfBackBun",
+    "Name": "avatarCustomization.haircuts.ElfBackBun.name",
+    "Model": "Characters/Haircuts/ElfBackBun.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/ElfBackBun_Greyscale.png"
+  },
+  {
+    "HairType": "Medium",
+    "RequiresGenericHaircut": true,
+    "Id": "BraidedPonytail",
+    "Name": "avatarCustomization.haircuts.BraidedPonytail.name",
+    "Model": "Characters/Haircuts/BraidedPonytail.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/BraidedPonytail_Greyscale.png"
+  },
+  {
+    "HairType": "Medium",
+    "RequiresGenericHaircut": true,
+    "Id": "ThickBraid",
+    "Name": "avatarCustomization.haircuts.ThickBraid.name",
+    "Model": "Characters/Haircuts/ThickBraid.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/ThickBraid_Greyscale.png"
+  },
+  {
+    "HairType": "Medium",
+    "RequiresGenericHaircut": true,
+    "Id": "WavyBraids",
+    "Name": "avatarCustomization.haircuts.WavyBraids.name",
+    "Model": "Characters/Haircuts/WavyBraids.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/WavyBraids_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "VikinManBun",
+    "Name": "avatarCustomization.haircuts.VikinManBun.name",
+    "Model": "Characters/Haircuts/Viking_TopKnot.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Viking_Topknot_Greyscale.png"
+  },
+  {
+    "HairType": "Long",
+    "RequiresGenericHaircut": false,
+    "Id": "Witch",
+    "Name": "avatarCustomization.haircuts.Witch.name",
+    "Model": "Characters/Haircuts/Witch.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Witch_Greyscale.png"
+  },
+  {
+    "HairType": "Long",
+    "RequiresGenericHaircut": false,
+    "Id": "FrizzyLong",
+    "Name": "avatarCustomization.haircuts.FrizzyLong.name",
+    "Model": "Characters/Haircuts/FrizzyLong.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/FrizzyLong_Greyscale.png"
+  },
+  {
+    "HairType": "Long",
+    "RequiresGenericHaircut": false,
+    "Id": "WavyLong",
+    "Name": "avatarCustomization.haircuts.WavyLong.name",
+    "Model": "Characters/Haircuts/WavyLong.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/WavyLong_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "SuperSlickback",
+    "Name": "avatarCustomization.haircuts.SuperSlickback.name",
+    "Model": "Characters/Haircuts/SuperSlickback.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/SuperSlickback_Greyscale.png"
+  },
+  {
+    "HairType": "Medium",
+    "RequiresGenericHaircut": true,
+    "Id": "Cat",
+    "Name": "avatarCustomization.haircuts.Cat.name",
+    "Model": "Characters/Haircuts/Cat.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Cat_Greyscale.png"
+  },
+  {
+    "HairType": "Medium",
+    "RequiresGenericHaircut": true,
+    "Id": "Scavenger_Hair",
+    "Name": "avatarCustomization.haircuts.Scavenger_Hair.name",
+    "Model": "Characters/Haircuts/Scavenger_Hair.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Scavenger_Hair_Greyscale.png",
+    "Entitlements": [
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "HairType": "Long",
+    "RequiresGenericHaircut": true,
+    "Id": "LongTied",
+    "Name": "avatarCustomization.haircuts.LongTied.name",
+    "Model": "Characters/Haircuts/LongTied.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/LongTied_Greyscale.png"
+  },
+  {
+    "HairType": "Long",
+    "RequiresGenericHaircut": false,
+    "Id": "LongBangs",
+    "Name": "avatarCustomization.haircuts.LongBangs.name",
+    "Model": "Characters/Haircuts/LongBangs.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/LongBangs_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "BantuKnot",
+    "Name": "avatarCustomization.haircuts.BantuKnots.name",
+    "Model": "Characters/Haircuts/BantuKnot.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/BantuKnot_Texture.png"
+  },
+  {
+    "HairType": "Long",
+    "RequiresGenericHaircut": true,
+    "Id": "Berserker",
+    "Name": "avatarCustomization.haircuts.Berserker.name",
+    "Model": "Characters/Haircuts/Berserker.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Berserker_Greyscale.png"
+  },
+  {
+    "HairType": "Medium",
+    "RequiresGenericHaircut": false,
+    "Id": "CuteEmoBangs",
+    "Name": "avatarCustomization.haircuts.CuteEmoBangs.name",
+    "Model": "Characters/Haircuts/CuteEmoBangs.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/CuteEmoBangs_Greyscale.png"
+  },
+  {
+    "HairType": "Medium",
+    "RequiresGenericHaircut": false,
+    "Id": "CutePart",
+    "Name": "avatarCustomization.haircuts.CutePart.name",
+    "Model": "Characters/Haircuts/CutePart.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/CutePart_Greyscale.png"
+  },
+  {
+    "HairType": "Long",
+    "RequiresGenericHaircut": true,
+    "Id": "LongPigtails",
+    "Name": "avatarCustomization.haircuts.LongPigtails.name",
+    "Model": "Characters/Haircuts/LongPigtails.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/LongPigtails_Greyscale.png"
+  },
+  {
+    "HairType": "Long",
+    "RequiresGenericHaircut": false,
+    "Id": "FeatheredHair",
+    "Name": "avatarCustomization.haircuts.FeatheredHair.name",
+    "Model": "Characters/Haircuts/FeatheredHair.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/FeatheredHair_Greyscale.png"
+  },
+  {
+    "HairType": "Long",
+    "RequiresGenericHaircut": true,
+    "Id": "LongHairPigtail",
+    "Name": "avatarCustomization.haircuts.LongHairPigtail.name",
+    "Model": "Characters/Haircuts/LongHairPigtail.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/LongHairPigtail_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "StraightHairBun",
+    "Name": "avatarCustomization.haircuts.StraightHairBun.name",
+    "Model": "Characters/Haircuts/StraightHairBun.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/StraightHairBun_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "SuperSideSlick",
+    "Name": "avatarCustomization.haircuts.SuperSideSlick.name",
+    "Model": "Characters/Haircuts/SuperSideSlick.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/SuperSideSlick_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "FrontTied",
+    "Name": "avatarCustomization.haircuts.FrontTied.name",
+    "Model": "Characters/Haircuts/FrontTied.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/FrontTied_Greyscale.png"
+  },
+  {
+    "HairType": "Medium",
+    "RequiresGenericHaircut": false,
+    "Id": "EmoWavy",
+    "Name": "avatarCustomization.haircuts.EmoWavy.name",
+    "Model": "Characters/Haircuts/EmoWavy.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/EmoWavy_Greyscale.png"
+  },
+  {
+    "HairType": "Medium",
+    "RequiresGenericHaircut": false,
+    "Id": "MessyMop",
+    "Name": "avatarCustomization.haircuts.MessyMop.name",
+    "Model": "Characters/Haircuts/MessyMop.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/MessyMop_Greyscale.png"
+  },
+  {
+    "HairType": "Medium",
+    "RequiresGenericHaircut": false,
+    "Id": "EmoBangs",
+    "Name": "avatarCustomization.haircuts.EmoBangs.name",
+    "Model": "Characters/Haircuts/EmoBangs.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/EmoBangs_Greyscale.png"
+  },
+  {
+    "HairType": "Long",
+    "RequiresGenericHaircut": false,
+    "Id": "BowHair",
+    "Name": "avatarCustomization.haircuts.BowHair.name",
+    "Model": "Characters/Haircuts/BowHair.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/BowHair_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "Greaser",
+    "Name": "avatarCustomization.haircuts.Greaser.name",
+    "Model": "Characters/Haircuts/Greaser.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Greaser_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "FrontFlick",
+    "Name": "avatarCustomization.haircuts.FrontFlick.name",
+    "Model": "Characters/Haircuts/FrontFlick.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/FrontFlick_Greyscale.png"
+  },
+  {
+    "HairType": "Long",
+    "RequiresGenericHaircut": false,
+    "Id": "Long",
+    "Name": "avatarCustomization.haircuts.Long.name",
+    "Model": "Characters/Haircuts/Long.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Long_Greyscale.png"
+  },
+  {
+    "HairType": "Medium",
+    "RequiresGenericHaircut": false,
+    "Id": "WavyShort",
+    "Name": "avatarCustomization.haircuts.WavyShort.name",
+    "Model": "Characters/Haircuts/WavyShort.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/WavyShort_Greyscale.png"
+  },
+  {
+    "HairType": "Long",
+    "RequiresGenericHaircut": false,
+    "Id": "GenericLong",
+    "Name": "avatarCustomization.haircuts.GenericLong.name",
+    "Model": "Characters/Haircuts/GenericLong.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/GenericLong_Greyscale.png"
+  },
+  {
+    "HairType": "Medium",
+    "RequiresGenericHaircut": false,
+    "Id": "GenericMedium",
+    "Name": "avatarCustomization.haircuts.GenericMedium.name",
+    "Model": "Characters/Haircuts/GenericMedium.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/GenericMedium_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": false,
+    "Id": "GenericShort",
+    "Name": "avatarCustomization.haircuts.GenericShort.name",
+    "Model": "Characters/Haircuts/GenericShort.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/GenericShort_Greyscale.png"
+  },
+  {
+    "HairType": "Medium",
+    "RequiresGenericHaircut": false,
+    "Id": "CurlyShort",
+    "Name": "avatarCustomization.haircuts.CurlyShort.name",
+    "Model": "Characters/Haircuts/CurlyShort.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/CurlyShort_Greyscale.png"
+  },
+  {
+    "HairType": "Long",
+    "RequiresGenericHaircut": false,
+    "Id": "LongCurly",
+    "Name": "avatarCustomization.haircuts.LongCurly.name",
+    "Model": "Characters/Haircuts/LongCurly.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/LongCurly_Greyscale.png"
+  },
+  {
+    "HairType": "Long",
+    "RequiresGenericHaircut": false,
+    "Id": "MorningLong",
+    "Name": "avatarCustomization.haircuts.MorningLong.name",
+    "Model": "Characters/Haircuts/MorningLong.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/MorningLong_Greyscale.png"
+  },
+  {
+    "HairType": "Medium",
+    "RequiresGenericHaircut": true,
+    "Id": "CentrePart",
+    "Name": "avatarCustomization.haircuts.CentrePart.name",
+    "Model": "Characters/Haircuts/CentrePart.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/CentrePart_Greyscale.png"
+  },
+  {
+    "HairType": "Long",
+    "RequiresGenericHaircut": true,
+    "Id": "VikingWarrior",
+    "Name": "avatarCustomization.haircuts.VikingWarrior.name",
+    "Model": "Characters/Haircuts/VikingWarrior.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/VikingWarrior_Greyscale.png"
+  },
+  {
+    "HairType": "Medium",
+    "RequiresGenericHaircut": false,
+    "Id": "MediumCurly",
+    "Name": "avatarCustomization.haircuts.MediumCurly.name",
+    "Model": "Characters/Haircuts/MediumCurly.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/MediumCurly_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "SpikedUp",
+    "Name": "avatarCustomization.haircuts.SpikedUp.name",
+    "Model": "Characters/Haircuts/SpikedUp.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/SpikedUp_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "Cowlick",
+    "Name": "avatarCustomization.haircuts.Cowlick.name",
+    "Model": "Characters/Haircuts/Cowlick.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Cowlick_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "MessyWavy",
+    "Name": "avatarCustomization.haircuts.MessyWavy.name",
+    "Model": "Characters/Haircuts/MessyWavy.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/MessyWavy_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": false,
+    "Id": "BuzzCut",
+    "Name": "avatarCustomization.haircuts.BuzzCut.name",
+    "Model": "Characters/Haircuts/Short.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Short_Textures/BuzzCut_Texture.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "QuiffLeft",
+    "Name": "avatarCustomization.haircuts.QuiffLeft.name",
+    "Model": "Characters/Haircuts/QuiffLeft.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/QuiffLeft_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "StylishWindswept",
+    "Name": "avatarCustomization.haircuts.StylishWindswept.name",
+    "Model": "Characters/Haircuts/StylishWindswept.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/StylishWindswept_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "SuperShirt",
+    "Name": "avatarCustomization.haircuts.SuperShirt.name",
+    "Model": "Characters/Haircuts/SuperShort.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/SuperShort_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "StylishQuiff",
+    "Name": "avatarCustomization.haircuts.StylishQuiff.name",
+    "Model": "Characters/Haircuts/StylishQuiff.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/StylishQuiff_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Name": "avatarCustomization.haircuts.BangsShavedBack.name",
+    "Model": "Characters/Haircuts/BangsShavedBack.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/BangsShavedBack_Greyscale.png",
+    "Id": "BangsShavedBack"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "FrizzyVolume",
+    "Name": "avatarCustomization.haircuts.FrizzyVolume.name",
+    "Model": "Characters/Haircuts/Frizzy_Volume.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Frizzy_Volume_Texture.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": false,
+    "Id": "Cornrows",
+    "Name": "avatarCustomization.haircuts.Cornrows.name",
+    "Model": "Characters/Haircuts/Cornrows.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Cornrows_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": false,
+    "Id": "Balding",
+    "Name": "avatarCustomization.haircuts.Balding.name",
+    "Model": "Characters/Haircuts/Balding.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Balding_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": false,
+    "Id": "Dreadlocks",
+    "Name": "avatarCustomization.haircuts.Dreadlocks.name",
+    "GradientSet": "Hair",
+    "Variants": {
+      "Dreadlocks01": {
+        "Model": "Characters/Haircuts/Dreadlocks.blockymodel",
+        "GreyscaleTexture": "Characters/Haircuts/Dreadlocks_Greyscale.png",
+        "NameKey": "avatarCustomization.variants.haircuts.Dreadlocks01.name"
+      },
+      "Dreadlocks02": {
+        "Model": "Characters/Haircuts/Dreadlocks02.blockymodel",
+        "GreyscaleTexture": "Characters/Haircuts/Dreadlocks_Greyscale.png",
+        "NameKey": "avatarCustomization.variants.haircuts.Dreadlocks02.name"
+      },
+      "Dreadlocks03": {
+        "Model": "Characters/Haircuts/Dreadlocks03.blockymodel",
+        "GreyscaleTexture": "Characters/Haircuts/Dreadlocks_Greyscale.png",
+        "NameKey": "avatarCustomization.variants.haircuts.Dreadlocks03.name"
+      }
+    }
+  }
+]

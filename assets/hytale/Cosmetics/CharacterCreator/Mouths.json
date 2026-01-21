@@ -1,0 +1,38 @@
+[
+  {
+    "Id": "Mouth_Default",
+    "Model": "Characters/Body_Attachments/Mouths/Mouth1.blockymodel",
+    "Name": "avatarCustomization.mouths.Default.name",
+    "GradientSet": "Skin",
+    "GreyscaleTexture": "Characters/Body_Attachments/Mouths/Mouth1_Textures/Default_Greyscale.png",
+    "IsDefaultAsset": true
+  },
+  {
+    "Id": "Mouth_Makeup",
+    "Model": "Characters/Body_Attachments/Mouths/Mouth1.blockymodel",
+    "Name": "avatarCustomization.mouths.Makeup.name",
+    "GradientSet": "Skin",
+    "GreyscaleTexture": "Characters/Body_Attachments/Mouths/Mouth1_Textures/Makeup_Greyscale.png"
+  },
+  {
+    "Id": "Mouth_Thin",
+    "Model": "Characters/Body_Attachments/Mouths/Mouth1.blockymodel",
+    "Name": "avatarCustomization.mouths.Mouth_Thin.name",
+    "GradientSet": "Skin",
+    "GreyscaleTexture": "Characters/Body_Attachments/Mouths/Mouth1_Textures/Thin_Lips.png"
+  },
+  {
+    "Id": "Mouth_Long",
+    "Model": "Characters/Body_Attachments/Mouths/Mouth1.blockymodel",
+    "Name": "avatarCustomization.mouths.Mouth_Long.name",
+    "GradientSet": "Skin",
+    "GreyscaleTexture": "Characters/Body_Attachments/Mouths/Mouth_Large.png"
+  },
+  {
+    "Id": "Mouth_Tiny",
+    "Model": "Characters/Body_Attachments/Mouths/Mouth1.blockymodel",
+    "Name": "avatarCustomization.mouths.Mouth_Tiny.name",
+    "GradientSet": "Skin",
+    "GreyscaleTexture": "Characters/Body_Attachments/Mouths/Mouth1_Textures/Tiny_Lips.png"
+  }
+]

@@ -1,0 +1,170 @@
+[
+  {
+    "Id": "Medium",
+    "Name": "avatarCustomization.facialhair.Medium.name",
+    "Model": "Characters/Body_Attachments/Beards/Full.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Beards/Medium_Greyscale.png"
+  },
+  {
+    "Id": "Beard_Large",
+    "Name": "avatarCustomization.facialhair.Beard_Large.name",
+    "Model": "Characters/Body_Attachments/Beards/Full_Long.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Beards/Large_Greyscale.png"
+  },
+  {
+    "Id": "Goatee",
+    "Name": "avatarCustomization.facialhair.Goatee.name",
+    "Model": "Characters/Body_Attachments/Beards/SimpleLong.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Beards/Goatee_Greyscale.png"
+  },
+  {
+    "Id": "Chin_Curtain",
+    "Name": "avatarCustomization.facialhair.Chin_Curtain.name",
+    "Model": "Characters/Body_Attachments/Beards/Full.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Beards/ChinCurtain_Greyscale.png"
+  },
+  {
+    "Id": "Moustache",
+    "Name": "avatarCustomization.facialhair.Moustache.name",
+    "Model": "Characters/Body_Attachments/Beards/Simple.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Beards/Moustache_Greyscale.png"
+  },
+  {
+    "Id": "VikingBeard",
+    "Name": "avatarCustomization.facialhair.VikingBeard.name",
+    "Model": "Characters/Body_Attachments/Beards/VikingBeard.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Beards/VikingBeard_Greyscale.png"
+  },
+  {
+    "Id": "TwirlyMoustache",
+    "Name": "avatarCustomization.facialhair.TwirlyMoustache.name",
+    "Model": "Characters/Body_Attachments/Beards/Simple.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Beards/TwirlyMoustache_Greyscale.png"
+  },
+  {
+    "Id": "SoulPatch",
+    "Name": "avatarCustomization.facialhair.SoulPatch.name",
+    "Model": "Characters/Body_Attachments/Beards/SoulPatch.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Beards/SoulPatch_Greyscale.png"
+  },
+  {
+    "Id": "PirateBeard",
+    "Name": "avatarCustomization.facialhair.PirateBeard.name",
+    "Model": "Characters/Body_Attachments/Beards/Full_Long.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Beards/PirateBeard_Greyscale.png"
+  },
+  {
+    "Id": "TripleBraid",
+    "Name": "avatarCustomization.facialhair.TripleBraid.name",
+    "Model": "Characters/Body_Attachments/Beards/TripleBraid.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Beards/TripleBraid_Greyscale.png"
+  },
+  {
+    "Id": "DoubleBraid",
+    "Name": "avatarCustomization.facialhair.DoubleBraid.name",
+    "Model": "Characters/Body_Attachments/Beards/DoubleBraid.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Beards/DoubleBraid_Greyscale.png"
+  },
+  {
+    "Id": "GoateeLong",
+    "Name": "avatarCustomization.facialhair.GoateeLong.name",
+    "Model": "Characters/Body_Attachments/Beards/GoateeLong.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Beards/GoateeLong_Greyscale.png"
+  },
+  {
+    "Id": "PirateGoatee",
+    "Name": "avatarCustomization.facialhair.PirateGoatee.name",
+    "Model": "Characters/Body_Attachments/Beards/PirateGoatee.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Beards/PirateGoatee_Greyscale.png"
+  },
+  {
+    "Id": "Soldier",
+    "Name": "avatarCustomization.facialhair.Soldier.name",
+    "Model": "Characters/Body_Attachments/Beards/Full_Long.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Beards/Soldier_Greyscale.png"
+  },
+  {
+    "Id": "Hip",
+    "Name": "avatarCustomization.facialhair.Hip.name",
+    "Model": "Characters/Body_Attachments/Beards/Full_Long.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Beards/Hip_Greyscale.png"
+  },
+  {
+    "Id": "Trimmed",
+    "Name": "avatarCustomization.facialhair.Trimmed.name",
+    "Model": "Characters/Body_Attachments/Beards/Full_Long.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Beards/Trimmed_Greyscale.png"
+  },
+  {
+    "Id": "Handlebar",
+    "Name": "avatarCustomization.facialhair.Handlebar.name",
+    "Model": "Characters/Body_Attachments/Beards/SimpleLong.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Beards/Handlebar_Greyscale.png"
+  },
+  {
+    "Id": "Groomed",
+    "Name": "avatarCustomization.facialhair.Groomed.name",
+    "Model": "Characters/Body_Attachments/Beards/Simple.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Beards/Groomed_Greyscale.png"
+  },
+  {
+    "Id": "Stylish",
+    "Name": "avatarCustomization.facialhair.Stylish.name",
+    "Model": "Characters/Body_Attachments/Beards/Full.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Beards/Stylish_Greyscale.png"
+  },
+  {
+    "Id": "ThinGoatee",
+    "Name": "avatarCustomization.facialhair.ThinGoatee.name",
+    "Model": "Characters/Body_Attachments/Beards/SimpleLong.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Beards/ThinGoatee_Greyscale.png"
+  },
+  {
+    "GradientSet": "Hair",
+    "Id": "Short_Trimmed",
+    "Name": "avatarCustomization.facialhair.Short_Trimmed.name",
+    "Model": "Characters/Body_Attachments/Beards/Full.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Beards/ShortTrimmed_Greyscale.png"
+  },
+  {
+    "Name": "avatarCustomization.facialhair.Groomed_Large.name",
+    "Model": "Characters/Body_Attachments/Beards/Simple.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Beards/Groomed_Large.png",
+    "Id": "Groomed_Large"
+  },
+  {
+    "Id": "WavyLongBeard",
+    "Name": "avatarCustomization.facialhair.WavyLongBeard.name",
+    "Model": "Characters/Body_Attachments/Beards/Full_Long.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Beards/Wavy_Greyscale.png"
+  },
+  {
+    "Id": "CurlyLongBeard",
+    "Name": "avatarCustomization.facialhair.CurlyLongBeard.name",
+    "Model": "Characters/Body_Attachments/Beards/Full_Long.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Beards/Curly_Greyscale.png"
+  }
+]
