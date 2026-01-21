@@ -4,6 +4,6 @@ declare namespace Cloudflare {
 		CRAFTHEAD_ANALYTICS?: AnalyticsEngineDataset;
 		PLAYERDB?: Fetcher;
 		HYTALE_ASSETS?: R2Bucket;
-		NODE_ENV: string;
+		WORKER_ENV: string;
 	}
 }

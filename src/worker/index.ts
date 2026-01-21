@@ -132,126 +132,6 @@ async function getAllFiles(dirPath: string, basePath: string = dirPath): Promise
 	return files;
 }
 
-/**
- * Upload all Hytale assets from assets/hytale/ to R2
- */
-async function uploadAssetsToR2(env: Cloudflare.Env): Promise<Response> {
-	if (!env.HYTALE_ASSETS) {
-		return new Response(
-			JSON.stringify({
-				error: 'R2 bucket HYTALE_ASSETS is not available',
-				success: false,
-			}),
-			{
-				status: 500,
-				headers: { 'Content-Type': 'application/json' },
-			},
-		);
-	}
-
-	// @ts-expect-error - process.cwd() is available with nodejs_compat flag
-	const assetsDir = pathModule.join(process.cwd(), 'assets', 'hytale');
-	const stats: {
-		total: number;
-		successful: number;
-		failed: number;
-		errors: Array<{ file: string; error: string; }>;
-		uploaded: string[];
-	} = {
-		total: 0,
-		successful: 0,
-		failed: 0,
-		errors: [],
-		uploaded: [],
-	};
-
-	try {
-		// Check if directory exists
-		try {
-			const dirStat = await stat(assetsDir);
-			if (!dirStat.isDirectory()) {
-				return new Response(
-					JSON.stringify({
-						error: `Path ${assetsDir} is not a directory`,
-						success: false,
-					}),
-					{
-						status: 400,
-						headers: { 'Content-Type': 'application/json' },
-					},
-				);
-			}
-		} catch (err) {
-			return new Response(
-				JSON.stringify({
-					error: `Assets directory not found: ${assetsDir}. Error: ${(err as Error).message}`,
-					success: false,
-				}),
-				{
-					status: 404,
-					headers: { 'Content-Type': 'application/json' },
-				},
-			);
-		}
-
-		// Get all files recursively
-		const allFiles = await getAllFiles(assetsDir);
-		stats.total = allFiles.length;
-
-		// Upload each file to R2
-		for (const filePath of allFiles) {
-			try {
-				// Get relative path from assets/hytale/ directory
-				const relativePath = pathModule.relative(assetsDir, filePath).replaceAll('\\', '/');
-
-				// Read file content
-				const fileContent = await readFile(filePath);
-
-				// Upload to R2
-				await env.HYTALE_ASSETS.put(relativePath, fileContent, {
-					httpMetadata: {
-						contentType: getContentType(filePath),
-					},
-				});
-
-				stats.successful++;
-				stats.uploaded.push(relativePath);
-			} catch (err) {
-				stats.failed++;
-				const relativePath = pathModule.relative(assetsDir, filePath).replaceAll('\\', '/');
-				stats.errors.push({
-					file: relativePath,
-					error: (err as Error).message,
-				});
-				console.error(`Failed to upload ${filePath}:`, err);
-			}
-		}
-
-		return new Response(
-			JSON.stringify({
-				success: true,
-				stats,
-			}),
-			{
-				status: 200,
-				headers: { 'Content-Type': 'application/json' },
-			},
-		);
-	} catch (err) {
-		return new Response(
-			JSON.stringify({
-				error: `Failed to process assets: ${(err as Error).message}`,
-				success: false,
-				stats,
-			}),
-			{
-				status: 500,
-				headers: { 'Content-Type': 'application/json' },
-			},
-		);
-	}
-}
-
 async function processRequest(request: Request, interpreted: CraftheadRequest): Promise<Response> {
 	const service = getService(interpreted.game);
 
@@ -329,51 +209,50 @@ async function uploadSingleAssetToR2(filePath: string, fileContent: ArrayBuffer,
 async function handleRequest(request: Request, env: Cloudflare.Env, _ctx: ExecutionContext) {
 	const startTime = new Date();
 
-	// Handle temporary upload endpoints
-	const url = new URL(request.url);
-	if (url.pathname === '/upload-assets' && request.method === 'POST') {
-		return uploadAssetsToR2(env);
-	}
-	if (url.pathname === '/upload-asset' && request.method === 'POST') {
-		const requestContentType = request.headers.get('Content-Type') || '';
+	// Only ever enable this in development. It's a debug endpoint.
+	if (env.WORKER_ENV === 'development') {
+		const url = new URL(request.url);
+		if (url.pathname === '/upload-asset' && request.method === 'POST') {
+			const requestContentType = request.headers.get('Content-Type') || '';
 
-		if (requestContentType.includes('application/json')) {
-			// Legacy format - just filePath (not used anymore but kept for compatibility)
-			const body = await request.json();
-			const { filePath } = body as { filePath?: string; };
-			if (!filePath) {
-				return new Response(JSON.stringify({ success: false, error: 'filePath is required' }), {
+			if (requestContentType.includes('application/json')) {
+				// Legacy format - just filePath (not used anymore but kept for compatibility)
+				const body = await request.json();
+				const { filePath } = body as { filePath?: string; };
+				if (!filePath) {
+					return new Response(JSON.stringify({ success: false, error: 'filePath is required' }), {
+						status: 400,
+						headers: { 'Content-Type': 'application/json' },
+					});
+				}
+				return new Response(JSON.stringify({ success: false, error: 'File content must be provided in request body' }), {
 					status: 400,
 					headers: { 'Content-Type': 'application/json' },
 				});
 			}
-			return new Response(JSON.stringify({ success: false, error: 'File content must be provided in request body' }), {
-				status: 400,
+
+			// New format: multipart/form-data with file content
+			const formData = await request.formData();
+			const filePath = formData.get('filePath') as string | null;
+			const file = formData.get('file') as File | null;
+			const fileContentType = formData.get('contentType') as string | null;
+
+			if (!filePath || !file) {
+				return new Response(JSON.stringify({ success: false, error: 'filePath and file are required' }), {
+					status: 400,
+					headers: { 'Content-Type': 'application/json' },
+				});
+			}
+
+			const fileContent = await file.arrayBuffer();
+			const contentType = fileContentType || getContentType(filePath);
+			const result = await uploadSingleAssetToR2(filePath, fileContent, contentType, env);
+
+			return new Response(JSON.stringify(result), {
+				status: result.success ? 200 : 500,
 				headers: { 'Content-Type': 'application/json' },
 			});
 		}
-
-		// New format: multipart/form-data with file content
-		const formData = await request.formData();
-		const filePath = formData.get('filePath') as string | null;
-		const file = formData.get('file') as File | null;
-		const fileContentType = formData.get('contentType') as string | null;
-
-		if (!filePath || !file) {
-			return new Response(JSON.stringify({ success: false, error: 'filePath and file are required' }), {
-				status: 400,
-				headers: { 'Content-Type': 'application/json' },
-			});
-		}
-
-		const fileContent = await file.arrayBuffer();
-		const contentType = fileContentType || getContentType(filePath);
-		const result = await uploadSingleAssetToR2(filePath, fileContent, contentType, env);
-
-		return new Response(JSON.stringify(result), {
-			status: result.success ? 200 : 500,
-			headers: { 'Content-Type': 'application/json' },
-		});
 	}
 
 	const interpreted = interpretRequest(request);

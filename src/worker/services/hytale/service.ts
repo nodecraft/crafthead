@@ -376,6 +376,7 @@ export async function renderAvatar(incomingRequest: Request, request: CraftheadR
 	} catch (error) {
 		// Fall back to text avatar on error
 		console.error('Hytale 3D rendering failed:', error);
+		// TODO: Add Sentry eventually to track errors better
 
 		const imageData = render_text_avatar(username, request.size);
 		return new Response(imageData, {

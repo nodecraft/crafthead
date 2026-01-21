@@ -18,7 +18,7 @@ binding = "HYTALE_ASSETS"
 bucket_name = "hytale-assets"
 
 [vars]
-NODE_ENV = "development"
+WORKER_ENV = "development"
 
 [assets]
 directory = "./src/website"
@@ -42,7 +42,7 @@ binding = "HYTALE_ASSETS"
 bucket_name = "hytale-assets"
 
 [env.production.vars]
-NODE_ENV = "production"
+WORKER_ENV = "production"
 
 [env.production.observability]
 enabled = true

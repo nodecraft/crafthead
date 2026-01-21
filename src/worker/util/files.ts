@@ -6,13 +6,6 @@
  * in Cloudflare Workers while still supporting local development.
  */
 
-// @ts-expect-error - node:fs/promises is available with nodejs_compat flag
-import { readFile } from 'node:fs/promises';
-// @ts-expect-error - node:path is available with nodejs_compat flag
-import pathModule from 'node:path';
-// @ts-expect-error - node:url is available with nodejs_compat flag
-import { fileURLToPath } from 'node:url';
-
 /**
  * Reads an asset file from R2 (production) or disk (local development)
  *
@@ -37,4 +30,7 @@ export async function readAssetFile(
 	}
 
 	throw new Error(`Asset file not found in R2: ${filePath}`);
+
+	// There is intentionally no fallback to disk here. You should just upload the files to b2 locally.
+	// There's a script: ./scripts/upload-assets-to-r2.ts, re-enable the debug endpoint and run it to upload the assets.
 }
