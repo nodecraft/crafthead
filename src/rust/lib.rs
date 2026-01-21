@@ -260,7 +260,7 @@ pub fn render_hytale_3d(
 		_ => "headshot",
 	};
 
-	let png_bytes = hytale_skin_renderer::wasm::render_hytale_with_pipeline(
+	let png_bytes = hytale_skin_renderer::wasm::render_hytale(
 		&model_json,
 		&animation_json,
 		&texture_vec,
