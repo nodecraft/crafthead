@@ -154,6 +154,11 @@ export async function fetchProfile(
 			result: null,
 			source: 'miss',
 		};
+	} else if (profileResponse.status === 400 && jsonData?.code === 'hytale.not_found') {
+		return {
+			result: null,
+			source: 'miss',
+		};
 	} else if (jsonData && jsonData.code === 'hytale.invalid_username') {
 		return {
 			result: null,
