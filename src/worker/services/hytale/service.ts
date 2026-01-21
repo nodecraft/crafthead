@@ -28,10 +28,10 @@ import type { CacheComputeResult } from '../../util/cache-helper';
 
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
-function getRenderCacheKey(skin: HytaleSkin): string {
+function getRenderCacheKey(skin: HytaleSkin, request: CraftheadRequest): string {
 	// Hash the skin to generate a unique key per unique skin combo (so we can share renders with multiple users)
 	const hash = createHash('sha256').update(JSON.stringify(skin)).digest('hex');
-	return `renders/${hash}`;
+	return `renders/${request.requested}/${request.size}/${request.armored ? 'armor' : 'regular'}/${hash}`;
 }
 
 async function getCachedRender(cacheKey: string, env: Cloudflare.Env): Promise<Response | null> {
@@ -176,7 +176,7 @@ export async function renderAvatar(incomingRequest: Request, request: CraftheadR
 		// TODO: Replace with a deterministic skin generator
 		return generateAndReturnTextAvatar(username, request);
 	}
-	const cacheKey = getRenderCacheKey(profile.skin);
+	const cacheKey = getRenderCacheKey(profile.skin, request);
 
 	const cachedRender = await getCachedRender(cacheKey, env);
 	if (cachedRender) {
