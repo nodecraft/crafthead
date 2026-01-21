@@ -13,7 +13,7 @@ import * as yauzl from 'yauzl';
 
 import type { Readable } from 'node:stream';
 
-const ZIP_PATH = 'assets/Hytale Assets.zipasd';
+const ZIP_PATH = 'assets/Hytale Assets.zip';
 const WINDOWS_ZIP_PATH = '\\Hytale\\install\\release\\package\\game\\latest\\Assets.zip';
 const OUTPUT_DIR = 'assets/hytale';
 
