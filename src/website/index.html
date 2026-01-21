@@ -333,28 +333,38 @@
 		const tabButtons = document.querySelectorAll('.tab-button');
 		const tabContents = document.querySelectorAll('.tab-content');
 
-		tabButtons.forEach(button => {
-			button.addEventListener('click', function() {
-				const targetTab = this.getAttribute('data-tab');
+		function selectTab(targetTab) {
+			// Remove active class from all buttons
+			tabButtons.forEach(btn => btn.classList.remove('active'));
 
-				// Remove active class from all buttons
-				tabButtons.forEach(btn => btn.classList.remove('active'));
+			// Add active class to target button
+			const targetButton = document.querySelector(`.tab-button[data-tab="${targetTab}"]`);
+			if (targetButton) {
+				targetButton.classList.add('active');
+			}
 
-				// Add active class to clicked button
-				this.classList.add('active');
-
-				// Hide all tab contents
-				tabContents.forEach(content => {
-					content.style.display = 'none';
-				});
-
-				// Show selected tab content
-				const selectedContent = document.querySelector(`.tab-content[data-tab="${targetTab}"]`);
-				if (selectedContent) {
-					selectedContent.style.display = 'block';
-				}
+			// Hide all tab contents
+			tabContents.forEach(content => {
+				content.style.display = 'none';
 			});
-		});
+
+			// Show selected tab content
+			const selectedContent = document.querySelector(`.tab-content[data-tab="${targetTab}"]`);
+			if (selectedContent) {
+				selectedContent.style.display = 'block';
+			}
+		}
+
+		for (const button of tabButtons) {
+			button.addEventListener('click', function() {
+				selectTab(this.getAttribute('data-tab'));
+			});
+		}
+
+		const urlParams = new URLSearchParams(window.location.search)
+		if (urlParams.has('hytale')) {
+			selectTab('hytale');
+		}
 	</script>
 </body>
 
