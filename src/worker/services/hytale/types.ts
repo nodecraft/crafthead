@@ -88,7 +88,7 @@ export interface GradientColor {
  */
 export interface GradientSetDefinition {
 	Id: string;
-	Gradients: Record<string, GradientColor>;
+	Gradients: Record<string, GradientColor | undefined>;
 }
 
 /**

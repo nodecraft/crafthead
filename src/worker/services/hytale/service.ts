@@ -197,19 +197,19 @@ export async function renderAvatar(incomingRequest: Request, request: CraftheadR
 
 		const requiredAssets = getRequiredAssetPaths(resolvedSkin);
 
-		const skinSpecificAssetSet = new Set<string>([
+		const skinAssetPaths = [
 			...requiredAssets.models,
 			...requiredAssets.textures,
 			...requiredAssets.gradients,
-		]);
+		];
 
 		for (const { path, bytes } of getCosmeticJsonBytes()) {
 			assetPaths.push(`assets/Common/${path}`);
 			assetBytes.push(bytes);
 		}
 
-		const limit = pLimit(5);
-		const skinAssetPromises = [...skinSpecificAssetSet].map(async (assetPath) => {
+		const limit = pLimit(6);
+		const skinAssetPromises = skinAssetPaths.map(async (assetPath) => {
 			const data = await limit(() => readAssetFile(assetPath, env, ctx));
 			const providerPath = assetPath.startsWith('Common/')
 				? `assets/${assetPath}`

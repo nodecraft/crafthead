@@ -43,14 +43,6 @@ import type {
 	ResolvedSkin,
 } from './types';
 
-// Helper to parse JSON imports (Wrangler imports text, not objects)
-function parseJson<T>(json: unknown): T {
-	if (typeof json === 'string') {
-		return JSON.parse(json) as T;
-	}
-	return json as T;
-}
-
 // Type the imported JSON arrays
 type SlotDefinitions = Record<string, CosmeticDefinition[]>;
 
@@ -58,26 +50,26 @@ type SlotDefinitions = Record<string, CosmeticDefinition[]>;
  * Map of slot file names to their loaded definitions
  */
 const DEFINITION_FILES: SlotDefinitions = {
-	BodyCharacteristics: parseJson<CosmeticDefinition[]>(bodyCharacteristicsJson),
-	Capes: parseJson<CosmeticDefinition[]>(capesJson),
-	EarAccessory: parseJson<CosmeticDefinition[]>(earAccessoryJson),
-	Ears: parseJson<CosmeticDefinition[]>(earsJson),
-	Eyebrows: parseJson<CosmeticDefinition[]>(eyebrowsJson),
-	Eyes: parseJson<CosmeticDefinition[]>(eyesJson),
-	FaceAccessory: parseJson<CosmeticDefinition[]>(faceAccessoryJson),
-	Faces: parseJson<CosmeticDefinition[]>(facesJson),
-	FacialHair: parseJson<CosmeticDefinition[]>(facialHairJson),
-	Gloves: parseJson<CosmeticDefinition[]>(glovesJson),
-	Haircuts: parseJson<CosmeticDefinition[]>(haircutsJson),
-	HeadAccessory: parseJson<CosmeticDefinition[]>(headAccessoryJson),
-	Mouths: parseJson<CosmeticDefinition[]>(mouthsJson),
-	Overpants: parseJson<CosmeticDefinition[]>(overpantsJson),
-	Overtops: parseJson<CosmeticDefinition[]>(overtopsJson),
-	Pants: parseJson<CosmeticDefinition[]>(pantsJson),
-	Shoes: parseJson<CosmeticDefinition[]>(shoesJson),
-	SkinFeatures: parseJson<CosmeticDefinition[]>(skinFeaturesJson),
-	Undertops: parseJson<CosmeticDefinition[]>(undertopsJson),
-	Underwear: parseJson<CosmeticDefinition[]>(underwearJson),
+	BodyCharacteristics: bodyCharacteristicsJson as CosmeticDefinition[],
+	Capes: capesJson as CosmeticDefinition[],
+	EarAccessory: earAccessoryJson as CosmeticDefinition[],
+	Ears: earsJson as CosmeticDefinition[],
+	Eyebrows: eyebrowsJson as CosmeticDefinition[],
+	Eyes: eyesJson as CosmeticDefinition[],
+	FaceAccessory: faceAccessoryJson as CosmeticDefinition[],
+	Faces: facesJson as CosmeticDefinition[],
+	FacialHair: facialHairJson as CosmeticDefinition[],
+	Gloves: glovesJson as CosmeticDefinition[],
+	Haircuts: haircutsJson as CosmeticDefinition[],
+	HeadAccessory: headAccessoryJson as CosmeticDefinition[],
+	Mouths: mouthsJson as CosmeticDefinition[],
+	Overpants: overpantsJson as CosmeticDefinition[],
+	Overtops: overtopsJson as CosmeticDefinition[],
+	Pants: pantsJson as CosmeticDefinition[],
+	Shoes: shoesJson as CosmeticDefinition[],
+	SkinFeatures: skinFeaturesJson as CosmeticDefinition[],
+	Undertops: undertopsJson as CosmeticDefinition[],
+	Underwear: underwearJson as CosmeticDefinition[],
 };
 
 const COSMETIC_FILES = [
@@ -136,7 +128,7 @@ async function ensureInitialized(): Promise<void> {
 	cacheState = 'loading';
 	loadingPromise = (async () => {
 		const loadedGradientSets = new Map(
-			parseJson<GradientSetDefinition[]>(gradientSetsJson).map(set => [set.Id, set]),
+			gradientSetsJson.map(set => [set.Id, set]),
 		);
 
 		const loadedIndexedDefinitions = new Map<string, Map<string, CosmeticDefinition>>();
@@ -406,22 +398,26 @@ export function getRequiredAssetPaths(resolvedSkin: ResolvedSkin): {
 	};
 }
 
-export function getCosmeticJsonBytes(): { path: string; bytes: Uint8Array; }[] {
-	const reusableTextEncoder = new TextEncoder();
+// Pre-compute cosmetic JSON bytes at module load - these are static bundled files
+const COSMETIC_JSON_BYTES: { path: string; bytes: Uint8Array; }[] = (() => {
+	const encoder = new TextEncoder();
 	return COSMETIC_FILES.map(({ path, content }) => {
 		return {
 			path,
-			bytes: reusableTextEncoder.encode(typeof content === 'string' ? content : JSON.stringify(content)),
+			bytes: encoder.encode(JSON.stringify(content)),
 		};
 	});
+})();
+
+export function getCosmeticJsonBytes(): { path: string; bytes: Uint8Array; }[] {
+	return COSMETIC_JSON_BYTES;
 }
 
 export function getCosmeticJson<T>(path: string): T {
-	// Return this as as an object
 	const content = COSMETIC_FILES.find(file => file.path === path)?.content;
 	if (!content) {
 		console.warn(`Cosmetic JSON not found: ${path}`);
 		return {} as T;
 	}
-	return JSON.parse(typeof content === 'string' ? content : JSON.stringify(content));
+	return content as T;
 }

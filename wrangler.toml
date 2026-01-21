@@ -10,7 +10,6 @@ rules = [
 	{ type = "Data", globs = [
 		"**/*.png",
 		"!assets/**/*.png",
-		"assets/hytale/Cosmetics/CharacterCreator/*.json",
 	], fallthrough = true },
 ]
 

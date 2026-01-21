@@ -11,56 +11,83 @@ export interface HytaleAssets {
 	textureBytes: Uint8Array;
 }
 
+/**
+ * Cached base assets (model and animation) - these are always the same
+ */
+interface BaseAssets {
+	modelJson: string;
+	animationJson: string;
+}
+
 type CacheState = 'uninitialized' | 'loading' | 'loaded';
 
-let cacheState: CacheState = 'uninitialized';
-let cache: HytaleAssets | null = null;
-let loadingPromise: Promise<HytaleAssets> | null = null;
+let baseAssetsCacheState: CacheState = 'uninitialized';
+let baseAssetsCache: BaseAssets | null = null;
+let baseAssetsLoadingPromise: Promise<BaseAssets> | null = null;
+
+const textDecoder = new TextDecoder();
+
+/**
+ * Load base assets (model and animation) - cached since they're always the same
+ */
+async function loadBaseAssets(ctx: ExecutionContext): Promise<BaseAssets> {
+	if (baseAssetsCacheState === 'loaded') {
+		return baseAssetsCache!;
+	}
+
+	if (baseAssetsCacheState === 'loading') {
+		return baseAssetsLoadingPromise!;
+	}
+
+	baseAssetsCacheState = 'loading';
+	baseAssetsLoadingPromise = (async () => {
+		// Load model and animation in parallel
+		const [playerModelJson, idleAnimationJson] = await Promise.all([
+			readAssetFile('Common/Characters/Player.blockymodel', env, ctx),
+			readAssetFile('Common/Characters/Animations/Default/Idle.blockyanim', env, ctx),
+		]);
+
+		const assets: BaseAssets = {
+			modelJson: textDecoder.decode(playerModelJson),
+			animationJson: textDecoder.decode(idleAnimationJson),
+		};
+
+		baseAssetsCache = assets;
+		baseAssetsCacheState = 'loaded';
+		return assets;
+	})();
+
+	return baseAssetsLoadingPromise;
+}
 
 /**
  * Load Hytale rendering assets
  *
- * Assets are loaded from R2 or disk asynchronously.
- * Returns cached assets after first load.
+ * Base assets (model/animation) are cached since they're always the same.
+ * Texture is loaded per-request based on skinPath (R2/CF cache still applies).
  */
 export async function loadHytaleAssets(skinPath: string = 'Common/Characters/Player_Textures/Player_Greyscale.png', ctx: ExecutionContext): Promise<HytaleAssets> {
-	if (cacheState === 'loaded') {
-		return cache!;
-	}
+	const normalizedSkinPath = skinPath.startsWith('Common/') ? skinPath : `Common/${skinPath}`;
 
-	if (cacheState === 'loading') {
-		return loadingPromise!;
-	}
-	skinPath = skinPath.startsWith('Common/') ? skinPath : `Common/${skinPath}`;
+	// Load base assets and texture in parallel
+	const [baseAssets, playerTextureData] = await Promise.all([
+		loadBaseAssets(ctx),
+		readAssetFile(normalizedSkinPath, env, ctx),
+	]);
 
-	cacheState = 'loading';
-	loadingPromise = (async () => {
-		const playerTextureData = await readAssetFile(skinPath, env, ctx);
-		const playerModelJson = await readAssetFile('Common/Characters/Player.blockymodel', env, ctx);
-		const idleAnimationJson = await readAssetFile('Common/Characters/Animations/Default/Idle.blockyanim', env, ctx);
-
-		const textureBytes = new Uint8Array(playerTextureData);
-
-		const assets: HytaleAssets = {
-			modelJson: new TextDecoder().decode(playerModelJson),
-			animationJson: new TextDecoder().decode(idleAnimationJson),
-			textureBytes,
-		};
-
-		cache = assets;
-		cacheState = 'loaded';
-		return assets;
-	})();
-
-	return loadingPromise;
+	return {
+		modelJson: baseAssets.modelJson,
+		animationJson: baseAssets.animationJson,
+		textureBytes: new Uint8Array(playerTextureData),
+	};
 }
 
 /**
- * Check if Hytale assets are available
+ * Check if base Hytale assets (model/animation) are cached
  */
 export function hasHytaleAssets(): boolean {
-	if (cacheState !== 'loaded') {
+	if (baseAssetsCacheState !== 'loaded') {
 		return false;
 	}
-	return Boolean(cache?.modelJson) && Boolean(cache?.animationJson) && Boolean(cache?.textureBytes);
+	return Boolean(baseAssetsCache?.modelJson) && Boolean(baseAssetsCache?.animationJson);
 }
