@@ -234,6 +234,7 @@ pub fn render_text_avatar(username: String, size: u32) -> Result<Uint8Array, JsV
 ///
 /// # Returns
 /// PNG image bytes as Uint8Array on success
+#[allow(clippy::too_many_arguments)]
 #[wasm_bindgen]
 pub fn render_hytale_3d(
 	model_json: String,
