@@ -73,6 +73,10 @@ function mapRequestedKindToViewType(kind: RequestedKind): string {
 		case RequestedKind.Bust: {
 			return 'bust';
 		}
+		case RequestedKind.Skin: {
+			// No support!
+			return 'no-op';
+		}
 		default: {
 			return 'avatar';
 		}
@@ -143,6 +147,14 @@ export async function renderAvatar(incomingRequest: Request, request: CraftheadR
 		}
 
 		const viewType = mapRequestedKindToViewType(request.requested);
+		if (viewType === 'no-op') {
+			return new Response(EMPTY, {
+				status: 404,
+				headers: {
+					'X-Crafthead-Profile-Cache-Hit': 'not-supported',
+				},
+			});
+		}
 		// TODO: Replace this with a deterministic skin generator
 		const defaultSkin = {
 			bodyCharacteristic: 'Default.10',

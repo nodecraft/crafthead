@@ -11,8 +11,11 @@ export interface HytaleAssets {
 	textureBytes: Uint8Array;
 }
 
-// Cache the loaded assets or the loading promise to prevent race conditions
-let cache: HytaleAssets | Promise<HytaleAssets> | null = null;
+type CacheState = 'uninitialized' | 'loading' | 'loaded';
+
+let cacheState: CacheState = 'uninitialized';
+let cache: HytaleAssets | null = null;
+let loadingPromise: Promise<HytaleAssets> | null = null;
 
 /**
  * Load Hytale rendering assets
@@ -21,23 +24,20 @@ let cache: HytaleAssets | Promise<HytaleAssets> | null = null;
  * Returns cached assets after first load.
  */
 export async function loadHytaleAssets(): Promise<HytaleAssets> {
-	// If we have cached assets (not a promise), return them
-	if (cache && !(cache instanceof Promise)) {
-		return cache;
+	if (cacheState === 'loaded') {
+		return cache!;
 	}
 
-	// If already loading (cache is a promise), wait for it
-	if (cache instanceof Promise) {
-		return cache;
+	if (cacheState === 'loading') {
+		return loadingPromise!;
 	}
 
-	// Start loading and cache the promise
-	const loadingPromise = (async () => {
+	cacheState = 'loading';
+	loadingPromise = (async () => {
 		const playerTextureData = await readAssetFile('Common/Characters/Player_Textures/Player_Greyscale.png', env);
 		const playerModelJson = await readAssetFile('Common/Characters/Player.blockymodel', env);
 		const idleAnimationJson = await readAssetFile('Common/Characters/Animations/Default/Idle.blockyanim', env);
 
-		// Convert ArrayBuffer to Uint8Array for the texture
 		const textureBytes = new Uint8Array(playerTextureData);
 
 		const assets: HytaleAssets = {
@@ -46,13 +46,11 @@ export async function loadHytaleAssets(): Promise<HytaleAssets> {
 			textureBytes,
 		};
 
-		// Replace the promise with the actual assets
 		cache = assets;
+		cacheState = 'loaded';
 		return assets;
 	})();
 
-	// Cache the promise so concurrent calls wait for the same load
-	cache = loadingPromise;
 	return loadingPromise;
 }
 
@@ -60,10 +58,8 @@ export async function loadHytaleAssets(): Promise<HytaleAssets> {
  * Check if Hytale assets are available
  */
 export function hasHytaleAssets(): boolean {
-	try {
-		const assets = cache && !(cache instanceof Promise) ? cache : null;
-		return Boolean(assets?.modelJson) && Boolean(assets?.animationJson) && Boolean(assets?.textureBytes);
-	} catch {
+	if (cacheState !== 'loaded') {
 		return false;
 	}
+	return Boolean(cache?.modelJson) && Boolean(cache?.animationJson) && Boolean(cache?.textureBytes);
 }
