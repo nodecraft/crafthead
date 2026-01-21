@@ -1,3 +1,5 @@
+import { createHash } from 'node:crypto';
+
 import pLimit from 'p-limit';
 
 import * as hytaleApi from './api';
@@ -20,14 +22,16 @@ import {
 	uuidVersion,
 } from '../../util/uuid';
 
-import type { HytaleProfile } from './api';
+import type { HytaleProfile, HytaleSkin } from './api';
 import type { CraftheadRequest } from '../../request';
 import type { CacheComputeResult } from '../../util/cache-helper';
 
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
-function getRenderCacheKey(request: CraftheadRequest): string {
-	return `renders/${request.requested}/${request.armored}/${request.model || 'regular'}/${request.identity.toLowerCase()}/${request.size}`;
+function getRenderCacheKey(skin: HytaleSkin): string {
+	// Hash the skin to generate a unique key per unique skin combo (so we can share renders with multiple users)
+	const hash = createHash('sha256').update(JSON.stringify(skin)).digest('hex');
+	return `renders/${hash}`;
 }
 
 async function getCachedRender(cacheKey: string, env: Cloudflare.Env): Promise<Response | null> {
@@ -166,18 +170,17 @@ function generateAndReturnTextAvatar(username: string, request: CraftheadRequest
  * Uses R2 caching for 24 hours to reduce computational cost.
  */
 export async function renderAvatar(incomingRequest: Request, request: CraftheadRequest, env: Cloudflare.Env, ctx: ExecutionContext): Promise<Response> {
-	const cacheKey = getRenderCacheKey(request);
-
-	// const cachedRender = await getCachedRender(cacheKey, env);
-	// if (cachedRender) {
-	// 	return cachedRender;
-	// }
-
 	const { profile } = await normalizeRequest(incomingRequest, request);
 	const username = profile?.name ?? request.identity;
 	if (!profile?.skin) {
 		// TODO: Replace with a deterministic skin generator
 		return generateAndReturnTextAvatar(username, request);
+	}
+	const cacheKey = getRenderCacheKey(profile.skin);
+
+	const cachedRender = await getCachedRender(cacheKey, env);
+	if (cachedRender) {
+		return cachedRender;
 	}
 
 	try {
