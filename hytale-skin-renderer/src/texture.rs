@@ -873,13 +873,13 @@ mod tests {
 	fn test_apply_tint_threshold_boundary() {
 		let gradient = create_colored_gradient();
 
-		// Pixel at threshold (deviation = 8) should be tinted
-		let at_threshold = Rgba([128, 128, 136, 255]); // deviation = 8
+		// Pixel at threshold (deviation = 1) should be tinted
+		let at_threshold = Rgba([128, 128, 129, 255]); // deviation = 1
 		let tinted_at = apply_tint(at_threshold, &gradient);
 		assert_ne!(tinted_at, at_threshold); // Should be tinted
 
-		// Pixel just over threshold (deviation = 9) should be preserved
-		let over_threshold = Rgba([128, 128, 137, 255]); // deviation = 9
+		// Pixel just over threshold (deviation = 2) should be preserved
+		let over_threshold = Rgba([128, 128, 130, 255]); // deviation = 2
 		let tinted_over = apply_tint(over_threshold, &gradient);
 		assert_eq!(tinted_over, over_threshold); // Should NOT be tinted
 	}
@@ -903,15 +903,15 @@ mod tests {
 	fn test_apply_tint_near_greyscale() {
 		let gradient = create_colored_gradient();
 
-		// Near-greyscale pixels (slight RGB variation due to compression artifacts)
-		// deviation <= 8 should still be tinted
-		let near_grey_1 = Rgba([100, 102, 100, 255]); // deviation = 2
+		// Near-greyscale pixels with deviation <= 1 should be tinted
+		let near_grey_1 = Rgba([100, 101, 100, 255]); // deviation = 1
 		let tinted_1 = apply_tint(near_grey_1, &gradient);
 		assert_ne!(tinted_1, near_grey_1); // Should be tinted
 
-		let near_grey_2 = Rgba([150, 145, 150, 255]); // deviation = 5
+		// Near-greyscale pixels with deviation > 1 should be preserved
+		let near_grey_2 = Rgba([100, 102, 100, 255]); // deviation = 2
 		let tinted_2 = apply_tint(near_grey_2, &gradient);
-		assert_ne!(tinted_2, near_grey_2); // Should be tinted
+		assert_eq!(tinted_2, near_grey_2); // Should NOT be tinted
 	}
 
 	#[test]
