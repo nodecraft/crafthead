@@ -46,7 +46,7 @@ export interface PlayerDBHytaleProfileData {
 		id: string;
 		raw_id: string;
 		avatar: string;
-		skin: HytaleSkin | null; // TODO: Type this to Hytale skin
+		skin: HytaleSkin | null;
 		properties: HytaleProfileProperty[];
 	};
 }

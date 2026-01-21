@@ -65,14 +65,21 @@
 				<li><strong>Powered by</strong> <a href="https://nodecraft.com/r/crafthead">Nodecraft</a>, <strong>trusted by</strong> <a href="https://namelessmc.com">NamelessMC</a> and the <a href="https://luckperms.net">LuckPerms project</a></li>
 			</ul>
 
+			<h2>Performance & Caching</h2>
+			<p>
+				<strong>Performance tip</strong>: Use UUIDs when possible. Using a username requires an extra API call,
+				which may not be cached!
+			</p>
+			<p>
+				<strong>Hytale rendering</strong>: Hytale avatars are computationally more expensive to render than Minecraft skins.
+				Crafthead caches rendered Hytale avatars in R2 for 24 hours per view type (avatar, helm, cube, body, bust),
+				significantly reducing rendering costs and improving response times for frequently requested avatars.
+			</p>
+
 			<h2>Getting started</h2>
 			<p>
 				Crafthead supports lookups by UUID (dashed or not) and usernames and supports rendering avatars, cubes,
 				retrieving skins and profiles. The URL layout is compatible with Minotar, making migration simple.
-			</p>
-			<p>
-				<strong>Performance tip</strong>: Use UUIDs when possible. Using a username requires an extra API call,
-				which may not be cached!
 			</p>
 
 			<div class="tabs-container">

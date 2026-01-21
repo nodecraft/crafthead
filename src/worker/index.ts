@@ -132,7 +132,7 @@ async function getAllFiles(dirPath: string, basePath: string = dirPath): Promise
 	return files;
 }
 
-async function processRequest(request: Request, interpreted: CraftheadRequest): Promise<Response> {
+async function processRequest(request: Request, interpreted: CraftheadRequest, env: Cloudflare.Env, ctx: ExecutionContext): Promise<Response> {
 	const service = getService(interpreted.game);
 
 	switch (interpreted.requested) {
@@ -158,7 +158,7 @@ async function processRequest(request: Request, interpreted: CraftheadRequest): 
 		case RequestedKind.Body:
 		case RequestedKind.Bust: {
 			if (hasRenderAvatar(service)) {
-				return service.renderAvatar(request, interpreted);
+				return service.renderAvatar(request, interpreted, env, ctx);
 			}
 			const skin = await service.retrieveSkin(request, interpreted);
 			return renderImage(skin, interpreted);
@@ -206,7 +206,7 @@ async function uploadSingleAssetToR2(filePath: string, fileContent: ArrayBuffer,
 	}
 }
 
-async function handleRequest(request: Request, env: Cloudflare.Env, _ctx: ExecutionContext) {
+async function handleRequest(request: Request, env: Cloudflare.Env, ctx: ExecutionContext) {
 	const startTime = new Date();
 
 	// Only ever enable this in development. It's a debug endpoint.
@@ -289,21 +289,19 @@ async function handleRequest(request: Request, env: Cloudflare.Env, _ctx: Execut
 	//console.log('Request interpreted as ', interpreted);
 
 	try {
-		// TODO: Re-enable before merge
-		// const cacheKey = getCacheKey(interpreted);
-		// let response = await caches.default.match(new Request(cacheKey));
-		let response: Response | undefined;
+		const cacheKey = getCacheKey(interpreted);
+		let response = await caches.default.match(new Request(cacheKey));
 		const hitCache = Boolean(response);
 		if (!response) {
 			// The item is not in the Cloudflare datacenter's cache. We need to process the request further.
 			//console.log('Request not satisfied from cache.');
 
-			response = await processRequest(request, interpreted);
+			response = await processRequest(request, interpreted, env, ctx);
 			if (response.ok) {
 				const cacheResponse = response.clone();
 				cacheResponse.headers.set('Content-Type', interpreted.requested === RequestedKind.Profile ? 'application/json' : 'image/png');
 				cacheResponse.headers.set('Cache-Control', 'max-age=14400');
-				// ctx.waitUntil(caches.default.put(new Request(cacheKey), cacheResponse));
+				ctx.waitUntil(caches.default.put(new Request(cacheKey), cacheResponse));
 			}
 		}
 		const headers = decorateHeaders(interpreted, response.headers, hitCache);

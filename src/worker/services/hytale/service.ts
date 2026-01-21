@@ -1,5 +1,3 @@
-import { env } from 'cloudflare:workers';
-
 import * as hytaleApi from './api';
 import { loadHytaleAssets } from './assets';
 import { getRequiredAssetPaths, resolveSkin } from './cosmetic-registry';
@@ -17,6 +15,65 @@ import {
 import type { HytaleProfile } from './api';
 import type { CraftheadRequest } from '../../request';
 import type { CacheComputeResult } from '../../util/cache-helper';
+
+const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+
+function getRenderCacheKey(request: CraftheadRequest): string {
+	return `renders/${request.requested}/${request.armored}/${request.model || 'regular'}/${request.identity.toLowerCase()}/${request.size}`;
+}
+
+async function getCachedRender(cacheKey: string, env: Cloudflare.Env): Promise<Response | null> {
+	if (!env.HYTALE_RENDERS_CACHE) {
+		return null;
+	}
+
+	try {
+		const cachedObject = await env.HYTALE_RENDERS_CACHE.get(cacheKey);
+		if (!cachedObject) {
+			return null;
+		}
+
+		const cachedAt = cachedObject.customMetadata?.cachedAt;
+		if (cachedAt) {
+			const cacheAge = Date.now() - new Date(cachedAt).getTime();
+			if (cacheAge > CACHE_TTL_MS) {
+				await env.HYTALE_RENDERS_CACHE.delete(cacheKey);
+				return null;
+			}
+		}
+
+		const cachedData = await cachedObject.arrayBuffer();
+		return new Response(cachedData, {
+			headers: {
+				'Content-Type': 'image/png',
+				'X-Crafthead-R2-Cache-Hit': 'yes',
+				'X-Crafthead-R2-Cache-Age-Ms': cachedAt ? String(Date.now() - new Date(cachedAt).getTime()) : 'unknown',
+			},
+		});
+	} catch (err) {
+		console.error('Error retrieving from R2 cache:', err);
+		return null;
+	}
+}
+
+async function storeCachedRender(cacheKey: string, imageData: Uint8Array, env: Cloudflare.Env): Promise<void> {
+	if (!env.HYTALE_RENDERS_CACHE) {
+		return;
+	}
+
+	try {
+		await env.HYTALE_RENDERS_CACHE.put(cacheKey, imageData, {
+			httpMetadata: {
+				contentType: 'image/png',
+			},
+			customMetadata: {
+				cachedAt: new Date().toISOString(),
+			},
+		});
+	} catch (err) {
+		console.error('Error storing to R2 cache:', err);
+	}
+}
 
 interface NormalizedRequest {
 	request: CraftheadRequest;
@@ -98,8 +155,16 @@ function generateAndReturnTextAvatar(username: string, request: CraftheadRequest
 /**
  * Renders a Hytale avatar using the 3D renderer.
  * Falls back to text avatar if 3D rendering fails.
+ * Uses R2 caching for 24 hours to reduce computational cost.
  */
-export async function renderAvatar(incomingRequest: Request, request: CraftheadRequest): Promise<Response> {
+export async function renderAvatar(incomingRequest: Request, request: CraftheadRequest, env: Cloudflare.Env, ctx: ExecutionContext): Promise<Response> {
+	const cacheKey = getRenderCacheKey(request);
+
+	const cachedRender = await getCachedRender(cacheKey, env);
+	if (cachedRender) {
+		return cachedRender;
+	}
+
 	const { profile } = await normalizeRequest(incomingRequest, request);
 	const username = profile?.name ?? request.identity;
 	if (!profile?.skin) {
@@ -198,11 +263,14 @@ export async function renderAvatar(incomingRequest: Request, request: CraftheadR
 			request.size,
 		);
 
+		ctx.waitUntil(storeCachedRender(cacheKey, imageData, env));
+
 		return new Response(imageData, {
 			headers: {
 				'Content-Type': 'image/png',
 				'X-Crafthead-Renderer': 'hytale-3d',
 				'X-Crafthead-Has-Skin': profile?.skin ? 'true' : 'false',
+				'X-Crafthead-R2-Cache-Hit': 'no',
 			},
 		});
 	} catch (error) {

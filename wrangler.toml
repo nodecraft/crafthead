@@ -9,13 +9,18 @@ compatibility_flags = ["nodejs_compat"]
 rules = [
 	{ type = "Data", globs = [
 		"**/*.png",
-		"!assets/",
+		"!assets/**/*.png",
+		"assets/hytale/Cosmetics/CharacterCreator/*.json",
 	], fallthrough = true },
 ]
 
 [[r2_buckets]]
 binding = "HYTALE_ASSETS"
 bucket_name = "hytale-assets"
+
+[[r2_buckets]]
+binding = "HYTALE_RENDERS_CACHE"
+bucket_name = "hytale-renders-cache"
 
 [vars]
 WORKER_ENV = "development"
@@ -40,6 +45,10 @@ services = [{ binding = "PLAYERDB", service = "playerdb" }]
 [[env.production.r2_buckets]]
 binding = "HYTALE_ASSETS"
 bucket_name = "hytale-assets"
+
+[[env.production.r2_buckets]]
+binding = "HYTALE_RENDERS_CACHE"
+bucket_name = "hytale-renders-cache"
 
 [env.production.vars]
 WORKER_ENV = "production"
