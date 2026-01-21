@@ -48,6 +48,7 @@ export interface CosmeticVariant {
 	NameKey?: string;
 	Icon?: string;
 	BaseColor?: string[];
+	Textures?: Record<string, CosmeticTexture>;
 }
 
 /**
