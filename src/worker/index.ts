@@ -289,6 +289,7 @@ async function handleRequest(request: Request, env: Cloudflare.Env, _ctx: Execut
 	//console.log('Request interpreted as ', interpreted);
 
 	try {
+		// TODO: Re-enable before merge
 		// const cacheKey = getCacheKey(interpreted);
 		// let response = await caches.default.match(new Request(cacheKey));
 		let response: Response | undefined;

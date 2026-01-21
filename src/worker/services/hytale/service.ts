@@ -4,8 +4,8 @@ import * as hytaleApi from './api';
 import { loadHytaleAssets } from './assets';
 import { getRequiredAssetPaths, resolveSkin } from './cosmetic-registry';
 import { render_hytale_3d, render_text_avatar } from '../../../../pkg/mcavatar';
-import { EMPTY, HYTALE_DEFAULT_SKIN } from '../../data';
-import { IdentityKind, RequestedKind, TextureKind } from '../../request';
+import { EMPTY } from '../../data';
+import { IdentityKind, RequestedKind } from '../../request';
 import { readAssetFile } from '../../util/files';
 import {
 	fromHex,
@@ -14,123 +14,9 @@ import {
 	uuidVersion,
 } from '../../util/uuid';
 
-import type { HytaleProfile, HytaleProfileProperty } from './api';
+import type { HytaleProfile } from './api';
 import type { CraftheadRequest } from '../../request';
 import type { CacheComputeResult } from '../../util/cache-helper';
-
-interface TextureResponse {
-	texture: Response;
-	model?: string;
-	textureId?: string;
-}
-
-interface HytaleTextureData {
-	SKIN: {
-		url: string;
-		metadata?: {
-			model?: string;
-		};
-	};
-	CAPE?: {
-		url: string;
-	};
-}
-
-interface HytaleTexturePropertyValue {
-	textures: HytaleTextureData;
-}
-
-// TODO: Update this when Hytale texture server URL is known
-const HYTALE_TEXTURE_BASE_URL = 'https://textures.hytale.com/texture';
-
-function extractDataFromTexturesProperty(property: HytaleProfileProperty | undefined): HytaleTextureData | undefined {
-	if (property === undefined) {
-		return undefined;
-	}
-
-	const rawJson = atob(property.value);
-	const decoded: HytaleTexturePropertyValue = JSON.parse(rawJson);
-
-	return decoded.textures;
-}
-
-async function fetchTextureFromUrl(textureUrl: string): Promise<TextureResponse> {
-	const textureResponse = await fetch(textureUrl, {
-		cf: {
-			cacheEverything: true,
-			cacheTtl: 86400,
-		},
-		headers: {
-			'User-Agent': 'Crafthead (+https://crafthead.net)',
-		},
-		signal: AbortSignal.timeout(5000),
-	});
-	if (!textureResponse.ok) {
-		throw new Error(`Unable to retrieve texture from Hytale, http status ${textureResponse.status}`);
-	}
-
-	return { texture: textureResponse, model: 'default' };
-}
-
-async function fetchTextureFromId(id: string): Promise<TextureResponse> {
-	const url = `${HYTALE_TEXTURE_BASE_URL}/${id}`;
-	return fetchTextureFromUrl(url);
-}
-
-async function fetchTextureFromProfile(profile: HytaleProfile, type: TextureKind): Promise<TextureResponse | undefined> {
-	if (profile.properties) {
-		const texturesData = extractDataFromTexturesProperty(
-			profile.properties.find(property => property.name === 'textures'),
-		);
-		const textureUrl = type === TextureKind.CAPE ? texturesData?.CAPE?.url : texturesData?.SKIN.url;
-
-		if (textureUrl) {
-			const textureResponse = await fetch(textureUrl, {
-				cf: {
-					cacheEverything: true,
-					cacheTtl: 86400,
-				},
-				headers: {
-					'User-Agent': 'Crafthead (+https://crafthead.net)',
-				},
-				signal: AbortSignal.timeout(5000),
-			});
-			if (!textureResponse.ok) {
-				throw new Error(`Unable to retrieve texture from Hytale, http status ${textureResponse.status}`);
-			}
-
-			return {
-				texture: textureResponse,
-				model: texturesData?.SKIN?.metadata?.model,
-				textureId: textureUrl.split('/').pop(),
-			};
-		}
-	}
-
-	return undefined;
-}
-
-async function constructTextureResponse(textureResponse: TextureResponse, request: CraftheadRequest, source?: string): Promise<Response> {
-	const buff = await textureResponse.texture.arrayBuffer();
-	if (buff && buff.byteLength > 0) {
-		const headers = new Headers();
-		headers.set('X-Crafthead-Profile-Cache-Hit', source || 'miss');
-		if (textureResponse.textureId) {
-			headers.set('X-Crafthead-Texture-ID', textureResponse.textureId);
-		}
-		return new Response(buff, {
-			status: 200,
-			headers,
-		});
-	}
-	return new Response(HYTALE_DEFAULT_SKIN, {
-		status: 404,
-		headers: {
-			'X-Crafthead-Profile-Cache-Hit': 'not-found',
-			'X-Crafthead-Skin-Model': 'default',
-		},
-	});
-}
 
 interface NormalizedRequest {
 	request: CraftheadRequest;
@@ -168,71 +54,6 @@ async function normalizeRequest(incomingRequest: Request, request: CraftheadRequ
 	return { request: normalized };
 }
 
-/**
- * Fetches a texture directly from the Hytale servers. Assumes the request has been normalized already.
- * @param prefetchedProfile - If provided, skips the profile fetch (avoids double lookup for username requests)
- */
-async function retrieveTextureDirect(
-	incomingRequest: Request,
-	request: CraftheadRequest,
-	kind: TextureKind,
-	prefetchedProfile?: HytaleProfile,
-): Promise<TextureResponse> {
-	if (request.identityType === IdentityKind.TextureID) {
-		const textureResponse = await fetchTextureFromId(request.identity);
-		return {
-			texture: await constructTextureResponse(textureResponse, request),
-		};
-	}
-	const rawUuid = fromHex(request.identity);
-	if (uuidVersion(rawUuid) === 4) {
-		let profile: HytaleProfile | null;
-		let source: string;
-		if (prefetchedProfile) {
-			profile = prefetchedProfile;
-			source = 'hit';
-		} else {
-			const lookup = await hytaleApi.fetchProfile(incomingRequest, request.identity);
-			profile = lookup.result;
-			source = lookup.source;
-		}
-
-		if (profile) {
-			const textureResponse = await fetchTextureFromProfile(profile, kind);
-			if (textureResponse) {
-				return {
-					texture: await constructTextureResponse(textureResponse, request, source),
-					model: textureResponse.model,
-				};
-			}
-			return {
-				texture: new Response(HYTALE_DEFAULT_SKIN, {
-					status: 404,
-					headers: {
-						'X-Crafthead-Profile-Cache-Hit': 'not-found',
-					},
-				}),
-			};
-		}
-		return {
-			texture: new Response(HYTALE_DEFAULT_SKIN, {
-				status: 404,
-				headers: {
-					'X-Crafthead-Profile-Cache-Hit': 'not-found',
-				},
-			}),
-		};
-	}
-
-	return {
-		texture: new Response(HYTALE_DEFAULT_SKIN, {
-			status: 404,
-			headers: {
-				'X-Crafthead-Profile-Cache-Hit': 'offline-mode',
-			},
-		}),
-	};
-}
 
 /**
  * Maps Crafthead RequestedKind to HytaleSkinRenderer view type
@@ -282,15 +103,6 @@ export async function renderAvatar(incomingRequest: Request, request: CraftheadR
 			resolvedSkin = resolveSkin(profile.skin);
 			const requiredAssets = getRequiredAssetPaths(resolvedSkin);
 
-			console.log(`Player ${username} skin resolved:`, {
-				cosmeticsCount: resolvedSkin.cosmetics.length,
-				requiredAssets: {
-					models: requiredAssets.models.length,
-					textures: requiredAssets.textures.length,
-					gradients: requiredAssets.gradients.length,
-				},
-			});
-
 			const assetSet = new Set<string>([
 				...requiredAssets.models,
 				...requiredAssets.textures,
@@ -331,6 +143,7 @@ export async function renderAvatar(incomingRequest: Request, request: CraftheadR
 		}
 
 		const viewType = mapRequestedKindToViewType(request.requested);
+		// TODO: Replace this with a deterministic skin generator
 		const defaultSkin = {
 			bodyCharacteristic: 'Default.10',
 			underwear: null,

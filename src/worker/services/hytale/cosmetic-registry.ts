@@ -261,8 +261,7 @@ export function resolveSkin(skin: HytaleSkin): ResolvedSkin {
 		}
 	}
 
-	// TODO: Extract skin tone from bodyCharacteristic or a dedicated field
-	const bodyCharacteristicIndex = cosmetics.findIndex(c => c.slot === 'bodyCharacteristic');
+	const bodyCharacteristicIndex = cosmetics.findIndex(cos => cos.slot === 'bodyCharacteristic');
 	let skinTone: ResolvedCosmetic | null = null;
 
 	if (bodyCharacteristicIndex !== -1) {
