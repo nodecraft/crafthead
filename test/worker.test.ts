@@ -649,6 +649,257 @@ describe('minecraft prefix routes', () => {
 	});
 });
 
+describe('hytale prefix routes', () => {
+	it('responds with image for avatar on username', async () => {
+		const request = new IncomingRequest('http://crafthead.net/hytale/avatar/mja00');
+		const ctx = createExecutionContext();
+		const response = await worker.fetch(request, env, ctx);
+		await waitOnExecutionContext(ctx);
+		expect(response.status).toBe(200);
+		expect(await response.headers.get('content-type')).toContain('image/png');
+
+		const image = await response.arrayBuffer();
+		const buffer = Buffer.from(image);
+		const { width, height } = imageSize(buffer);
+		expect(width).toBe(180);
+		expect(height).toBe(180);
+	});
+
+	it('responds with image for helm on username', async () => {
+		const request = new IncomingRequest('http://crafthead.net/hytale/helm/mja00');
+		const ctx = createExecutionContext();
+		const response = await worker.fetch(request, env, ctx);
+		await waitOnExecutionContext(ctx);
+		expect(response.status).toBe(200);
+		expect(await response.headers.get('content-type')).toContain('image/png');
+
+		const image = await response.arrayBuffer();
+		const buffer = Buffer.from(image);
+		const { width, height } = imageSize(buffer);
+		expect(width).toBe(180);
+		expect(height).toBe(180);
+	});
+
+	it('responds with image for cube on username', async () => {
+		const request = new IncomingRequest('http://crafthead.net/hytale/cube/mja00');
+		const ctx = createExecutionContext();
+		const response = await worker.fetch(request, env, ctx);
+		await waitOnExecutionContext(ctx);
+		expect(response.status).toBe(200);
+		expect(await response.headers.get('content-type')).toContain('image/png');
+
+		const image = await response.arrayBuffer();
+		const buffer = Buffer.from(image);
+		const { width, height } = imageSize(buffer);
+		expect(width).toBe(180);
+		expect(height).toBe(180);
+	});
+
+	it('responds with image for body on username', async () => {
+		const request = new IncomingRequest('http://crafthead.net/hytale/body/mja00');
+		const ctx = createExecutionContext();
+		const response = await worker.fetch(request, env, ctx);
+		await waitOnExecutionContext(ctx);
+		expect(response.status).toBe(200);
+		expect(await response.headers.get('content-type')).toContain('image/png');
+
+		const image = await response.arrayBuffer();
+		const buffer = Buffer.from(image);
+		const { width, height } = imageSize(buffer);
+		expect(width).toBe(180);
+		expect(height).toBe(180);
+	});
+
+	it('responds with image for bust on username', async () => {
+		const request = new IncomingRequest('http://crafthead.net/hytale/bust/mja00');
+		const ctx = createExecutionContext();
+		const response = await worker.fetch(request, env, ctx);
+		await waitOnExecutionContext(ctx);
+		expect(response.status).toBe(200);
+		expect(await response.headers.get('content-type')).toContain('image/png');
+
+		const image = await response.arrayBuffer();
+		const buffer = Buffer.from(image);
+		const { width, height } = imageSize(buffer);
+		expect(width).toBe(180);
+		expect(height).toBe(180);
+	});
+
+	it('responds with 404 for skin on username', async () => {
+		const request = new IncomingRequest('http://crafthead.net/hytale/skin/mja00');
+		const ctx = createExecutionContext();
+		const response = await worker.fetch(request, env, ctx);
+		await waitOnExecutionContext(ctx);
+		expect(response.status).toBe(404);
+	});
+
+	it('responds with 404 for cape on username', async () => {
+		const request = new IncomingRequest('http://crafthead.net/hytale/cape/mja00');
+		const ctx = createExecutionContext();
+		const response = await worker.fetch(request, env, ctx);
+		await waitOnExecutionContext(ctx);
+		expect(response.status).toBe(404);
+	});
+
+	it('responds with profile data for username', async () => {
+		const request = new IncomingRequest('http://crafthead.net/hytale/profile/testuser');
+		const ctx = createExecutionContext();
+		const response = await worker.fetch(request, env, ctx);
+		await waitOnExecutionContext(ctx);
+		const json = await response.json<Record<string, unknown>>();
+
+		// Profile should return a valid JSON object
+		expect(json).toBeDefined();
+		expect(typeof json).toBe('object');
+	});
+
+	it('responds with custom size for avatar', async () => {
+		const request = new IncomingRequest('http://crafthead.net/hytale/avatar/testuser/256');
+		const ctx = createExecutionContext();
+		const response = await worker.fetch(request, env, ctx);
+		await waitOnExecutionContext(ctx);
+		expect(response.status).toBe(200);
+		expect(await response.headers.get('content-type')).toContain('image/png');
+
+		const image = await response.arrayBuffer();
+		const buffer = Buffer.from(image);
+		const { width, height } = imageSize(buffer);
+		expect(width).toBe(256);
+		expect(height).toBe(256);
+	});
+
+	it('responds with image for avatar on UUID', async () => {
+		const request = new IncomingRequest('http://crafthead.net/hytale/avatar/3d853ff5e3684540987adabda4662cae');
+		const ctx = createExecutionContext();
+		const response = await worker.fetch(request, env, ctx);
+		await waitOnExecutionContext(ctx);
+		expect(response.status).toBe(200);
+		expect(await response.headers.get('content-type')).toContain('image/png');
+
+		const image = await response.arrayBuffer();
+		const buffer = Buffer.from(image);
+		const { width, height } = imageSize(buffer);
+		expect(width).toBe(180);
+		expect(height).toBe(180);
+	});
+
+	it('responds with image for helm on UUID', async () => {
+		const request = new IncomingRequest('http://crafthead.net/hytale/helm/3d853ff5e3684540987adabda4662cae');
+		const ctx = createExecutionContext();
+		const response = await worker.fetch(request, env, ctx);
+		await waitOnExecutionContext(ctx);
+		expect(response.status).toBe(200);
+		expect(await response.headers.get('content-type')).toContain('image/png');
+
+		const image = await response.arrayBuffer();
+		const buffer = Buffer.from(image);
+		const { width, height } = imageSize(buffer);
+		expect(width).toBe(180);
+		expect(height).toBe(180);
+	});
+
+	it('responds with image for cube on UUID', async () => {
+		const request = new IncomingRequest('http://crafthead.net/hytale/cube/3d853ff5e3684540987adabda4662cae');
+		const ctx = createExecutionContext();
+		const response = await worker.fetch(request, env, ctx);
+		await waitOnExecutionContext(ctx);
+		expect(response.status).toBe(200);
+		expect(await response.headers.get('content-type')).toContain('image/png');
+
+		const image = await response.arrayBuffer();
+		const buffer = Buffer.from(image);
+		const { width, height } = imageSize(buffer);
+		expect(width).toBe(180);
+		expect(height).toBe(180);
+	});
+
+	it('responds with image for body on UUID', async () => {
+		const request = new IncomingRequest('http://crafthead.net/hytale/body/3d853ff5e3684540987adabda4662cae');
+		const ctx = createExecutionContext();
+		const response = await worker.fetch(request, env, ctx);
+		await waitOnExecutionContext(ctx);
+		expect(response.status).toBe(200);
+		expect(await response.headers.get('content-type')).toContain('image/png');
+
+		const image = await response.arrayBuffer();
+		const buffer = Buffer.from(image);
+		const { width, height } = imageSize(buffer);
+		expect(width).toBe(180);
+		expect(height).toBe(180);
+	});
+
+	it('responds with image for bust on UUID', async () => {
+		const request = new IncomingRequest('http://crafthead.net/hytale/bust/3d853ff5e3684540987adabda4662cae');
+		const ctx = createExecutionContext();
+		const response = await worker.fetch(request, env, ctx);
+		await waitOnExecutionContext(ctx);
+		expect(response.status).toBe(200);
+		expect(await response.headers.get('content-type')).toContain('image/png');
+
+		const image = await response.arrayBuffer();
+		const buffer = Buffer.from(image);
+		const { width, height } = imageSize(buffer);
+		expect(width).toBe(180);
+		expect(height).toBe(180);
+	});
+
+	it('responds with profile data for UUID', async () => {
+		const request = new IncomingRequest('http://crafthead.net/hytale/profile/3d853ff5e3684540987adabda4662cae');
+		const ctx = createExecutionContext();
+		const response = await worker.fetch(request, env, ctx);
+		await waitOnExecutionContext(ctx);
+		expect(response.status).toBe(200);
+		const json = await response.json<Record<string, unknown>>();
+
+		expect(json).toBeDefined();
+		expect(typeof json).toBe('object');
+		expect(json.id).toBe('3d853ff5e3684540987adabda4662cae');
+	});
+
+	it('responds with expected R2 cache headers on first request', async () => {
+		const request = new IncomingRequest('http://crafthead.net/hytale/avatar/testuser');
+		const ctx = createExecutionContext();
+		const response = await worker.fetch(request, env, ctx);
+		await waitOnExecutionContext(ctx);
+
+		expect(response.status).toBe(200);
+		expect(response.headers.get('access-control-allow-origin')).toBe('*');
+		expect(response.headers.get('cache-control')).toBe('max-age=14400');
+		expect(response.headers.get('content-type')).toBe('image/png');
+
+		// If 3D rendering works, we should see R2 cache headers
+		// If it falls back to text avatar, these headers won't be present
+		const renderer = response.headers.get('x-crafthead-renderer');
+		if (renderer === 'hytale-3d') {
+			expect(response.headers.get('x-crafthead-r2-cache-hit')).toBe('no');
+		}
+	});
+
+	it('responds with R2 cache hit on subsequent request', async () => {
+		const request = new IncomingRequest('http://crafthead.net/hytale/avatar/testuser');
+
+		const ctx1 = createExecutionContext();
+		const response1 = await worker.fetch(request, env, ctx1);
+		await waitOnExecutionContext(ctx1);
+
+		expect(response1.status).toBe(200);
+
+		// Check if using 3D renderer before asserting cache headers
+		const renderer = response1.headers.get('x-crafthead-renderer');
+		if (renderer === 'hytale-3d') {
+			expect(response1.headers.get('x-crafthead-r2-cache-hit')).toBe('no');
+
+			const ctx2 = createExecutionContext();
+			const response2 = await worker.fetch(request, env, ctx2);
+			await waitOnExecutionContext(ctx2);
+
+			expect(response2.status).toBe(200);
+			expect(response2.headers.get('x-crafthead-r2-cache-hit')).toBe('yes');
+			expect(response2.headers.get('x-crafthead-r2-cache-age-ms')).toBeTruthy();
+		}
+	});
+});
+
 describe('worker headers', () => {
 	it('responds with expected headers', async () => {
 		const request = new IncomingRequest('http://crafthead.net/avatar/ef6134805b6244e4a4467fbe85d65513');
