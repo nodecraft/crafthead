@@ -38,15 +38,16 @@ export async function readAssetFile(
 			console.log('No object for R2', filePath);
 			throw new Error(`Asset file not found in R2: ${filePath}`);
 		}
-		const cachedResponse = new Response(await object.arrayBuffer(), {
+		const arrayBuffer = await object.arrayBuffer();
+		const cachedResponse = new Response(arrayBuffer, {
 			headers: {
 				'Content-Type': object.httpMetadata?.contentType || 'application/octet-stream',
 				'Cache-Control': 'max-age=604800', // 7 days
 			},
 		});
 		ctx.waitUntil(caches.default.put(new Request(cacheKey), cachedResponse));
-		return object.arrayBuffer();
+		return arrayBuffer;
 	}
 
-	throw new Error(`Asset file not found in R2: ${filePath}`);
+	throw new Error(`Asset file not found: ${filePath}`);
 }

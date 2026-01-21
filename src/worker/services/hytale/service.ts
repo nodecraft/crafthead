@@ -2,7 +2,13 @@ import pLimit from 'p-limit';
 
 import * as hytaleApi from './api';
 import { loadHytaleAssets } from './assets';
-import { getRequiredAssetPaths, resolveSkin } from './cosmetic-registry';
+import {
+	type SkinDefinition,
+	getCosmeticJson,
+	getCosmeticJsonBytes,
+	getRequiredAssetPaths,
+	resolveSkin,
+} from './cosmetic-registry';
 import { render_hytale_3d, render_text_avatar } from '../../../../pkg/mcavatar';
 import { EMPTY } from '../../data';
 import { IdentityKind, RequestedKind } from '../../request';
@@ -162,10 +168,10 @@ function generateAndReturnTextAvatar(username: string, request: CraftheadRequest
 export async function renderAvatar(incomingRequest: Request, request: CraftheadRequest, env: Cloudflare.Env, ctx: ExecutionContext): Promise<Response> {
 	const cacheKey = getRenderCacheKey(request);
 
-	const cachedRender = await getCachedRender(cacheKey, env);
-	if (cachedRender) {
-		return cachedRender;
-	}
+	// const cachedRender = await getCachedRender(cacheKey, env);
+	// if (cachedRender) {
+	// 	return cachedRender;
+	// }
 
 	const { profile } = await normalizeRequest(incomingRequest, request);
 	const username = profile?.name ?? request.identity;
@@ -176,7 +182,11 @@ export async function renderAvatar(incomingRequest: Request, request: CraftheadR
 
 	try {
 		// Load bundled Hytale assets (base model and animation)
-		const assets = await loadHytaleAssets();
+		const skinDefinitionJson = getCosmeticJson<SkinDefinition[]>('Cosmetics/CharacterCreator/BodyCharacteristics.json');
+		// Look for their skin type
+		const skinType = profile.skin.bodyCharacteristic.split('.')[0] ?? 'Default';
+		const skinPath = skinDefinitionJson.find(skin => skin.Id === skinType)?.GreyscaleTexture ?? 'Common/Characters/Player_Textures/Player_Greyscale.png';
+		const assets = await loadHytaleAssets(skinPath, ctx);
 
 		const resolvedSkin = await resolveSkin(profile.skin);
 		const assetPaths: string[] = [];
@@ -184,43 +194,27 @@ export async function renderAvatar(incomingRequest: Request, request: CraftheadR
 
 		const requiredAssets = getRequiredAssetPaths(resolvedSkin);
 
-		const assetSet = new Set<string>([
+		const skinSpecificAssetSet = new Set<string>([
 			...requiredAssets.models,
 			...requiredAssets.textures,
 			...requiredAssets.gradients,
-			'Cosmetics/CharacterCreator/HaircutFallbacks.json',
-			'Cosmetics/CharacterCreator/Faces.json',
-			'Cosmetics/CharacterCreator/Eyes.json',
-			'Cosmetics/CharacterCreator/Eyebrows.json',
-			'Cosmetics/CharacterCreator/Mouths.json',
-			'Cosmetics/CharacterCreator/Ears.json',
-			'Cosmetics/CharacterCreator/Haircuts.json',
-			'Cosmetics/CharacterCreator/FacialHair.json',
-			'Cosmetics/CharacterCreator/Underwear.json',
-			'Cosmetics/CharacterCreator/FaceAccessory.json',
-			'Cosmetics/CharacterCreator/Capes.json',
-			'Cosmetics/CharacterCreator/EarAccessory.json',
-			'Cosmetics/CharacterCreator/Gloves.json',
-			'Cosmetics/CharacterCreator/HeadAccessory.json',
-			'Cosmetics/CharacterCreator/GradientSets.json',
-			'Cosmetics/CharacterCreator/Overpants.json',
-			'Cosmetics/CharacterCreator/Overtops.json',
-			'Cosmetics/CharacterCreator/Pants.json',
-			'Cosmetics/CharacterCreator/Shoes.json',
-			'Cosmetics/CharacterCreator/SkinFeatures.json',
-			'Cosmetics/CharacterCreator/Undertops.json',
 		]);
 
+		for (const { path, bytes } of getCosmeticJsonBytes()) {
+			assetPaths.push(`assets/Common/${path}`);
+			assetBytes.push(bytes);
+		}
+
 		const limit = pLimit(5);
-		const assetPromises = [...assetSet].map(async (assetPath) => {
-			const data = await limit(() => readAssetFile(assetPath, env));
+		const skinAssetPromises = [...skinSpecificAssetSet].map(async (assetPath) => {
+			const data = await limit(() => readAssetFile(assetPath, env, ctx));
 			const providerPath = assetPath.startsWith('Common/')
 				? `assets/${assetPath}`
 				: `assets/Common/${assetPath}`;
 			return { providerPath, bytes: new Uint8Array(data) };
 		});
 
-		const results = await Promise.all(assetPromises);
+		const results = await Promise.all(skinAssetPromises);
 		for (const result of results) {
 			assetPaths.push(result.providerPath);
 			assetBytes.push(result.bytes);
