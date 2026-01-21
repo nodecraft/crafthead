@@ -23,7 +23,7 @@ let loadingPromise: Promise<HytaleAssets> | null = null;
  * Assets are loaded from R2 or disk asynchronously.
  * Returns cached assets after first load.
  */
-export async function loadHytaleAssets(): Promise<HytaleAssets> {
+export async function loadHytaleAssets(skinPath: string = 'Common/Characters/Player_Textures/Player_Greyscale.png', ctx: ExecutionContext): Promise<HytaleAssets> {
 	if (cacheState === 'loaded') {
 		return cache!;
 	}
@@ -31,12 +31,13 @@ export async function loadHytaleAssets(): Promise<HytaleAssets> {
 	if (cacheState === 'loading') {
 		return loadingPromise!;
 	}
+	skinPath = skinPath.startsWith('Common/') ? skinPath : `Common/${skinPath}`;
 
 	cacheState = 'loading';
 	loadingPromise = (async () => {
-		const playerTextureData = await readAssetFile('Common/Characters/Player_Textures/Player_Greyscale.png', env);
-		const playerModelJson = await readAssetFile('Common/Characters/Player.blockymodel', env);
-		const idleAnimationJson = await readAssetFile('Common/Characters/Animations/Default/Idle.blockyanim', env);
+		const playerTextureData = await readAssetFile(skinPath, env, ctx);
+		const playerModelJson = await readAssetFile('Common/Characters/Player.blockymodel', env, ctx);
+		const idleAnimationJson = await readAssetFile('Common/Characters/Animations/Default/Idle.blockyanim', env, ctx);
 
 		const textureBytes = new Uint8Array(playerTextureData);
 

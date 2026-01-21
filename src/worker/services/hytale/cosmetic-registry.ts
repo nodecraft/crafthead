@@ -21,6 +21,7 @@ import facesJson from '../../../../assets/hytale/Cosmetics/CharacterCreator/Face
 import facialHairJson from '../../../../assets/hytale/Cosmetics/CharacterCreator/FacialHair.json';
 import glovesJson from '../../../../assets/hytale/Cosmetics/CharacterCreator/Gloves.json';
 import gradientSetsJson from '../../../../assets/hytale/Cosmetics/CharacterCreator/GradientSets.json';
+import haircutFallbacksJson from '../../../../assets/hytale/Cosmetics/CharacterCreator/HaircutFallbacks.json';
 import haircutsJson from '../../../../assets/hytale/Cosmetics/CharacterCreator/Haircuts.json';
 import headAccessoryJson from '../../../../assets/hytale/Cosmetics/CharacterCreator/HeadAccessory.json';
 import mouthsJson from '../../../../assets/hytale/Cosmetics/CharacterCreator/Mouths.json';
@@ -78,6 +79,39 @@ const DEFINITION_FILES: SlotDefinitions = {
 	Undertops: parseJson<CosmeticDefinition[]>(undertopsJson),
 	Underwear: parseJson<CosmeticDefinition[]>(underwearJson),
 };
+
+const COSMETIC_FILES = [
+	{ path: 'Cosmetics/CharacterCreator/Faces.json', content: facesJson },
+	{ path: 'Cosmetics/CharacterCreator/Eyes.json', content: eyesJson },
+	{ path: 'Cosmetics/CharacterCreator/Eyebrows.json', content: eyebrowsJson },
+	{ path: 'Cosmetics/CharacterCreator/Mouths.json', content: mouthsJson },
+	{ path: 'Cosmetics/CharacterCreator/Ears.json', content: earsJson },
+	{ path: 'Cosmetics/CharacterCreator/Haircuts.json', content: haircutsJson },
+	{ path: 'Cosmetics/CharacterCreator/FacialHair.json', content: facialHairJson },
+	{ path: 'Cosmetics/CharacterCreator/Underwear.json', content: underwearJson },
+	{ path: 'Cosmetics/CharacterCreator/FaceAccessory.json', content: faceAccessoryJson },
+	{ path: 'Cosmetics/CharacterCreator/Capes.json', content: capesJson },
+	{ path: 'Cosmetics/CharacterCreator/EarAccessory.json', content: earAccessoryJson },
+	{ path: 'Cosmetics/CharacterCreator/Gloves.json', content: glovesJson },
+	{ path: 'Cosmetics/CharacterCreator/HeadAccessory.json', content: headAccessoryJson },
+	{ path: 'Cosmetics/CharacterCreator/GradientSets.json', content: gradientSetsJson },
+	{ path: 'Cosmetics/CharacterCreator/Overpants.json', content: overpantsJson },
+	{ path: 'Cosmetics/CharacterCreator/Overtops.json', content: overtopsJson },
+	{ path: 'Cosmetics/CharacterCreator/Pants.json', content: pantsJson },
+	{ path: 'Cosmetics/CharacterCreator/Shoes.json', content: shoesJson },
+	{ path: 'Cosmetics/CharacterCreator/Undertops.json', content: undertopsJson },
+	{ path: 'Cosmetics/CharacterCreator/HaircutFallbacks.json', content: haircutFallbacksJson },
+	{ path: 'Cosmetics/CharacterCreator/BodyCharacteristics.json', content: bodyCharacteristicsJson },
+];
+
+export interface SkinDefinition {
+	Id: string;
+	Model: string;
+	GradientSet: string;
+	GreyscaleTexture: string;
+	Name: string;
+	IsDefaultAsset?: boolean;
+}
 
 type CacheState = 'uninitialized' | 'loading' | 'loaded';
 
@@ -236,11 +270,21 @@ export async function resolveCosmetic(
 		}
 	}
 
+	const fullModelPath = modelPath ? `Common/${modelPath}` : null;
+	const fullTexturePath = texturePath ? `Common/${texturePath}` : null;
+
+	const basePlayerAssets = new Set([
+		'Common/Characters/Player.blockymodel',
+		'Common/Characters/Animations/Default/Idle.blockyanim',
+		'Common/Characters/Player_Textures/Player_Greyscale.png',
+		'Common/Characters/Player_Textures/Player_Muscular_Greyscale.png',
+	]);
+
 	return {
 		slot,
 		id: parsed.id,
-		modelPath: modelPath ? `Common/${modelPath}` : null,
-		texturePath: texturePath ? `Common/${texturePath}` : null,
+		modelPath: fullModelPath && !basePlayerAssets.has(fullModelPath) ? fullModelPath : null,
+		texturePath: fullTexturePath && !basePlayerAssets.has(fullTexturePath) ? fullTexturePath : null,
 		gradientSetId,
 		colorId,
 		gradientTexturePath: gradientTexturePath ? `Common/${gradientTexturePath}` : null,
@@ -360,4 +404,24 @@ export function getRequiredAssetPaths(resolvedSkin: ResolvedSkin): {
 		textures: [...textures],
 		gradients: [...gradients],
 	};
+}
+
+export function getCosmeticJsonBytes(): { path: string; bytes: Uint8Array; }[] {
+	const reusableTextEncoder = new TextEncoder();
+	return COSMETIC_FILES.map(({ path, content }) => {
+		return {
+			path,
+			bytes: reusableTextEncoder.encode(typeof content === 'string' ? content : JSON.stringify(content)),
+		};
+	});
+}
+
+export function getCosmeticJson<T>(path: string): T {
+	// Return this as as an object
+	const content = COSMETIC_FILES.find(file => file.path === path)?.content;
+	if (!content) {
+		console.warn(`Cosmetic JSON not found: ${path}`);
+		return {} as T;
+	}
+	return JSON.parse(typeof content === 'string' ? content : JSON.stringify(content));
 }

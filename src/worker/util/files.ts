@@ -6,6 +6,10 @@
  * in Cloudflare Workers while still supporting local development.
  */
 
+export async function generateCacheKey(filePath: string): Promise<string> {
+	return `https://crafthead.net/_hytale_assets/${filePath}`;
+}
+
 /**
  * Reads an asset file from R2 (production) or disk (local development)
  *
@@ -17,9 +21,16 @@
 export async function readAssetFile(
 	filePath: string,
 	env: Cloudflare.Env,
+	ctx: ExecutionContext,
 ): Promise<ArrayBuffer> {
 	// There is intentionally no fallback to disk here. You should just upload the files to b2 locally.
 	// There's a script: ./scripts/upload-assets-to-r2.ts, re-enable the debug endpoint and run it to upload the assets.
+	const cacheKey = await generateCacheKey(filePath);
+	// Check to see if it's already cached and if so, return the cached response
+	const cachedResponse = await caches.default.match(new Request(cacheKey));
+	if (cachedResponse) {
+		return cachedResponse.arrayBuffer();
+	}
 	// Check if R2 binding is available (production)
 	if (env.HYTALE_ASSETS) {
 		const object = await env.HYTALE_ASSETS.get(filePath);
@@ -27,9 +38,16 @@ export async function readAssetFile(
 			console.log('No object for R2', filePath);
 			throw new Error(`Asset file not found in R2: ${filePath}`);
 		}
-		console.log('serving asset from R2', filePath);
-		return object.arrayBuffer();
+		const arrayBuffer = await object.arrayBuffer();
+		const cachedResponse = new Response(arrayBuffer, {
+			headers: {
+				'Content-Type': object.httpMetadata?.contentType || 'application/octet-stream',
+				'Cache-Control': 'max-age=604800', // 7 days
+			},
+		});
+		ctx.waitUntil(caches.default.put(new Request(cacheKey), cachedResponse));
+		return arrayBuffer;
 	}
 
-	throw new Error(`Asset file not found in R2: ${filePath}`);
+	throw new Error(`Asset file not found: ${filePath}`);
 }
