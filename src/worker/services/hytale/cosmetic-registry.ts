@@ -79,38 +79,62 @@ const DEFINITION_FILES: SlotDefinitions = {
 	Underwear: parseJson<CosmeticDefinition[]>(underwearJson),
 };
 
-/**
- * Gradient sets indexed by ID
- */
-const GRADIENT_SETS: Map<string, GradientSetDefinition> = new Map(
-	parseJson<GradientSetDefinition[]>(gradientSetsJson).map(set => [set.Id, set]),
-);
+type CacheState = 'uninitialized' | 'loading' | 'loaded';
+
+let cacheState: CacheState = 'uninitialized';
+let indexedDefinitions: Map<string, Map<string, CosmeticDefinition>> | null = null;
+let gradientSets: Map<string, GradientSetDefinition> | null = null;
+let loadingPromise: Promise<void> | null = null;
 
 /**
- * Pre-indexed definitions by slot and ID for fast lookup
+ * Ensure the registry is initialized before use
+ * Handles concurrent calls to avoid duplicate initialization
  */
-const INDEXED_DEFINITIONS: Map<string, Map<string, CosmeticDefinition>> = new Map();
-
-// Build index on load
-for (const [fileName, definitions] of Object.entries(DEFINITION_FILES)) {
-	const indexedById = new Map<string, CosmeticDefinition>();
-	for (const def of definitions) {
-		if (def.Id) {
-			indexedById.set(def.Id, def);
-		}
+async function ensureInitialized(): Promise<void> {
+	if (cacheState === 'loaded') {
+		return;
 	}
-	INDEXED_DEFINITIONS.set(fileName, indexedById);
+
+	if (cacheState === 'loading') {
+		return loadingPromise!;
+	}
+
+	cacheState = 'loading';
+	loadingPromise = (async () => {
+		const loadedGradientSets = new Map(
+			parseJson<GradientSetDefinition[]>(gradientSetsJson).map(set => [set.Id, set]),
+		);
+
+		const loadedIndexedDefinitions = new Map<string, Map<string, CosmeticDefinition>>();
+		for (const [fileName, definitions] of Object.entries(DEFINITION_FILES)) {
+			const indexedById = new Map<string, CosmeticDefinition>();
+			for (const def of definitions) {
+				if (def.Id) {
+					indexedById.set(def.Id, def);
+				}
+			}
+			loadedIndexedDefinitions.set(fileName, indexedById);
+		}
+
+		gradientSets = loadedGradientSets;
+		indexedDefinitions = loadedIndexedDefinitions;
+		cacheState = 'loaded';
+	})();
+
+	return loadingPromise;
 }
 
 /**
  * Look up a cosmetic definition by slot and ID
  */
-export function getDefinition(slot: CosmeticSlot, id: string): CosmeticDefinition | null {
+export async function getDefinition(slot: CosmeticSlot, id: string): Promise<CosmeticDefinition | null> {
+	await ensureInitialized();
+
 	const fileName = SLOT_TO_FILE[slot];
 	if (!fileName) {
 		return null;
 	}
-	const slotIndex = INDEXED_DEFINITIONS.get(fileName);
+	const slotIndex = indexedDefinitions!.get(fileName);
 	if (!slotIndex) {
 		return null;
 	}
@@ -120,8 +144,10 @@ export function getDefinition(slot: CosmeticSlot, id: string): CosmeticDefinitio
 /**
  * Look up a gradient color by set ID and color ID
  */
-export function getGradient(setId: string, colorId: string): GradientColor | null {
-	const gradientSet = GRADIENT_SETS.get(setId);
+export async function getGradient(setId: string, colorId: string): Promise<GradientColor | null> {
+	await ensureInitialized();
+
+	const gradientSet = gradientSets!.get(setId);
 	if (!gradientSet) {
 		return null;
 	}
@@ -152,16 +178,16 @@ export function parseSkinValue(value: string): { id: string; color?: string; var
 /**
  * Resolve a single cosmetic slot to its full definition and asset paths
  */
-export function resolveCosmetic(
+export async function resolveCosmetic(
 	slot: CosmeticSlot,
 	value: string | null,
-): ResolvedCosmetic | null {
+): Promise<ResolvedCosmetic | null> {
 	if (!value) {
 		return null;
 	}
 
 	const parsed = parseSkinValue(value);
-	const definition = getDefinition(slot, parsed.id);
+	const definition = await getDefinition(slot, parsed.id);
 
 	if (!definition) {
 		console.warn(`Cosmetic definition not found: ${slot}/${parsed.id}`);
@@ -203,7 +229,7 @@ export function resolveCosmetic(
 	let colorId: string | null = null;
 	if (gradientSetId && parsed.color) {
 		colorId = parsed.color;
-		const gradient = getGradient(gradientSetId, parsed.color);
+		const gradient = await getGradient(gradientSetId, parsed.color);
 		if (gradient) {
 			gradientTexturePath = gradient.Texture;
 			baseColor = gradient.BaseColor;
@@ -226,7 +252,7 @@ export function resolveCosmetic(
 /**
  * Resolve a full skin configuration to all cosmetics and their assets
  */
-export function resolveSkin(skin: HytaleSkin): ResolvedSkin {
+export async function resolveSkin(skin: HytaleSkin): Promise<ResolvedSkin> {
 	const cosmetics: ResolvedCosmetic[] = [];
 
 	// Iterate over all slots in the skin
@@ -253,44 +279,52 @@ export function resolveSkin(skin: HytaleSkin): ResolvedSkin {
 		'cape',
 	];
 
-	for (const slot of slots) {
+	const promises = slots.map(async (slot) => {
 		const value = skin[slot];
-		const resolved = resolveCosmetic(slot, value);
-		if (resolved) {
-			cosmetics.push(resolved);
+		return resolveCosmetic(slot, value);
+	});
+
+	try {
+		const resolvedCosmetics = await Promise.all(promises);
+		cosmetics.push(...resolvedCosmetics.filter(cosmetic => cosmetic !== null));
+
+		const bodyCharacteristicIndex = cosmetics.findIndex(cos => cos.slot === 'bodyCharacteristic');
+		let skinTone: ResolvedCosmetic | null = null;
+
+		if (bodyCharacteristicIndex !== -1) {
+			skinTone = cosmetics[bodyCharacteristicIndex];
+			cosmetics.splice(bodyCharacteristicIndex, 1);
 		}
-	}
 
-	const bodyCharacteristicIndex = cosmetics.findIndex(cos => cos.slot === 'bodyCharacteristic');
-	let skinTone: ResolvedCosmetic | null = null;
+		// Propagate skin tone to other cosmetics that need it (e.g. Face, Ears)
+		// These cosmetics often have "GradientSet": "Skin" but no explicit color in the profile
+		if (skinTone && skinTone.gradientTexturePath) {
+			for (const cosmetic of cosmetics) {
+				const needsSkinTone = !cosmetic.gradientTexturePath && (
+					cosmetic.gradientSetId === 'Skin' ||
+					(skinTone.gradientSetId && cosmetic.gradientSetId === skinTone.gradientSetId)
+				);
 
-	if (bodyCharacteristicIndex !== -1) {
-		skinTone = cosmetics[bodyCharacteristicIndex];
-		cosmetics.splice(bodyCharacteristicIndex, 1);
-	}
-
-	// Propagate skin tone to other cosmetics that need it (e.g. Face, Ears)
-	// These cosmetics often have "GradientSet": "Skin" but no explicit color in the profile
-	if (skinTone && skinTone.gradientTexturePath) {
-		for (const cosmetic of cosmetics) {
-			const needsSkinTone = !cosmetic.gradientTexturePath && (
-				cosmetic.gradientSetId === 'Skin' ||
-				(skinTone.gradientSetId && cosmetic.gradientSetId === skinTone.gradientSetId)
-			);
-
-			if (needsSkinTone) {
-				cosmetic.gradientTexturePath = skinTone.gradientTexturePath;
-				cosmetic.baseColor = skinTone.baseColor;
-				cosmetic.colorId = skinTone.colorId;
+				if (needsSkinTone) {
+					cosmetic.gradientTexturePath = skinTone.gradientTexturePath;
+					cosmetic.baseColor = skinTone.baseColor;
+					cosmetic.colorId = skinTone.colorId;
 				// cosmetic.gradientSetId is already set matching the definition
+				}
 			}
 		}
-	}
 
-	return {
-		cosmetics,
-		skinTone,
-	};
+		return {
+			cosmetics,
+			skinTone,
+		};
+	} catch (error) {
+		console.error('Error resolving skin:', error);
+		return {
+			cosmetics: [],
+			skinTone: null,
+		};
+	}
 }
 
 /**

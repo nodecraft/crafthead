@@ -78,9 +78,21 @@ function mapRequestedKindToViewType(kind: RequestedKind): string {
 			return 'no-op';
 		}
 		default: {
+			console.log(`Unknown requested kind: ${kind}`);
+			// Then just fallback to avatar. Hytale's skin system is pretty different.
 			return 'avatar';
 		}
 	}
+}
+
+function generateAndReturnTextAvatar(username: string, request: CraftheadRequest) {
+	const imageData = render_text_avatar(username, request.size);
+	return new Response(imageData, {
+		headers: {
+			'Content-Type': 'image/png',
+			'X-Crafthead-Renderer': 'text-avatar-fallback',
+		},
+	});
 }
 
 /**
@@ -95,16 +107,12 @@ export async function renderAvatar(incomingRequest: Request, request: CraftheadR
 		// Load bundled Hytale assets (base model and animation)
 		const assets = await loadHytaleAssets();
 
-
-
-		// ... (inside renderAvatar)
-
-		let resolvedSkin: ReturnType<typeof resolveSkin> | undefined;
+		let resolvedSkin: Awaited<ReturnType<typeof resolveSkin>> | undefined;
 		const assetPaths: string[] = [];
 		const assetBytes: Uint8Array[] = [];
 
 		if (profile?.skin) {
-			resolvedSkin = resolveSkin(profile.skin);
+			resolvedSkin = await resolveSkin(profile.skin);
 			const requiredAssets = getRequiredAssetPaths(resolvedSkin);
 
 			const assetSet = new Set<string>([
@@ -144,6 +152,8 @@ export async function renderAvatar(incomingRequest: Request, request: CraftheadR
 			}
 		} else {
 			console.log(`Player ${username} has no skin configuration`);
+			// Don't even try to render, just fallback to the text avatar
+			return generateAndReturnTextAvatar(username, request);
 		}
 
 		const viewType = mapRequestedKindToViewType(request.requested);
@@ -203,27 +213,25 @@ export async function renderAvatar(incomingRequest: Request, request: CraftheadR
 		console.error('Hytale 3D rendering failed:', error);
 		// TODO: Add Sentry eventually to track errors better
 
-		const imageData = render_text_avatar(username, request.size);
-		return new Response(imageData, {
-			headers: {
-				'Content-Type': 'image/png',
-				'X-Crafthead-Renderer': 'text-avatar-fallback',
-			},
-		});
+		return generateAndReturnTextAvatar(username, request);
 	}
 }
 
-/**
- * TEMPORARY: Returns a text avatar since real Hytale skins aren't implemented yet.
- */
-export async function retrieveSkin(incomingRequest: Request, request: CraftheadRequest): Promise<Response> {
-	return renderAvatar(incomingRequest, request);
+export async function retrieveSkin(/*incomingRequest: Request, request: CraftheadRequest*/): Promise<Response> {
+	// TODO: Return something other than a 404
+	return new Response(EMPTY, {
+		status: 404,
+		headers: {
+			'X-Crafthead-Profile-Cache-Hit': 'not-supported',
+		},
+	});
 }
 
 /**
  * Hytale capes are not supported yet.
  */
-export function retrieveCape(_incomingRequest: Request, _request: CraftheadRequest): Response {
+export function retrieveCape(/*incomingRequest: Request, request: CraftheadRequest*/): Response {
+	// TODO: Return something other than a 404
 	return new Response(EMPTY, {
 		status: 404,
 		headers: {
