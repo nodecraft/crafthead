@@ -157,5 +157,83 @@
     "Entitlements": [
       "game.founder"
     ]
+  },
+  {
+    "Id": "Blindfold",
+    "Name": "avatarCustomization.faceaccessory.Blindfold.name",
+    "Model": "Cosmetics/Face_Accessories/Glasses.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Face_Accessories/Blindfold_Textures/Blindfold_Thin.png",
+    "GradientSet": "Colored_Cotton",
+    "Variants": {
+      "Thin": {
+        "Model": "Cosmetics/Face_Accessories/Blindfold.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Face_Accessories/Blindfold_Textures/Blindfold_Thin.png",
+        "NameKey": "avatarCustomization.variants.thin.name"
+      },
+      "Thick": {
+        "Model": "Cosmetics/Face_Accessories/Blindfold.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Face_Accessories/Blindfold_Textures/Blindfold_Thick.png",
+        "NameKey": "avatarCustomization.variants.thick.name"
+      }
+    },
+    "DisableCharacterPartCategory": "Eyebrows"
+  },
+  {
+    "Id": "BandageBlindfold",
+    "Name": "avatarCustomization.faceaccessory.BandageBlindfold.name",
+    "Model": "Cosmetics/Face_Accessories/Blindfold.blockymodel",
+    "Variants": {
+      "Thin": {
+        "Model": "Cosmetics/Face_Accessories/Blindfold.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Face_Accessories/Blindfold_Textures/Blindfold_Bandage_Thin.png",
+        "NameKey": "avatarCustomization.variants.thin.name"
+      },
+      "Thick": {
+        "Model": "Cosmetics/Face_Accessories/Blindfold.blockymodel",
+        "NameKey": "avatarCustomization.variants.thick.name",
+        "GreyscaleTexture": "Cosmetics/Face_Accessories/Blindfold_Textures/Blindfold_Bandage.png"
+      },
+      "Peeking_Left": {
+        "Model": "Cosmetics/Face_Accessories/Blindfold.blockymodel",
+        "NameKey": "avatarCustomization.variants.lefteye.name",
+        "GreyscaleTexture": "Cosmetics/Face_Accessories/Blindfold_Textures/Blindfold_Bandage_Peeking.png"
+      },
+      "Peeking_Right": {
+        "Model": "Cosmetics/Face_Accessories/Blindfold.blockymodel",
+        "NameKey": "avatarCustomization.variants.righteye.name",
+        "GreyscaleTexture": "Cosmetics/Face_Accessories/Blindfold_Textures/Blindfold_Bandage_Peeking_Flipped.png"
+      }
+    },
+    "Textures": {
+      "White": {
+        "Texture": "Cosmetics/Face_Accessories/Blindfold_Textures/Blindfold_Bandage.png",
+        "BaseColor": [
+          "#ddd7bd"
+        ]
+      }
+    },
+    "DisableCharacterPartCategory": "Eyebrows",
+    "GreyscaleTexture": "Cosmetics/Face_Accessories/Blindfold_Textures/Blindfold_Bandage_Thin.png",
+    "GradientSet": "Fantasy_Cotton"
+  },
+  {
+    "Id": "BanditMask",
+    "Name": "avatarCustomization.faceaccessory.BanditMask.name",
+    "Model": "Cosmetics/Face_Accessories/Blindfold.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Face_Accessories/Blindfold_Textures/Blindfold_Mask.png",
+    "GradientSet": "Colored_Cotton",
+    "DisableCharacterPartCategory": "Eyebrows",
+    "Variants": {
+      "Default": {
+        "GreyscaleTexture": "Cosmetics/Face_Accessories/Blindfold_Textures/Blindfold_Mask.png",
+        "Model": "Cosmetics/Face_Accessories/Blindfold.blockymodel",
+        "NameKey": "avatarCustomization.variants.default"
+      },
+      "SideKnot": {
+        "Model": "Cosmetics/Face_Accessories/Blindfold.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Face_Accessories/Blindfold_Textures/Blindfold_Mask_Side.png",
+        "NameKey": "avatarCustomization.variants.faceaccessory.BanditMask_SideKnot.name"
+      }
+    }
   }
 ]

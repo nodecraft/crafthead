@@ -15,7 +15,7 @@ To extract Hytale assets, use the `extract-hytale-assets.ts` script.
 
 #### Method 1: Place zip file in assets folder (Recommended)
 
-1. Place `Hytale Assets.zip` in the `assets/` folder
+1. Place `Assets.zip` in the `assets/` folder
 2. Run the extraction script:
    ```bash
    npm run extract-hytale-assets

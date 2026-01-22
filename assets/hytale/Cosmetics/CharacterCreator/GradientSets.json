@@ -185,7 +185,86 @@
     }
   },
   {
+    "Id": "Skin",
     "Gradients": {
+      "53": {
+        "Texture": "TintGradients/Skin_Tones/53.png",
+        "BaseColor": [
+          "#190f0d"
+        ]
+      },
+      "14": {
+        "Texture": "TintGradients/Skin_Tones/14.png",
+        "BaseColor": [
+          "#31221f"
+        ]
+      },
+      "18": {
+        "BaseColor": [
+          "#4d272b"
+        ],
+        "Texture": "TintGradients/Skin_Tones/18.png"
+      },
+      "07": {
+        "BaseColor": [
+          "#4f2a24"
+        ],
+        "Texture": "TintGradients/Skin_Tones/07.png"
+      },
+      "13": {
+        "Texture": "TintGradients/Skin_Tones/13.png",
+        "BaseColor": [
+          "#513425"
+        ]
+      },
+      "17": {
+        "BaseColor": [
+          "#5e3a2f"
+        ],
+        "Texture": "TintGradients/Skin_Tones/17.png"
+      },
+      "27": {
+        "BaseColor": [
+          "#765e48"
+        ],
+        "Texture": "TintGradients/Skin_Tones/27.png"
+      },
+      "16": {
+        "BaseColor": [
+          "#63492f"
+        ],
+        "Texture": "TintGradients/Skin_Tones/16.png"
+      },
+      "06": {
+        "BaseColor": [
+          "#6f3b2c"
+        ],
+        "Texture": "TintGradients/Skin_Tones/06.png"
+      },
+      "38": {
+        "BaseColor": [
+          "#6c3f40"
+        ],
+        "Texture": "TintGradients/Skin_Tones/38.png"
+      },
+      "12": {
+        "Texture": "TintGradients/Skin_Tones/12.png",
+        "BaseColor": [
+          "#7d432b"
+        ]
+      },
+      "05": {
+        "BaseColor": [
+          "#945d44"
+        ],
+        "Texture": "TintGradients/Skin_Tones/05.png"
+      },
+      "11": {
+        "Texture": "TintGradients/Skin_Tones/11.png",
+        "BaseColor": [
+          "#ab7a4c"
+        ]
+      },
       "04": {
         "BaseColor": [
           "#ba7f5b"
@@ -197,6 +276,24 @@
         "BaseColor": [
           "#d98c5b"
         ]
+      },
+      "15": {
+        "Texture": "TintGradients/Skin_Tones/15.png",
+        "BaseColor": [
+          "#d5a082"
+        ]
+      },
+      "03": {
+        "BaseColor": [
+          "#e0ae72"
+        ],
+        "Texture": "TintGradients/Skin_Tones/03.png"
+      },
+      "48": {
+        "BaseColor": [
+          "#dcc5b0"
+        ],
+        "Texture": "TintGradients/Skin_Tones/48.png"
       },
       "08": {
         "Texture": "TintGradients/Skin_Tones/08.png",
@@ -222,101 +319,17 @@
           "#f5bc83"
         ]
       },
-      "15": {
-        "Texture": "TintGradients/Skin_Tones/15.png",
-        "BaseColor": [
-          "#d5a082"
-        ]
-      },
-      "03": {
-        "BaseColor": [
-          "#e0ae72"
-        ],
-        "Texture": "TintGradients/Skin_Tones/03.png"
-      },
-      "11": {
-        "Texture": "TintGradients/Skin_Tones/11.png",
-        "BaseColor": [
-          "#ab7a4c"
-        ]
-      },
-      "05": {
-        "BaseColor": [
-          "#945d44"
-        ],
-        "Texture": "TintGradients/Skin_Tones/05.png"
-      },
-      "12": {
-        "Texture": "TintGradients/Skin_Tones/12.png",
-        "BaseColor": [
-          "#7d432b"
-        ]
-      },
-      "06": {
-        "BaseColor": [
-          "#6f3b2c"
-        ],
-        "Texture": "TintGradients/Skin_Tones/06.png"
-      },
-      "27": {
-        "BaseColor": [
-          "#765e48"
-        ],
-        "Texture": "TintGradients/Skin_Tones/27.png"
-      },
-      "16": {
-        "BaseColor": [
-          "#63492f"
-        ],
-        "Texture": "TintGradients/Skin_Tones/16.png"
-      },
-      "38": {
-        "BaseColor": [
-          "#6c3f40"
-        ],
-        "Texture": "TintGradients/Skin_Tones/38.png"
-      },
-      "17": {
-        "BaseColor": [
-          "#5e3a2f"
-        ],
-        "Texture": "TintGradients/Skin_Tones/17.png"
-      },
-      "13": {
-        "Texture": "TintGradients/Skin_Tones/13.png",
-        "BaseColor": [
-          "#513425"
-        ]
-      },
-      "07": {
-        "BaseColor": [
-          "#4f2a24"
-        ],
-        "Texture": "TintGradients/Skin_Tones/07.png"
-      },
-      "18": {
-        "BaseColor": [
-          "#4d272b"
-        ],
-        "Texture": "TintGradients/Skin_Tones/18.png"
-      },
-      "14": {
-        "Texture": "TintGradients/Skin_Tones/14.png",
-        "BaseColor": [
-          "#31221f"
-        ]
-      },
-      "52": {
-        "BaseColor": [
-          "#131111"
-        ],
-        "Texture": "TintGradients/Skin_Tones/52.png"
-      },
       "31": {
         "BaseColor": [
           "#b22a2a"
         ],
         "Texture": "TintGradients/Skin_Tones/31.png"
+      },
+      "51": {
+        "Texture": "TintGradients/Skin_Tones/51.png",
+        "BaseColor": [
+          "#f06f47"
+        ]
       },
       "21": {
         "BaseColor": [
@@ -324,11 +337,23 @@
         ],
         "Texture": "TintGradients/Skin_Tones/21.png"
       },
+      "39": {
+        "BaseColor": [
+          "#ff9c5b"
+        ],
+        "Texture": "TintGradients/Skin_Tones/39.png"
+      },
       "37": {
         "BaseColor": [
           "#f4c944"
         ],
         "Texture": "TintGradients/Skin_Tones/37.png"
+      },
+      "29": {
+        "BaseColor": [
+          "#b0b283"
+        ],
+        "Texture": "TintGradients/Skin_Tones/29.png"
       },
       "45": {
         "BaseColor": [
@@ -380,9 +405,15 @@
       },
       "33": {
         "BaseColor": [
-          "#092029"
+          "#263d50"
         ],
         "Texture": "TintGradients/Skin_Tones/33.png"
+      },
+      "26": {
+        "BaseColor": [
+          "#6c2abd"
+        ],
+        "Texture": "TintGradients/Skin_Tones/26.png"
       },
       "20": {
         "BaseColor": [
@@ -390,11 +421,11 @@
         ],
         "Texture": "TintGradients/Skin_Tones/20.png"
       },
-      "26": {
+      "46": {
         "BaseColor": [
-          "#6c2abd"
+          "#ddbfe8"
         ],
-        "Texture": "TintGradients/Skin_Tones/26.png"
+        "Texture": "TintGradients/Skin_Tones/46.png"
       },
       "49": {
         "BaseColor": [
@@ -420,50 +451,25 @@
         ],
         "Texture": "TintGradients/Skin_Tones/47.png"
       },
-      "46": {
-        "BaseColor": [
-          "#ddbfe8"
-        ],
-        "Texture": "TintGradients/Skin_Tones/46.png"
-      },
       "28": {
         "BaseColor": [
           "#f3f3f3"
         ],
         "Texture": "TintGradients/Skin_Tones/28.png"
       },
-      "29": {
-        "BaseColor": [
-          "#998d71"
-        ],
-        "Texture": "TintGradients/Skin_Tones/29.png"
-      },
-      "51": {
-        "Texture": "TintGradients/Skin_Tones/51.png",
-        "BaseColor": [
-          "#f06f47"
-        ]
-      },
-      "39": {
-        "BaseColor": [
-          "#ff9c5b"
-        ],
-        "Texture": "TintGradients/Skin_Tones/39.png"
-      },
-      "48": {
-        "BaseColor": [
-          "#dcc5b0"
-        ],
-        "Texture": "TintGradients/Skin_Tones/48.png"
-      },
       "50": {
         "Texture": "TintGradients/Skin_Tones/50.png",
         "BaseColor": [
           "#2b2b2f"
         ]
+      },
+      "52": {
+        "BaseColor": [
+          "#131111"
+        ],
+        "Texture": "TintGradients/Skin_Tones/52.png"
       }
-    },
-    "Id": "Skin"
+    }
   },
   {
     "Gradients": {
@@ -627,6 +633,12 @@
           "#040202"
         ],
         "Texture": "TintGradients/Fantasy_Cotton/Black.png"
+      },
+      "White": {
+        "Texture": "TintGradients/Fantasy_Cotton/White.png",
+        "BaseColor": [
+          "#f8f8ef"
+        ]
       }
     },
     "Id": "Fantasy_Cotton"
