@@ -13,6 +13,7 @@ node_modules/
 dist/
 src/hytale-skin-renderer/target/
 .env
+assets/Assets.zip
 
 # Localflare generated files
 .localflare/

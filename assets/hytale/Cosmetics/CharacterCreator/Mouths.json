@@ -34,5 +34,26 @@
     "Name": "avatarCustomization.mouths.Mouth_Tiny.name",
     "GradientSet": "Skin",
     "GreyscaleTexture": "Characters/Body_Attachments/Mouths/Mouth1_Textures/Tiny_Lips.png"
+  },
+  {
+    "Id": "Mouth_Cute",
+    "Model": "Characters/Body_Attachments/Mouths/Mouth1.blockymodel",
+    "Name": "avatarCustomization.mouths.Mouth_Cute.name",
+    "GradientSet": "Skin",
+    "GreyscaleTexture": "Characters/Body_Attachments/Mouths/Mouth1_Textures/Mouth_Cute.png"
+  },
+  {
+    "Id": "Mouth_Vampire",
+    "Model": "Characters/Body_Attachments/Mouths/Mouth1.blockymodel",
+    "Name": "avatarCustomization.mouths.Mouth_Vampire.name",
+    "GradientSet": "Skin",
+    "GreyscaleTexture": "Characters/Body_Attachments/Mouths/Mouth1_Textures/Vampire.png"
+  },
+  {
+    "Id": "Mouth_Orc",
+    "Name": "avatarCustomization.mouths.Mouth_Orc.name",
+    "GradientSet": "Skin",
+    "Model": "Characters/Body_Attachments/Mouths/Mouth1.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Mouths/Mouth1_Textures/Orc.png"
   }
 ]
