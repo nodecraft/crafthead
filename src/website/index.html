@@ -188,6 +188,7 @@
 			</div>
 
 			<h3>Fetch a player's profile</h3>
+			<p>These endpoints are maintained for compatibility, but for profile lookups, we recommend using <a href="https://playerdb.co/">PlayerDB</a> instead.</p>
 			<div class="example">
 				<code class="verb">GET</code>
 				<code class="url">https://crafthead.net/profile/652a2bc4e8cd405db7b698156ee2dc09</code>
@@ -294,6 +295,7 @@
 			</div> -->
 
 			<h3>Fetch a player's profile</h3>
+			<p>These endpoints are maintained for compatibility, but for profile lookups, we recommend using <a href="https://playerdb.co/">PlayerDB</a> instead.</p>
 			<div class="example">
 				<code class="verb">GET</code>
 				<code class="url">https://crafthead.net/hytale/profile/3d853ff5e3684540987adabda4662cae</code>
@@ -333,6 +335,17 @@
 		const tabButtons = document.querySelectorAll('.tab-button');
 		const tabContents = document.querySelectorAll('.tab-content');
 
+		function getTabFromUrl(url) {
+			const params = new URL(url).searchParams;
+			return params.has('hytale') ? 'hytale' : 'minecraft';
+		}
+
+		function getUrlForTab(targetTab) {
+			const url = new URL(window.location);
+			url.search = targetTab === 'hytale' ? 'hytale' : '';
+			return url;
+		}
+
 		function selectTab(targetTab) {
 			// Remove active class from all buttons
 			tabButtons.forEach(btn => btn.classList.remove('active'));
@@ -355,16 +368,35 @@
 			}
 		}
 
+		// Handle all navigations (including back/forward)
+		navigation.addEventListener('navigate', (event) => {
+			if (!event.canIntercept || event.hashChange || event.downloadRequest !== null) {
+				return;
+			}
+
+			// Only handle same-page navigations
+			const destinationUrl = new URL(event.destination.url);
+			if (destinationUrl.pathname !== window.location.pathname) {
+				return;
+			}
+
+			event.intercept({
+				handler() {
+					selectTab(getTabFromUrl(event.destination.url));
+				}
+			});
+		});
+
+		// Tab button click handlers
 		for (const button of tabButtons) {
 			button.addEventListener('click', function() {
-				selectTab(this.getAttribute('data-tab'));
+				const targetTab = this.getAttribute('data-tab');
+				navigation.navigate(getUrlForTab(targetTab));
 			});
 		}
 
-		const urlParams = new URLSearchParams(window.location.search)
-		if (urlParams.has('hytale')) {
-			selectTab('hytale');
-		}
+		// Initial tab selection from URL
+		selectTab(getTabFromUrl(window.location.href));
 	</script>
 </body>
 
