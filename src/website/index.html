@@ -381,6 +381,7 @@
 			}
 
 			event.intercept({
+				scroll: 'manual',
 				handler() {
 					selectTab(getTabFromUrl(event.destination.url));
 				}
