@@ -918,5 +918,14 @@
         "NameKey": "avatarCustomization.variants.haircuts.Dreadlocks03.name"
       }
     }
+  },
+  {
+    "HairType": "Long",
+    "RequiresGenericHaircut": true,
+    "Id": "MagicalPonytail",
+    "Name": "avatarCustomization.haircuts.MagicalPonytail.name",
+    "Model": "Characters/Haircuts/Magical_Ponytail.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Magical_Ponytail_Greyscale.png"
   }
 ]
