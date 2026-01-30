@@ -228,14 +228,8 @@
     "Name": "avatarCustomization.shoes.Gem_Shoes.name",
     "Model": "Cosmetics/Shoes/Shoes.blockymodel",
     "Id": "Gem_Shoes",
-    "Textures": {
-      "Black": {
-        "Texture": "Cosmetics/Shoes/Shoes_Textures/Black.png",
-        "BaseColor": [
-          "#000000"
-        ]
-      }
-    }
+    "GreyscaleTexture": "Cosmetics/Shoes/Shoes_Textures/ShoesGem_Greyscale_Texture.png",
+    "GradientSet": "Flashy_Synthetic"
   },
   {
     "Name": "avatarCustomization.shoes.FashionableBoots.name",
@@ -500,5 +494,36 @@
     "Entitlements": [
       "game.founder"
     ]
+  },
+  {
+    "Id": "WedgeShoes",
+    "Name": "avatarCustomization.shoes.WedgeShoes.name",
+    "Model": "Cosmetics/Shoes/WedgeShoes.blockymodel",
+    "Variants": {
+      "Option A": {
+        "Model": "Cosmetics/Shoes/WedgeShoes.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Shoes/WedgeShoes_Textures/WedgeShoes1_Greyscale_Texture.png",
+        "NameKey": "avatarCustomization.variants.option.a"
+      },
+      "Option B": {
+        "Model": "Cosmetics/Shoes/WedgeShoes.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Shoes/WedgeShoes_Textures/WedgeShoes2_Greyscale_Texture.png",
+        "NameKey": "avatarCustomization.variants.option.b"
+      },
+      "Option C": {
+        "Model": "Cosmetics/Shoes/WedgeShoes.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Shoes/WedgeShoes_Textures/WedgeShoes3_Greyscale_Texture.png",
+        "NameKey": "avatarCustomization.variants.option.c"
+      }
+    },
+    "GreyscaleTexture": "Cosmetics/Shoes/WedgeShoes_Textures/WedgeShoes1_Greyscale_Texture.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "Flats_Styled",
+    "Name": "avatarCustomization.shoes.FlatsStyled.name",
+    "Model": "Cosmetics/Shoes/FlatsStyled.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/FlatsStyled_Textures/FlatsStyled_GreyScale.png",
+    "GradientSet": "Flashy_Synthetic"
   }
 ]

@@ -652,5 +652,27 @@
     "Entitlements": [
       "game.founder"
     ]
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "Hard_Hat",
+    "Name": "avatarCustomization.headaccessory.Hard_Hat.name",
+    "Model": "Cosmetics/Head/Hard_Hat.blockymodel",
+    "Textures": {
+      "Yellow": {
+        "Texture": "Cosmetics/Head/Head_Hard_Hat_Texture.png",
+        "BaseColor": [
+          "#e8b425"
+        ]
+      }
+    }
+  },
+ { 
+    "HeadAccessoryType": "HalfCovering",  
+    "Id": "TweedHat",
+    "Name": "avatarCustomization.headaccessory.TweedHat.name",
+    "Model": "Cosmetics/Head/TweedHat.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/TweedHat_Textures/TweedHat_Greyscale_Textures.png",
+    "GradientSet": "Colored_Cotton"
   }
 ]

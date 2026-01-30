@@ -862,5 +862,12 @@
       "game.deluxe",
       "game.founder"
     ]
+  },
+  {
+    "Id": "MageShirt",
+    "Name": "avatarCustomization.overtops.MageShirt.name",
+    "Model": "Cosmetics/Overtops/ShirtBulkyShoulders.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overtops/ShirtBulkyShoulders_Textures/MageShirt_Greyscale_Texture.png",
+    "GradientSet": "Colored_Cotton"
   }
 ]
