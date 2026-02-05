@@ -34,7 +34,7 @@ function getRenderCacheKey(skin: HytaleSkin, request: CraftheadRequest): string 
 	return `renders/${request.requested}/${request.size}/${request.armored ? 'armor' : 'regular'}/${hash}`;
 }
 
-async function getCachedRender(cacheKey: string, env: Cloudflare.Env): Promise<Response | null> {
+async function getCachedRender(cacheKey: string, env: Cloudflare.Env, ctx: ExecutionContext): Promise<Response | null> {
 	if (!env.HYTALE_RENDERS_CACHE) {
 		return null;
 	}
@@ -49,7 +49,7 @@ async function getCachedRender(cacheKey: string, env: Cloudflare.Env): Promise<R
 		if (cachedAt) {
 			const cacheAge = Date.now() - new Date(cachedAt).getTime();
 			if (cacheAge > CACHE_TTL_MS) {
-				await env.HYTALE_RENDERS_CACHE.delete(cacheKey);
+				ctx.waitUntil(env.HYTALE_RENDERS_CACHE.delete(cacheKey));
 				return null;
 			}
 		}
@@ -178,7 +178,7 @@ export async function renderAvatar(incomingRequest: Request, request: CraftheadR
 	}
 	const cacheKey = getRenderCacheKey(profile.skin, request);
 
-	const cachedRender = await getCachedRender(cacheKey, env);
+	const cachedRender = await getCachedRender(cacheKey, env, ctx);
 	if (cachedRender) {
 		return cachedRender;
 	}
