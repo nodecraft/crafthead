@@ -237,5 +237,29 @@
     "Entitlements": [
       "game.founder"
     ]
+  },
+  {
+    "Id": "Spiked_Bracelets",
+    "Name": "avatarCustomization.gloves.SpikedBracelets.name",
+    "Model": "Cosmetics/Gloves/Spiked_Bracelets.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Gloves/Spiked_Bracelets.png",
+    "GradientSet": "Fantasy_Cotton_Dark",
+    "Variants": {
+      "Default": {
+        "NameKey": "avatarCustomization.variants.default",
+        "Model": "Cosmetics/Gloves/Spiked_Bracelets.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Gloves/Spiked_Bracelets.png"
+      },
+      "Left": {
+        "NameKey": "avatarCustomization.variants.left_arm.name",
+        "Model": "Cosmetics/Gloves/Spiked_Bracelets_Right.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Gloves/Spiked_Bracelets.png"
+      },
+      "Right": {
+        "Model": "Cosmetics/Gloves/Spiked_Bracelets_Left.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Gloves/Spiked_Bracelets.png",
+        "NameKey": "avatarCustomization.variants.right_arm.name"
+      }
+    }
   }
 ]

@@ -392,9 +392,9 @@
     "RequiresGenericHaircut": false,
     "Id": "MaleElf",
     "Name": "avatarCustomization.haircuts.MaleElf.name",
-    "Model": "Characters/Haircuts/MaleElf.blockymodel",
+    "Model": "Characters/Haircuts/SmartElf.blockymodel",
     "GradientSet": "Hair",
-    "GreyscaleTexture": "Characters/Haircuts/MaleElf_Greyscale.png"
+    "GreyscaleTexture": "Characters/Haircuts/SmartElf_Greyscale.png"
   },
   {
     "HairType": "Short",
@@ -927,5 +927,67 @@
     "Model": "Characters/Haircuts/Magical_Ponytail.blockymodel",
     "GradientSet": "Hair",
     "GreyscaleTexture": "Characters/Haircuts/Magical_Ponytail_Greyscale.png"
+  },
+  {
+    "HairType": "Long",
+    "RequiresGenericHaircut": true,
+    "Id": "MagicalPigtails",
+    "Name": "avatarCustomization.haircuts.MagicalPonytail.name",
+    "Model": "Characters/Haircuts/Magical_Pigtails.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Magical_Pigtails_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "PuffyBubbleBraids",
+    "Name": "avatarCustomization.haircuts.PuffyBubbleBraids.name",
+    "Model": "Characters/Haircuts/PuffyBubbleBraids.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/PuffyBubbleBraids.png",
+    "Variants": {
+      "Default": {
+        "GreyscaleTexture": "Characters/Haircuts/PuffyBubbleBraids.png",
+        "Model": "Characters/Haircuts/PuffyBubbleBraids.blockymodel",
+        "NameKey": "avatarCustomization.variants.default"
+      },
+      "Strand": {
+        "Model": "Characters/Haircuts/PuffyBubbleBraids_Strand.blockymodel",
+        "GreyscaleTexture": "Characters/Haircuts/PuffyBubbleBraids.png",
+        "NameKey": "avatarCustomization.variants.haircuts.Hairstrand.name"
+      },
+      "GoldBangles": {
+        "Model": "Characters/Haircuts/PuffyBubbleBraids_GoldBangle.blockymodel",
+        "GreyscaleTexture": "Characters/Haircuts/PuffyBubbleBraids.png",
+        "NameKey": "avatarCustomization.variants.haircuts.GoldenBangles.name"
+      }
+    }
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "SpikyMohawl",
+    "Name": "avatarCustomization.haircuts.SpikyMohawk.name",
+    "Model": "Characters/Haircuts/SpikyMohawk.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/SpikyMohawk_Greyscale.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "PonytailBraidedDouble",
+    "Name": "avatarCustomization.haircuts.PonytailBraidedDouble.name",
+    "Model": "Characters/Haircuts/Ponytail_Braided_Double.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Ponytail_Braided_Double_Texture.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "PonytailBraidedLong",
+    "Name": "avatarCustomization.haircuts.PonytailBraidedLong.name",
+    "Model": "Characters/Haircuts/Ponytail_Braided_Long.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Ponytail_Braided_Long_Texture.png"
   }
 ]

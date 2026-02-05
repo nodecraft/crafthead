@@ -525,5 +525,12 @@
     "Model": "Cosmetics/Shoes/FlatsStyled.blockymodel",
     "GreyscaleTexture": "Cosmetics/Shoes/FlatsStyled_Textures/FlatsStyled_GreyScale.png",
     "GradientSet": "Flashy_Synthetic"
+  },
+  {
+    "Id": "ShapedSneakers",
+    "Name": "avatarCustomization.shoes.Sneakers_Shaped.name",
+    "Model": "Cosmetics/Shoes/Sneakers_Shaped.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/Shaped_Sneakers_Textures/Shaped_Sneakers.png",
+    "GradientSet": "Colored_Cotton"
   }
 ]

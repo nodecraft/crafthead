@@ -15,6 +15,7 @@ import type { Readable } from 'node:stream';
 
 const ZIP_PATH = 'assets/Assets.zip';
 const WINDOWS_ZIP_PATH = '\\Hytale\\install\\release\\package\\game\\latest\\Assets.zip';
+const LINUX_ZIP_PATH = '.local/share/Hytale/install/pre-release/package/game/latest/Assets.zip';
 const OUTPUT_DIR = 'assets/hytale';
 
 // Glob patterns for files to extract
@@ -101,6 +102,15 @@ async function extractAssets(): Promise<void> {
 					console.log(`Using Windows zip file at: ${zipPath}`);
 					zipPathToUse = zipPath;
 				}
+			} catch {
+				throw new Error(`Zip file not found: ${zipPathToUse}. Please place Hytale Assets.zip in the assets/ folder.`);
+			}
+		} else if (process.platform === 'linux') {
+			try {
+				const zipPath = path.join(process.env.HOME || '~/', LINUX_ZIP_PATH);
+				await fs.access(zipPath);
+				console.log(`Using Linux zip file at: ${zipPath}`);
+				zipPathToUse = zipPath;
 			} catch {
 				throw new Error(`Zip file not found: ${zipPathToUse}. Please place Hytale Assets.zip in the assets/ folder.`);
 			}

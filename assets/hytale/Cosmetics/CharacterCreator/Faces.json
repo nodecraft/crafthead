@@ -112,5 +112,19 @@
     "Model": "Characters/Body_Attachments/Faces/Player_Face_Detached.blockymodel",
     "GreyscaleTexture": "Characters/Body_Attachments/Faces/Faces_Detached_Textures/MakeUp_Older_Face2.png",
     "GradientSet": "Skin"
+  },
+  {
+    "Name": "avatarCustomization.faces.Face_MakeUp_Eyeliner.name",
+    "Model": "Characters/Body_Attachments/Faces/Player_Face_Detached.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Faces/Faces_Detached_Textures/MakeUp_Face10.png",
+    "GradientSet": "Skin",
+    "Id": "Face_MakeUp_HeavyEyeliner"
+  },
+  {
+    "Name": "avatarCustomization.faces.Face_MakeUp_Blush.name",
+    "Model": "Characters/Body_Attachments/Faces/Player_Face_Detached.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Faces/Faces_Detached_Textures/MakeUp_Face11.png",
+    "GradientSet": "Skin",
+    "Id": "Face_Makeup_Blush"
   }
 ]

@@ -62,5 +62,12 @@
     "Model": "Characters/Body_Attachments/Eyes/Eyes.blockymodel",
     "GreyscaleTexture": "Characters/Body_Attachments/Eyes/Eyes_Textures/Goat_Greyscale.png",
     "GradientSet": "Eyes_Gradient"
+  },
+  {
+    "Name": "avatarCustomization.eyes.Balanced_Square_Eyes.name",
+    "Model": "Characters/Body_Attachments/Eyes/Eyes_HalfPixel.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Eyes/Eyes_Textures/Plain_Square.png",
+    "GradientSet": "Eyes_Gradient",
+    "Id": "Plain_Square_Eyes"
   }
 ]
