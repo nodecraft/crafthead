@@ -14,9 +14,36 @@ import * as yauzl from 'yauzl';
 import type { Readable } from 'node:stream';
 
 const ZIP_PATH = 'assets/Assets.zip';
-const WINDOWS_ZIP_PATH = '\\Hytale\\install\\release\\package\\game\\latest\\Assets.zip';
-const LINUX_ZIP_PATH = '.local/share/Hytale/install/pre-release/package/game/latest/Assets.zip';
 const OUTPUT_DIR = 'assets/hytale';
+
+type Patchline = 'release' | 'pre-release';
+
+function getDefaultInstallPath(patchline: Patchline): string {
+	if (process.platform === 'win32') {
+		return path.join('Hytale', 'install', patchline, 'package', 'game', 'latest', 'Assets.zip');
+	}
+	if (process.platform === 'linux') {
+		return path.join('.local', 'share', 'Hytale', 'install', patchline, 'package', 'game', 'latest', 'Assets.zip');
+	}
+	throw new Error(`Unsupported platform: ${process.platform}`);
+}
+
+function parsePatchline(): Patchline {
+	const arg = process.argv.find(entry => entry.startsWith('--patchline='));
+	if (arg) {
+		const value = arg.slice('--patchline='.length).toLowerCase();
+		if (value === 'release' || value === 'pre-release') {
+			return value;
+		}
+		throw new Error(`Invalid patchline "${value}". Use --patchline=release or --patchline=pre-release`);
+	}
+	// Check env as fallback
+	const env = process.env.HYTALE_PATCHLINE?.toLowerCase();
+	if (env === 'release' || env === 'pre-release') {
+		return env;
+	}
+	return 'pre-release';
+}
 
 // Glob patterns for files to extract
 // Add patterns here as needed
@@ -87,32 +114,35 @@ function matchesPattern(filePath: string, patterns: string[]): boolean {
  * Extract files from zip matching glob patterns
  */
 async function extractAssets(): Promise<void> {
+	const patchline = parsePatchline();
+	console.log(`Using patchline: ${patchline}`);
+
 	// Check if zip file exists
 	let zipPathToUse = ZIP_PATH;
 	try {
 		await fs.access(ZIP_PATH);
 	} catch {
-		// Try seeing if the game is installed on Windows and use the default path
+		// Try seeing if the game is installed and use the default path for this patchline
 		if (process.platform === 'win32') {
 			try {
 				const defaultPath = process.env.APPDATA;
 				if (defaultPath) {
-					const zipPath = path.join(defaultPath, WINDOWS_ZIP_PATH);
+					const zipPath = path.join(defaultPath, getDefaultInstallPath(patchline));
 					await fs.access(zipPath);
 					console.log(`Using Windows zip file at: ${zipPath}`);
 					zipPathToUse = zipPath;
 				}
 			} catch {
-				throw new Error(`Zip file not found: ${zipPathToUse}. Please place Hytale Assets.zip in the assets/ folder.`);
+				throw new Error(`Zip file not found: ${zipPathToUse}. Please place Hytale Assets.zip in the assets/ folder or use --patchline=release or --patchline=pre-release.`);
 			}
 		} else if (process.platform === 'linux') {
 			try {
-				const zipPath = path.join(process.env.HOME || '~/', LINUX_ZIP_PATH);
+				const zipPath = path.join(process.env.HOME || '~/', getDefaultInstallPath(patchline));
 				await fs.access(zipPath);
 				console.log(`Using Linux zip file at: ${zipPath}`);
 				zipPathToUse = zipPath;
 			} catch {
-				throw new Error(`Zip file not found: ${zipPathToUse}. Please place Hytale Assets.zip in the assets/ folder.`);
+				throw new Error(`Zip file not found: ${zipPathToUse}. Please place Hytale Assets.zip in the assets/ folder or use --patchline=release or --patchline=pre-release.`);
 			}
 		} else {
 			throw new Error(`Zip file not found: ${zipPathToUse}. Please place Hytale Assets.zip in the assets/ folder.`);
