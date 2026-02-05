@@ -667,12 +667,20 @@
       }
     }
   },
- { 
+  { 
     "HeadAccessoryType": "HalfCovering",  
     "Id": "TweedHat",
     "Name": "avatarCustomization.headaccessory.TweedHat.name",
     "Model": "Cosmetics/Head/TweedHat.blockymodel",
     "GreyscaleTexture": "Cosmetics/Head/TweedHat_Textures/TweedHat_Greyscale_Textures.png",
     "GradientSet": "Colored_Cotton"
+  },
+  {
+    "HeadAccessoryType": "Simple",
+    "Id": "Hairband",
+    "Name": "avatarCustomization.headaccessory.Hairband.name",
+    "Model": "Cosmetics/Head/Hairband.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/Hairband.png",
+    "GradientSet": "Fantasy_Cotton_Dark"
   }
 ]

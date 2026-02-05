@@ -166,5 +166,33 @@
     "Model": "Characters/Body_Attachments/Beards/Full_Long.blockymodel",
     "GradientSet": "Hair",
     "GreyscaleTexture": "Characters/Body_Attachments/Beards/Curly_Greyscale.png"
+  },
+  {
+    "Id": "Moustache_Split",
+    "Name": "avatarCustomization.facialhair.MoustacheSplit.name",
+    "Model": "Characters/Body_Attachments/Beards/SimpleOffset.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Beards/MoustacheSplit_Greyscale.png"
+  },
+  {
+    "Id": "Moustache_SplitLong",
+    "Name": "avatarCustomization.facialhair.MoustacheSplitLong.name",
+    "Model": "Characters/Body_Attachments/Beards/SimpleOffset.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Beards/MoustacheSplitLong_Greyscale.png"
+  },
+  {
+    "Id": "Beard_Anchor",
+    "Name": "avatarCustomization.facialhair.BeardAnchor.name",
+    "Model": "Characters/Body_Attachments/Beards/SimpleOffset.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Beards/Anchor_Greyscale.png"
+  },
+  {
+    "Id": "VikingBeard2",
+    "Name": "avatarCustomization.facialhair.VikingBeard2.name",
+    "Model": "Characters/Body_Attachments/Beards/VikingBeard2.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Beards/VikingBeard2_Greyscale.png"
   }
 ]

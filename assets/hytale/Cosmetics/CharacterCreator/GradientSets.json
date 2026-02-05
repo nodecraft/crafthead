@@ -473,71 +473,11 @@
   },
   {
     "Gradients": {
-      "Lime": {
-        "Texture": "TintGradients/Shiny_Fabric/Lime.png",
-        "BaseColor": [
-          "#91ac35"
-        ]
-      },
-      "Black": {
-        "BaseColor": [
-          "#090a1f"
-        ],
-        "Texture": "TintGradients/Shiny_Fabric/Black.png"
-      },
-      "Brown": {
-        "BaseColor": [
-          "#512614"
-        ],
-        "Texture": "TintGradients/Shiny_Fabric/Brown.png"
-      },
       "Red": {
         "BaseColor": [
           "#910909"
         ],
         "Texture": "TintGradients/Shiny_Fabric/Red.png"
-      },
-      "Pink": {
-        "BaseColor": [
-          "#951966"
-        ],
-        "Texture": "TintGradients/Shiny_Fabric/Pink.png"
-      },
-      "Purple": {
-        "BaseColor": [
-          "#3f2155"
-        ],
-        "Texture": "TintGradients/Shiny_Fabric/Purple.png"
-      },
-      "Blue": {
-        "BaseColor": [
-          "#054c94"
-        ],
-        "Texture": "TintGradients/Shiny_Fabric/Blue.png"
-      },
-      "Turquoise": {
-        "BaseColor": [
-          "#309b8e"
-        ],
-        "Texture": "TintGradients/Shiny_Fabric/Turquoise.png"
-      },
-      "Green": {
-        "BaseColor": [
-          "#11882a"
-        ],
-        "Texture": "TintGradients/Shiny_Fabric/Green.png"
-      },
-      "Grey": {
-        "BaseColor": [
-          "#62626f"
-        ],
-        "Texture": "TintGradients/Shiny_Fabric/Grey.png"
-      },
-      "White": {
-        "BaseColor": [
-          "#e6e6e7"
-        ],
-        "Texture": "TintGradients/Shiny_Fabric/White.png"
       },
       "Orange": {
         "Texture": "TintGradients/Shiny_Fabric/Orange.png",
@@ -551,11 +491,71 @@
           "#dcb02f"
         ]
       },
+      "Lime": {
+        "Texture": "TintGradients/Shiny_Fabric/Lime.png",
+        "BaseColor": [
+          "#91ac35"
+        ]
+      },
+      "Green": {
+        "BaseColor": [
+          "#11882a"
+        ],
+        "Texture": "TintGradients/Shiny_Fabric/Green.png"
+      },
+      "Turquoise": {
+        "BaseColor": [
+          "#309b8e"
+        ],
+        "Texture": "TintGradients/Shiny_Fabric/Turquoise.png"
+      },
+      "Blue": {
+        "BaseColor": [
+          "#054c94"
+        ],
+        "Texture": "TintGradients/Shiny_Fabric/Blue.png"
+      },
+      "Purple": {
+        "BaseColor": [
+          "#3f2155"
+        ],
+        "Texture": "TintGradients/Shiny_Fabric/Purple.png"
+      },
       "Violet": {
         "Texture": "TintGradients/Shiny_Fabric/Violet.png",
         "BaseColor": [
           "#965ca9"
         ]
+      },
+      "Pink": {
+        "BaseColor": [
+          "#951966"
+        ],
+        "Texture": "TintGradients/Shiny_Fabric/Pink.png"
+      },
+      "Brown": {
+        "BaseColor": [
+          "#512614"
+        ],
+        "Texture": "TintGradients/Shiny_Fabric/Brown.png"
+      },
+      "White": {
+        "BaseColor": [
+          "#e6e6e7"
+        ],
+        "Texture": "TintGradients/Shiny_Fabric/White.png"
+      },
+      "Grey": {
+        "BaseColor": [
+          "#62626f"
+        ],
+        "Texture": "TintGradients/Shiny_Fabric/Grey.png"
+      },
+      "Black": {
+        "BaseColor": [
+          "#090a1f"
+        ],
+        "Texture": "TintGradients/Shiny_Fabric/Black.png"
       }
     },
     "Id": "Shiny_Fabric"
@@ -628,17 +628,17 @@
         ],
         "Texture": "TintGradients/Fantasy_Cotton/Brown.png"
       },
-      "Black": {
-        "BaseColor": [
-          "#040202"
-        ],
-        "Texture": "TintGradients/Fantasy_Cotton/Black.png"
-      },
       "White": {
         "Texture": "TintGradients/Fantasy_Cotton/White.png",
         "BaseColor": [
           "#f8f8ef"
         ]
+      },
+      "Black": {
+        "BaseColor": [
+          "#040202"
+        ],
+        "Texture": "TintGradients/Fantasy_Cotton/Black.png"
       }
     },
     "Id": "Fantasy_Cotton"
@@ -646,34 +646,22 @@
   {
     "Id": "Jean_Generic",
     "Gradients": {
-      "Blue": {
-        "Texture": "TintGradients/Jean_Generic/Blue_Light.png",
-        "BaseColor": [
-          "#5e8892"
-        ]
-      },
       "BluePastel": {
         "Texture": "TintGradients/Jean_Generic/Blue_Pale.png",
         "BaseColor": [
           "#b8dcdc"
         ]
       },
-      "GreyDark": {
-        "Texture": "TintGradients/Jean_Generic/Grey_Dark.png",
+      "Blue": {
+        "Texture": "TintGradients/Jean_Generic/Blue_Light.png",
         "BaseColor": [
-          "#2f3233"
+          "#5e8892"
         ]
       },
-      "GreyLight": {
-        "Texture": "TintGradients/Jean_Generic/Grey_Light.png",
+      "Turquoise_Dark": {
+        "Texture": "TintGradients/Jean_Generic/Turquoise_Dark.png",
         "BaseColor": [
-          "#7e878d"
-        ]
-      },
-      "GreyBlue": {
-        "Texture": "TintGradients/Jean_Generic/Grey_Blue.png",
-        "BaseColor": [
-          "#263139"
+          "#0f3246"
         ]
       },
       "Marine_Blue": {
@@ -682,10 +670,10 @@
           "#243057"
         ]
       },
-      "Maroon": {
-        "Texture": "TintGradients/Jean_Generic/Maroon.png",
+      "GreyBlue": {
+        "Texture": "TintGradients/Jean_Generic/Grey_Blue.png",
         "BaseColor": [
-          "#57433b"
+          "#263139"
         ]
       },
       "Blue_Night": {
@@ -694,34 +682,34 @@
           "#120a32"
         ]
       },
+      "Maroon": {
+        "Texture": "TintGradients/Jean_Generic/Maroon.png",
+        "BaseColor": [
+          "#57433b"
+        ]
+      },
+      "GreyLight": {
+        "Texture": "TintGradients/Jean_Generic/Grey_Light.png",
+        "BaseColor": [
+          "#7e878d"
+        ]
+      },
+      "GreyDark": {
+        "Texture": "TintGradients/Jean_Generic/Grey_Dark.png",
+        "BaseColor": [
+          "#2f3233"
+        ]
+      },
       "Black": {
         "Texture": "TintGradients/Jean_Generic/Black.png",
         "BaseColor": [
           "#000000"
-        ]
-      },
-      "Turquoise_Dark": {
-        "Texture": "TintGradients/Jean_Generic/Turquoise_Dark.png",
-        "BaseColor": [
-          "#0f3246"
         ]
       }
     }
   },
   {
     "Gradients": {
-      "BrownDark": {
-        "Texture": "TintGradients/Faded_Leather/Brown_Dark.png",
-        "BaseColor": [
-          "#3f1a18"
-        ]
-      },
-      "Brown": {
-        "BaseColor": [
-          "#7a4e30"
-        ],
-        "Texture": "TintGradients/Faded_Leather/Brown.png"
-      },
       "Red": {
         "BaseColor": [
           "#8c2323"
@@ -788,23 +776,35 @@
           "#9367a7"
         ]
       },
+      "Brown": {
+        "BaseColor": [
+          "#7a4e30"
+        ],
+        "Texture": "TintGradients/Faded_Leather/Brown.png"
+      },
+      "BrownDark": {
+        "Texture": "TintGradients/Faded_Leather/Brown_Dark.png",
+        "BaseColor": [
+          "#3f1a18"
+        ]
+      },
       "Pink": {
         "BaseColor": [
           "#c9546d"
         ],
         "Texture": "TintGradients/Faded_Leather/Pink.png"
       },
-      "Grey": {
-        "BaseColor": [
-          "#8c8c8c"
-        ],
-        "Texture": "TintGradients/Faded_Leather/Grey.png"
-      },
       "White": {
         "BaseColor": [
           "#fcfcfc"
         ],
         "Texture": "TintGradients/Faded_Leather/White.png"
+      },
+      "Grey": {
+        "BaseColor": [
+          "#8c8c8c"
+        ],
+        "Texture": "TintGradients/Faded_Leather/Grey.png"
       },
       "Black": {
         "BaseColor": [
@@ -817,12 +817,6 @@
   },
   {
     "Gradients": {
-      "Grey": {
-        "BaseColor": [
-          "#62626f"
-        ],
-        "Texture": "TintGradients/Flashy_Synthetic/Grey.png"
-      },
       "Red": {
         "BaseColor": [
           "#910909"
@@ -871,17 +865,17 @@
         ],
         "Texture": "TintGradients/Flashy_Synthetic/Blue.png"
       },
-      "Violet": {
-        "Texture": "TintGradients/Flashy_Synthetic/Violet.png",
-        "BaseColor": [
-          "#965ca9"
-        ]
-      },
       "Purple": {
         "BaseColor": [
           "#3f2155"
         ],
         "Texture": "TintGradients/Flashy_Synthetic/Purple.png"
+      },
+      "Violet": {
+        "Texture": "TintGradients/Flashy_Synthetic/Violet.png",
+        "BaseColor": [
+          "#965ca9"
+        ]
       },
       "Pink": {
         "BaseColor": [
@@ -895,41 +889,29 @@
           "#fcd0e1"
         ]
       },
-      "Black": {
+      "Grey": {
         "BaseColor": [
-          "#090a1f"
+          "#62626f"
         ],
-        "Texture": "TintGradients/Flashy_Synthetic/Black.png"
+        "Texture": "TintGradients/Flashy_Synthetic/Grey.png"
       },
       "White": {
         "BaseColor": [
           "#e6e6e7"
         ],
         "Texture": "TintGradients/Flashy_Synthetic/White.png"
+      },
+      "Black": {
+        "BaseColor": [
+          "#090a1f"
+        ],
+        "Texture": "TintGradients/Flashy_Synthetic/Black.png"
       }
     },
     "Id": "Flashy_Synthetic"
   },
   {
     "Gradients": {
-      "Blue": {
-        "BaseColor": [
-          "#4892f0"
-        ],
-        "Texture": "TintGradients/Colored_Cotton/Blue.png"
-      },
-      "Grey": {
-        "BaseColor": [
-          "#919191"
-        ],
-        "Texture": "TintGradients/Colored_Cotton/Grey.png"
-      },
-      "Brown": {
-        "BaseColor": [
-          "#a05b3c"
-        ],
-        "Texture": "TintGradients/Colored_Cotton/Brown.png"
-      },
       "Red": {
         "BaseColor": [
           "#c92a2a"
@@ -966,6 +948,12 @@
         ],
         "Texture": "TintGradients/Colored_Cotton/Turquoise.png"
       },
+      "Blue": {
+        "BaseColor": [
+          "#4892f0"
+        ],
+        "Texture": "TintGradients/Colored_Cotton/Blue.png"
+      },
       "Purple": {
         "BaseColor": [
           "#994ffe"
@@ -984,6 +972,24 @@
         ],
         "Texture": "TintGradients/Colored_Cotton/Cream.png"
       },
+      "Brown": {
+        "BaseColor": [
+          "#a05b3c"
+        ],
+        "Texture": "TintGradients/Colored_Cotton/Brown.png"
+      },
+      "White": {
+        "Texture": "TintGradients/Colored_Cotton/White.png",
+        "BaseColor": [
+          "#ffffff"
+        ]
+      },
+      "Grey": {
+        "BaseColor": [
+          "#919191"
+        ],
+        "Texture": "TintGradients/Colored_Cotton/Grey.png"
+      },
       "Charcoal": {
         "BaseColor": [
           "#373737"
@@ -995,12 +1001,6 @@
           "#000000"
         ],
         "Texture": "TintGradients/Colored_Cotton/Black.png"
-      },
-      "White": {
-        "Texture": "TintGradients/Colored_Cotton/White.png",
-        "BaseColor": [
-          "#ffffff"
-        ]
       }
     },
     "Id": "Colored_Cotton"
@@ -1103,12 +1103,6 @@
   {
     "Id": "Fantasy_Cotton_Dark",
     "Gradients": {
-      "BlueDark": {
-        "Texture": "TintGradients/Colored_Cotton/BlueDark.png",
-        "BaseColor": [
-          "#12142f"
-        ]
-      },
       "Red": {
         "BaseColor": [
           "#661818"
@@ -1145,6 +1139,12 @@
         ],
         "Texture": "TintGradients/Dark_Fantasy_Cotton/Turquoise.png"
       },
+      "BlueDark": {
+        "Texture": "TintGradients/Colored_Cotton/BlueDark.png",
+        "BaseColor": [
+          "#12142f"
+        ]
+      },
       "Blue": {
         "BaseColor": [
           "#2c3551"
@@ -1163,34 +1163,34 @@
         ],
         "Texture": "TintGradients/Dark_Fantasy_Cotton/Pink.png"
       },
-      "Black": {
-        "Texture": "TintGradients/Dark_Fantasy_Cotton/Black.png",
-        "BaseColor": [
-          "#0d0303"
-        ]
-      },
       "Brown": {
         "BaseColor": [
           "#412419"
         ],
         "Texture": "TintGradients/Dark_Fantasy_Cotton/Brown.png"
+      },
+      "Black": {
+        "Texture": "TintGradients/Dark_Fantasy_Cotton/Black.png",
+        "BaseColor": [
+          "#0d0303"
+        ]
       }
     }
   },
   {
     "Id": "Ornamented_Metal",
     "Gradients": {
+      "Brass_Purple": {
+        "Texture": "TintGradients/Ornamented_Metal/Brass_Purple.png",
+        "BaseColor": [
+          "#fff651"
+        ]
+      },
       "Gold_Red": {
         "BaseColor": [
           "#ffa800"
         ],
         "Texture": "TintGradients/Ornamented_Metal/Gold_Red.png"
-      },
-      "Silver_Blue": {
-        "BaseColor": [
-          "#c2e6e6"
-        ],
-        "Texture": "TintGradients/Ornamented_Metal/Silver_Blue.png"
       },
       "Copper_Green": {
         "Texture": "TintGradients/Ornamented_Metal/Copper_Green.png",
@@ -1198,16 +1198,22 @@
           "#e28f3c"
         ]
       },
-      "Brass_Purple": {
-        "Texture": "TintGradients/Ornamented_Metal/Brass_Purple.png",
+      "Silver_Blue": {
         "BaseColor": [
-          "#fff651"
-        ]
+          "#c2e6e6"
+        ],
+        "Texture": "TintGradients/Ornamented_Metal/Silver_Blue.png"
       },
       "Iron_Black": {
         "Texture": "TintGradients/Ornamented_Metal/Iron_Black.png",
         "BaseColor": [
           "#8a8a8a"
+        ]
+      },
+      "Black_Red": {
+        "Texture": "TintGradients/Ornamented_Metal/Black_Red.png",
+        "BaseColor": [
+          "#131419"
         ]
       }
     }
