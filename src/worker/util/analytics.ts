@@ -25,6 +25,8 @@ export function writeDataPoint(
 	if (data?.identityType !== undefined) {
 		identityKindString = identityTypeEnumToString(data.identityType);
 	}
+
+	const game = data?.game || 'unknown';
 	/* ORDER HERE IS VERY IMPORTANT. IF ANYTHING CHANGES, MUST BE APPENDED. MAX 20 */
 	const reportData: AnalyticsEngineDataPoint = {
 		blobs: [
@@ -41,7 +43,7 @@ export function writeDataPoint(
 			// crafthead data
 			data?.kind || 'unknown',
 			identityKindString,
-			data?.game || 'unknown',
+			game,
 		],
 		doubles: [
 			(request.cf?.asn as number) || 0,
@@ -49,6 +51,7 @@ export function writeDataPoint(
 			data?.cached ? 1 : 0,
 			totalTime,
 		],
+		indexes: [game],
 	};
 	try {
 		analytics?.writeDataPoint?.(reportData);
