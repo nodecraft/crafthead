@@ -932,7 +932,7 @@
     "HairType": "Long",
     "RequiresGenericHaircut": true,
     "Id": "MagicalPigtails",
-    "Name": "avatarCustomization.haircuts.MagicalPonytail.name",
+    "Name": "avatarCustomization.haircuts.MagicalPigtails.name",
     "Model": "Characters/Haircuts/Magical_Pigtails.blockymodel",
     "GradientSet": "Hair",
     "GreyscaleTexture": "Characters/Haircuts/Magical_Pigtails_Greyscale.png"
@@ -989,5 +989,121 @@
     "Model": "Characters/Haircuts/Ponytail_Braided_Long.blockymodel",
     "GradientSet": "Hair",
     "GreyscaleTexture": "Characters/Haircuts/Ponytail_Braided_Long_Texture.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "Afro",
+    "Name": "avatarCustomization.haircuts.Afro.name",
+    "Model": "Characters/Haircuts/Afro.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Afro.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "AfroBig",
+    "Name": "avatarCustomization.haircuts.AfroBig.name",
+    "Model": "Characters/Haircuts/AfroBig.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/AfroBig.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "LongDreadlocks",
+    "Name": "avatarCustomization.haircuts.LongDreadlocks.name",
+    "Model": "Characters/Haircuts/Dreadlocks_Long.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Dreadlocks_Long.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "PuffyTwinDreads",
+    "Name": "avatarCustomization.haircuts.PuffyTwinDreads.name",
+    "Model": "Characters/Haircuts/Twin_Ponydreads.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Twin_Ponydreads.png",
+    "Variants": {
+      "Default": {
+        "Model": "Characters/Haircuts/Twin_Ponydreads.blockymodel",
+        "GreyscaleTexture": "Characters/Haircuts/Twin_Ponydreads.png",
+        "NameKey": "avatarCustomization.variants.default"
+      },
+      "Wild": {
+        "Model": "Characters/Haircuts/Wild_Ponydreads.blockymodel",
+        "GreyscaleTexture": "Characters/Haircuts/Twin_Ponydreads.png",
+        "NameKey": "avatarCustomization.variants.haircuts.Wild.name"
+      },
+      "Locks": {
+        "Model": "Characters/Haircuts/Twin_PonydreadsLocks.blockymodel",
+        "GreyscaleTexture": "Characters/Haircuts/Twin_Ponydreads_Locks.png",
+        "NameKey": "avatarCustomization.variants.haircuts.Locks.name"
+      }
+    }
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "FrizzyBuns",
+    "Name": "avatarCustomization.haircuts.FrizzyBuns.name",
+    "Model": "Characters/Haircuts/FrizzyBuns.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/FrizzyBuns.png",
+    "Variants": {
+      "Default": {
+        "NameKey": "avatarCustomization.variants.haircuts.FrizzyBun01.name",
+        "Model": "Characters/Haircuts/FrizzyBuns.blockymodel",
+        "GreyscaleTexture": "Characters/Haircuts/FrizzyBuns.png"
+      },
+      "ExtraBun": {
+        "Model": "Characters/Haircuts/FrizzyBunsAlt.blockymodel",
+        "GreyscaleTexture": "Characters/Haircuts/FrizzyBuns.png",
+        "NameKey": "avatarCustomization.variants.haircuts.FrizzyBun02.name"
+      }
+    }
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "StarPuffs",
+    "Name": "avatarCustomization.haircuts.StarPuffs.name",
+    "Model": "Characters/Haircuts/StarPuffs.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/StarPuffs.png",
+    "Variants": {
+      "Default": {
+        "NameKey": "avatarCustomization.variants.default",
+        "Model": "Characters/Haircuts/StarPuffs.blockymodel",
+        "GreyscaleTexture": "Characters/Haircuts/StarPuffs.png"
+      },
+      "Braids": {
+        "Model": "Characters/Haircuts/StarPuffsAlt.blockymodel",
+        "GreyscaleTexture": "Characters/Haircuts/StarPuffs.png",
+        "NameKey": "avatarCustomization.variants.haircuts.Braids.name"
+      }
+    }
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "DreadsFade",
+    "Name": "avatarCustomization.haircuts.DreadsFade.name",
+    "Model": "Characters/Haircuts/DreadsFade.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/DreadsFade.png",
+    "Variants": {
+      "Default": {
+        "NameKey": "avatarCustomization.variants.default",
+        "Model": "Characters/Haircuts/DreadsFade.blockymodel",
+        "GreyscaleTexture": "Characters/Haircuts/DreadsFade.png"
+      },
+      "Messy": {
+        "Model": "Characters/Haircuts/DreadsFadeAlt.blockymodel",
+        "GreyscaleTexture": "Characters/Haircuts/DreadsFade.png",
+        "NameKey": "avatarCustomization.variants.haircuts.Messy.name"
+      }
+    }
   }
 ]

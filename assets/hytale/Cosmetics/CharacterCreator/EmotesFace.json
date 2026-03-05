@@ -1,0 +1,50 @@
+[
+  {
+    "Id": "Angry",
+    "Animation": "Characters/Animations/Expressions/Angry.blockyanim",
+    "Name": "Angry",
+    "IsLooping": true
+  },
+  {
+    "Id": "Cheerful",
+    "Animation": "Characters/Animations/Expressions/Cheerful.blockyanim",
+    "Name": "Cheerful",
+    "IsLooping": true
+  },
+  {
+    "Id": "Frown",
+    "Animation": "Characters/Animations/Expressions/Frown.blockyanim",
+    "Name": "Frown",
+    "IsLooping": true
+  },
+  {
+    "Id": "Grin",
+    "Animation": "Characters/Animations/Expressions/Grin.blockyanim",
+    "Name": "Grin",
+    "IsLooping": true
+  },
+  {
+    "Id": "Rage",
+    "Animation": "Characters/Animations/Expressions/Rage.blockyanim",
+    "Name": "Rage",
+    "IsLooping": true
+  },
+  {
+    "Id": "Smile",
+    "Animation": "Characters/Animations/Expressions/Smile.blockyanim",
+    "Name": "Smilex",
+    "IsLooping": true
+  },
+  {
+    "Id": "Smirk",
+    "Animation": "Characters/Animations/Expressions/Smirk.blockyanim",
+    "Name": "Smirk",
+    "IsLooping": true
+  },
+  {
+    "Id": "Surprised",
+    "Animation": "Characters/Animations/Expressions/Suprised.blockyanim",
+    "Name": "Surprised",
+    "IsLooping": true
+  }
+]
