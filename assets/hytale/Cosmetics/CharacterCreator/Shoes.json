@@ -500,17 +500,17 @@
     "Name": "avatarCustomization.shoes.WedgeShoes.name",
     "Model": "Cosmetics/Shoes/WedgeShoes.blockymodel",
     "Variants": {
-      "Option A": {
+      "Option_A": {
         "Model": "Cosmetics/Shoes/WedgeShoes.blockymodel",
         "GreyscaleTexture": "Cosmetics/Shoes/WedgeShoes_Textures/WedgeShoes1_Greyscale_Texture.png",
         "NameKey": "avatarCustomization.variants.option.a"
       },
-      "Option B": {
+      "Option_B": {
         "Model": "Cosmetics/Shoes/WedgeShoes.blockymodel",
         "GreyscaleTexture": "Cosmetics/Shoes/WedgeShoes_Textures/WedgeShoes2_Greyscale_Texture.png",
         "NameKey": "avatarCustomization.variants.option.b"
       },
-      "Option C": {
+      "Option_C": {
         "Model": "Cosmetics/Shoes/WedgeShoes.blockymodel",
         "GreyscaleTexture": "Cosmetics/Shoes/WedgeShoes_Textures/WedgeShoes3_Greyscale_Texture.png",
         "NameKey": "avatarCustomization.variants.option.c"

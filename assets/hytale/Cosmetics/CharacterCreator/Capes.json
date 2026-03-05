@@ -212,7 +212,7 @@
         "NameKey": "avatarCustomization.variants.default",
         "Model": "Cosmetics/Capes/Cape_Skeleton_Wizard02.blockymodel",
         "Textures": {
-          "Dark Purple": {
+          "DarkPurple": {
             "Texture": "Cosmetics/Capes/Cape_Skeleton_Wizard02_Textures/Cape_Skeleton_Wizard_DarkPurple.png",
             "BaseColor": [
               "#3f375b"
@@ -236,7 +236,7 @@
         "NameKey": "avatarCustomization.variants.capes.no_neck",
         "Model": "Cosmetics/Capes/Cape_Skeleton_Wizard02_NoNeck.blockymodel",
         "Textures": {
-          "Dark Purple": {
+          "DarkPurple": {
             "Texture": "Cosmetics/Capes/Cape_Skeleton_Wizard02_Textures/Cape_Skeleton_Wizard_DarkPurple.png",
             "BaseColor": [
               "#3f375b"

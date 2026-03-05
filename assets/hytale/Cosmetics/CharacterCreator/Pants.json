@@ -552,9 +552,6 @@
     "Model": "Cosmetics/Pants/HighSkirt_Punk.blockymodel",
     "GreyscaleTexture": "Cosmetics/Pants/HighSkirt_Textures/PunkSkirt_Texture.png",
     "GradientSet": "Fantasy_Cotton_Dark",
-    "Entitlements": [
-      "game.founder"
-    ],
     "Variants": {
       "Default": {
         "Model": "Cosmetics/Pants/HighSkirt_Punk.blockymodel",
@@ -573,9 +570,6 @@
     "Name": "avatarCustomization.pants.PlaidSkirt.name",
     "Model": "Cosmetics/Pants/HighSkirt_Plaid.blockymodel",
     "GreyscaleTexture": "Cosmetics/Pants/HighSkirt_Textures/PlaidSkirt_Texture.png",
-    "GradientSet": "Fantasy_Cotton",
-    "Entitlements": [
-      "game.founder"
-    ]
+    "GradientSet": "Fantasy_Cotton"
   }
 ]

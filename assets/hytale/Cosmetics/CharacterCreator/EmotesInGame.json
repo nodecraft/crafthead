@@ -1,0 +1,58 @@
+[
+  {
+    "Id": "Wave",
+    "Animation": "Characters/Animations/Emote/Wave.blockyanim",
+    "Name": "avatarCustomization.emotes.Wave.name",
+    "Icon": "Icons/Emotes/Wave.png",
+    "IsLooping": true
+  },
+  {
+    "Id": "WaveDouble",
+    "Animation": "Characters/Animations/Emote/Double_Wave.blockyanim",
+    "Name": "avatarCustomization.emotes.WaveDouble.name",
+    "Icon": "Icons/Emotes/DoubleWave.png",
+    "IsLooping": true
+  },
+  {
+    "Id": "Laugh",
+    "Animation": "Characters/Animations/Taunt/Laugh.blockyanim",
+    "Name": "avatarCustomization.emotes.Laugh.name",
+    "Icon": "Icons/Emotes/Laugh.png"
+  },
+  {
+    "Id": "Tongue",
+    "Animation": "Characters/Animations/Taunt/Tongue.blockyanim",
+    "Name": "avatarCustomization.emotes.Tongue.name",
+    "Icon": "Icons/Emotes/Tongue.png"
+  },
+  {
+    "Id": "Chicken",
+    "Animation": "Characters/Animations/Taunt/Chicken.blockyanim",
+    "Name": "avatarCustomization.emotes.Chicken.name",
+    "Icon": "Icons/Emotes/Chicken.png"
+  },
+  {
+    "Id": "Kill",
+    "Animation": "Characters/Animations/Taunt/Kill.blockyanim",
+    "Name": "avatarCustomization.emotes.Kill.name",
+    "Icon": "Icons/Emotes/Kill.png"
+  },
+  {
+    "Id": "Punch",
+    "Animation": "Characters/Animations/Taunt/Punch.blockyanim",
+    "Name": "avatarCustomization.emotes.Punch.name",
+    "Icon": "Icons/Emotes/Punch.png"
+  },
+  {
+    "Id": "DabLeft",
+    "Animation": "Characters/Animations/Emote/Dab_Right.blockyanim",
+    "Name": "avatarCustomization.emotes.DabLeft.name",
+    "Icon": "Icons/Emotes/Dab_Left.png"
+  },
+  {
+    "Id": "DabRight",
+    "Animation": "Characters/Animations/Emote/Dab_Left.blockyanim",
+    "Name": "avatarCustomization.emotes.DabRight.name",
+    "Icon": "Icons/Emotes/Dab_Right.png"
+  }
+]
