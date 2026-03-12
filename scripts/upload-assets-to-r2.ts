@@ -178,7 +178,7 @@ async function uploadAssets(): Promise<void> {
 			throw new Error(`Path ${ASSETS_DIR} is not a directory`);
 		}
 	} catch (err) {
-		throw new Error(`Assets directory not found: ${ASSETS_DIR}. Error: ${(err as Error).message}`);
+		throw new Error(`Assets directory not found: ${ASSETS_DIR}. Error: ${(err as Error).message}`, { cause: err });
 	}
 
 	// Get all files recursively
@@ -219,7 +219,7 @@ async function uploadAssets(): Promise<void> {
 			batch.map(async ({ absolutePath, relativePath }) => {
 				let result: { success: boolean; error?: string; };
 				if (UPLOAD_METHOD === 's3') {
-					result = await uploadViaS3(s3Client!, absolutePath, relativePath);
+					result = await uploadViaS3(s3Client as S3Client, absolutePath, relativePath);
 				} else {
 					result = await uploadViaHttp(absolutePath, relativePath);
 				}

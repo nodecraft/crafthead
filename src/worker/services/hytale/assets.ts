@@ -32,11 +32,11 @@ const textDecoder = new TextDecoder();
  */
 async function loadBaseAssets(ctx: ExecutionContext): Promise<BaseAssets> {
 	if (baseAssetsCacheState === 'loaded') {
-		return baseAssetsCache!;
+		return baseAssetsCache as BaseAssets;
 	}
 
 	if (baseAssetsCacheState === 'loading') {
-		return baseAssetsLoadingPromise!;
+		return baseAssetsLoadingPromise as Promise<BaseAssets>;
 	}
 
 	baseAssetsCacheState = 'loading';

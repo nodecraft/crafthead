@@ -74,7 +74,7 @@ function openZip(zipPath: string, options: yauzl.Options): Promise<yauzl.ZipFile
 			if (err) {
 				reject(err);
 			} else {
-				resolve(zipfile!);
+				resolve(zipfile as yauzl.ZipFile);
 			}
 		});
 	});
@@ -89,7 +89,7 @@ function openReadStream(zipfile: yauzl.ZipFile, entry: yauzl.Entry): Promise<Rea
 			if (err) {
 				reject(err);
 			} else {
-				resolve(stream!);
+				resolve(stream as Readable);
 			}
 		});
 	});
