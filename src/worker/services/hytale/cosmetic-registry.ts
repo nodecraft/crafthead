@@ -122,7 +122,7 @@ async function ensureInitialized(): Promise<void> {
 	}
 
 	if (cacheState === 'loading') {
-		return loadingPromise!;
+		return loadingPromise as Promise<void>;
 	}
 
 	cacheState = 'loading';
@@ -160,7 +160,7 @@ export async function getDefinition(slot: CosmeticSlot, id: string): Promise<Cos
 	if (!fileName) {
 		return null;
 	}
-	const slotIndex = indexedDefinitions!.get(fileName);
+	const slotIndex = (indexedDefinitions as Map<string, Map<string, CosmeticDefinition>>).get(fileName);
 	if (!slotIndex) {
 		return null;
 	}
@@ -173,7 +173,7 @@ export async function getDefinition(slot: CosmeticSlot, id: string): Promise<Cos
 export async function getGradient(setId: string, colorId: string): Promise<GradientColor | null> {
 	await ensureInitialized();
 
-	const gradientSet = gradientSets!.get(setId);
+	const gradientSet = (gradientSets as Map<string, GradientSetDefinition>).get(setId);
 	if (!gradientSet) {
 		return null;
 	}
