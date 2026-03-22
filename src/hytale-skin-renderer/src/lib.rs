@@ -10,6 +10,7 @@ pub mod cosmetics;
 pub mod error;
 pub mod geometry;
 pub mod math;
+pub mod minecraft_pipeline;
 pub mod models;
 pub mod output;
 pub mod render_pipeline;
