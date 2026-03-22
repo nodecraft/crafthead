@@ -255,16 +255,30 @@ fn mc_shape(size: Vector3, texture_layout: TextureLayout) -> Shape {
 	}
 }
 
-/// Create an overlay shape — same as base but 1 unit larger in each dimension
+/// Create an overlay shape — geometrically larger than base but samples the same
+/// UV region size. Uses `stretch` to scale geometry up by 1 pixel per axis while
+/// keeping `settings.size` at base dimensions for correct texture sampling.
 fn mc_overlay_shape(base_size: Vector3, texture_layout: TextureLayout) -> Shape {
-	mc_shape(
-		Vector3 {
-			x: base_size.x + 1.0,
-			y: base_size.y + 1.0,
-			z: base_size.z + 1.0,
+	Shape {
+		offset: Vector3::zero(),
+		stretch: Vector3 {
+			x: (base_size.x + 1.0) / base_size.x,
+			y: (base_size.y + 1.0) / base_size.y,
+			z: (base_size.z + 1.0) / base_size.z,
 		},
 		texture_layout,
-	)
+		shape_type: ShapeType::Box,
+		settings: ShapeSettings {
+			size: Some(base_size), // same as base for UV sampling
+			normal: None,
+			is_piece: None,
+			is_static_box: None,
+		},
+		unwrap_mode: "custom".to_string(),
+		visible: true,
+		double_sided: false,
+		shading_mode: "flat".to_string(),
+	}
 }
 
 // ---------------------------------------------------------------------------
