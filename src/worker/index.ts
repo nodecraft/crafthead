@@ -298,8 +298,7 @@ async function handleRequest(request: Request, env: Cloudflare.Env, ctx: Executi
 
 	try {
 		const cacheKey = getCacheKey(interpreted);
-		// let response = await caches.default.match(new Request(cacheKey));
-		let response = null;
+		let response = await caches.default.match(new Request(cacheKey));
 		const hitCache = Boolean(response);
 		if (!response) {
 			// The item is not in the Cloudflare datacenter's cache. We need to process the request further.
