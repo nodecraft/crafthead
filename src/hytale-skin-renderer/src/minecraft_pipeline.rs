@@ -861,14 +861,5 @@ mod tests {
 		if left_arm_pixel[3] > 0 {
 			check_pixel(left_arm_x, center_y, [255, 0, 0], "Left arm front");
 		}
-
-		// Save diagnostic output for visual inspection
-		output.save("/tmp/mc_diagnostic_front.png").unwrap();
-
-		// Also render front_right view to check side faces
-		let cam_fr = camera::Camera::front_right_view();
-		let output_fr =
-			renderer::render_scene_tinted(&faces, &tex, &cam_fr, 180, 360, &tint).unwrap();
-		output_fr.save("/tmp/mc_diagnostic_front_right.png").unwrap();
 	}
 }
