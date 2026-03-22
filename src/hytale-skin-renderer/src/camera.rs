@@ -149,6 +149,22 @@ impl Camera {
 		}
 	}
 
+	/// Create an orthographic isometric camera for the Minecraft head cube view.
+	/// True isometric angle (equal weight on all 3 axes) with no perspective distortion.
+	pub fn minecraft_cube() -> Self {
+		// Minecraft head center at Y = 27 * 4 (scale) = 108 (shifted down 1 tex unit)
+		let head_center = Vec3::new(0.0, 108.0, 0.0);
+		let dist = 100.0;
+		Camera {
+			position: head_center + Vec3::new(dist, dist * 0.75, dist),
+			target: head_center,
+			up: Vec3::new(0.0, 1.0, 0.0),
+			ortho_size: 50.0,
+			near: 0.1,
+			far: 1000.0,
+		}
+	}
+
 	/// Create a camera with custom position and target
 	pub fn new(position: Vec3, target: Vec3, ortho_size: f32) -> Self {
 		Camera {

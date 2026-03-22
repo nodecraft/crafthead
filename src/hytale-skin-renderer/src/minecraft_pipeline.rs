@@ -75,7 +75,7 @@ fn uv(x: f32, y: f32) -> UvFace {
 	}
 }
 
-fn uv_mirror_x(x: f32, y: f32) -> UvFace {
+fn uv_mirrored(x: f32, y: f32) -> UvFace {
 	UvFace {
 		offset: UvOffset { x, y },
 		mirror: UvMirror { x: true, y: false },
@@ -83,54 +83,26 @@ fn uv_mirror_x(x: f32, y: f32) -> UvFace {
 	}
 }
 
-fn uv_mirror_y(x: f32, y: f32) -> UvFace {
-	UvFace {
-		offset: UvOffset { x, y },
-		mirror: UvMirror {
-			x: false,
-			y: true,
-		},
-		angle: UvAngle(0),
-	}
-}
-
-/// Build a TextureLayout from a BoxUv with Minecraft's UV conventions applied.
-///
-/// Minecraft's ModelRenderer assigns UV coordinates differently from the standard
-/// geometry generator for some faces. Specifically:
-///  - Front (+Z) and Left (-X) faces have U flipped (mirror.x)
-///  - Top (+Y) face has V flipped (mirror.y)
-///
-/// For mirror.x: offset.x must point to the RIGHT edge of the texture region
-/// (original offset + face pixel width).
-/// For mirror.y: offset.y must point to the BOTTOM edge of the texture region
-/// (original offset + face pixel height).
-fn box_uv_to_layout(b: &BoxUv, box_w: f32, _box_h: f32, box_d: f32) -> TextureLayout {
+fn box_uv_to_layout(b: &BoxUv, _box_w: f32, _box_h: f32, _box_d: f32) -> TextureLayout {
 	TextureLayout {
-		front: Some(uv_mirror_x(b.front.0 + box_w, b.front.1)), // U flipped
+		front: Some(uv(b.front.0, b.front.1)),
 		back: Some(uv(b.back.0, b.back.1)),
 		right: Some(uv(b.right.0, b.right.1)),
-		left: Some(uv_mirror_x(b.left.0 + box_d, b.left.1)), // U flipped
-		top: Some(uv_mirror_y(b.top.0, b.top.1 + box_d)),    // V flipped
+		left: Some(uv(b.left.0, b.left.1)),
+		top: Some(uv(b.top.0, b.top.1)),
 		bottom: Some(uv(b.bottom.0, b.bottom.1)),
 	}
 }
 
 /// Build a mirrored UV layout for Classic skins (right side = flipped left side).
-///
-/// For a mirrored limb, we take the source arm/leg UV and:
-/// - Front/Back: toggle mirror.x (front already needs flip → un-flip; back doesn't → add flip)
-/// - Left/Right: swap sides
-/// - Top/Bottom: toggle mirror.x
-fn box_uv_to_layout_mirrored(b: &BoxUv, box_w: f32, _box_h: f32, box_d: f32) -> TextureLayout {
-	// Start from the Minecraft-convention layout, then apply the classic mirror on top
+fn box_uv_to_layout_mirrored(b: &BoxUv, _box_w: f32, _box_h: f32, _box_d: f32) -> TextureLayout {
 	TextureLayout {
-		front: Some(uv(b.front.0, b.front.1)), // was mirror_x → un-mirror for classic flip
-		back: Some(uv_mirror_x(b.back.0 + box_w, b.back.1)), // was normal → add mirror
-		right: Some(uv(b.left.0, b.left.1)),   // swap: right gets left UV (no flip)
-		left: Some(uv_mirror_x(b.right.0 + box_d, b.right.1)), // swap: left gets right UV (with flip)
-		top: Some(uv_mirror_x(b.top.0 + box_w, b.top.1 + box_d)), // mirror both
-		bottom: Some(uv_mirror_x(b.bottom.0 + box_w, b.bottom.1)), // add mirror
+		front: Some(uv_mirrored(b.front.0, b.front.1)),
+		back: Some(uv_mirrored(b.back.0, b.back.1)),
+		right: Some(uv(b.left.0, b.left.1)),
+		left: Some(uv(b.right.0, b.right.1)),
+		top: Some(uv_mirrored(b.top.0, b.top.1)),
+		bottom: Some(uv_mirrored(b.bottom.0, b.bottom.1)),
 	}
 }
 
@@ -321,10 +293,12 @@ fn build_skeleton(
 	//
 	// Total height: legs(12) + body(12) + head(8) = 32
 	// Body parts are positioned at their center.
-	let head_y = 12.0 + 12.0 + 4.0; // legs + body + half head
-	let body_y = 12.0 + 6.0; // legs + half body
-	let arm_y = 12.0 + 6.0; // legs + half arm (arms hang from shoulders)
-	let leg_y = 6.0; // half leg height
+	// Shift down by 1 unit so the top of the head doesn't clip the camera edge.
+	let y_offset = -1.0;
+	let head_y = 12.0 + 12.0 + 4.0 + y_offset; // legs + body + half head
+	let body_y = 12.0 + 6.0 + y_offset; // legs + half body
+	let arm_y = 12.0 + 6.0 + y_offset; // legs + half arm (arms hang from shoulders)
+	let leg_y = 6.0 + y_offset; // half leg height
 
 	// Horizontal offsets
 	let arm_x = 4.0 + arm_w / 2.0; // half body width + half arm width
@@ -467,6 +441,36 @@ fn build_skeleton(
 // Public API
 // ---------------------------------------------------------------------------
 
+/// Build renderable 3D faces for only the Minecraft head (+ overlay if included).
+///
+/// Used for the `cube` / isometric head view.
+pub fn build_minecraft_head_faces(
+	format: SkinFormat,
+	include_overlay: bool,
+) -> Vec<RenderableFace> {
+	let parts = build_skeleton(format, ArmModel::Regular, include_overlay);
+	let mut faces = Vec::new();
+
+	for part in parts
+		.iter()
+		.filter(|p| p.name == "mc_head" || p.name == "mc_head_overlay")
+	{
+		let geometry = geometry::generate_geometry(&part.shape, part.transform);
+		for face in geometry {
+			faces.push(RenderableFace {
+				face,
+				transform: part.transform,
+				shape: Some(part.shape.clone()),
+				node_name: Some(part.name.to_string()),
+				texture: None,
+				tint: None,
+			});
+		}
+	}
+
+	faces
+}
+
 /// Build renderable 3D faces from a Minecraft skin texture.
 ///
 /// The returned faces can be passed directly to `renderer::render_scene_tinted`
@@ -573,7 +577,6 @@ mod tests {
 
 	#[test]
 	fn test_head_uv_offsets() {
-		// Head front face UV should be mirrored with offset at right edge
 		let faces = build_minecraft_faces(SkinFormat::Modern, ArmModel::Regular, false);
 		let head_front = faces
 			.iter()
@@ -582,10 +585,9 @@ mod tests {
 
 		let shape = head_front.shape.as_ref().unwrap();
 		let front_uv = shape.texture_layout.front.as_ref().unwrap();
-		// offset should be right edge: 8 + 8 = 16
-		assert_eq!(front_uv.offset.x, 16.0);
+		assert_eq!(front_uv.offset.x, 8.0);
 		assert_eq!(front_uv.offset.y, 8.0);
-		assert!(front_uv.mirror.x, "Front face should have mirror.x");
+		assert!(!front_uv.mirror.x);
 	}
 
 	#[test]
@@ -619,9 +621,6 @@ mod tests {
 	fn test_classic_mirrored_arms() {
 		let faces = build_minecraft_faces(SkinFormat::Classic, ArmModel::Regular, false);
 
-		// In classic mode, the left arm mirrors the right arm's texture.
-		// The normal front face has mirror.x=true, so the classic mirror
-		// toggles it OFF (un-mirrors), producing a flipped version.
 		let left_arm_front = faces
 			.iter()
 			.find(|f| {
@@ -631,8 +630,8 @@ mod tests {
 
 		let shape = left_arm_front.shape.as_ref().unwrap();
 		let front_uv = shape.texture_layout.front.as_ref().unwrap();
-		// Classic mirror un-flips the front: mirror.x should be false
-		assert!(!front_uv.mirror.x);
+		// Classic: left arm mirrors right arm's front face
+		assert!(front_uv.mirror.x);
 		assert_eq!(front_uv.offset.x, RIGHT_ARM_UV.front.0);
 		assert_eq!(front_uv.offset.y, RIGHT_ARM_UV.front.1);
 	}
@@ -641,7 +640,7 @@ mod tests {
 	fn test_scale_factor_applied() {
 		let faces = build_minecraft_faces(SkinFormat::Modern, ArmModel::Regular, false);
 
-		// Head center should be at Y = 28 * MC_SCALE = 112
+		// Head center should be at Y = 27 * MC_SCALE = 108 (shifted down 1 unit)
 		let head_face = faces
 			.iter()
 			.find(|f| f.node_name.as_deref() == Some("mc_head"))
@@ -650,9 +649,9 @@ mod tests {
 		// The transform should include the scale factor
 		let translation = head_face.transform.col(3);
 		assert!(
-			(translation.y - 28.0 * MC_SCALE).abs() < 0.1,
+			(translation.y - 27.0 * MC_SCALE).abs() < 0.1,
 			"Head Y should be {} but was {}",
-			28.0 * MC_SCALE,
+			27.0 * MC_SCALE,
 			translation.y
 		);
 	}
@@ -695,7 +694,7 @@ mod tests {
 			.find(|f| f.node_name.as_deref() == Some("mc_right_arm"))
 			.unwrap();
 
-		// Arm center Y should equal body center Y (both 18 * scale = 72)
+		// Arm center Y should equal body center Y (both 17 * scale = 68)
 		let body_y = body.transform.col(3).y;
 		let arm_y = arm.transform.col(3).y;
 		assert!(

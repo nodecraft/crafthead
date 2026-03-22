@@ -297,7 +297,8 @@ pub fn render_minecraft_3d(
 
 	let camera_type = match view_type.as_str() {
 		"avatar" | "helm" | "headshot" => "headshot",
-		"cube" | "isometric_head" => "isometric_head",
+		"cube" => "minecraft_cube",
+		"isometric_head" => "isometric_head",
 		"bust" | "player_bust" => "player_bust",
 		"body" | "full_body_front" => "full_body_front",
 		_ => "headshot",

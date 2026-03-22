@@ -137,9 +137,17 @@ pub fn render_minecraft(
 		crate::minecraft_pipeline::ArmModel::Regular
 	};
 
-	let faces = crate::minecraft_pipeline::build_minecraft_faces(format, arm_model, armored);
+	let is_cube = view_type == "minecraft_cube";
+
+	let faces = if is_cube {
+		// Cube view: head only
+		crate::minecraft_pipeline::build_minecraft_head_faces(format, armored)
+	} else {
+		crate::minecraft_pipeline::build_minecraft_faces(format, arm_model, armored)
+	};
 
 	let cam: Box<dyn camera::CameraProjection> = match view_type {
+		"minecraft_cube" => Box::new(camera::Camera::minecraft_cube()),
 		"headshot" => Box::new(camera::PerspectiveCamera::headshot()),
 		"isometric_head" => Box::new(camera::PerspectiveCamera::isometric_head()),
 		"player_bust" => Box::new(camera::PerspectiveCamera::player_bust()),
