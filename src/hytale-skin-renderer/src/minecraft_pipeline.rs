@@ -67,10 +67,7 @@ struct BoxUv {
 fn uv(x: f32, y: f32) -> UvFace {
 	UvFace {
 		offset: UvOffset { x, y },
-		mirror: UvMirror {
-			x: false,
-			y: false,
-		},
+		mirror: UvMirror { x: false, y: false },
 		angle: UvAngle(0),
 	}
 }
@@ -292,11 +289,7 @@ struct BodyPart {
 	transform: Mat4,
 }
 
-fn build_skeleton(
-	format: SkinFormat,
-	arm_model: ArmModel,
-	include_overlay: bool,
-) -> Vec<BodyPart> {
+fn build_skeleton(format: SkinFormat, arm_model: ArmModel, include_overlay: bool) -> Vec<BodyPart> {
 	let arm_w = arm_model.arm_width();
 
 	// Skeleton positions (in MC pixel units, before scaling).
@@ -618,13 +611,7 @@ mod tests {
 			.unwrap();
 
 		let base_size = head_base.shape.as_ref().unwrap().settings.size.unwrap();
-		let overlay_size = head_overlay
-			.shape
-			.as_ref()
-			.unwrap()
-			.settings
-			.size
-			.unwrap();
+		let overlay_size = head_overlay.shape.as_ref().unwrap().settings.size.unwrap();
 
 		assert!(overlay_size.x > base_size.x);
 		assert!(overlay_size.y > base_size.y);
@@ -687,11 +674,7 @@ mod tests {
 		// Right arm should be at positive X
 		let right_x = right_arm.transform.col(3).x;
 		let left_x = left_arm.transform.col(3).x;
-		assert!(
-			right_x > 0.0,
-			"Right arm should be at +X, was {}",
-			right_x
-		);
+		assert!(right_x > 0.0, "Right arm should be at +X, was {}", right_x);
 		assert!(left_x < 0.0, "Left arm should be at -X, was {}", left_x);
 	}
 
@@ -807,8 +790,7 @@ mod tests {
 		let cam = camera::Camera::full_body_front();
 		let tint = renderer::TintConfig::default();
 
-		let output =
-			renderer::render_scene_tinted(&faces, &tex, &cam, 180, 360, &tint).unwrap();
+		let output = renderer::render_scene_tinted(&faces, &tex, &cam, 180, 360, &tint).unwrap();
 
 		// In a perfect front orthographic view, ONLY the front faces (+Z normal)
 		// should be visible. Every visible pixel should be RED (our front face color).

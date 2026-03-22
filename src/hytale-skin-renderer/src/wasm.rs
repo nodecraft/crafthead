@@ -126,8 +126,8 @@ pub fn render_minecraft(
 		.map_err(|e| JsValue::from_str(&format!("Texture load error: {}", e)))?;
 
 	let (tex_w, tex_h) = base_texture.dimensions();
-	let format = crate::minecraft_pipeline::SkinFormat::from_dimensions(tex_w, tex_h)
-		.ok_or_else(|| {
+	let format =
+		crate::minecraft_pipeline::SkinFormat::from_dimensions(tex_w, tex_h).ok_or_else(|| {
 			JsValue::from_str(&format!("Invalid skin dimensions: {}x{}", tex_w, tex_h))
 		})?;
 
