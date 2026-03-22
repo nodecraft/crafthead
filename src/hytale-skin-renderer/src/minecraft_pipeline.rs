@@ -601,21 +601,17 @@ mod tests {
 	fn test_overlay_is_larger_than_base() {
 		let faces = build_minecraft_faces(SkinFormat::Modern, ArmModel::Regular, true);
 
-		let head_base = faces
-			.iter()
-			.find(|f| f.node_name.as_deref() == Some("mc_head"))
-			.unwrap();
 		let head_overlay = faces
 			.iter()
 			.find(|f| f.node_name.as_deref() == Some("mc_head_overlay"))
 			.unwrap();
 
-		let base_size = head_base.shape.as_ref().unwrap().settings.size.unwrap();
-		let overlay_size = head_overlay.shape.as_ref().unwrap().settings.size.unwrap();
-
-		assert!(overlay_size.x > base_size.x);
-		assert!(overlay_size.y > base_size.y);
-		assert!(overlay_size.z > base_size.z);
+		// Overlay uses stretch > 1.0 to be geometrically larger while keeping
+		// the same settings.size for correct UV sampling.
+		let overlay_stretch = head_overlay.shape.as_ref().unwrap().stretch;
+		assert!(overlay_stretch.x > 1.0);
+		assert!(overlay_stretch.y > 1.0);
+		assert!(overlay_stretch.z > 1.0);
 	}
 
 	#[test]
