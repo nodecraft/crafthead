@@ -156,7 +156,7 @@ impl Camera {
 		let head_center = Vec3::new(0.0, 108.0, 0.0);
 		let dist = 100.0;
 		Camera {
-			position: head_center + Vec3::new(dist, dist * 0.75, dist),
+			position: head_center + Vec3::new(-dist, dist * 0.75, dist),
 			target: head_center,
 			up: Vec3::new(0.0, 1.0, 0.0),
 			ortho_size: 50.0,
