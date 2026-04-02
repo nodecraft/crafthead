@@ -46,5 +46,35 @@
     "Animation": "Characters/Animations/Expressions/Suprised.blockyanim",
     "Name": "Surprised",
     "IsLooping": true
+  },
+  {
+    "Id": "Talk",
+    "Animation": "Characters/Animations/Expressions/Talk/Talk.blockyanim",
+    "Name": "Talk",
+    "IsLooping": true
+  },
+  {
+    "Id": "Talk2",
+    "Animation": "Characters/Animations/Expressions/Talk/Talk2.blockyanim",
+    "Name": "Talk2",
+    "IsLooping": true
+  },
+  {
+    "Id": "Talk3",
+    "Animation": "Characters/Animations/Expressions/Talk/Talk3.blockyanim",
+    "Name": "Talk3",
+    "IsLooping": true
+  },
+  {
+    "Id": "Talk4",
+    "Animation": "Characters/Animations/Expressions/Talk/Talk4.blockyanim",
+    "Name": "Talk4",
+    "IsLooping": true
+  },
+  {
+    "Id": "Talk5",
+    "Animation": "Characters/Animations/Expressions/Talk/Talk5.blockyanim",
+    "Name": "Talk5",
+    "IsLooping": true
   }
 ]
