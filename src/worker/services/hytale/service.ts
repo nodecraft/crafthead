@@ -208,7 +208,7 @@ export async function renderAvatar(incomingRequest: Request, request: CraftheadR
 			assetBytes.push(bytes);
 		}
 
-		const limit = pLimit(6);
+		const limit = pLimit(12);
 		const skinAssetPromises = skinAssetPaths.map(async (assetPath) => {
 			const data = await limit(() => readAssetFile(assetPath, env, ctx));
 			const providerPath = assetPath.startsWith('Common/')
