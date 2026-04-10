@@ -101,6 +101,77 @@ pub fn render_hytale(
 	output::export_png_bytes(&image).map_err(|e| JsValue::from_str(&format!("Export error: {}", e)))
 }
 
+/// Render a Minecraft skin using the shared 3D renderer
+///
+/// # Arguments
+/// * `texture_bytes` - Minecraft skin PNG bytes (64x64 or 64x32)
+/// * `view_type` - Camera preset: "headshot", "isometric_head", "player_bust", "full_body_front", "front_right", "back_right"
+/// * `width` - Output image width
+/// * `height` - Output image height
+/// * `slim` - Whether to use slim (3px) arm model
+/// * `armored` - Whether to include overlay layers
+///
+/// # Returns
+/// PNG image bytes on success, or an error string
+#[wasm_bindgen]
+pub fn render_minecraft(
+	texture_bytes: &[u8],
+	view_type: &str,
+	width: u32,
+	height: u32,
+	slim: bool,
+	armored: bool,
+) -> Result<Vec<u8>, JsValue> {
+	let base_texture = texture::Texture::from_bytes(texture_bytes)
+		.map_err(|e| JsValue::from_str(&format!("Texture load error: {}", e)))?;
+
+	let (tex_w, tex_h) = base_texture.dimensions();
+	let format =
+		crate::minecraft_pipeline::SkinFormat::from_dimensions(tex_w, tex_h).ok_or_else(|| {
+			JsValue::from_str(&format!("Invalid skin dimensions: {}x{}", tex_w, tex_h))
+		})?;
+
+	let arm_model = if slim {
+		crate::minecraft_pipeline::ArmModel::Slim
+	} else {
+		crate::minecraft_pipeline::ArmModel::Regular
+	};
+
+	let is_cube = view_type == "minecraft_cube";
+
+	let faces = if is_cube {
+		// Cube view: head only
+		crate::minecraft_pipeline::build_minecraft_head_faces(format, armored)
+	} else {
+		crate::minecraft_pipeline::build_minecraft_faces(format, arm_model, armored)
+	};
+
+	let cam: Box<dyn camera::CameraProjection> = match view_type {
+		"minecraft_cube" => Box::new(camera::Camera::minecraft_cube()),
+		"headshot" => Box::new(camera::PerspectiveCamera::headshot()),
+		"isometric_head" => Box::new(camera::PerspectiveCamera::isometric_head()),
+		"player_bust" => Box::new(camera::PerspectiveCamera::player_bust()),
+		"full_body_front" => Box::new(camera::Camera::full_body_front()),
+		"front_right" => Box::new(camera::Camera::front_right_view()),
+		"back_right" => Box::new(camera::Camera::back_right_view()),
+		_ => Box::new(camera::PerspectiveCamera::headshot()),
+	};
+
+	let tint_config = renderer::TintConfig::default();
+
+	let image = renderer::render_scene_tinted(
+		&faces,
+		&base_texture,
+		cam.as_ref(),
+		width,
+		height,
+		&tint_config,
+	)
+	.map_err(|e| JsValue::from_str(&format!("Render error: {}", e)))?;
+
+	output::export_png_bytes(&image).map_err(|e| JsValue::from_str(&format!("Export error: {}", e)))
+}
+
 /// Get available view types as a JSON array
 #[wasm_bindgen]
 pub fn get_available_view_types() -> String {

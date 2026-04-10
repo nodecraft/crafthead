@@ -276,6 +276,46 @@ pub fn render_hytale_3d(
 	Ok(Uint8Array::from(&png_bytes[..]))
 }
 
+/// Render a Minecraft skin using the shared 3D renderer
+///
+/// This produces proper 3D renders of Minecraft skins using the same
+/// rendering pipeline as Hytale skins, enabling shared camera presets and poses.
+#[wasm_bindgen]
+pub fn render_minecraft_3d(
+	texture_bytes: Uint8Array,
+	view_type: String,
+	size: u32,
+	slim: bool,
+	armored: bool,
+) -> Result<Uint8Array, JsValue> {
+	let texture_vec = texture_bytes.to_vec();
+
+	let (width, height) = match view_type.as_str() {
+		"body" | "full_body_front" => (size, size * 2),
+		_ => (size, size),
+	};
+
+	let camera_type = match view_type.as_str() {
+		"avatar" | "helm" | "headshot" => "headshot",
+		"cube" => "minecraft_cube",
+		"isometric_head" => "isometric_head",
+		"bust" | "player_bust" => "player_bust",
+		"body" | "full_body_front" => "full_body_front",
+		_ => "headshot",
+	};
+
+	let png_bytes = hytale_skin_renderer::wasm::render_minecraft(
+		&texture_vec,
+		camera_type,
+		width,
+		height,
+		slim,
+		armored,
+	)?;
+
+	Ok(Uint8Array::from(&png_bytes[..]))
+}
+
 #[cfg(test)]
 mod tests {
 	use super::*;

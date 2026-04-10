@@ -7,7 +7,7 @@ import * as hytaleService from './services/hytale/service';
 import * as mojangService from './services/mojang/service';
 import { writeDataPoint } from './util/analytics';
 import { default as CACHE_BUST } from './util/cache-bust';
-import { get_rendered_image } from '../../pkg/mcavatar';
+import { get_rendered_image, render_minecraft_3d } from '../../pkg/mcavatar';
 
 import type { CraftheadRequest } from './request';
 
@@ -54,6 +54,9 @@ const RENDER_TYPE_MAP: Record<number, string> = {
 	[RequestedKind.Cape]: 'cape',
 } as const;
 
+// Render types that should use the 3D pipeline for Minecraft skins
+const MC_3D_RENDER_TYPES = new Set([RequestedKind.Cube, RequestedKind.Body, RequestedKind.Bust]);
+
 async function renderImage(skin: Response, request: CraftheadRequest): Promise<Response> {
 	const { size, requested, armored, game } = request;
 	const destinationHeaders = new Headers(skin.headers);
@@ -63,6 +66,13 @@ async function renderImage(skin: Response, request: CraftheadRequest): Promise<R
 	const which = RENDER_TYPE_MAP[requested];
 	if (!which) {
 		throw new Error('Unknown requested kind');
+	}
+
+	// Use 3D renderer for Minecraft body/cube/bust renders
+	if (game === Game.Minecraft && MC_3D_RENDER_TYPES.has(requested)) {
+		return new Response(render_minecraft_3d(skinBuf, which, size, slim, armored), {
+			headers: destinationHeaders,
+		});
 	}
 
 	return new Response(get_rendered_image(skinBuf, size, which, armored, slim, game), {
