@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import mcavatar from '../pkg/mcavatar';
+import * as mcavatar from '../src/wasm';
 
 describe('wasm', async () => {
 	it('should render a skin', async () => {

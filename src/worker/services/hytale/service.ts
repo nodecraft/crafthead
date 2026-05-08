@@ -11,7 +11,7 @@ import {
 	getRequiredAssetPaths,
 	resolveSkin,
 } from './cosmetic-registry';
-import { render_hytale_3d, render_text_avatar } from '../../../../pkg/mcavatar';
+import { render_hytale_3d, render_text_avatar } from '../../../wasm';
 import { EMPTY } from '../../data';
 import { IdentityKind, RequestedKind } from '../../request';
 import { readAssetFile } from '../../util/files';

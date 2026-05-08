@@ -3,11 +3,11 @@ import pathModule from 'node:path';
 
 import { EMPTY } from './data';
 import { Game, RequestedKind, interpretRequest } from './request';
+import { get_rendered_image } from '../wasm';
 import * as hytaleService from './services/hytale/service';
 import * as mojangService from './services/mojang/service';
 import { writeDataPoint } from './util/analytics';
 import { default as CACHE_BUST } from './util/cache-bust';
-import { get_rendered_image } from '../../pkg/mcavatar';
 
 import type { CraftheadRequest } from './request';
 
