@@ -7,7 +7,7 @@
 	"main": "worker/index.js",
 	"type": "module",
 	"scripts": {
-		"build": "wasm-pack build --release -t nodejs && node ./helper/fix-wasm-pack-output.ts",
+		"build": "wasm-pack build --release -t web",
 		"check-types": "npm run check-types:server",
 		"check-types:server": "tsc --noemit",
 		"dev": "wrangler dev",

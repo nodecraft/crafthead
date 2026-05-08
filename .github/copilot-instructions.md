@@ -87,9 +87,9 @@ After making changes, **ALWAYS** manually test the application functionality:
 - **`src/worker/request.ts`** - Request parsing and validation logic
 - **`src/worker/services/mojang/`** - Mojang API integration for profile/skin lookups
 - **`src/rust/lib.rs`** - Rust WebAssembly entry point for image rendering
+- **`src/wasm.ts`** - Wrapper that initializes the wasm-pack `web` target with the Workers `WebAssembly.Module` import
 - **`wrangler.toml`** - Cloudflare Workers configuration
 - **`Cargo.toml`** - Rust project configuration
-- **`helper/fix-wasm-pack-output.ts`** - Post-build script to fix wasm-pack output for Workers
 
 ### Request Flow
 1. HTTP request arrives at Worker
@@ -118,13 +118,12 @@ After making changes, **ALWAYS** manually test the application functionality:
 │   ├── rust/              # Rust WebAssembly code
 │   └── website/           # Static website files
 ├── test/                   # Test files
-├── helper/                 # Build helper scripts
 └── pkg/                    # Generated WASM (build output)
 ```
 
 ### Build Process Details
-1. `wasm-pack build --release -t nodejs` compiles Rust to WebAssembly
-2. `helper/fix-wasm-pack-output.ts` modifies the generated JS for Workers compatibility
+1. `wasm-pack build --release -t web` compiles Rust to WebAssembly and emits an ESM `init(module)` entry point
+2. `src/wasm.ts` imports the generated `.wasm` as a Workers `WebAssembly.Module`, calls `init` at top level, and re-exports the bindings
 3. Output goes to `pkg/` directory with `.wasm` and `.js` files
 
 ### Performance Notes

@@ -19,7 +19,7 @@ image = { version = "0.25", default-features = false, features = ["png"] }
 glam = "0.28"
 
 # CLI support (optional - not available for WASM)
-clap = { version = "4.4", features = ["derive"], optional = true }
+clap = { version = "4.6", features = ["derive"], optional = true }
 
 # WASM support (optional)
 wasm-bindgen = { version = "0.2", optional = true }
