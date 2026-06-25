@@ -638,6 +638,7 @@
   {
     "Id": "Jacket_Voyager",
     "Name": "avatarCustomization.overtops.Jacket_Voyager.name",
+    "FallbackPartIds": ["QuiltedLeatherJacket"],
     "Model": "Cosmetics/Overtops/CollaredJacket.blockymodel",
     "GreyscaleTexture": "Cosmetics/Overtops/CollaredJacket_Texture/TopBomber_Texture.png",
     "GradientSet": "Colored_Cotton",
@@ -663,6 +664,7 @@
   {
     "Id": "Hope_Of_GaiaOvertop",
     "Name": "avatarCustomization.overtops.Hope_Of_Gaia_Overtop.name",
+    "FallbackPartIds": ["GaiaPureOvertop"],
     "Model": "Cosmetics/Overtops/GaiaPure_Overtop.blockymodel",
     "GreyscaleTexture": "Cosmetics/Overtops/GaiaPure_Overtop_Texture.png",
     "GradientSet": "Ornamented_Metal",

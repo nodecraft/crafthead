@@ -490,6 +490,7 @@
   {
     "Id": "Hope_Of_Gaia_Skirt",
     "Name": "avatarCustomization.pants.Hope_Of_Gaia_Skirt.name",
+    "FallbackPartIds": ["GaiaPureSkirt"],
     "Model": "Cosmetics/Pants/Skirt_Petals.blockymodel",
     "Textures": {
       "Green": {

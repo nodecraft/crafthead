@@ -89,6 +89,7 @@
   {
     "Id": "Hope_Of_Gaia_Gloves",
     "Name": "avatarCustomization.gloves.Hope_Of_Gaia_Gloves.name",
+    "FallbackPartIds": ["GaiaPure_Gloves"],
     "Model": "Cosmetics/Gloves/GaiaPure_Gloves.blockymodel",
     "GreyscaleTexture": "Cosmetics/Gloves/GaiaPure_Gloves_Texture.png",
     "GradientSet": "Pastel_Cotton",
@@ -99,6 +100,7 @@
   {
     "Id": "Gloves_Void_Hero",
     "Name": "avatarCustomization.gloves.Void_Hero_Gloves.name",
+    "FallbackPartIds": ["LongDetailGloves_VoidHunter"],
     "Model": "Cosmetics/Gloves/LongDetail_Gloves.blockymodel",
     "GreyscaleTexture": "Cosmetics/Gloves/LongDetail_Gloves_Textures/LongDetail_Gloves_Void_Hero_Texture.png",
     "GradientSet": "Fantasy_Cotton",

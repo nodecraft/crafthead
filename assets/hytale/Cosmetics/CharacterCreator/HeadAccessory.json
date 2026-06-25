@@ -504,6 +504,7 @@
   {
     "Id": "Hope_Of_Gaia_Crown",
     "Name": "avatarCustomization.headaccessory.Hope_Of_Gaia_Crown.name",
+    "FallbackPartIds": ["GaiaPure_Crown"],
     "Model": "Cosmetics/Head/GaiaPure_Crown.blockymodel",
     "Entitlements": [
       "game.founder"
