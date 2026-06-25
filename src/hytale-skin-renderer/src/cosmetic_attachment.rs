@@ -424,22 +424,24 @@ pub fn attach_cosmetic_with_provider(
 	// We will collect "modifiers" from the parts.
 	let modifiers = parts.iter().skip(1).copied().collect::<Vec<&str>>();
 
-	if let Some(def) = registry.get(cosmetic_id) {
-		let registry_key = if registry.contains_key(id_full) {
-			id_full
-		} else {
-			cosmetic_id
-		};
-		let def = registry.get(registry_key).unwrap_or(def);
+	if let Some(resolution) = cosmetics::resolve_part(registry, cosmetic_id) {
+		let def = resolution.def;
+
+		// Renamed part/variant: surface the remap so migrations are observable.
+		if def.id != cosmetic_id {
+			eprintln!("Remapped cosmetic {} -> {}", cosmetic_id, def.id);
+		}
 
 		// 1. Resolve Variant
-
-		// Find if any modifier matches a variant key.
-		let variant_id = def.variants.as_ref().and_then(|variants| {
-			modifiers
-				.iter()
-				.find(|&&m| variants.contains_key(m))
-				.copied()
+		// A variant-level fallback forces its variant; otherwise match a modifier against
+		// a variant key (a stale variant the new part lacks won't match and drops to default).
+		let variant_id = resolution.forced_variant.as_deref().or_else(|| {
+			def.variants.as_ref().and_then(|variants| {
+				modifiers
+					.iter()
+					.find(|&&m| variants.contains_key(m))
+					.copied()
+			})
 		});
 
 		// 2. Resolve Color
