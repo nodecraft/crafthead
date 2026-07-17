@@ -382,5 +382,25 @@
     "Entitlements": [
       "game.founder"
     ]
+  },
+  {
+    "Id": "Cape_Authenticator",
+    "Name": "avatarCustomization.capes.Cape_Authenticator.name",
+    "GradientSet": "Fantasy_Cotton_Dark",
+    "Variants": {
+      "Neck_Piece": {
+        "NameKey": "avatarCustomization.variants.default",
+        "Model": "Cosmetics/Capes/Cape_Authenticator.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Capes/Cape_Authenticator.png"
+      },
+      "NoNeck": {
+        "NameKey": "avatarCustomization.variants.capes.no_neck",
+        "Model": "Cosmetics/Capes/Cape_Authenticator_NoNeck.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Capes/Cape_Authenticator.png"
+      }
+    },
+    "Entitlements": [
+      "security.totp"
+    ]
   }
 ]
