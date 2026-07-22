@@ -63,6 +63,13 @@ const PlayerDBHeaders = {
 	'User-Agent': 'Crafthead (+https://crafthead.net)',
 };
 
+// Flags our server-side traffic so PlayerDB skips its public rate limit; safe
+// since the edge blocks public clients from setting cf.
+const playerDbInternalCf = (request: Request): IncomingRequestCfProperties => ({
+	...request?.cf,
+	playerdbInternal: true,
+} as IncomingRequestCfProperties);
+
 /**
  * Looks up a username and returns the full profile (including properties/textures).
  * This avoids needing a separate fetchProfile call since PlayerDB returns everything.
@@ -75,7 +82,7 @@ export async function lookupUsername(
 	if (env.PLAYERDB) {
 		const playerDbRequest = new Request(`https://playerdb.co/api/player/hytale/${username}`, {
 			headers: PlayerDBHeaders,
-			cf: request?.cf,
+			cf: playerDbInternalCf(request),
 			signal: AbortSignal.timeout(5000),
 		});
 		lookupResponse = await env.PLAYERDB.fetch(playerDbRequest);
@@ -119,7 +126,7 @@ export async function fetchProfile(
 	if (env.PLAYERDB) {
 		const playerDbRequest = new Request(`https://playerdb.co/api/player/hytale/${id}`, {
 			headers: PlayerDBHeaders,
-			cf: request?.cf,
+			cf: playerDbInternalCf(request),
 			signal: AbortSignal.timeout(5000),
 		});
 		profileResponse = await env.PLAYERDB.fetch(playerDbRequest);
