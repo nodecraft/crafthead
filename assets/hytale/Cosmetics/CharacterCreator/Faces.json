@@ -52,10 +52,10 @@
   },
   {
     "Name": "avatarCustomization.faces.Face_Older2.name",
-    "Model": "Characters/Body_Attachments/Faces/Player_Face_Detached.blockymodel",
-    "GreyscaleTexture": "Characters/Body_Attachments/Faces/Faces_Detached_Textures/Older_Face2.png",
     "GradientSet": "Skin",
-    "Id": "Face_Older2"
+    "Id": "Face_Older2",
+    "GreyscaleTexture": "Characters/Body_Attachments/Faces/Faces_Detached_Textures/Older_Face2.png",
+    "Model": "Characters/Body_Attachments/Faces/Player_Face_Detached.blockymodel"
   },
   {
     "Name": "avatarCustomization.faces.Face_Almond_Eyes.name",

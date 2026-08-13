@@ -388,7 +388,7 @@
     "Name": "avatarCustomization.pants.FrostwardenSet_Skirt.name",
     "Model": "Cosmetics/Pants/HighSkirt.blockymodel",
     "GreyscaleTexture": "Cosmetics/Pants/HighSkirt_Textures/FrostyWarm_Skirt_Texture.png",
-    "GradientSet": "Colored_Cotton",
+    "GradientSet": "Fantasy_Cotton",
     "Entitlements": [
       "game.founder"
     ]

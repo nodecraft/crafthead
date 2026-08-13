@@ -10,14 +10,8 @@
     "Id": "LongSocks_Plain",
     "Name": "avatarCustomization.overpants.LongSocks_Plain.name",
     "Model": "Cosmetics/Overpants/Long_Socks.blockymodel",
-    "Textures": {
-      "Default": {
-        "Texture": "Cosmetics/Overpants/Long_Socks_Textures/PlainSocks_Greyscale.png",
-        "BaseColor": [
-          "#ece9e9"
-        ]
-      }
-    }
+    "GradientSet": "Colored_Cotton",
+    "GreyscaleTexture": "Cosmetics/Overpants/Long_Socks_Textures/PlainSocks_Greyscale.png"
   },
   {
     "Id": "LongSocks_BasicWrap",

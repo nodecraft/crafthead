@@ -328,7 +328,7 @@
     "Name": "avatarCustomization.shoes.FrostwardenSet_Boots.name",
     "Model": "Cosmetics/Shoes/FrostyWarm_Boots.blockymodel",
     "GreyscaleTexture": "Cosmetics/Shoes/FrostyWarm_Boots_Textures/FrostyWarmBoots_Texture.png",
-    "GradientSet": "Colored_Cotton",
+    "GradientSet": "Fantasy_Cotton",
     "Entitlements": [
       "game.founder"
     ]

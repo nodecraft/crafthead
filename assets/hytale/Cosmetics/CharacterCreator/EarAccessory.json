@@ -73,80 +73,34 @@
     "Id": "SilverHoopsBead",
     "Name": "avatarCustomization.earaccessory.SilverHoopsBead.name",
     "Model": "Cosmetics/Head/SilverHoopsBead.blockymodel",
-    "Textures": {
-      "Black+Grey": {
-        "Texture": "Cosmetics/Head/SilverHoopsBead_Textures/Black+Grey.png",
-        "BaseColor": [
-          "#000000",
-          "#a1a1a1"
-        ]
+    "VariantLocalizationKey": "avatarCustomization.variants.earSide",
+    "GreyscaleTexture": "Cosmetics/Head/SilverHoopsBead_Textures/SilverHoopBeads.png",
+    "GradientSet": "Colored_Cotton",
+    "Variants": {
+      "Left": {
+        "Model": "Cosmetics/Head/SilverHoopsBeadLeft.blockymodel",
+        "Textures": {
+          "White": {
+            "Texture": "Cosmetics/Head/SpiralEarring_Textures/SpiralEarring_White.png",
+            "BaseColor": [
+              "#f4e6d3"
+            ]
+          }
+        },
+        "NameKey": "avatarCustomization.variants.earSide.left",
+        "GreyscaleTexture": "Cosmetics/Head/SilverHoopsBead_Textures/SilverHoopBeads.png"
       },
-      "PinkPastel+PurplePastel+TurquoisePastel": {
-        "Texture": "Cosmetics/Head/SilverHoopsBead_Textures/PinkPastel+PurplePastel+TurquoisePastel.png",
-        "BaseColor": [
-          "#f8a7d5",
-          "#ac9bef",
-          "#b1ebed"
-        ]
+      "Right": {
+        "Model": "Cosmetics/Head/SilverHoopsBeadRight.blockymodel",
+        "NameKey": "avatarCustomization.variants.earSide.right",
+        "GreyscaleTexture": "Cosmetics/Head/SilverHoopsBead_Textures/SilverHoopBeads.png"
       },
-      "Purple+Violet+Lime": {
-        "Texture": "Cosmetics/Head/SilverHoopsBead_Textures/Purple+Violet+Lime.png",
-        "BaseColor": [
-          "#5f46b9",
-          "#9947c5",
-          "#b2e045"
-        ]
-      },
-      "Green+Orange+Turquoise": {
-        "Texture": "Cosmetics/Head/SilverHoopsBead_Textures/Green+Orange+Turquoise.png",
-        "BaseColor": [
-          "#57b53f",
-          "#d67b27",
-          "#3fb3b5"
-        ]
-      },
-      "Green+Brown+Yellow": {
-        "Texture": "Cosmetics/Head/SilverHoopsBead_Textures/Green+Brown+Yellow.png",
-        "BaseColor": [
-          "#57b53f",
-          "#734c2f",
-          "#f7de25"
-        ]
-      },
-      "White+Turquoise+Green": {
-        "Texture": "Cosmetics/Head/SilverHoopsBead_Textures/White+Turquoise+Green.png",
-        "BaseColor": [
-          "#ffffff",
-          "#3fb3b5",
-          "#57b53f"
-        ]
-      },
-      "TurquoisePastel+Turquoise+Blue": {
-        "Texture": "Cosmetics/Head/SilverHoopsBead_Textures/TurquoisePastel+Turquoise+Blue.png",
-        "BaseColor": [
-          "#b1ebed",
-          "#3fb3b5",
-          "#3080a8"
-        ]
-      },
-      "Red+Orange+Yellow": {
-        "Texture": "Cosmetics/Head/SilverHoopsBead_Textures/Red+Orange+Yellow.png",
-        "BaseColor": [
-          "#9c1d1d",
-          "#d67b27",
-          "#f7de25"
-        ]
-      },
-      "BluePastel+LimePastel+YellowPastel": {
-        "Texture": "Cosmetics/Head/SilverHoopsBead_Textures/BluePastel+LimePastel+YellowPastel.png",
-        "BaseColor": [
-          "#94c7e1",
-          "#deff92",
-          "#fff295"
-        ]
+      "Both": {
+        "NameKey": "avatarCustomization.variants.earSide.both",
+        "Model": "Cosmetics/Head/SilverHoopsBead.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Head/SilverHoopsBead_Textures/SilverHoopBeads.png"
       }
-    },
-    "VariantLocalizationKey": "avatarCustomization.variants.earSide"
+    }
   },
   {
     "Id": "SpiralEarring",

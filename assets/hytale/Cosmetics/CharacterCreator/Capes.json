@@ -271,7 +271,7 @@
   {
     "Id": "Cape_King",
     "Name": "avatarCustomization.capes.Cape_King.name",
-    "GradientSet": "Colored_Cotton",
+    "GradientSet": "Fantasy_Cotton",
     "Variants": {
       "Neck_Piece": {
         "NameKey": "avatarCustomization.variants.default",
@@ -324,7 +324,7 @@
   {
     "Id": "FrostwardenSet_Cape",
     "Name": "avatarCustomization.capes.FrostwardenSet_Cape.name",
-    "GradientSet": "Colored_Cotton",
+    "GradientSet": "Fantasy_Cotton",
     "Variants": {
       "Neck_Piece": {
         "NameKey": "avatarCustomization.variants.default",

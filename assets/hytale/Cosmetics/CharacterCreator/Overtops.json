@@ -651,15 +651,9 @@
   {
     "Id": "AlpineExplorerJumper",
     "Name": "avatarCustomization.overtops.AlpineExplorerJumper.name",
-    "Model": "Cosmetics/Overtops/NeckHighJumper.blockymodel",
-    "Textures": {
-      "Navy": {
-        "BaseColor": [
-          "#17181b"
-        ],
-        "Texture": "Cosmetics/Overtops/NeckHighJumper_Textures/AlpineExplorerJumper_Texture.png"
-      }
-    }
+    "Model": "Cosmetics/Overtops/AlpineExplorerJumper.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overtops/NeckHighJumper_Textures/AlpineExplorerJumper_Texture.png",
+    "GradientSet": "Colored_Cotton"
   },
   {
     "Id": "Hope_Of_GaiaOvertop",
