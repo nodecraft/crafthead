@@ -28,7 +28,9 @@ fn resolve_gradient_texture_path(
 	let parts: Vec<&str> = full_id.split('.').collect();
 	let color_part = if parts.len() >= 2 { parts[1] } else { parts[0] };
 
-	let def = registry_map.get(id)?;
+	// Fallback-aware so a renamed part still resolves its gradient set; colour
+	// (parsed positionally above) carries over unchanged.
+	let def = cosmetics::resolve_part(registry_map, id)?.def;
 	let gradient_set_id = def.gradient_set.as_deref().or(default_set)?;
 
 	if let Some(set) = gradient_sets.get(gradient_set_id) {
@@ -558,7 +560,9 @@ impl BodyRenderer {
 		// Head Accessory
 		if let Some(ref id_full) = config.skin.head_accessory {
 			let cosmetic_id = id_full.split('.').next().unwrap();
-			if let Some(def) = self.registry.head_accessories.get(cosmetic_id) {
+			if let Some(def) =
+				cosmetics::resolve_part(&self.registry.head_accessories, cosmetic_id).map(|r| r.def)
+			{
 				// Determine culling mode from accessory definition
 				self.active_head_accessory_culling = Some(
 					if def.disable_character_part_category.as_deref() == Some("Haircut") {

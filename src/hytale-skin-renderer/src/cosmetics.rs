@@ -17,6 +17,8 @@ pub struct CosmeticDefinition {
 	pub model: Option<String>,
 	pub greyscale_texture: Option<String>,
 	pub gradient_set: Option<String>,
+	/// Old part ids this part replaces; saved skins referencing them remap here (renamed part).
+	pub fallback_part_ids: Option<Vec<String>>,
 	pub variants: Option<HashMap<String, CosmeticVariant>>,
 	/// Direct textures map for cosmetics like EyePatch
 	/// Key is the color name (e.g., "Black"), value contains texture path
@@ -41,6 +43,8 @@ pub struct CosmeticVariant {
 	pub model: Option<String>,
 	pub greyscale_texture: Option<String>,
 	pub textures: Option<HashMap<String, TextureVariant>>,
+	/// Old part id this variant replaces; saved skins referencing it remap to this part + variant (renamed variant).
+	pub fallback_part_id: Option<String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]
@@ -82,6 +86,60 @@ pub struct CosmeticRegistry {
 
 pub fn is_valid_cosmetic_id(id: &str) -> bool {
 	!id.is_empty() && id != "null"
+}
+
+/// A part resolved from a category map, possibly via a fallback rename.
+pub struct PartResolution<'a> {
+	pub def: &'a CosmeticDefinition,
+	/// Set only by a variant-level `FallbackPartId` (renamed variant).
+	pub forced_variant: Option<String>,
+}
+
+/// Resolve a saved cosmetic id against a category map, following rename fallbacks on a miss.
+///
+/// Direct hits return immediately (O(1), hot path). The fallback scan only runs when an id
+/// is missing — the rare renamed-part case — so no precomputed reverse map is needed. Old
+/// ids are expected unique per category, so at most one match exists; variant-level is
+/// checked before part-level to keep precedence deterministic if data ever violates that.
+/// Single-hop only: the resolved target is assumed to exist in the current set.
+pub fn resolve_part<'a>(
+	map: &'a HashMap<String, CosmeticDefinition>,
+	cosmetic_id: &str,
+) -> Option<PartResolution<'a>> {
+	if let Some(def) = map.get(cosmetic_id) {
+		return Some(PartResolution {
+			def,
+			forced_variant: None,
+		});
+	}
+
+	for def in map.values() {
+		if let Some(variants) = &def.variants {
+			for (variant_key, variant) in variants {
+				if variant.fallback_part_id.as_deref() == Some(cosmetic_id) {
+					return Some(PartResolution {
+						def,
+						forced_variant: Some(variant_key.clone()),
+					});
+				}
+			}
+		}
+	}
+
+	for def in map.values() {
+		if def
+			.fallback_part_ids
+			.as_ref()
+			.is_some_and(|ids| ids.iter().any(|id| id == cosmetic_id))
+		{
+			return Some(PartResolution {
+				def,
+				forced_variant: None,
+			});
+		}
+	}
+
+	None
 }
 
 impl CosmeticRegistry {
@@ -252,5 +310,95 @@ impl CosmeticRegistry {
 			.or_else(|| self.eyebrows.get(id))
 			.or_else(|| self.mouths.get(id))
 			.or_else(|| self.ears.get(id))
+	}
+}
+
+#[cfg(test)]
+mod tests {
+	use super::*;
+
+	fn def(id: &str) -> CosmeticDefinition {
+		CosmeticDefinition {
+			hair_type: None,
+			requires_generic_haircut: None,
+			id: id.to_string(),
+			name: None,
+			model: None,
+			greyscale_texture: None,
+			gradient_set: None,
+			fallback_part_ids: None,
+			variants: None,
+			textures: None,
+			head_accessory_type: None,
+			disable_character_part_category: None,
+		}
+	}
+
+	fn variant(fallback: Option<&str>) -> CosmeticVariant {
+		CosmeticVariant {
+			model: None,
+			greyscale_texture: None,
+			textures: None,
+			fallback_part_id: fallback.map(str::to_string),
+		}
+	}
+
+	fn map_of(defs: Vec<CosmeticDefinition>) -> HashMap<String, CosmeticDefinition> {
+		defs.into_iter().map(|d| (d.id.clone(), d)).collect()
+	}
+
+	#[test]
+	fn resolve_part_direct_hit_has_no_forced_variant() {
+		let map = map_of(vec![def("Boots_Voyager")]);
+		let res = resolve_part(&map, "Boots_Voyager").unwrap();
+		assert_eq!(res.def.id, "Boots_Voyager");
+		assert_eq!(res.forced_variant, None);
+	}
+
+	#[test]
+	fn resolve_part_remaps_renamed_part() {
+		let mut new_part = def("Boots_Voyager");
+		new_part.fallback_part_ids = Some(vec!["QuiltedBoots".to_string()]);
+		let map = map_of(vec![new_part]);
+
+		let res = resolve_part(&map, "QuiltedBoots").unwrap();
+		assert_eq!(res.def.id, "Boots_Voyager");
+		assert_eq!(res.forced_variant, None);
+	}
+
+	#[test]
+	fn resolve_part_remaps_renamed_variant_with_forced_variant() {
+		let mut new_part = def("Cape_Royal_Emissary");
+		let mut variants = HashMap::new();
+		variants.insert("Neck_Piece".to_string(), variant(Some("Cape_Trimmed")));
+		new_part.variants = Some(variants);
+		let map = map_of(vec![new_part]);
+
+		let res = resolve_part(&map, "Cape_Trimmed").unwrap();
+		assert_eq!(res.def.id, "Cape_Royal_Emissary");
+		assert_eq!(res.forced_variant.as_deref(), Some("Neck_Piece"));
+	}
+
+	#[test]
+	fn resolve_part_unknown_id_returns_none() {
+		let map = map_of(vec![def("Boots_Voyager")]);
+		assert!(resolve_part(&map, "DoesNotExist").is_none());
+	}
+
+	#[test]
+	fn resolve_part_prefers_variant_level_over_part_level() {
+		let mut part_level = def("Part_Level_Target");
+		part_level.fallback_part_ids = Some(vec!["OldId".to_string()]);
+
+		let mut variant_level = def("Variant_Level_Target");
+		let mut variants = HashMap::new();
+		variants.insert("V1".to_string(), variant(Some("OldId")));
+		variant_level.variants = Some(variants);
+
+		let map = map_of(vec![part_level, variant_level]);
+
+		let res = resolve_part(&map, "OldId").unwrap();
+		assert_eq!(res.def.id, "Variant_Level_Target");
+		assert_eq!(res.forced_variant.as_deref(), Some("V1"));
 	}
 }
