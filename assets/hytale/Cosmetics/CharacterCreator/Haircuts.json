@@ -762,7 +762,7 @@
   },
   {
     "HairType": "Medium",
-    "RequiresGenericHaircut": true,
+    "RequiresGenericHaircut": false,
     "Id": "CentrePart",
     "Name": "avatarCustomization.haircuts.CentrePart.name",
     "Model": "Characters/Haircuts/CentrePart.blockymodel",

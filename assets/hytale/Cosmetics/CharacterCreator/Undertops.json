@@ -234,7 +234,7 @@
     "Name": "avatarCustomization.undertops.PastelTracksuit.name",
     "Model": "Cosmetics/Undertops/LongSleeveShirt.blockymodel",
     "Textures": {
-      "YellowPastel+PinkPastel+BluePastel": {
+      "YellowPastel\u002BPinkPastel\u002BBluePastel": {
         "Texture": "Cosmetics/Undertops/LongSleeveShirt_Textures/Pastel_Tracksuit_Shirt.png",
         "BaseColor": [
           "#fff295",
@@ -344,7 +344,7 @@
     "Name": "avatarCustomization.undertops.FrostwardenSet_Top.name",
     "Model": "Cosmetics/Undertops/BasicUndertop.blockymodel",
     "GreyscaleTexture": "Cosmetics/Undertops/BasicTop_Textures/FrostyF_Top_Texture.png",
-    "GradientSet": "Colored_Cotton",
+    "GradientSet": "Fantasy_Cotton",
     "Entitlements": [
       "game.founder"
     ]

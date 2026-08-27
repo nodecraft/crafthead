@@ -49,6 +49,8 @@ export interface CosmeticVariant {
 	Icon?: string;
 	BaseColor?: string[];
 	Textures?: Record<string, CosmeticTexture>;
+	// Old part id this variant replaces; saved skins referencing it remap here (renamed variant).
+	FallbackPartId?: string;
 }
 
 /**
@@ -74,6 +76,8 @@ export interface CosmeticDefinition {
 	Variants?: Record<string, CosmeticVariant>;
 	Textures?: Record<string, CosmeticTexture>;
 	Entitlements?: string[];
+	// Old part ids this part replaces; saved skins referencing them remap here (renamed part).
+	FallbackPartIds?: string[];
 }
 
 /**

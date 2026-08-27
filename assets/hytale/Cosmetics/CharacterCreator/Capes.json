@@ -6,6 +6,7 @@
     "Variants": {
       "Neck_Piece": {
         "NameKey": "avatarCustomization.variants.default",
+        "FallbackPartId": "Cape_Trimmed",
         "Model": "Cosmetics/Capes/Cape_Basic.blockymodel",
         "GreyscaleTexture": "Cosmetics/Capes/Cape_Basic_Textures/Cape_Trimmed_Texture.png"
       },
@@ -25,6 +26,7 @@
     "Variants": {
       "Neck_Piece": {
         "NameKey": "avatarCustomization.variants.default",
+        "FallbackPartId": "Cape_Cursebreaker_Gold",
         "Model": "Cosmetics/Capes/Cape_Cursebreaker_Gold.blockymodel",
         "Textures": {
           "White": {
@@ -58,6 +60,7 @@
     "Variants": {
       "Neck_Piece": {
         "NameKey": "avatarCustomization.variants.default",
+        "FallbackPartId": "Cape_Mossy",
         "Model": "Cosmetics/Capes/Cape_Mossy.blockymodel",
         "Textures": {
           "Green": {
@@ -125,6 +128,7 @@
     "Variants": {
       "Neck_Piece": {
         "NameKey": "avatarCustomization.variants.default",
+        "FallbackPartId": "Cape_Basic",
         "Model": "Cosmetics/Capes/Cape_Basic.blockymodel",
         "GreyscaleTexture": "Cosmetics/Capes/Cape_Basic_Textures/Cape_Basic_Texture.png"
       },
@@ -145,6 +149,7 @@
     "Variants": {
       "Neck_Piece": {
         "NameKey": "avatarCustomization.variants.default",
+        "FallbackPartId": "Cape_Leaves",
         "Model": "Cosmetics/Capes/Cape_Leaves.blockymodel",
         "Textures": {
           "Red": {
@@ -191,6 +196,7 @@
     "Variants": {
       "Neck_Piece": {
         "NameKey": "avatarCustomization.variants.default",
+        "FallbackPartId": "Cape_Royal_Leaf",
         "Model": "Cosmetics/Capes/Cape_Royal_Leaf.blockymodel",
         "GreyscaleTexture": "Cosmetics/Capes/Cape_Royal_Leaf_Texture.png"
       },
@@ -210,6 +216,7 @@
     "Variants": {
       "Neck_Piece": {
         "NameKey": "avatarCustomization.variants.default",
+        "FallbackPartId": "Cape_Skeleton_Wizard02",
         "Model": "Cosmetics/Capes/Cape_Skeleton_Wizard02.blockymodel",
         "Textures": {
           "DarkPurple": {
@@ -264,7 +271,7 @@
   {
     "Id": "Cape_King",
     "Name": "avatarCustomization.capes.Cape_King.name",
-    "GradientSet": "Colored_Cotton",
+    "GradientSet": "Fantasy_Cotton",
     "Variants": {
       "Neck_Piece": {
         "NameKey": "avatarCustomization.variants.default",
@@ -288,6 +295,7 @@
     "Variants": {
       "Neck_Piece": {
         "NameKey": "avatarCustomization.variants.default",
+        "FallbackPartId": "BigScarf_VoidHunter",
         "Model": "Cosmetics/Capes/Cape_Void_Hero.blockymodel",
         "GreyscaleTexture": "Cosmetics/Capes/Void_Hero_Cape.png"
       },
@@ -316,7 +324,7 @@
   {
     "Id": "FrostwardenSet_Cape",
     "Name": "avatarCustomization.capes.FrostwardenSet_Cape.name",
-    "GradientSet": "Colored_Cotton",
+    "GradientSet": "Fantasy_Cotton",
     "Variants": {
       "Neck_Piece": {
         "NameKey": "avatarCustomization.variants.default",
@@ -340,6 +348,7 @@
     "Variants": {
       "Neck_Piece": {
         "NameKey": "avatarCustomization.variants.default",
+        "FallbackPartId": "Cape_Banneret",
         "Model": "Cosmetics/Capes/Cape_Bannerlord.blockymodel",
         "GreyscaleTexture": "Cosmetics/Capes/Cape_Bannerlord_Texture.png"
       },
@@ -372,6 +381,26 @@
     },
     "Entitlements": [
       "game.founder"
+    ]
+  },
+  {
+    "Id": "Cape_Authenticator",
+    "Name": "avatarCustomization.capes.Cape_Authenticator.name",
+    "GradientSet": "Fantasy_Cotton_Dark",
+    "Variants": {
+      "Neck_Piece": {
+        "NameKey": "avatarCustomization.variants.default",
+        "Model": "Cosmetics/Capes/Cape_Authenticator.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Capes/Cape_Authenticator.png"
+      },
+      "NoNeck": {
+        "NameKey": "avatarCustomization.variants.capes.no_neck",
+        "Model": "Cosmetics/Capes/Cape_Authenticator_NoNeck.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Capes/Cape_Authenticator.png"
+      }
+    },
+    "Entitlements": [
+      "security.totp"
     ]
   }
 ]

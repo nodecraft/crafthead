@@ -151,9 +151,25 @@ async function ensureInitialized(): Promise<void> {
 }
 
 /**
- * Look up a cosmetic definition by slot and ID
+ * A definition resolved from a slot, possibly via a rename fallback.
  */
-export async function getDefinition(slot: CosmeticSlot, id: string): Promise<CosmeticDefinition | null> {
+export interface ResolvedPart {
+	definition: CosmeticDefinition;
+	// Set only by a variant-level FallbackPartId (renamed variant).
+	forcedVariant?: string;
+}
+
+/**
+ * Resolve a saved cosmetic id within a slot, following rename fallbacks on a miss.
+ *
+ * Mirrors the WASM-side `resolve_part`: direct hits return immediately, and only on a
+ * miss do we scan the slot for a renamed part (`FallbackPartIds`) or renamed variant
+ * (`FallbackPartId`, variant-level checked first for deterministic precedence). Keeping
+ * this in sync matters because this layer decides which model/texture/gradient assets get
+ * bundled for WASM — without it, a renamed part's assets are never fetched and WASM's own
+ * remap resolves to a part whose files are absent.
+ */
+export async function resolvePart(slot: CosmeticSlot, id: string): Promise<ResolvedPart | null> {
 	await ensureInitialized();
 
 	const fileName = SLOT_TO_FILE[slot];
@@ -164,7 +180,29 @@ export async function getDefinition(slot: CosmeticSlot, id: string): Promise<Cos
 	if (!slotIndex) {
 		return null;
 	}
-	return slotIndex.get(id) ?? null;
+
+	const direct = slotIndex.get(id);
+	if (direct) {
+		return { definition: direct };
+	}
+
+	for (const definition of slotIndex.values()) {
+		if (definition.Variants) {
+			for (const [variantKey, variant] of Object.entries(definition.Variants)) {
+				if (variant.FallbackPartId === id) {
+					return { definition, forcedVariant: variantKey };
+				}
+			}
+		}
+	}
+
+	for (const definition of slotIndex.values()) {
+		if (definition.FallbackPartIds?.includes(id)) {
+			return { definition };
+		}
+	}
+
+	return null;
 }
 
 /**
@@ -213,12 +251,22 @@ export async function resolveCosmetic(
 	}
 
 	const parsed = parseSkinValue(value);
-	const definition = await getDefinition(slot, parsed.id);
+	const resolved = await resolvePart(slot, parsed.id);
 
-	if (!definition) {
+	if (!resolved) {
 		console.warn(`Cosmetic definition not found: ${slot}/${parsed.id}`);
 		return null;
 	}
+
+	const { definition, forcedVariant } = resolved;
+	if (definition.Id !== parsed.id) {
+		console.warn(`Remapped cosmetic ${slot}/${parsed.id} -> ${definition.Id}`);
+	}
+
+	// A variant-level fallback forces its variant; otherwise keep the saved variant only if
+	// the new part still defines it (else fall through to default), so colour still carries.
+	const effectiveVariant = forcedVariant
+		?? (parsed.variant && definition.Variants?.[parsed.variant] ? parsed.variant : undefined);
 
 	// Determine model and texture paths
 	let modelPath: string | null = null;
@@ -227,8 +275,8 @@ export async function resolveCosmetic(
 	let gradientSetId: string | null = definition.GradientSet ?? null;
 
 	// Check for variant
-	if (parsed.variant && definition.Variants) {
-		const variant = definition.Variants[parsed.variant];
+	if (effectiveVariant && definition.Variants) {
+		const variant = definition.Variants[effectiveVariant];
 		if (variant) {
 			modelPath = variant.Model ?? definition.Model ?? null;
 
@@ -290,14 +338,14 @@ export async function resolveCosmetic(
 
 	return {
 		slot,
-		id: parsed.id,
+		id: definition.Id,
 		modelPath: fullModelPath && !basePlayerAssets.has(fullModelPath) ? fullModelPath : null,
 		texturePath: fullTexturePath && !basePlayerAssets.has(fullTexturePath) ? fullTexturePath : null,
 		gradientSetId,
 		colorId,
 		gradientTexturePath: gradientTexturePath ? `Common/${gradientTexturePath}` : null,
 		baseColor,
-		variant: parsed.variant,
+		variant: effectiveVariant,
 	};
 }
 

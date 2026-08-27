@@ -282,6 +282,7 @@
   {
     "Id": "Boots_Voyager",
     "Name": "avatarCustomization.shoes.Boots_Voyager.name",
+    "FallbackPartIds": ["QuiltedBoots"],
     "Model": "Cosmetics/Shoes/QuiltedBoots.blockymodel",
     "GreyscaleTexture": "Cosmetics/Shoes/QuiltedBoots_Textures/QuiltedBoots_Texture.png",
     "GradientSet": "Colored_Cotton",
@@ -294,6 +295,7 @@
   {
     "Id": "Hope_Of_Gaia_Boots",
     "Name": "avatarCustomization.shoes.Hope_Of_Gaia_Boots.name",
+    "FallbackPartIds": ["GaiaPureBoots"],
     "Model": "Cosmetics/Shoes/GaiaPureBoots.blockymodel",
     "GreyscaleTexture": "Cosmetics/Shoes/GaiaPureBoots_Texture.png",
     "GradientSet": "Ornamented_Metal",
@@ -326,7 +328,7 @@
     "Name": "avatarCustomization.shoes.FrostwardenSet_Boots.name",
     "Model": "Cosmetics/Shoes/FrostyWarm_Boots.blockymodel",
     "GreyscaleTexture": "Cosmetics/Shoes/FrostyWarm_Boots_Textures/FrostyWarmBoots_Texture.png",
-    "GradientSet": "Colored_Cotton",
+    "GradientSet": "Fantasy_Cotton",
     "Entitlements": [
       "game.founder"
     ]

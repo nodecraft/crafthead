@@ -388,7 +388,7 @@
     "Name": "avatarCustomization.pants.FrostwardenSet_Skirt.name",
     "Model": "Cosmetics/Pants/HighSkirt.blockymodel",
     "GreyscaleTexture": "Cosmetics/Pants/HighSkirt_Textures/FrostyWarm_Skirt_Texture.png",
-    "GradientSet": "Colored_Cotton",
+    "GradientSet": "Fantasy_Cotton",
     "Entitlements": [
       "game.founder"
     ]
@@ -490,6 +490,7 @@
   {
     "Id": "Hope_Of_Gaia_Skirt",
     "Name": "avatarCustomization.pants.Hope_Of_Gaia_Skirt.name",
+    "FallbackPartIds": ["GaiaPureSkirt"],
     "Model": "Cosmetics/Pants/Skirt_Petals.blockymodel",
     "Textures": {
       "Green": {

@@ -262,14 +262,8 @@
     "Id": "Head_Crown",
     "Name": "avatarCustomization.headaccessory.Head_Crown.name",
     "Model": "Cosmetics/Head/KingsCrown.blockymodel",
-    "Textures": {
-      "Red": {
-        "Texture": "Cosmetics/Head/KingsCrown_Red.png",
-        "BaseColor": [
-          "#9c1d1d"
-        ]
-      }
-    }
+    "GreyscaleTexture": "Cosmetics/Head/KingsCrown_Red.png",
+    "GradientSet": "Fantasy_Cotton"
   },
   {
     "HeadAccessoryType": "HalfCovering",
@@ -330,14 +324,8 @@
     "Id": "Viking_Helmet",
     "Name": "avatarCustomization.headaccessory.Viking_Helmet.name",
     "Model": "Cosmetics/Head/VikingHelmet.blockymodel",
-    "Textures": {
-      "Grey": {
-        "Texture": "Cosmetics/Head/VikingHelmet_Grey.png",
-        "BaseColor": [
-          "#a1a1a1"
-        ]
-      }
-    }
+    "GreyscaleTexture": "Cosmetics/Head/VikingHelmet_Grey.png",
+    "GradientSet": "Ornamented_Metal"
   },
   {
     "HeadAccessoryType": "HalfCovering",
@@ -366,14 +354,8 @@
     "Id": "CowboyHat",
     "Name": "avatarCustomization.headaccessory.CowboyHat.name",
     "Model": "Cosmetics/Head/CowboyHat.blockymodel",
-    "Textures": {
-      "Red": {
-        "Texture": "Cosmetics/Head/CowboyHat_Red.png",
-        "BaseColor": [
-          "#9c1d1d"
-        ]
-      }
-    }
+    "GreyscaleTexture": "Cosmetics/Head/CowboyHat_Leather.png",
+    "GradientSet": "Fantasy_Cotton"
   },
   {
     "HeadAccessoryType": "HalfCovering",
@@ -395,7 +377,8 @@
     "Model": "Cosmetics/Head/LeatherCap.blockymodel",
     "Id": "LeatherCap",
     "GreyscaleTexture": "Cosmetics/Head/LeatherCap_texture.png",
-    "GradientSet": "Faded_Leather"
+    "GradientSet": "Faded_Leather",
+    "DisableCharacterPartCategory": "Ears"
   },
   {
     "HeadAccessoryType": "Simple",
@@ -504,6 +487,9 @@
   {
     "Id": "Hope_Of_Gaia_Crown",
     "Name": "avatarCustomization.headaccessory.Hope_Of_Gaia_Crown.name",
+    "FallbackPartIds": [
+      "GaiaPure_Crown"
+    ],
     "Model": "Cosmetics/Head/GaiaPure_Crown.blockymodel",
     "Entitlements": [
       "game.founder"
@@ -523,7 +509,7 @@
     "Name": "avatarCustomization.headaccessory.FrostwardenSet_Hat.name",
     "Model": "Cosmetics/Head/FrostyWarm_Hat.blockymodel",
     "GreyscaleTexture": "Cosmetics/Head/FrostyWarm_Hat_Texture.png",
-    "GradientSet": "Colored_Cotton",
+    "GradientSet": "Fantasy_Cotton",
     "Entitlements": [
       "game.founder"
     ]
@@ -667,8 +653,8 @@
       }
     }
   },
-  { 
-    "HeadAccessoryType": "HalfCovering",  
+  {
+    "HeadAccessoryType": "HalfCovering",
     "Id": "TweedHat",
     "Name": "avatarCustomization.headaccessory.TweedHat.name",
     "Model": "Cosmetics/Head/TweedHat.blockymodel",

@@ -133,7 +133,9 @@ impl ResolvedTints {
 				parts[0] // fallback or handle as "no color"? logic was just last() before
 			};
 
-			let def = registry_map.get(id)?;
+			// Fallback-aware so a renamed part still resolves its gradient set; colour
+			// (parsed positionally above) carries over unchanged.
+			let def = crate::cosmetics::resolve_part(registry_map, id)?.def;
 
 			let gradient_set_id = def.gradient_set.as_deref().or(default_set)?;
 
@@ -309,6 +311,7 @@ mod tests {
 				name: None,
 				model: None,
 				greyscale_texture: None,
+				fallback_part_ids: None,
 				variants: None,
 				textures: None,
 				head_accessory_type: None,
@@ -327,6 +330,7 @@ mod tests {
 				name: None,
 				model: None,
 				greyscale_texture: None,
+				fallback_part_ids: None,
 				variants: None,
 				textures: None,
 				head_accessory_type: None,
@@ -345,6 +349,7 @@ mod tests {
 				name: None,
 				model: None,
 				greyscale_texture: None,
+				fallback_part_ids: None,
 				variants: None,
 				textures: None,
 				head_accessory_type: None,
@@ -363,6 +368,7 @@ mod tests {
 				name: None,
 				model: None,
 				greyscale_texture: None,
+				fallback_part_ids: None,
 				variants: None,
 				textures: None,
 				head_accessory_type: None,
@@ -396,6 +402,7 @@ mod tests {
 				name: None,
 				model: None,
 				greyscale_texture: None,
+				fallback_part_ids: None,
 				variants: None,
 				textures: None,
 				head_accessory_type: None,
@@ -426,6 +433,63 @@ mod tests {
 		// Should resolve to the path specified in the gradient set, NOT "Fantasy_Cotton_Dark/Red.png"
 		assert!(tints
 			.cape_color
+			.as_ref()
+			.unwrap()
+			.ends_with("TintGradients/Dark_Fantasy_Cotton/Red.png"));
+	}
+
+	#[test]
+	fn test_resolve_tints_carries_colour_through_fallback() {
+		// Saved skin references the old id; the new part lists it in FallbackPartIds.
+		let json = r#"{
+            "skin": {
+                "bodyCharacteristic": "Default.10",
+                "shoes": "QuiltedBoots.Red"
+            }
+        }"#;
+
+		let config = SkinConfig::from_str(json).unwrap();
+		let mut registry = mock_registry();
+
+		registry.shoes.insert(
+			"Boots_Voyager".to_string(),
+			CosmeticDefinition {
+				id: "Boots_Voyager".to_string(),
+				gradient_set: Some("Fantasy_Cotton_Dark".to_string()),
+				fallback_part_ids: Some(vec!["QuiltedBoots".to_string()]),
+				hair_type: None,
+				requires_generic_haircut: None,
+				name: None,
+				model: None,
+				greyscale_texture: None,
+				variants: None,
+				textures: None,
+				head_accessory_type: None,
+				disable_character_part_category: None,
+			},
+		);
+
+		let mut gradients = HashMap::new();
+		gradients.insert(
+			"Red".to_string(),
+			crate::cosmetics::GradientDefinition {
+				base_color: None,
+				texture: Some("TintGradients/Dark_Fantasy_Cotton/Red.png".to_string()),
+			},
+		);
+		registry.gradient_sets.insert(
+			"Fantasy_Cotton_Dark".to_string(),
+			crate::cosmetics::GradientSet {
+				id: Some("Fantasy_Cotton_Dark".to_string()),
+				gradients,
+			},
+		);
+
+		let tints = ResolvedTints::from_skin_config(&config, Path::new("assets"), &registry);
+
+		// Colour (Red) carries over and resolves via the renamed part's gradient set.
+		assert!(tints
+			.shoes_color
 			.as_ref()
 			.unwrap()
 			.ends_with("TintGradients/Dark_Fantasy_Cotton/Red.png"));
