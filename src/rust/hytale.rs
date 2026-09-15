@@ -1,6 +1,6 @@
 extern crate image;
 
-use crate::utils::{apply_minecraft_transparency, fast_overlay};
+use crate::utils::fast_overlay;
 use image::{imageops, DynamicImage, GenericImageView, Rgba, RgbaImage};
 use imageproc::geometric_transformations::{warp_into, Interpolation, Projection};
 
@@ -75,8 +75,8 @@ impl HytaleSkin {
 		match layer {
 			Layer::Both => {
 				let mut bottom = self.get_part(Layer::Bottom, part, model);
-				let mut top = self.get_part(Layer::Top, part, model);
-				apply_minecraft_transparency(&mut top);
+				let top = self.get_part(Layer::Top, part, model);
+				// No Hytale equivalent of Minecraft's legacy opaque-overlay hack.
 				fast_overlay(&mut bottom, &top, 0, 0);
 				bottom
 			}

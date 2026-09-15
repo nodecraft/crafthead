@@ -71,7 +71,10 @@ impl MinecraftSkin {
 
 				let mut bottom = self.get_part(Layer::Bottom, part, model);
 				let mut top = self.get_part(Layer::Top, part, model);
-				apply_minecraft_transparency(&mut top);
+				// Only legacy skins get the opaque-overlay hack; a modern skin means its overlay.
+				if self.version() == MinecraftSkinVersion::Classic {
+					apply_minecraft_transparency(&mut top);
+				}
 				fast_overlay(&mut bottom, &top, 0, 0);
 				bottom
 			}
@@ -379,5 +382,49 @@ mod tests {
 		// Left Leg (viewer right): (8, 20) to (11, 31)
 		assert_eq!(rendered.get_pixel(8, 20).0, right_leg_color.0); // should be right_leg_color (cyan)
 		assert_eq!(rendered.get_pixel(11, 25).0, right_leg_color.0);
+	}
+
+	/// Builds a skin with an opaque blue head and `overlay` filling the outer head layer.
+	fn skin_with_head_overlay(height: u32, overlay: Rgba<u8>) -> MinecraftSkin {
+		let mut skin = RgbaImage::new(64, height);
+		for y in 8..16 {
+			for x in 8..16 {
+				skin.put_pixel(x, y, Rgba([0, 0, 255, 255]));
+			}
+			for x in 40..48 {
+				skin.put_pixel(x, y, overlay);
+			}
+		}
+		MinecraftSkin(DynamicImage::ImageRgba8(skin))
+	}
+
+	/// https://github.com/nodecraft/crafthead/issues/176
+	#[test]
+	fn test_helm_blends_translucent_outer_layer() {
+		let skin = skin_with_head_overlay(64, Rgba([255, 0, 0, 64]));
+		let helm = skin.get_part(Layer::Both, BodyPart::Head, SkinModel::Regular);
+		assert_eq!(helm.get_pixel(4, 4), Rgba([64, 0, 191, 255]));
+	}
+
+	#[test]
+	fn test_helm_blends_half_opaque_outer_layer() {
+		// An overlay with no pixel below alpha 128 used to read as "fully opaque" and be erased.
+		let skin = skin_with_head_overlay(64, Rgba([255, 0, 0, 128]));
+		let helm = skin.get_part(Layer::Both, BodyPart::Head, SkinModel::Regular);
+		assert_eq!(helm.get_pixel(4, 4), Rgba([128, 0, 127, 255]));
+	}
+
+	#[test]
+	fn test_helm_keeps_opaque_outer_layer_on_modern_skins() {
+		let skin = skin_with_head_overlay(64, Rgba([0, 255, 0, 255]));
+		let helm = skin.get_part(Layer::Both, BodyPart::Head, SkinModel::Regular);
+		assert_eq!(helm.get_pixel(4, 4), Rgba([0, 255, 0, 255]));
+	}
+
+	#[test]
+	fn test_helm_discards_opaque_outer_layer_on_legacy_skins() {
+		let skin = skin_with_head_overlay(32, Rgba([0, 255, 0, 255]));
+		let helm = skin.get_part(Layer::Both, BodyPart::Head, SkinModel::Regular);
+		assert_eq!(helm.get_pixel(4, 4), Rgba([0, 0, 255, 255]));
 	}
 }
