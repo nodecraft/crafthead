@@ -1,5 +1,5 @@
 use cfg_if::cfg_if;
-use image::{imageops, DynamicImage, GenericImage, GenericImageView};
+use image::{imageops, DynamicImage, GenericImage, GenericImageView, Rgba};
 
 cfg_if! {
 	// When the `console_error_panic_hook` feature is enabled, we can call the
@@ -40,6 +40,8 @@ fn is_image_region_transparent_to_minecraft(
 	false
 }
 
+/// Discards an overlay layer that is fully opaque. Legacy 64x32 skins left junk in the overlay
+/// region, so Minecraft treats "no transparency at all" as "nothing was drawn here".
 #[inline]
 pub(crate) fn apply_minecraft_transparency(img: &mut DynamicImage) {
 	let (width, height) = img.dimensions();
@@ -67,10 +69,32 @@ fn apply_minecraft_transparency_region(
 	}
 }
 
+/// Source-over compositing. Done in integer space rather than via `Pixel::blend`, whose float
+/// rounding leaves an opaque result sitting at alpha 254.
+#[inline]
+fn blend_over(bottom: Rgba<u8>, top: Rgba<u8>) -> Rgba<u8> {
+	let top_alpha = u32::from(top[3]);
+	// What the base still contributes once the top has been laid over it.
+	let bottom_alpha = u32::from(bottom[3]) * (255 - top_alpha) / 255;
+	let out_alpha = top_alpha + bottom_alpha;
+	if out_alpha == 0 {
+		return Rgba([0, 0, 0, 0]);
+	}
+
+	let mut out = [0_u8; 4];
+	for channel in 0..3 {
+		let weighted =
+			u32::from(top[channel]) * top_alpha + u32::from(bottom[channel]) * bottom_alpha;
+		out[channel] = (weighted / out_alpha) as u8;
+	}
+	out[3] = out_alpha as u8;
+	Rgba(out)
+}
+
 #[inline]
 pub(crate) fn fast_overlay(bottom: &mut DynamicImage, top: &DynamicImage, x: u32, y: u32) {
-	// All but a straight port of https://github.com/minotar/imgd/blob/master/process.go#L386
-	// to Rust.
+	// Based on https://github.com/minotar/imgd/blob/master/process.go#L386, which predates the
+	// translucent outer layers Minecraft added in 1.8 and so forced every pixel opaque.
 	let bottom_dims = bottom.dimensions();
 	let top_dims = top.dimensions();
 
@@ -79,11 +103,14 @@ pub(crate) fn fast_overlay(bottom: &mut DynamicImage, top: &DynamicImage, x: u32
 
 	for top_y in 0..range_height {
 		for top_x in 0..range_width {
-			let mut p = top.get_pixel(top_x, top_y);
-			if p[3] != 0 {
-				p[3] = 0xFF;
-				bottom.put_pixel(x + top_x, y + top_y, p);
+			let p = top.get_pixel(top_x, top_y);
+			if p[3] == 0 {
+				continue;
 			}
+
+			// Blend rather than replace, so a translucent outer skin layer keeps its opacity.
+			let blended = blend_over(bottom.get_pixel(x + top_x, y + top_y), p);
+			bottom.put_pixel(x + top_x, y + top_y, blended);
 		}
 	}
 }
@@ -206,5 +233,36 @@ mod tests {
 		let top = DynamicImage::ImageRgba8(top);
 		fast_overlay(&mut bottom, &top, 2, 2);
 		assert_eq!(bottom.get_pixel(2, 2), Rgba([0, 0, 0, 0])); // Should remain unchanged
+	}
+
+	#[test]
+	fn test_fast_overlay_blends_translucent_top() {
+		let mut bottom = RgbaImage::new(2, 2);
+		let mut top = RgbaImage::new(2, 2);
+		for y in 0..2 {
+			for x in 0..2 {
+				bottom.put_pixel(x, y, Rgba([0, 0, 255, 255])); // Opaque blue
+				top.put_pixel(x, y, Rgba([255, 0, 0, 64])); // 25% red
+			}
+		}
+		let mut bottom = DynamicImage::ImageRgba8(bottom);
+		let top = DynamicImage::ImageRgba8(top);
+		fast_overlay(&mut bottom, &top, 0, 0);
+		assert_eq!(bottom.get_pixel(0, 0), Rgba([64, 0, 191, 255])); // Blended, not solid red
+	}
+
+	#[test]
+	fn test_fast_overlay_translucent_top_over_nothing() {
+		let bottom = RgbaImage::new(2, 2);
+		let mut top = RgbaImage::new(2, 2);
+		for y in 0..2 {
+			for x in 0..2 {
+				top.put_pixel(x, y, Rgba([255, 0, 0, 64]));
+			}
+		}
+		let mut bottom = DynamicImage::ImageRgba8(bottom);
+		let top = DynamicImage::ImageRgba8(top);
+		fast_overlay(&mut bottom, &top, 0, 0);
+		assert_eq!(bottom.get_pixel(0, 0), Rgba([255, 0, 0, 64])); // Keeps its own opacity
 	}
 }
