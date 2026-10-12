@@ -315,7 +315,9 @@ mod tests {
 				variants: None,
 				textures: None,
 				head_accessory_type: None,
-				disable_character_part_category: None,
+				hides_skin_properties: None,
+				priority: None,
+				particles: None,
 			},
 		);
 
@@ -334,7 +336,9 @@ mod tests {
 				variants: None,
 				textures: None,
 				head_accessory_type: None,
-				disable_character_part_category: None,
+				hides_skin_properties: None,
+				priority: None,
+				particles: None,
 			},
 		);
 
@@ -353,7 +357,9 @@ mod tests {
 				variants: None,
 				textures: None,
 				head_accessory_type: None,
-				disable_character_part_category: None,
+				hides_skin_properties: None,
+				priority: None,
+				particles: None,
 			},
 		);
 
@@ -372,7 +378,9 @@ mod tests {
 				variants: None,
 				textures: None,
 				head_accessory_type: None,
-				disable_character_part_category: None,
+				hides_skin_properties: None,
+				priority: None,
+				particles: None,
 			},
 		);
 
@@ -406,7 +414,9 @@ mod tests {
 				variants: None,
 				textures: None,
 				head_accessory_type: None,
-				disable_character_part_category: None,
+				hides_skin_properties: None,
+				priority: None,
+				particles: None,
 			},
 		);
 
@@ -465,7 +475,9 @@ mod tests {
 				variants: None,
 				textures: None,
 				head_accessory_type: None,
-				disable_character_part_category: None,
+				hides_skin_properties: None,
+				priority: None,
+				particles: None,
 			},
 		);
 

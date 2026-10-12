@@ -14,6 +14,9 @@ pub trait CameraProjection {
 
 	/// Calculate depth for a point (for sorting)
 	fn calculate_depth(&self, point: Vector3) -> f32;
+
+	/// Get the view matrix (world to camera space)
+	fn view_matrix(&self) -> Mat4;
 }
 
 /// Camera configuration for orthographic projection
@@ -231,6 +234,10 @@ impl CameraProjection for Camera {
 	fn calculate_depth(&self, point: Vector3) -> f32 {
 		Camera::calculate_depth(self, point)
 	}
+
+	fn view_matrix(&self) -> Mat4 {
+		Camera::view_matrix(self)
+	}
 }
 
 /// Camera configuration for perspective projection
@@ -376,6 +383,10 @@ impl CameraProjection for PerspectiveCamera {
 
 	fn calculate_depth(&self, point: Vector3) -> f32 {
 		PerspectiveCamera::calculate_depth(self, point)
+	}
+
+	fn view_matrix(&self) -> Mat4 {
+		PerspectiveCamera::view_matrix(self)
 	}
 }
 

@@ -32,6 +32,7 @@ import shoesJson from '../../../../assets/hytale/Cosmetics/CharacterCreator/Shoe
 import skinFeaturesJson from '../../../../assets/hytale/Cosmetics/CharacterCreator/SkinFeatures.json';
 import undertopsJson from '../../../../assets/hytale/Cosmetics/CharacterCreator/Undertops.json';
 import underwearJson from '../../../../assets/hytale/Cosmetics/CharacterCreator/Underwear.json';
+import cosmeticParticlesJson from '../../../../assets/hytale/Particles/CosmeticParticles.json';
 
 import type { HytaleSkin } from './api';
 import type {
@@ -39,9 +40,12 @@ import type {
 	CosmeticSlot,
 	GradientColor,
 	GradientSetDefinition,
+	ParticleManifest,
 	ResolvedCosmetic,
 	ResolvedSkin,
 } from './types';
+
+const PARTICLE_MANIFEST = cosmeticParticlesJson as ParticleManifest;
 
 // Type the imported JSON arrays
 type SlotDefinitions = Record<string, CosmeticDefinition[]>;
@@ -94,6 +98,7 @@ const COSMETIC_FILES = [
 	{ path: 'Cosmetics/CharacterCreator/Undertops.json', content: undertopsJson },
 	{ path: 'Cosmetics/CharacterCreator/HaircutFallbacks.json', content: haircutFallbacksJson },
 	{ path: 'Cosmetics/CharacterCreator/BodyCharacteristics.json', content: bodyCharacteristicsJson },
+	{ path: 'Particles/CosmeticParticles.json', content: cosmeticParticlesJson },
 ];
 
 export interface SkinDefinition {
@@ -336,6 +341,16 @@ export async function resolveCosmetic(
 		'Common/Characters/Player_Textures/Player_Muscular_Greyscale.png',
 	]);
 
+	const particleTexturePaths: string[] = [];
+	for (const { SystemId: systemId } of definition.Particles ?? []) {
+		for (const { SpawnerId: spawnerId } of PARTICLE_MANIFEST.Systems[systemId]?.Spawners ?? []) {
+			const texture = spawnerId ? PARTICLE_MANIFEST.Spawners[spawnerId]?.Particle?.Texture : undefined;
+			if (texture) {
+				particleTexturePaths.push(`Common/${texture}`);
+			}
+		}
+	}
+
 	return {
 		slot,
 		id: definition.Id,
@@ -346,6 +361,7 @@ export async function resolveCosmetic(
 		gradientTexturePath: gradientTexturePath ? `Common/${gradientTexturePath}` : null,
 		baseColor,
 		variant: effectiveVariant,
+		particleTexturePaths,
 	};
 }
 
@@ -434,10 +450,12 @@ export function getRequiredAssetPaths(resolvedSkin: ResolvedSkin): {
 	models: string[];
 	textures: string[];
 	gradients: string[];
+	particleTextures: string[];
 } {
 	const models = new Set<string>();
 	const textures = new Set<string>();
 	const gradients = new Set<string>();
+	const particleTextures = new Set<string>();
 
 	for (const cosmetic of resolvedSkin.cosmetics) {
 		if (cosmetic.modelPath) {
@@ -445,6 +463,9 @@ export function getRequiredAssetPaths(resolvedSkin: ResolvedSkin): {
 		}
 		if (cosmetic.texturePath) {
 			textures.add(cosmetic.texturePath);
+		}
+		for (const particleTexturePath of cosmetic.particleTexturePaths) {
+			particleTextures.add(particleTexturePath);
 		}
 		if (cosmetic.gradientTexturePath) {
 			gradients.add(cosmetic.gradientTexturePath);
@@ -459,6 +480,7 @@ export function getRequiredAssetPaths(resolvedSkin: ResolvedSkin): {
 		models: [...models],
 		textures: [...textures],
 		gradients: [...gradients],
+		particleTextures: [...particleTextures],
 	};
 }
 

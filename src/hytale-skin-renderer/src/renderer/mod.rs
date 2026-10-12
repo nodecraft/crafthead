@@ -8,6 +8,7 @@ mod config;
 mod debug;
 mod face;
 mod math;
+mod particles;
 mod postprocess;
 mod rasterizer;
 
@@ -18,6 +19,7 @@ use crate::camera::CameraProjection;
 use crate::error::Result;
 use crate::geometry::Face;
 use crate::models::Vector3;
+use crate::particles::ParticleSprite;
 use crate::texture::Texture;
 use image::RgbaImage;
 use std::sync::Arc;
@@ -45,6 +47,7 @@ pub fn render_scene(
 		output_height,
 		false,
 		None,
+		&[],
 		RenderConfig::default(),
 	)
 }
@@ -63,7 +66,7 @@ pub struct RenderableFace {
 /// Render a scene to a 2D image with tinting applied
 ///
 /// Accepts faces with shape information, node names for tint mapping,
-/// and a tint configuration.
+/// and a tint configuration. Particle sprites are blended over the opaque scene.
 pub fn render_scene_tinted(
 	faces: &[RenderableFace],
 	texture: &Texture,
@@ -71,6 +74,7 @@ pub fn render_scene_tinted(
 	output_width: u32,
 	output_height: u32,
 	tint_config: &TintConfig,
+	particles: &[ParticleSprite],
 ) -> Result<RgbaImage> {
 	render_scene_tinted_with_config(
 		faces,
@@ -79,11 +83,13 @@ pub fn render_scene_tinted(
 		output_width,
 		output_height,
 		tint_config,
+		particles,
 		RenderConfig::default(),
 	)
 }
 
 /// Render a scene to a 2D image with tinting and configurable filtering
+#[allow(clippy::too_many_arguments)]
 pub fn render_scene_tinted_with_config(
 	faces: &[RenderableFace],
 	texture: &Texture,
@@ -91,6 +97,7 @@ pub fn render_scene_tinted_with_config(
 	output_width: u32,
 	output_height: u32,
 	tint_config: &TintConfig,
+	particles: &[ParticleSprite],
 	config: RenderConfig,
 ) -> Result<RgbaImage> {
 	let mut image = render_scene_internal(
@@ -101,6 +108,7 @@ pub fn render_scene_tinted_with_config(
 		output_height,
 		false,
 		Some(tint_config),
+		particles,
 		config,
 	)?;
 
@@ -162,6 +170,7 @@ pub fn render_scene_with_shape_debug(
 		output_height,
 		debug_mode,
 		None,
+		&[],
 		RenderConfig::default(),
 	)
 }
@@ -178,6 +187,7 @@ fn render_scene_internal(
 	output_height: u32,
 	debug_mode: bool,
 	tint_config: Option<&TintConfig>,
+	particles: &[ParticleSprite],
 	config: RenderConfig,
 ) -> Result<RgbaImage> {
 	let mut image = RgbaImage::new(output_width, output_height);
@@ -332,6 +342,8 @@ fn render_scene_internal(
 			)?;
 		}
 	}
+
+	particles::render_particles(&mut image, &depth_buffer, particles, camera);
 
 	Ok(image)
 }

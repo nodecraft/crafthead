@@ -12,6 +12,7 @@ pub mod geometry;
 pub mod math;
 pub mod models;
 pub mod output;
+pub mod particles;
 pub mod render_pipeline;
 pub mod renderer;
 pub mod scene;

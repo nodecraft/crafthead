@@ -8,6 +8,9 @@ use crate::asset_provider::AssetProvider;
 /// Extended face that includes node name for tint mapping and specific texture/tint
 pub type TintedFace = renderer::RenderableFace;
 
+/// Named transform-only nodes recorded from attached parts: name -> (world transform, part priority).
+pub type MountPoints = HashMap<String, (glam::Mat4, i32)>;
+
 pub fn find_node_by_name<'a>(
 	nodes: &'a [scene::SceneNode],
 	name: &str,
@@ -98,6 +101,7 @@ pub fn load_and_attach_cosmetic(
 		scene,
 		faces,
 		shapes,
+		&mut MountPoints::new(),
 		tint_config,
 		None,
 	);
@@ -110,6 +114,7 @@ pub fn load_and_attach_cosmetic_with_provider(
 	scene: &scene::SceneGraph,
 	faces: &mut Vec<TintedFace>,
 	shapes: &mut Vec<models::Shape>,
+	mounts: &mut MountPoints,
 	tint_config: &renderer::TintConfig,
 	asset_provider: Option<&dyn AssetProvider>,
 ) {
@@ -184,6 +189,9 @@ pub fn load_and_attach_cosmetic_with_provider(
 						initial_parent_transform,
 						faces,
 						shapes,
+						mounts,
+						def.priority.unwrap_or(0),
+						true,
 						&texture,
 						&tint,
 						tint_config,
@@ -220,6 +228,7 @@ pub fn attach_variant(
 		scene,
 		faces,
 		shapes,
+		&mut MountPoints::new(),
 		tint_config,
 		None,
 	);
@@ -233,6 +242,7 @@ pub fn attach_variant_with_provider(
 	scene: &scene::SceneGraph,
 	faces: &mut Vec<TintedFace>,
 	shapes: &mut Vec<models::Shape>,
+	mounts: &mut MountPoints,
 	tint_config: &renderer::TintConfig,
 	asset_provider: Option<&dyn AssetProvider>,
 ) {
@@ -253,6 +263,7 @@ pub fn attach_variant_with_provider(
 				scene,
 				faces,
 				shapes,
+				mounts,
 				tint_config,
 				asset_provider,
 			);
@@ -265,6 +276,10 @@ fn process_children(
 	parent_transform: glam::Mat4,
 	faces: &mut Vec<TintedFace>,
 	shapes: &mut Vec<models::Shape>,
+	mounts: &mut MountPoints,
+	priority: i32,
+	// True while every ancestor in this model is transform-only; only those nodes are mount points.
+	mountable: bool,
 	texture: &Option<Arc<texture::Texture>>,
 	tint: &Option<Arc<texture::TintGradient>>,
 	tint_config: &renderer::TintConfig,
@@ -309,6 +324,30 @@ fn process_children(
 			let local_transform = glam::Mat4::from_rotation_translation(local_rot, local_pos);
 			parent_transform * local_transform
 		};
+
+		// A higher-priority part's mount point wins (e.g. hats ride on the haircut's Hat_Ontop).
+		let is_transform_only = child
+			.shape
+			.as_ref()
+			.is_none_or(|s| s.shape_type == models::ShapeType::None);
+		let mount = if !should_snap && mountable && is_transform_only {
+			mounts
+				.get(&child.name)
+				.filter(|(_, mount_priority)| *mount_priority > priority)
+				.map(|(transform, _)| *transform)
+		} else {
+			None
+		};
+		let snapped_to_mount = mount.is_some();
+		let world_transform = mount.unwrap_or(world_transform);
+		if is_transform_only && player_bone.is_none() {
+			let recorded = mounts
+				.entry(child.name.clone())
+				.or_insert((world_transform, priority));
+			if recorded.1 < priority {
+				*recorded = (world_transform, priority);
+			}
+		}
 
 		if let Some(ref shape) = child.shape {
 			if shape.visible {
@@ -371,6 +410,9 @@ fn process_children(
 			child_parent_transform,
 			faces,
 			shapes,
+			mounts,
+			priority,
+			mountable && is_transform_only && !snapped_to_mount,
 			texture,
 			tint,
 			tint_config,
@@ -397,6 +439,7 @@ pub fn attach_cosmetic(
 		scene,
 		faces,
 		shapes,
+		&mut MountPoints::new(),
 		tint_config,
 		None,
 	);
@@ -409,6 +452,7 @@ pub fn attach_cosmetic_with_provider(
 	scene: &scene::SceneGraph,
 	faces: &mut Vec<TintedFace>,
 	shapes: &mut Vec<models::Shape>,
+	mounts: &mut MountPoints,
 	tint_config: &renderer::TintConfig,
 	asset_provider: Option<&dyn AssetProvider>,
 ) {
@@ -623,6 +667,9 @@ pub fn attach_cosmetic_with_provider(
 							initial_parent_transform,
 							faces,
 							shapes,
+							mounts,
+							def.priority.unwrap_or(0),
+							true,
 							&texture,
 							&tint,
 							tint_config,
@@ -687,8 +734,8 @@ fn resolve_model_and_texture(
 	// Priority: Specific Texture for Color > Greyscale Texture
 	let (final_texture, base_colors) = if let Some(c_id) = color_id {
 		if let Some(map) = &textures {
-			if let Some(tex_var) = map.get(c_id) {
-				(Some(tex_var.texture.clone()), tex_var.base_color.clone())
+			if let Some(tex_var) = map.get(c_id).filter(|t| t.texture.is_some()) {
+				(tex_var.texture.clone(), tex_var.base_color.clone())
 			} else {
 				// Color not in direct texture map, maybe it's for the gradient?
 				(greyscale, None)
@@ -701,8 +748,12 @@ fn resolve_model_and_texture(
 		// If we have a Textures map, we might Default to first?
 		if let Some(map) = &textures {
 			// Try "Black" or first
-			if let Some(tex_var) = map.get("Black").or_else(|| map.values().next()) {
-				(Some(tex_var.texture.clone()), tex_var.base_color.clone())
+			if let Some(tex_var) = map
+				.get("Black")
+				.or_else(|| map.values().next())
+				.filter(|t| t.texture.is_some())
+			{
+				(tex_var.texture.clone(), tex_var.base_color.clone())
 			} else {
 				(greyscale, None)
 			}
