@@ -13,21 +13,5 @@
     "Id": "HairLength.Long",
     "NameKey": "avatarCustomization.tags.haircut.long",
     "DisplayOrder": 3
-  },
-  {
-    "Id": "Style.Fantasy",
-    "NameKey": "avatarCustomization.tags.style.fantasy"
-  },
-  {
-    "Id": "Style.Modern",
-    "NameKey": "avatarCustomization.tags.style.modern"
-  },
-  {
-    "Id": "Style.Costume",
-    "NameKey": "avatarCustomization.tags.style.costume"
-  },
-  {
-    "Id": "Style.Special",
-    "NameKey": "avatarCustomization.tags.style.special"
   }
 ]

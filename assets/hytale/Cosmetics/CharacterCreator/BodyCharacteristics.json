@@ -13,5 +13,12 @@
     "Name": "avatarCustomization.bodyCharacteristics.Muscular.name",
     "GradientSet": "Skin",
     "GreyscaleTexture": "Characters/Player_Textures/Player_Muscular_Greyscale.png"
+  },
+  {
+    "Id": "Goblin",
+    "Model": "Characters/Player.blockymodel",
+    "Name": "avatarCustomization.bodyCharacteristics.Goblin.name",
+    "GradientSet": "Skin",
+    "GreyscaleTexture": "Characters/Player_Textures/Player_Goblin_Greyscale.png"
   }
 ]

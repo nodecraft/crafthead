@@ -163,6 +163,18 @@
             "BaseColor": [
               "#618928"
             ]
+          },
+          "Blue": {
+            "BaseColor": [
+              "#5a67ae"
+            ],
+            "Texture": "Cosmetics/Capes/Cape_Leaves_Textures/Cape_Leaves_Frosty.png"
+          },
+          "Pink": {
+            "Texture": "Cosmetics/Capes/Cape_Leaves_Textures/Cape_Leaves_Sakura.png",
+            "BaseColor": [
+              "#ff93bb"
+            ]
           }
         }
       },
@@ -180,6 +192,18 @@
             "Texture": "Cosmetics/Capes/Cape_Leaves_Textures/Cape_Leaves_Green_Texture.png",
             "BaseColor": [
               "#618928"
+            ]
+          },
+          "Blue": {
+            "BaseColor": [
+              "#5a67ae"
+            ],
+            "Texture": "Cosmetics/Capes/Cape_Leaves_Textures/Cape_Leaves_Frosty.png"
+          },
+          "Pink": {
+            "Texture": "Cosmetics/Capes/Cape_Leaves_Textures/Cape_Leaves_Sakura.png",
+            "BaseColor": [
+              "#ff93bb"
             ]
           }
         }
@@ -402,5 +426,105 @@
     "Entitlements": [
       "security.totp"
     ]
+  },
+  {
+    "Id": "Cape_GoblinRags",
+    "Name": "avatarCustomization.capes.Cape_Goblin.name",
+    "GradientSet": "Fantasy_Cotton_Dark",
+    "Model": "Cosmetics/Capes/Cape_GoblinRags.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Capes/Cape_GoblinRags.png",
+    "Variants": {
+      "Neck_Piece": {
+        "NameKey": "avatarCustomization.variants.default",
+        "Model": "Cosmetics/Capes/Cape_GoblinRags.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Capes/Cape_GoblinRags.png"
+      },
+      "NoNeck": {
+        "NameKey": "avatarCustomization.variants.capes.no_neck",
+        "Model": "Cosmetics/Capes/Cape_GoblinRags_NoNeck.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Capes/Cape_GoblinRags.png"
+      }
+    }
+  },
+  {
+    "Id": "Cape_Construction_Tarp",
+    "Name": "avatarCustomization.capes.Cape_WIP.name",
+    "Model": "Cosmetics/Capes/Cape_Construction_Tarp.blockymodel",
+    "Textures": {
+      "Blue": {
+        "Texture": "Cosmetics/Capes/Cape_Construction_Tarp.png",
+        "BaseColor": [
+          "#387ad4"
+        ]
+      }
+    },
+    "Variants": {
+      "Default": {
+        "Textures": {
+          "Blue": {
+            "Texture": "Cosmetics/Capes/Cape_Construction_Tarp.png",
+            "BaseColor": [
+              "#387ad4"
+            ]
+          }
+        },
+        "Model": "Cosmetics/Capes/Cape_Construction_Tarp.blockymodel",
+        "NameKey": "avatarCustomization.variants.default"
+      },
+      "NoNeck": {
+        "Textures": {
+          "Blue": {
+            "Texture": "Cosmetics/Capes/Cape_Construction_Tarp.png",
+            "BaseColor": [
+              "#387ad4"
+            ]
+          }
+        },
+        "Model": "Cosmetics/Capes/Cape_Construction_Tarp_NoNeck.blockymodel",
+        "NameKey": "avatarCustomization.variants.capes.no_neck"
+      }
+    }
+  },
+  {
+    "Id": "Cape_GoblinMage",
+    "Name": "avatarCustomization.capes.Cape_GoblinMage.name",
+    "Variants": {
+      "Neck_Piece": {
+        "NameKey": "avatarCustomization.variants.default",
+        "Model": "Cosmetics/Capes/Cape_GoblinMage.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Capes/Cape_GoblinMage.png"
+      },
+      "NoNeck": {
+        "NameKey": "avatarCustomization.variants.capes.no_neck",
+        "Model": "Cosmetics/Capes/Cape_GoblinMage_NoNeck.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Capes/Cape_GoblinMage.png"
+      }
+    },
+    "GradientSet": "Fantasy_Cotton_Dark",
+    "Entitlements": [
+      "cosmetics.chapter_1.boss"
+    ]
+  },
+  {
+    "Id": "Cape_GoblinThief",
+    "Name": "avatarCustomization.capes.Cape_GoblinThief.name",
+    "Variants": {
+      "Neck_Piece": {
+        "NameKey": "avatarCustomization.variants.default",
+        "Model": "Cosmetics/Capes/Cape_GoblinThief.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Capes/Cape_GoblinThief_Graffiti.png"
+      },
+      "NoNeck": {
+        "NameKey": "avatarCustomization.variants.capes.no_neck",
+        "Model": "Cosmetics/Capes/Cape_GoblinThief_NoNeck.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Capes/Cape_GoblinThief_Graffiti.png"
+      }
+    },
+    "GradientSet": "Fantasy_Cotton",
+    "Entitlements": [
+      "game.founder"
+    ],
+    "Model": "Cosmetics/Capes/Cape_GoblinThief.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Capes/Cape_GoblinThief_Graffiti.png"
   }
 ]

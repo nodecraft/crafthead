@@ -138,9 +138,17 @@
         "Model": "Cosmetics/Pants/Short_Dungarees.blockymodel",
         "GreyscaleTexture": "Cosmetics/Pants/Short_Dungarees_Textures/Dungarees_Slacks.png",
         "NameKey": "avatarCustomization.variants.pants.bracedshorts"
+      },
+      "ShortDungareesOneShoulder": {
+        "Model": "Cosmetics/Pants/Short_Dungarees.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Pants/Short_Dungarees_Textures/Short_Dungarees_One_Shoulder.png",
+        "NameKey": "avatarCustomization.variants.style.offshoulder"
       }
     },
-    "GradientSet": "Jean_Generic"
+    "GradientSet": "Jean_Generic",
+    "Textures": {
+      "ShortDungareesOneShoulder": {}
+    }
   },
   {
     "Id": "StylishShorts",
@@ -216,6 +224,11 @@
         "Model": "Cosmetics/Pants/LongDungarees.blockymodel",
         "GreyscaleTexture": "Cosmetics/Pants/LongDungarees_Textures/Long_Dungarees_Slacks.png",
         "NameKey": "avatarCustomization.variants.pants.bracedpants"
+      },
+      "LongDungareesOneShoulder": {
+        "Model": "Cosmetics/Pants/LongDungarees.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Pants/LongDungarees_Textures/Long_Dungarees_One_Shoulder.png",
+        "NameKey": "avatarCustomization.variants.style.offshoulder"
       }
     },
     "GradientSet": "Jean_Generic"
@@ -243,9 +256,26 @@
   {
     "Id": "Leggings",
     "Name": "avatarCustomization.pants.Leggings.name",
-    "Model": "Cosmetics/Pants/Short_Slim.blockymodel",
+    "Model": "Cosmetics/Pants/Pants_Slim_NoBottom.blockymodel",
     "GreyscaleTexture": "Cosmetics/Pants/Short_Slim_Textures/Leggins_Greyscale.png",
-    "GradientSet": "Flashy_Synthetic"
+    "GradientSet": "Flashy_Synthetic",
+    "Variants": {
+      "Default": {
+        "Model": "Cosmetics/Pants/Pants_Slim.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Pants/Leggings/Leggings.png",
+        "NameKey": "avatarCustomization.variants.default"
+      },
+      "Cropped": {
+        "Model": "Cosmetics/Pants/Pants_Slim.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Pants/Leggings/Leggings_Cropped.png",
+        "NameKey": "avatarCustomization.variants.pants.medium"
+      },
+      "Short": {
+        "Model": "Cosmetics/Pants/Pants_Slim.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Pants/Leggings/Leggings_Short.png",
+        "NameKey": "avatarCustomization.variants.pants.short"
+      }
+    }
   },
   {
     "Id": "Colored_Trousers",
@@ -314,7 +344,7 @@
     "Name": "avatarCustomization.pants.Frilly_Skirt.name",
     "Model": "Cosmetics/Overpants/Skirt.blockymodel",
     "GreyscaleTexture": "Cosmetics/Overpants/Skirt_Textures/Frilly_Greyscale.png",
-    "GradientSet": "Colored_Cotton"
+    "GradientSet": "Pastel_Cotton"
   },
   {
     "Name": "avatarCustomization.pants.Crinkled_Skirt.name",
@@ -490,7 +520,9 @@
   {
     "Id": "Hope_Of_Gaia_Skirt",
     "Name": "avatarCustomization.pants.Hope_Of_Gaia_Skirt.name",
-    "FallbackPartIds": ["GaiaPureSkirt"],
+    "FallbackPartIds": [
+      "GaiaPureSkirt"
+    ],
     "Model": "Cosmetics/Pants/Skirt_Petals.blockymodel",
     "Textures": {
       "Green": {
@@ -571,6 +603,140 @@
     "Name": "avatarCustomization.pants.PlaidSkirt.name",
     "Model": "Cosmetics/Pants/HighSkirt_Plaid.blockymodel",
     "GreyscaleTexture": "Cosmetics/Pants/HighSkirt_Textures/PlaidSkirt_Texture.png",
-    "GradientSet": "Fantasy_Cotton"
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "DungareesSkirt",
+    "Name": "avatarCustomization.pants.Dungaree_Skirt.name",
+    "Variants": {
+      "LongDungareesRegular": {
+        "Model": "Cosmetics/Pants/DungareeSkirt.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Pants/LongDungarees_Textures/Dungaree_Skirt.png",
+        "NameKey": "avatarCustomization.variants.default"
+      },
+      "LongDungareesSlacks": {
+        "Model": "Cosmetics/Pants/DungareeSkirt.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Pants/LongDungarees_Textures/Dungaree_Skirt_Buttons.png",
+        "NameKey": "avatarCustomization.variants.style.buttoned"
+      }
+    },
+    "GradientSet": "Jean_Generic"
+  },
+  {
+    "Id": "Skirt_Suspender",
+    "Name": "avatarCustomization.pants.Simple_Suspender_Skirt.name",
+    "Model": "Cosmetics/Pants/Skirt_Suspender.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Pants/Suspender_Skirt.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "BeachWrap",
+    "Name": "avatarCustomization.pants.Beach_Wrap.name",
+    "Model": "Cosmetics/Pants/BeachWrap.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Pants/Beach_Wrap.png",
+    "GradientSet": "Pastel_Cotton"
+  },
+  {
+    "Id": "HighSkirt_Pleated",
+    "Name": "avatarCustomization.pants.Pleated_Skirt.name",
+    "Model": "Cosmetics/Pants/HighSkirt_Plaid.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Pants/HighSkirt_Textures/PleatedSkirt.png",
+    "GradientSet": "Flashy_Synthetic",
+    "Variants": {
+      "Default": {
+        "GreyscaleTexture": "Cosmetics/Pants/HighSkirt_Textures/PleatedSkirt.png",
+        "Model": "Cosmetics/Pants/HighSkirt_Plaid.blockymodel",
+        "NameKey": "avatarCustomization.variants.default",
+        "Icon": "CharacterCreator/VariantIcons/Patterns/Plain.png"
+      },
+      "DoubleStripe": {
+        "GreyscaleTexture": "Cosmetics/Pants/HighSkirt_Textures/PleatedSkirt_DoubleStripe.png",
+        "Model": "Cosmetics/Pants/HighSkirt_Plaid.blockymodel",
+        "NameKey": "avatarCustomization.variants.pattern.double_stripe",
+        "Icon": "CharacterCreator/VariantIcons/Patterns/DoubleStripe.png"
+      },
+      "BottomStripe": {
+        "GreyscaleTexture": "Cosmetics/Pants/HighSkirt_Textures/PleatedSkirt_BottomStripe.png",
+        "Model": "Cosmetics/Pants/HighSkirt_Plaid.blockymodel",
+        "NameKey": "avatarCustomization.variants.pattern.bottom_stripe",
+        "Icon": "CharacterCreator/VariantIcons/Patterns/BottomStripe.png"
+      },
+      "BlackDoubleStripe": {
+        "GreyscaleTexture": "Cosmetics/Pants/HighSkirt_Textures/PleatedSkirt_Black_DoubleStripe.png",
+        "Model": "Cosmetics/Pants/HighSkirt_Plaid.blockymodel",
+        "NameKey": "avatarCustomization.variants.pattern.double_stripe_black",
+        "Icon": "CharacterCreator/VariantIcons/Patterns/BlackDoubleStripe.png"
+      },
+      "BlackBottomStripe": {
+        "GreyscaleTexture": "Cosmetics/Pants/HighSkirt_Textures/PleatedSkirt_Black_BottomStripe.png",
+        "Model": "Cosmetics/Pants/HighSkirt_Plaid.blockymodel",
+        "NameKey": "avatarCustomization.variants.pattern.bottom_stripe_black",
+        "Icon": "CharacterCreator/VariantIcons/Patterns/BlackBottomStripe.png"
+      }
+    }
+  },
+  {
+    "Id": "GoblinCostume_Pants",
+    "Name": "avatarCustomization.pants.GoblinCostume_Pants.name",
+    "Model": "Cosmetics/Pants/GoblinCostumePants.blockymodel",
+    "Entitlements": [
+      "game.founder"
+    ],
+    "Textures": {
+      "Default": {
+        "BaseColor": [
+          "#7ba141"
+        ],
+        "Texture": "Cosmetics/Pants/GoblinCostumePants_Textures/GoblinCostumePants.png"
+      }
+    }
+  },
+  {
+    "Id": "GoblinRags_Skirt",
+    "Name": "avatarCustomization.pants.GoblinRags.name",
+    "Model": "Cosmetics/Pants/GoblinRag.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Pants/Goblin_Rag.png",
+    "GradientSet": "Fantasy_Cotton_Dark"
+  },
+  {
+    "Name": "avatarCustomization.pants.GoblinPilot_Dungarees.name",
+    "Model": "Cosmetics/Pants/FeatherShorts.blockymodel",
+    "Id": "GoblinPilot_Dungarees",
+    "GreyscaleTexture": "Cosmetics/Pants/FeatherShorts.png",
+    "GradientSet": "Faded_Leather",
+    "Entitlements": [
+      "cosmetics.chapter_1.boss"
+    ]
+  },
+  {
+    "Name": "avatarCustomization.pants.TrashbagShorts.name",
+    "Model": "Cosmetics/Pants/Trashbag_Shorts.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Pants/TrashBag_Shorts.png",
+    "GradientSet": "Fantasy_Cotton_Dark",
+    "Id": "GoblinTrash_Shorts",
+    "Entitlements": [
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "GoblinMage_Shorts",
+    "Name": "avatarCustomization.pants.Shorts_GoblinMage.name",
+    "Model": "Cosmetics/Pants/GoblinMageShorts.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Pants/GoblinMageShorts.png",
+    "GradientSet": "Fantasy_Cotton_Dark",
+    "Entitlements": [
+      "cosmetics.chapter_1.boss"
+    ]
+  },
+  {
+    "Id": "GoblinThief_Rags",
+    "Name": "avatarCustomization.pants.GoblinThief_Rags.name",
+    "Model": "Cosmetics/Pants/GoblinThief_Rag.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Pants/GoblinThief_Rag_Graffiti.png",
+    "GradientSet": "Fantasy_Cotton",
+    "Entitlements": [
+      "game.founder"
+    ]
   }
 ]

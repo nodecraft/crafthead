@@ -18,7 +18,11 @@
     "Name": "avatarCustomization.headaccessory.Hoodie.name",
     "Model": "Cosmetics/Head/Hoodie.blockymodel",
     "GreyscaleTexture": "Cosmetics/Head/Hoodie_Textures/Hoodie_Fantasy_Greyscale.png",
-    "GradientSet": "Colored_Cotton"
+    "GradientSet": "Colored_Cotton",
+    "HidesSkinProperties": [
+      "Ears",
+      "EarAccessory"
+    ]
   },
   {
     "HeadAccessoryType": "Simple",
@@ -106,7 +110,7 @@
     "HeadAccessoryType": "HalfCovering",
     "Id": "FrogBeanie",
     "Name": "avatarCustomization.headaccessory.FrogBeanie.name",
-    "Model": "Cosmetics/Head/CatBeanie.blockymodel",
+    "Model": "Cosmetics/Head/FrogBeanie.blockymodel",
     "GreyscaleTexture": "Cosmetics/Head/CatBeanie_Textures/FrogBeanie_Greyscale_Texture.png",
     "GradientSet": "Flashy_Synthetic"
   },
@@ -116,11 +120,12 @@
     "Name": "avatarCustomization.headaccessory.WorkoutCap.name",
     "Model": "Cosmetics/Head/WorkoutCap.blockymodel",
     "GreyscaleTexture": "Cosmetics/Head/WorkoutCap_Textures/WorkoutCap_Greyscale_Texture.png",
-    "GradientSet": "Colored_Cotton"
+    "GradientSet": "Flashy_Synthetic"
   },
   {
     "HeadAccessoryType": "Simple",
     "Id": "HeadDaliah",
+    "Priority": -1,
     "Name": "avatarCustomization.headaccessory.HeadDaliah.name",
     "Model": "Cosmetics/Head/HairDahlia.blockymodel",
     "GreyscaleTexture": "Cosmetics/Head/Head_Flower_Textures/Dahlia_Greyscale_Texture.png",
@@ -129,6 +134,7 @@
   {
     "HeadAccessoryType": "Simple",
     "Id": "HairRose",
+    "Priority": -1,
     "Name": "avatarCustomization.headaccessory.HairRose.name",
     "Model": "Cosmetics/Head/HairRose.blockymodel",
     "GreyscaleTexture": "Cosmetics/Head/HairRose_Textures/HairRose_Greyscale_Texture.png",
@@ -137,6 +143,7 @@
   {
     "HeadAccessoryType": "Simple",
     "Id": "HairPeony",
+    "Priority": -1,
     "Name": "avatarCustomization.headaccessory.HairPeony.name",
     "Model": "Cosmetics/Head/HairPeony.blockymodel",
     "GreyscaleTexture": "Cosmetics/Head/HairPeony_Textures/HairPeony_Greyscale_Texture.png",
@@ -145,6 +152,7 @@
   {
     "HeadAccessoryType": "Simple",
     "Id": "HairDaisy",
+    "Priority": -1,
     "Name": "avatarCustomization.headaccessory.HairDaisy.name",
     "Model": "Cosmetics/Head/HairDaisy.blockymodel",
     "GreyscaleTexture": "Cosmetics/Head/HairDaisy_Textures/HairDaisy_Greyscale_Texture.png",
@@ -236,6 +244,7 @@
   {
     "HeadAccessoryType": "Simple",
     "Id": "HairHibiscus",
+    "Priority": -1,
     "Name": "avatarCustomization.headaccessory.HairHibiscus.name",
     "Model": "Cosmetics/Head/Hibiscus.blockymodel",
     "GreyscaleTexture": "Cosmetics/Head/Hibiscus_Textures/Hibiscus_Greyscale_Texture.png",
@@ -261,6 +270,7 @@
     "HeadAccessoryType": "Simple",
     "Id": "Head_Crown",
     "Name": "avatarCustomization.headaccessory.Head_Crown.name",
+    "Priority": -1,
     "Model": "Cosmetics/Head/KingsCrown.blockymodel",
     "GreyscaleTexture": "Cosmetics/Head/KingsCrown_Red.png",
     "GradientSet": "Fantasy_Cotton"
@@ -271,7 +281,11 @@
     "Name": "avatarCustomization.headaccessory.HeadphonesDadCap.name",
     "Model": "Cosmetics/Head/HeadphonesDadCap.blockymodel",
     "GreyscaleTexture": "Cosmetics/Head/HeadphonesDadCap_Textures/HeadphonesDadCap_Greyscale_Texture.png",
-    "GradientSet": "Flashy_Synthetic"
+    "GradientSet": "Flashy_Synthetic",
+    "HidesSkinProperties": [
+      "Ears",
+      "EarAccessory"
+    ]
   },
   {
     "HeadAccessoryType": "Simple",
@@ -279,7 +293,11 @@
     "Name": "avatarCustomization.headaccessory.Headphones.name",
     "Model": "Cosmetics/Head/Headphones.blockymodel",
     "GreyscaleTexture": "Cosmetics/Head/HeadphonesDadCap_Textures/HeadphonesDadCap_Greyscale_Texture.png",
-    "GradientSet": "Flashy_Synthetic"
+    "GradientSet": "Flashy_Synthetic",
+    "HidesSkinProperties": [
+      "Ears",
+      "EarAccessory"
+    ]
   },
   {
     "HeadAccessoryType": "HalfCovering",
@@ -309,6 +327,7 @@
     "HeadAccessoryType": "Simple",
     "Id": "Head_Tiara",
     "Name": "avatarCustomization.headaccessory.Head_Tiara.name",
+    "Priority": -1,
     "Model": "Cosmetics/Head/Tiara.blockymodel",
     "Textures": {
       "Silver": {
@@ -324,8 +343,14 @@
     "Id": "Viking_Helmet",
     "Name": "avatarCustomization.headaccessory.Viking_Helmet.name",
     "Model": "Cosmetics/Head/VikingHelmet.blockymodel",
-    "GreyscaleTexture": "Cosmetics/Head/VikingHelmet_Grey.png",
-    "GradientSet": "Ornamented_Metal"
+    "Textures": {
+      "Grey": {
+        "Texture": "Cosmetics/Head/VikingHelmet_Grey.png",
+        "BaseColor": [
+          "#a1a1a1"
+        ]
+      }
+    }
   },
   {
     "HeadAccessoryType": "HalfCovering",
@@ -354,8 +379,8 @@
     "Id": "CowboyHat",
     "Name": "avatarCustomization.headaccessory.CowboyHat.name",
     "Model": "Cosmetics/Head/CowboyHat.blockymodel",
-    "GreyscaleTexture": "Cosmetics/Head/CowboyHat_Leather.png",
-    "GradientSet": "Fantasy_Cotton"
+    "GradientSet": "Faded_Leather",
+    "GreyscaleTexture": "Cosmetics/Head/CowboyHat_Leather.png"
   },
   {
     "HeadAccessoryType": "HalfCovering",
@@ -378,19 +403,24 @@
     "Id": "LeatherCap",
     "GreyscaleTexture": "Cosmetics/Head/LeatherCap_texture.png",
     "GradientSet": "Faded_Leather",
-    "DisableCharacterPartCategory": "Ears"
+    "HidesSkinProperties": [
+      "Ears",
+      "EarAccessory"
+    ]
   },
   {
     "HeadAccessoryType": "Simple",
     "Name": "avatarCustomization.headaccessory.Ribbon.name",
+    "Priority": -1,
     "Model": "Cosmetics/Head/Ribbon.blockymodel",
     "Id": "Ribbon",
     "GreyscaleTexture": "Cosmetics/Head/Ribbon_Textures/Ribbon_Greyscale.png",
-    "GradientSet": "Colored_Cotton"
+    "GradientSet": "Flashy_Synthetic"
   },
   {
     "Id": "Bunny_Ears",
     "Name": "avatarCustomization.headaccessory.Bunny_Ears.name",
+    "Priority": -1,
     "Model": "Cosmetics/Head/BunnyEars.blockymodel",
     "GreyscaleTexture": "Cosmetics/Head/BunnyEars_Textures/Greyscale.png",
     "GradientSet": "Hair"
@@ -399,15 +429,11 @@
     "Id": "Head_Bandage",
     "Name": "avatarCustomization.headaccessory.Head_Bandage.name",
     "Model": "Cosmetics/Head/Head_Bandage.blockymodel",
-    "Textures": {
-      "White": {
-        "Texture": "Cosmetics/Head/Head_Bandage_Textures/Head_Bandage_White.png",
-        "BaseColor": [
-          "#ffffff"
-        ]
-      }
-    },
-    "DisableCharacterPartCategory": "Haircut"
+    "GreyscaleTexture": "Cosmetics/Head/Head_Bandage_Textures/Head_Bandage_White.png",
+    "GradientSet": "Fantasy_Cotton",
+    "HidesSkinProperties": [
+      "Haircut"
+    ]
   },
   {
     "HeadAccessoryType": "Simple",
@@ -427,6 +453,7 @@
     "HeadAccessoryType": "Simple",
     "Id": "AcornHairclip",
     "Name": "avatarCustomization.headaccessory.AcornHairclip.name",
+    "Priority": -1,
     "Model": "Cosmetics/Head/AcornHairclip.blockymodel",
     "Textures": {
       "Acorn": {
@@ -470,7 +497,11 @@
           "#674f48"
         ]
       }
-    }
+    },
+    "HidesSkinProperties": [
+      "Ears",
+      "EarAccessory"
+    ]
   },
   {
     "HeadAccessoryType": "Simple",
@@ -509,7 +540,7 @@
     "Name": "avatarCustomization.headaccessory.FrostwardenSet_Hat.name",
     "Model": "Cosmetics/Head/FrostyWarm_Hat.blockymodel",
     "GreyscaleTexture": "Cosmetics/Head/FrostyWarm_Hat_Texture.png",
-    "GradientSet": "Fantasy_Cotton",
+    "GradientSet": "Colored_Cotton",
     "Entitlements": [
       "game.founder"
     ]
@@ -576,6 +607,10 @@
     "Entitlements": [
       "game.deluxe",
       "game.founder"
+    ],
+    "HidesSkinProperties": [
+      "Ears",
+      "EarAccessory"
     ]
   },
   {
@@ -615,6 +650,10 @@
     },
     "Entitlements": [
       "game.founder"
+    ],
+    "HidesSkinProperties": [
+      "Ears",
+      "EarAccessory"
     ]
   },
   {
@@ -650,6 +689,18 @@
         "BaseColor": [
           "#e8b425"
         ]
+      },
+      "Blue": {
+        "BaseColor": [
+          "#406dff"
+        ],
+        "Texture": "Cosmetics/Head/Head_Hard_Hat_Blue_Texture.png"
+      },
+      "White": {
+        "BaseColor": [
+          "#e4eeff"
+        ],
+        "Texture": "Cosmetics/Head/Head_Hard_Hat_White_Texture.png"
       }
     }
   },
@@ -668,5 +719,296 @@
     "Model": "Cosmetics/Head/Hairband.blockymodel",
     "GreyscaleTexture": "Cosmetics/Head/Hairband.png",
     "GradientSet": "Fantasy_Cotton_Dark"
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "Cap",
+    "Name": "avatarCustomization.headaccessory.Cap.name",
+    "GradientSet": "Colored_Cotton",
+    "Model": "Cosmetics/Head/Cap.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/Cap_Textures/Cap_Plain.png",
+    "Variants": {
+      "Default": {
+        "NameKey": "avatarCustomization.variants.default",
+        "Model": "Cosmetics/Head/Cap.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Head/Cap_Textures/Cap_Plain.png"
+      },
+      "Snapback": {
+        "NameKey": "avatarCustomization.variants.style.snapback",
+        "Model": "Cosmetics/Head/Cap_Backwards.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Head/Cap_Textures/Cap_Plain.png"
+      }
+    }
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "Corduroy_Cap",
+    "Name": "avatarCustomization.headaccessory.CorduroyCap.name",
+    "GradientSet": "Pastel_Cotton",
+    "Model": "Cosmetics/Head/Cap_Corduroy.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/Corduroy_Cap.png"
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "Two_Tone_Cap",
+    "Name": "avatarCustomization.headaccessory.TwoToneCap.name",
+    "GradientSet": "Colored_Cotton",
+    "Model": "Cosmetics/Head/Cap.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/Two_Tone_Cap.png",
+    "Variants": {
+      "Default": {
+        "NameKey": "avatarCustomization.variants.default",
+        "Model": "Cosmetics/Head/Cap.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Head/Two_Tone_Cap.png"
+      },
+      "Snapback": {
+        "NameKey": "avatarCustomization.variants.style.snapback",
+        "Model": "Cosmetics/Head/Cap_Backwards.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Head/Two_Tone_Cap.png"
+      }
+    }
+  },
+  {
+    "HeadAccessoryType": "Simple",
+    "Id": "Hairband_Spiked",
+    "Name": "avatarCustomization.headaccessory.SpikedHairband.name",
+    "Model": "Cosmetics/Head/Spiked_Hairband.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/Spiked_Hairband.png",
+    "GradientSet": "Fantasy_Cotton",
+    "Variants": {
+      "Default": {
+        "Model": "Cosmetics/Head/Spiked_Hairband.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Head/Spiked_Hairband.png",
+        "NameKey": "avatarCustomization.variants.default"
+      },
+      "Long_Spikes": {
+        "Model": "Cosmetics/Head/Spiked_Hairband.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Head/Spiked_Hairband_Long_Spikes.png",
+        "NameKey": "avatarCustomization.variants.style.longspikes"
+      }
+    }
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "SunHat",
+    "Name": "avatarCustomization.headaccessory.SunHat.name",
+    "Model": "Cosmetics/Head/Sun_Hat.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/Sun_Hat.png",
+    "GradientSet": "Pastel_Cotton",
+    "Variants": {
+      "Default": {
+        "Model": "Cosmetics/Head/Sun_Hat.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Head/Sun_Hat.png",
+        "NameKey": "avatarCustomization.variants.default"
+      },
+      "Inverted": {
+        "Model": "Cosmetics/Head/Sun_Hat.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Head/Sun_Hat_Color.png",
+        "NameKey": "avatarCustomization.variants.style.inverted"
+      }
+    }
+  },
+  {
+    "HeadAccessoryType": "Simple",
+    "Id": "HairSakura",
+    "Priority": -1,
+    "Name": "avatarCustomization.headaccessory.HairSakura.name",
+    "Model": "Cosmetics/Head/HairSakura.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/HairSakura.png",
+    "GradientSet": "Pastel_Cotton"
+  },
+  {
+    "HeadAccessoryType": "Simple",
+    "Id": "SunglassesHead",
+    "Name": "avatarCustomization.headaccessory.HeadSunglasses.name",
+    "Priority": -1,
+    "Model": "Cosmetics/Head/Glasses_Head.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/Sunglasses_Head.png",
+    "GradientSet": "Pastel_Cotton"
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "GoblinTrash_BananaPeel",
+    "Name": "avatarCustomization.headaccessory.BananaPeel.name",
+    "Priority": -1,
+    "Model": "Cosmetics/Head/BananaPeel.blockymodel",
+    "Textures": {
+      "Default": {
+        "Texture": "Cosmetics/Head/BananaPeel_Textures/BananaPeel.png",
+        "BaseColor": [
+          "#d9b233"
+        ]
+      },
+      "Rotten": {
+        "BaseColor": [
+          "#845b36"
+        ],
+        "Texture": "Cosmetics/Head/BananaPeel_Textures/Rotten.png"
+      }
+    },
+    "Entitlements": [
+      "game.deluxe",
+      "game.founder"
+    ],
+    "Particles": [
+            {
+              "SystemId": "Cosmetic_Stink",
+              "TargetNodeName": "Head",
+              "Scale": 1,
+              "RotationOffset": {
+                    "Yaw": 0,
+                    "Pitch": 0,
+                    "Roll": 0
+              },
+              "PositionOffset": {
+                "Y": 0.3,
+                "Z": 0
+              }
+            }
+          ]
+  },
+  {
+    "HeadAccessoryType": "FullyCovering",
+    "Id": "GoblinCostume_Mask",
+    "Name": "avatarCustomization.headaccessory.GoblinCostume_Hood.name",
+    "Model": "Cosmetics/Head/GoblinCostumeHoodZipped.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/GoblinCostumeHood_Textures/GoblinCostumeHood_Zipped.png",
+    "GradientSet": "Fantasy_Cotton",
+    "HidesSkinProperties": [
+      "Ears",
+      "EarAccessory"
+    ],
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "GoblinBeanie",
+    "Name": "avatarCustomization.headaccessory.GoblinBeanie.name",
+    "Model": "Cosmetics/Head/GoblinBeanie.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/GoblinBeanie_Textures/GoblinBeanie.png",
+    "GradientSet": "Colored_Cotton",
+    "Entitlements": [
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "HeadAccessoryType": "FullyCovering",
+    "Id": "GoblinPilot_Helmet",
+    "Name": "avatarCustomization.headaccessory.GoblinPilot_Helmet.name",
+    "Model": "Cosmetics/Head/PilotHelmet_Goblin.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/PilotHelmet_Goblin.png",
+    "GradientSet": "Faded_Leather",
+    "Variants": {
+      "Default": {
+        "NameKey": "avatarCustomization.variants.default",
+        "Model": "Cosmetics/Head/PilotHelmet_Goblin.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Head/PilotHelmet_Goblin.png"
+      },
+      "GogglesUp": {
+        "NameKey": "avatarCustomization.variants.style.goggles_up",
+        "Model": "Cosmetics/Head/PilotHelmet_Goblin_GogglesUp.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Head/PilotHelmet_Goblin.png"
+      }
+    },
+    "Entitlements": [
+      "cosmetics.chapter_1.boss"
+    ]
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "Goblin_Boot",
+    "Name": "avatarCustomization.headaccessory.WornBoot.name",
+    "Model": "Cosmetics/Head/Worn_Boot.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/Worn_Boot.png",
+    "GradientSet": "Rotten_Fabric"
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "GoblinMage_Hat",
+    "Name": "avatarCustomization.headaccessory.Hat_GoblinMage.name",
+    "Model": "Cosmetics/Head/GoblinMageHat.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/GoblinMageHat.png",
+    "GradientSet": "Fantasy_Cotton",
+    "Entitlements": [
+      "cosmetics.chapter_1.boss"
+    ]
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "Cap_Graphic",
+    "Name": "avatarCustomization.headaccessory.Cap_Graphic.name",
+    "GradientSet": "Flashy_Synthetic",
+    "Model": "Cosmetics/Head/Cap_Angular.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/Cap_Angular.png"
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "CowboyHat_Felt",
+    "Name": "avatarCustomization.headaccessory.CowboyHat_Felt.name",
+    "Model": "Cosmetics/Head/CowboyHat.blockymodel",
+    "GradientSet": "Fantasy_Cotton",
+    "GreyscaleTexture": "Cosmetics/Head/CowboyHat.png"
+  },
+  {
+    "HeadAccessoryType": "Simple",
+    "Id": "Hairband_Ribbon",
+    "Name": "avatarCustomization.headaccessory.HairbandRibbon.name",
+    "Model": "Cosmetics/Head/Hairband_Ribbon.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/Hairband_Ribbon.png",
+    "GradientSet": "Pastel_Cotton"
+  },
+  {
+    "HeadAccessoryType": "FullyCovering",
+    "Id": "TrapperHat",
+    "Name": "avatarCustomization.headaccessory.TrapperHat.name",
+    "GradientSet": "Faded_Leather",
+    "Model": "Cosmetics/Head/TrapperHat.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/TrapperHat.png",
+    "HidesSkinProperties": [
+      "Ears",
+      "EarAccessory"
+    ]
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "Beret",
+    "Name": "avatarCustomization.headaccessory.Beret.name",
+    "GradientSet": "Flashy_Synthetic",
+    "Model": "Cosmetics/Head/Beret.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/Beret.png"
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "WideBrimHat",
+    "Name": "avatarCustomization.headaccessory.WideBrimHat.name",
+    "GradientSet": "Faded_Leather",
+    "Model": "Cosmetics/Head/WideBrimHat.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/WideBrimHat.png"
+  },
+  {
+    "HeadAccessoryType": "HalfCovering",
+    "Id": "BeretFormal",
+    "Name": "avatarCustomization.headaccessory.BeretFormal.name",
+    "GradientSet": "Fantasy_Cotton",
+    "Model": "Cosmetics/Head/BeretFormal.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/BeretFormal.png"
+  },
+  {
+    "HeadAccessoryType": "FullyCovering",
+    "Id": "GoblinThief_Hood",
+    "Name": "avatarCustomization.headaccessory.GoblinThief_Hood.name",
+    "Model": "Cosmetics/Head/GoblinThief_Hood.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/GoblinThief_Hood_Graffiti.png",
+    "GradientSet": "Fantasy_Cotton",
+    "Entitlements": [
+      "game.founder"
+    ],
+    "HidesSkinProperties": [
+      "Ears",
+      "EarAccessory"
+    ]
   }
 ]

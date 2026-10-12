@@ -194,5 +194,26 @@
     "Model": "Characters/Body_Attachments/Beards/VikingBeard2.blockymodel",
     "GradientSet": "Hair",
     "GreyscaleTexture": "Characters/Body_Attachments/Beards/VikingBeard2_Greyscale.png"
+  },
+  {
+    "Id": "Neckbeard",
+    "Name": "avatarCustomization.facialhair.Neckbeard.name",
+    "Model": "Characters/Body_Attachments/Beards/NeckBeard.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Beards/NeckBeard.png"
+  },
+  {
+    "Id": "MoustacheScruffy",
+    "Name": "avatarCustomization.facialhair.MoustacheScruffy.name",
+    "Model": "Characters/Body_Attachments/Beards/Simple_Large.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Beards/Moustache_Scruffy.png"
+  },
+  {
+    "Id": "Slicked_Handlebar",
+    "Name": "avatarCustomization.facialhair.SlickedHandlebar.name",
+    "Model": "Characters/Body_Attachments/Beards/Simple_Large.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Beards/Slicked_Handlebar.png"
   }
 ]

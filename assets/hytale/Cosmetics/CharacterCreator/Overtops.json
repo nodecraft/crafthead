@@ -2,22 +2,27 @@
   {
     "Id": "PuffyJacket",
     "Name": "avatarCustomization.overtops.PuffyJacket.name",
-    "Model": "Cosmetics/Overtops/Overtops_Top.blockymodel",
+    "Model": "Cosmetics/Overtops/Puffy_Jacket.blockymodel",
     "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Top_Textures/Puffy_Jacket_Greyscale.png",
-    "GradientSet": "Colored_Cotton"
+    "GradientSet": "Flashy_Synthetic",
+    "Variants": {
+      "Default": {
+        "Model": "Cosmetics/Overtops/Puffy_Jacket.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Long_Sleeve_Textures/Sleeveless_Puffy_Jacket.png",
+        "NameKey": "avatarCustomization.variants.default"
+      },
+      "Unzipped": {
+        "Model": "Cosmetics/Overtops/Puffy_Jacket_Unzipped.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Long_Sleeve_Textures/Sleeveless_Puffy_Jacket_Unzipped.png",
+        "NameKey": "avatarCustomization.variants.style.unzipped"
+      }
+    }
   },
   {
     "Id": "Tartan",
     "Name": "avatarCustomization.overtops.Tartan.name",
     "Model": "Cosmetics/Overtops/Overtops_Long_Sleeve.blockymodel",
     "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Long_Sleeve_Textures/Tartan_Greyscale.png",
-    "GradientSet": "Colored_Cotton"
-  },
-  {
-    "Id": "BunnyHoody",
-    "Name": "avatarCustomization.overtops.BunnyHoody.name",
-    "Model": "Cosmetics/Overtops/Overtops_Long_Sleeve.blockymodel",
-    "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Long_Sleeve_Textures/Bunny_Hoody_Greyscale.png",
     "GradientSet": "Colored_Cotton"
   },
   {
@@ -86,9 +91,21 @@
   {
     "Id": "Chest_PuffyJersey",
     "Name": "avatarCustomization.overtops.Chest_PuffyJersey.name",
-    "Model": "Cosmetics/Overtops/Overtops_Long_Sleeve.blockymodel",
+    "Model": "Cosmetics/Overtops/Puffy_Jersey.blockymodel",
     "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Long_Sleeve_Textures/Puffy_Jacket_Greyscale.png",
-    "GradientSet": "Colored_Cotton"
+    "GradientSet": "Flashy_Synthetic",
+    "Variants": {
+      "Default": {
+        "Model": "Cosmetics/Overtops/Puffy_Jersey.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Long_Sleeve_Textures/Puffy_Jacket_Greyscale.png",
+        "NameKey": "avatarCustomization.variants.default"
+      },
+      "Unzipped": {
+        "Model": "Cosmetics/Overtops/Puffy_Jersey_Unzipped.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Long_Sleeve_Textures/Puffy_Jacket_Unzipped.png",
+        "NameKey": "avatarCustomization.variants.style.unzipped"
+      }
+    }
   },
   {
     "Id": "Tunic_Weathered",
@@ -378,9 +395,27 @@
   {
     "Id": "PlainHoodie",
     "Name": "avatarCustomization.overtops.PlainHoodie.name",
-    "Model": "Cosmetics/Overtops/Overtops_Long_Sleeve.blockymodel",
-    "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Long_Sleeve_Textures/Plain_Hoody_Greyscale.png",
-    "GradientSet": "Colored_Cotton"
+    "Model": "Cosmetics/Overtops/Hoodie.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Long_Sleeve_Textures/Hoodie/Hoodie.png",
+    "GradientSet": "Fantasy_Cotton",
+    "Variants": {
+      "Default": {
+        "Model": "Cosmetics/Overtops/Hoodie.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Long_Sleeve_Textures/Hoodie/Hoodie.png",
+        "NameKey": "avatarCustomization.variants.default"
+      },
+      "Bunny": {
+        "FallbackPartId": "BunnyHoody",
+        "Model": "Cosmetics/Overtops/Hoodie.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Long_Sleeve_Textures/Hoodie/Hoodie_Bunny.png",
+        "NameKey": "avatarCustomization.variants.pattern.bunny"
+      },
+      "Kweebec": {
+        "Model": "Cosmetics/Overtops/Hoodie.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Long_Sleeve_Textures/Hoodie/Hoodie_Kweebec.png",
+        "NameKey": "avatarCustomization.variants.pattern.kweebec"
+      }
+    }
   },
   {
     "Id": "LooseSweater",
@@ -467,7 +502,19 @@
     "Name": "avatarCustomization.overtops.LongCardigan.name",
     "Model": "Cosmetics/Overtops/Overtops_Long_Waist_Sleeve.blockymodel",
     "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Long_Sleeve_Waist_Sleeve/Long_Cardigan_Greyscale.png",
-    "GradientSet": "Colored_Cotton"
+    "GradientSet": "Fantasy_Cotton",
+    "Variants": {
+      "Default": {
+        "Model": "Cosmetics/Overtops/Overtops_Long_Waist_Sleeve.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Long_Sleeve_Waist_Sleeve/Long_Cardigan_Greyscale.png",
+        "NameKey": "avatarCustomization.variants.default"
+      },
+      "Buttoned_Up": {
+        "Model": "Cosmetics/Overtops/Overtops_Long_Waist_Sleeve.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Long_Sleeve_Waist_Sleeve/Long_Cardigan_Buttoned_Greyscale.png",
+        "NameKey": "avatarCustomization.variants.style.buttoned_up"
+      }
+    }
   },
   {
     "Id": "GoldtrimJacket",
@@ -509,7 +556,7 @@
     "Name": "avatarCustomization.overtops.AviatorJacket.name",
     "Model": "Cosmetics/Overtops/Overtops_Long_Sleeve.blockymodel",
     "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Long_Sleeve_Textures/Aviator_Jacket_Greyscale.png",
-    "GradientSet": "Colored_Cotton"
+    "GradientSet": "Faded_Leather"
   },
   {
     "Name": "avatarCustomization.overtops.QuiltedTop.name",
@@ -533,18 +580,45 @@
     "Id": "Jinbaori_Flower"
   },
   {
-    "Name": "avatarCustomization.overtops.FloppyBunnyJersey.name",
-    "Model": "Cosmetics/Overtops/Overtops_Long_Sleeve.blockymodel",
-    "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Long_Sleeve_Textures/Floppy_Bunny_Jersey_Greyscale.png",
-    "GradientSet": "Colored_Cotton",
-    "Id": "FloppyBunnyJersey"
-  },
-  {
     "Name": "avatarCustomization.overtops.PlainJersey.name",
     "Model": "Cosmetics/Overtops/Overtops_Long_Sleeve.blockymodel",
     "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Long_Sleeve_Textures/Plain_Jersey_Greyscale.png",
-    "GradientSet": "Colored_Cotton",
-    "Id": "PlainJersey"
+    "GradientSet": "Fantasy_Cotton",
+    "Id": "Sweater",
+    "Variants": {
+      "Default": {
+        "FallbackPartId": "PlainJersey",
+        "Model": "Cosmetics/Overtops/Overtops_Long_Sleeve.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Long_Sleeve_Textures/Sweater/Sweater_Plain.png",
+        "Icon": "CharacterCreator/VariantIcons/Empty.png",
+        "NameKey": "avatarCustomization.variants.default"
+      },
+      "Bunny": {
+        "FallbackPartId": "FloppyBunnyJersey",
+        "Model": "Cosmetics/Overtops/Overtops_Long_Sleeve.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Long_Sleeve_Textures/Floppy_Bunny_Jersey_Greyscale.png",
+        "Icon": "CharacterCreator/VariantIcons/Bunny.png",
+        "NameKey": "avatarCustomization.variants.pattern.bunny"
+      },
+      "HY": {
+        "Model": "Cosmetics/Overtops/Overtops_Long_Sleeve.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Long_Sleeve_Textures/Sweater/Sweater_HY.png",
+        "Icon": "CharacterCreator/VariantIcons/Sweater/HY.png",
+        "NameKey": "avatarCustomization.variants.pattern.text_graphic"
+      },
+      "Star": {
+        "Model": "Cosmetics/Overtops/Overtops_Long_Sleeve.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Long_Sleeve_Textures/Sweater/Sweater_Star.png",
+        "Icon": "CharacterCreator/VariantIcons/Sweater/Star.png",
+        "NameKey": "avatarCustomization.variants.pattern.star"
+      },
+      "Stripe": {
+        "Model": "Cosmetics/Overtops/Overtops_Long_Sleeve.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Long_Sleeve_Textures/Sweater/Sweater_Stripe.png",
+        "Icon": "CharacterCreator/VariantIcons/Sweater/Stripe.png",
+        "NameKey": "avatarCustomization.variants.pattern.striped"
+      }
+    }
   },
   {
     "Name": "avatarCustomization.overtops.Tunic_Villager.name",
@@ -638,7 +712,9 @@
   {
     "Id": "Jacket_Voyager",
     "Name": "avatarCustomization.overtops.Jacket_Voyager.name",
-    "FallbackPartIds": ["QuiltedLeatherJacket"],
+    "FallbackPartIds": [
+      "QuiltedLeatherJacket"
+    ],
     "Model": "Cosmetics/Overtops/CollaredJacket.blockymodel",
     "GreyscaleTexture": "Cosmetics/Overtops/CollaredJacket_Texture/TopBomber_Texture.png",
     "GradientSet": "Colored_Cotton",
@@ -658,7 +734,9 @@
   {
     "Id": "Hope_Of_GaiaOvertop",
     "Name": "avatarCustomization.overtops.Hope_Of_Gaia_Overtop.name",
-    "FallbackPartIds": ["GaiaPureOvertop"],
+    "FallbackPartIds": [
+      "GaiaPureOvertop"
+    ],
     "Model": "Cosmetics/Overtops/GaiaPure_Overtop.blockymodel",
     "GreyscaleTexture": "Cosmetics/Overtops/GaiaPure_Overtop_Texture.png",
     "GradientSet": "Ornamented_Metal",
@@ -865,5 +943,244 @@
     "Model": "Cosmetics/Overtops/ShirtBulkyShoulders.blockymodel",
     "GreyscaleTexture": "Cosmetics/Overtops/ShirtBulkyShoulders_Textures/MageShirt_Greyscale_Texture.png",
     "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "Knitted_Vest",
+    "Name": "avatarCustomization.overtops.KnittedVest.name",
+    "Model": "Cosmetics/Overtops/Overtops_Top.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Top_Textures/Knitted_Vest.png",
+    "GradientSet": "Fantasy_Cotton",
+    "Variants": {
+      "Default": {
+        "Model": "Cosmetics/Overtops/Overtops_Top.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Top_Textures/Knitted_Vest.png",
+        "NameKey": "avatarCustomization.variants.default"
+      },
+      "Accent": {
+        "Model": "Cosmetics/Overtops/Overtops_Top.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Top_Textures/Knitted_Vest_Accent.png",
+        "NameKey": "avatarCustomization.variants.pattern.accented"
+      }
+    }
+  },
+  {
+    "Id": "Patterned_Knitted_Vest",
+    "Name": "avatarCustomization.overtops.PatternedKnittedVest.name",
+    "Model": "Cosmetics/Overtops/Patterned_Knitted_Vest.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Top_Textures/Knitted_Vest.png",
+    "GradientSet": "Fantasy_Cotton_Dark",
+    "Variants": {
+      "Diamond": {
+        "Model": "Cosmetics/Overtops/Overtops_Top.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Top_Textures/Knitted_Vest_Diamond.png",
+        "NameKey": "avatarCustomization.variants.pattern.argyle"
+      },
+      "Checkerboard": {
+        "Model": "Cosmetics/Overtops/Patterned_Knitted_Vest.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Top_Textures/Knitted_Vest_Checkerboard.png",
+        "NameKey": "avatarCustomization.variants.pattern.checkerboard"
+      }
+    }
+  },
+  {
+    "Id": "Cardigan",
+    "Name": "avatarCustomization.overtops.Cardigan.name",
+    "Model": "Cosmetics/Overtops/Overtops_Long_Waist_Sleeve.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Long_Sleeve_Waist_Sleeve/Cardigan_Greyscale.png",
+    "GradientSet": "Fantasy_Cotton",
+    "Variants": {
+      "Default": {
+        "Model": "Cosmetics/Overtops/Overtops_Long_Waist_Sleeve.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Long_Sleeve_Waist_Sleeve/Cardigan_Greyscale.png",
+        "NameKey": "avatarCustomization.variants.default"
+      },
+      "Buttoned_Up": {
+        "Model": "Cosmetics/Overtops/Overtops_Long_Waist_Sleeve.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Long_Sleeve_Waist_Sleeve/Cardigan_Buttoned_Greyscale.png",
+        "NameKey": "avatarCustomization.variants.style.buttoned_up"
+      }
+    }
+  },
+  {
+    "Id": "LongDress",
+    "Name": "avatarCustomization.overtops.OnePiece_Dress.name",
+    "Model": "Cosmetics/Overtops/LongDress.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overtops/OnePiece_Textures/LongDress.png",
+    "GradientSet": "Pastel_Cotton",
+    "Variants": {
+      "Default": {
+        "Model": "Cosmetics/Overtops/LongDress.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overtops/OnePiece_Textures/LongDress.png",
+        "NameKey": "avatarCustomization.variants.default"
+      },
+      "PolkaDot": {
+        "Model": "Cosmetics/Overtops/LongDress.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overtops/OnePiece_Textures/LongDress_Polkadot.png",
+        "NameKey": "avatarCustomization.variants.pattern.polka_dot"
+      }
+    }
+  },
+  {
+    "Id": "FloralDress",
+    "Name": "avatarCustomization.overtops.OnePiece_FloralDress.name",
+    "Model": "Cosmetics/Overtops/LongDress.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overtops/OnePiece_Textures/FloralDress.png",
+    "GradientSet": "Fantasy_Cotton_Dark"
+  },
+  {
+    "Id": "Necktie",
+    "Name": "avatarCustomization.overtops.Necktie.name",
+    "Model": "Cosmetics/Overtops/Overtops_Necklace.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Necklace_Textures/Necktie.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "GoblinTrash_Box",
+    "Name": "avatarCustomization.overtops.Trash_Box.name",
+    "Model": "Cosmetics/Overtops/TrashBox.blockymodel",
+    "Textures": {
+      "Default": {
+        "Texture": "Cosmetics/Overtops/TrashBox_Textures/BoxArmor.png",
+        "BaseColor": [
+          "#c39857"
+        ]
+      }
+    },
+    "GreyscaleTexture": "Cosmetics/Overtops/TrashBox_Textures/BoxArmor.png",
+    "Entitlements": [
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "GoblinCostume_Shirt",
+    "Name": "avatarCustomization.overtops.GoblinCostume_Shirt.name",
+    "Model": "Cosmetics/Overtops/GoblinCostumeShirt.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overtops/GoblinCostumeShirt_Textures/GoblinCostumeShirt.png",
+    "GradientSet": "Fantasy_Cotton",
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "GoblinSweater",
+    "Name": "avatarCustomization.overtops.GoblinSweater.name",
+    "Model": "Cosmetics/Overtops/GoblinSweater.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overtops/GoblinSweater.png",
+    "GradientSet": "Colored_Cotton",
+    "Variants": {
+      "1": {
+        "Model": "Cosmetics/Overtops/GoblinSweater.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overtops/GoblinSweater.png",
+        "NameKey": "avatarCustomization.variants.pattern.goblin_face",
+        "Icon": "CharacterCreator/VariantIcons/GoblinSweater/face.png"
+      },
+      "2": {
+        "Model": "Cosmetics/Overtops/GoblinSweater.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overtops/GoblinSweater2.png",
+        "NameKey": "avatarCustomization.variants.pattern.goblin_ears",
+        "Icon": "CharacterCreator/VariantIcons/GoblinSweater/ears.png"
+      },
+      "3": {
+        "Model": "Cosmetics/Overtops/GoblinSweater.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overtops/GoblinSweater3.png",
+        "NameKey": "avatarCustomization.variants.pattern.goblin_x",
+        "Icon": "CharacterCreator/VariantIcons/GoblinSweater/x.png"
+      },
+      "4": {
+        "Model": "Cosmetics/Overtops/GoblinSweater.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overtops/GoblinSweater4.png",
+        "NameKey": "avatarCustomization.variants.pattern.goblin_teeth",
+        "Icon": "CharacterCreator/VariantIcons/GoblinSweater/teeth.png"
+      }
+    },
+    "Entitlements": [
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "GoblinPilot_Tunic",
+    "Name": "avatarCustomization.overtops.GoblinPilot_Tunic.name",
+    "Model": "Cosmetics/Overtops/PillowChestplate.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overtops/PillowChestplate.png",
+    "GradientSet": "Pastel_Cotton",
+    "Entitlements": [
+      "cosmetics.chapter_1.boss"
+    ]
+  },
+  {
+    "Id": "GoblinMage_Tunic",
+    "Name": "avatarCustomization.overtops.Tunic_GoblinMage.name",
+    "Model": "Cosmetics/Overtops/GoblinMageOvercoat.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overtops/GoblinMageOvercoat.png",
+    "GradientSet": "Fantasy_Cotton",
+    "Entitlements": [
+      "cosmetics.chapter_1.boss"
+    ]
+  },
+  {
+    "Id": "Varsity_Jacket",
+    "Name": "avatarCustomization.overtops.Varsity_Jacket.name",
+    "Model": "Cosmetics/Overtops/VarsityJacket.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overtops/VarsityJacket.png",
+    "GradientSet": "Flashy_Synthetic",
+    "Variants": {
+      "Default": {
+        "Model": "Cosmetics/Overtops/VarsityJacket.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overtops/VarsityJacket.png",
+        "Icon": "CharacterCreator/VariantIcons/Patterns/Plain.png",
+        "NameKey": "avatarCustomization.variants.default"
+      },
+      "Cream": {
+        "Model": "Cosmetics/Overtops/VarsityJacket.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overtops/VarsityJacket_Cream.png",
+        "Icon": "CharacterCreator/VariantIcons/DualTone/Cream.png",
+        "NameKey": "avatarCustomization.variants.color.cream"
+      },
+      "Black": {
+        "Model": "Cosmetics/Overtops/VarsityJacket.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overtops/VarsityJacket_Black.png",
+        "Icon": "CharacterCreator/VariantIcons/DualTone/Black.png",
+        "NameKey": "avatarCustomization.variants.color.black"
+      }
+    }
+  },
+  {
+    "Id": "Bowtie",
+    "Name": "avatarCustomization.overtops.Bowtie.name",
+    "Model": "Cosmetics/Overtops/Accessory/Bowtie.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overtops/Accessory/Bowtie.png",
+    "GradientSet": "Flashy_Synthetic"
+  },
+  {
+    "Id": "NeckBowtie",
+    "Name": "avatarCustomization.overtops.NeckBowtie.name",
+    "Model": "Cosmetics/Overtops/Accessory/Neck_Bowtie.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overtops/Accessory/Neck_Bowtie.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "Ribbon",
+    "Name": "avatarCustomization.overtops.Ribbon.name",
+    "Model": "Cosmetics/Overtops/Accessory/Bowtie.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overtops/Accessory/BowtieRibbon.png",
+    "GradientSet": "Pastel_Cotton"
+  },
+  {
+    "Id": "GoblinThief_Jewelry",
+    "Name": "avatarCustomization.overtops.GoblinThief_Jewelry.name",
+    "Model": "Cosmetics/Overtops/GoblinThief_Beads.blockymodel",
+    "Textures": {
+      "Default": {
+        "BaseColor": [
+          "#dfa943"
+        ],
+        "Texture": "Cosmetics/Overtops/GoblinThief_Beads.png"
+      }
+    },
+    "Entitlements": [
+      "game.founder"
+    ]
   }
 ]

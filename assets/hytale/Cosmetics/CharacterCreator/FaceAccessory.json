@@ -10,6 +10,33 @@
           "#000000"
         ]
       }
+    },
+    "Variants": {
+      "Right": {
+        "Model": "Cosmetics/Face_Accessories/EyePatch.blockymodel",
+        "Textures": {
+          "Black": {
+            "Texture": "Cosmetics/Face_Accessories/EyePatch_Texture.png",
+            "BaseColor": [
+              "#000000"
+            ]
+          }
+        },
+        "NameKey": "avatarCustomization.variants.style.right",
+        "FallbackPartId": "EyePatch"
+      },
+      "Left": {
+        "Model": "Cosmetics/Face_Accessories/EyePatchLeft.blockymodel",
+        "Textures": {
+          "Black": {
+            "Texture": "Cosmetics/Face_Accessories/EyePatch_Texture.png",
+            "BaseColor": [
+              "#000000"
+            ]
+          }
+        },
+        "NameKey": "avatarCustomization.variants.style.left"
+      }
     }
   },
   {
@@ -36,12 +63,19 @@
     "Id": "MedicalEyePatch",
     "Name": "avatarCustomization.faceaccessory.MedicalEyePatch.name",
     "Model": "Cosmetics/Face_Accessories/MedicalEyePatch.blockymodel",
-    "Textures": {
-      "White": {
-        "Texture": "Cosmetics/Face_Accessories/MedicalEyePatch_White.png",
-        "BaseColor": [
-          "#ffffff"
-        ]
+    "GradientSet": "Colored_Cotton",
+    "GreyscaleTexture": "Cosmetics/Face_Accessories/MedicalEyePatch_White.png",
+    "Variants": {
+      "Right": {
+        "Model": "Cosmetics/Face_Accessories/MedicalEyePatch.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Face_Accessories/MedicalEyePatch_White.png",
+        "NameKey": "avatarCustomization.variants.style.right",
+        "FallbackPartId": "MedicalEyePatch"
+      },
+      "Left": {
+        "Model": "Cosmetics/Face_Accessories/MedicalEyePatchLeft.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Face_Accessories/MedicalEyePatch_White.png",
+        "NameKey": "avatarCustomization.variants.style.left"
       }
     }
   },
@@ -49,14 +83,8 @@
     "Id": "MouthCover",
     "Name": "avatarCustomization.faceaccessory.MouthCover.name",
     "Model": "Cosmetics/Face_Accessories/MouthCover.blockymodel",
-    "Textures": {
-      "White": {
-        "Texture": "Cosmetics/Face_Accessories/MouthCover_White.png",
-        "BaseColor": [
-          "#ffffff"
-        ]
-      }
-    }
+    "GreyscaleTexture": "Cosmetics/Face_Accessories/MouthCover_White.png",
+    "GradientSet": "Colored_Cotton"
   },
   {
     "Id": "MouthWheat",
@@ -111,7 +139,7 @@
     "Name": "avatarCustomization.faceaccessory.SunGlasses.name",
     "Model": "Cosmetics/Face_Accessories/Glasses.blockymodel",
     "GreyscaleTexture": "Cosmetics/Face_Accessories/Glasses_Textures/Sunglasses_Greyscale.png",
-    "GradientSet": "Colored_Cotton"
+    "GradientSet": "Pastel_Cotton"
   },
   {
     "Id": "AviatorGlasses",
@@ -132,7 +160,25 @@
     "Name": "avatarCustomization.faceaccessory.Plaster.name",
     "Model": "Cosmetics/Face_Accessories/Plaster.blockymodel",
     "GreyscaleTexture": "Cosmetics/Face_Accessories/Plaster_Textures/Plaster_Greyscale.png",
-    "GradientSet": "Colored_Cotton"
+    "GradientSet": "Colored_Cotton",
+    "Variants": {
+      "Left": {
+        "Model": "Cosmetics/Face_Accessories/Plaster.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Face_Accessories/Plaster_Textures/Plaster_Greyscale.png",
+        "NameKey": "avatarCustomization.variants.style.left",
+        "FallbackPartId": "Plaster"
+      },
+      "Right": {
+        "Model": "Cosmetics/Face_Accessories/Plaster_Flipped.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Face_Accessories/Plaster_Textures/Plaster_Greyscale.png",
+        "NameKey": "avatarCustomization.variants.style.right"
+      },
+      "NoseBridge": {
+        "Model": "Cosmetics/Face_Accessories/Plaster_NoseBridge.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Face_Accessories/Plaster_Textures/Plaster_Greyscale.png",
+        "NameKey": "avatarCustomization.variants.style.nose_bridge"
+      }
+    }
   },
   {
     "Id": "Glasses_Monocle",
@@ -176,7 +222,9 @@
         "NameKey": "avatarCustomization.variants.thick.name"
       }
     },
-    "DisableCharacterPartCategory": "Eyebrows"
+    "HidesSkinProperties": [
+      "Eyebrows"
+    ]
   },
   {
     "Id": "BandageBlindfold",
@@ -212,7 +260,9 @@
         ]
       }
     },
-    "DisableCharacterPartCategory": "Eyebrows",
+    "HidesSkinProperties": [
+      "Eyebrows"
+    ],
     "GreyscaleTexture": "Cosmetics/Face_Accessories/Blindfold_Textures/Blindfold_Bandage_Thin.png",
     "GradientSet": "Fantasy_Cotton"
   },
@@ -222,7 +272,9 @@
     "Model": "Cosmetics/Face_Accessories/Blindfold.blockymodel",
     "GreyscaleTexture": "Cosmetics/Face_Accessories/Blindfold_Textures/Blindfold_Mask.png",
     "GradientSet": "Colored_Cotton",
-    "DisableCharacterPartCategory": "Eyebrows",
+    "HidesSkinProperties": [
+      "Eyebrows"
+    ],
     "Variants": {
       "Default": {
         "GreyscaleTexture": "Cosmetics/Face_Accessories/Blindfold_Textures/Blindfold_Mask.png",
@@ -235,5 +287,58 @@
         "NameKey": "avatarCustomization.variants.faceaccessory.BanditMask_SideKnot.name"
       }
     }
+  },
+  {
+    "Id": "Piercing",
+    "Name": "avatarCustomization.faceaccessory.FacialPiercing.name",
+    "Model": "Cosmetics/Head/Piercing_Bridge.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/Piercing.png",
+    "GradientSet": "Ornamented_Metal",
+    "Variants": {
+      "Bridge": {
+        "Model": "Cosmetics/Head/Piercing_Bridge.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Head/Piercing.png",
+        "NameKey": "avatarCustomization.variants.piercing.bridge"
+      },
+      "Lip_Left": {
+        "Model": "Cosmetics/Head/Piercing_Lip_Left.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Head/Piercing.png",
+        "NameKey": "avatarCustomization.variants.piercing.cheek_left"
+      },
+      "Lip_Right": {
+        "Model": "Cosmetics/Head/Piercing_Lip_Right.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Head/Piercing.png",
+        "NameKey": "avatarCustomization.variants.piercing.cheek_right"
+      },
+      "Cheeks": {
+        "Model": "Cosmetics/Head/Piercing_Cheeks.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Head/Piercing.png",
+        "NameKey": "avatarCustomization.variants.piercing.teardrop"
+      }
+    }
+  },
+  {
+    "Id": "Sunglasses_Large",
+    "Name": "avatarCustomization.faceaccessory.LargeSunGlasses.name",
+    "Model": "Cosmetics/Face_Accessories/Glasses_Wide.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Face_Accessories/Glasses_Textures/Sunglasses_Large.png",
+    "GradientSet": "Pastel_Cotton"
+  },
+  {
+    "Id": "GoblinMage_Goggles",
+    "Name": "avatarCustomization.faceaccessory.Goggles_GoblinMage.name",
+    "Model": "Cosmetics/Face_Accessories/GoblinGoggles.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Face_Accessories/GoblinGoggles.png",
+    "GradientSet": "Fantasy_Cotton",
+    "Entitlements": [
+      "cosmetics.chapter_1.boss"
+    ]
+  },
+  {
+    "Id": "Bandana_Ragged",
+    "Name": "avatarCustomization.faceaccessory.Bandana_Ragged.name",
+    "Model": "Cosmetics/Face_Accessories/Bandana.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Face_Accessories/Bandana.png",
+    "GradientSet": "Fantasy_Cotton_Dark"
   }
 ]

@@ -97,5 +97,33 @@
     "GradientSet": "Hair",
     "GreyscaleTexture": "Characters/Body_Attachments/Eyebrows/Feral.png",
     "Id": "Heavy"
+  },
+  {
+    "Id": "Tiny",
+    "Name": "avatarCustomization.eyebrows.Tiny.name",
+    "Model": "Characters/Body_Attachments/Eyebrows/Eyebrows_Medium.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Eyebrows/Tiny.png"
+  },
+  {
+    "Id": "Wild",
+    "Name": "avatarCustomization.eyebrows.Wild.name",
+    "Model": "Characters/Body_Attachments/Eyebrows/Bushy.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Eyebrows/Wild.png"
+  },
+  {
+    "Id": "WavyThick",
+    "Name": "avatarCustomization.eyebrows.WavyThick.name",
+    "Model": "Characters/Body_Attachments/Eyebrows/Bushy.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Eyebrows/WavyThick.png"
+  },
+  {
+    "Id": "Unkempt",
+    "Name": "avatarCustomization.eyebrows.Unkempt.name",
+    "Model": "Characters/Body_Attachments/Eyebrows/Bushy.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Body_Attachments/Eyebrows/Unkempt.png"
   }
 ]
