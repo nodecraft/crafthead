@@ -17,6 +17,15 @@
     "GradientSet": "Hair",
     "GreyscaleTexture": "Characters/Haircuts/Bangs_Greyscale.png"
   },
+    {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "ShortQuiff",
+    "Name": "avatarCustomization.haircuts.ShortQuiff.name",
+    "Model": "Characters/Haircuts/ShortQuiff.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/ShortQuiff.png"
+  },
   {
     "HairType": "Short",
     "RequiresGenericHaircut": true,
@@ -297,6 +306,48 @@
     "GradientSet": "Hair",
     "GreyscaleTexture": "Characters/Haircuts/Curly_Greyscale.png"
   },
+    {
+    "HairType": "Long",
+    "RequiresGenericHaircut": true,
+    "Id": "DrillCurls",
+    "Name": "avatarCustomization.haircuts.DrillCurls.name",
+    "Model": "Characters/Haircuts/ShortTwindrills.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/ShortTwindrills.png",
+    "Variants": {
+      "Default": {
+        "Model": "Characters/Haircuts/ShortTwindrills.blockymodel",
+        "GreyscaleTexture": "Characters/Haircuts/ShortTwindrills_Bangs.png",
+        "NameKey": "avatarCustomization.variants.haircuts.BangsStraight.name"
+      },
+      "MessyBangs": {
+        "Model": "Characters/Haircuts/ShortTwindrills.blockymodel",
+        "GreyscaleTexture": "Characters/Haircuts/ShortTwindrills.png",
+        "NameKey": "avatarCustomization.variants.haircuts.BangsMessy.name"
+      }
+    }
+  },
+    {
+    "HairType": "Long",
+    "RequiresGenericHaircut": true,
+    "Id": "LongDrillCurls",
+    "Name": "avatarCustomization.haircuts.LongDrillCurls.name",
+    "Model": "Characters/Haircuts/LongTwindrills.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/LongTwindrills.png",
+    "Variants": {
+      "Default": {
+        "Model": "Characters/Haircuts/LongTwindrills.blockymodel",
+        "GreyscaleTexture": "Characters/Haircuts/LongTwindrills_Bangs.png",
+        "NameKey": "avatarCustomization.variants.haircuts.BangsStraight.name"
+      },
+      "MessyBangs": {
+        "Model": "Characters/Haircuts/LongTwindrills.blockymodel",
+        "GreyscaleTexture": "Characters/Haircuts/LongTwindrills.png",
+        "NameKey": "avatarCustomization.variants.haircuts.BangsMessy.name"
+      }
+    }
+  },
   {
     "HairType": "Medium",
     "RequiresGenericHaircut": true,
@@ -505,6 +556,15 @@
     "GreyscaleTexture": "Characters/Haircuts/SuperSlickback_Greyscale.png"
   },
   {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "Stormy",
+    "Name": "avatarCustomization.haircuts.Stormy.name",
+    "Model": "Characters/Haircuts/Stormy.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Stormy_Greyscale.png"
+  },
+  {
     "HairType": "Medium",
     "RequiresGenericHaircut": true,
     "Id": "Cat",
@@ -543,6 +603,53 @@
     "Model": "Characters/Haircuts/LongBangs.blockymodel",
     "GradientSet": "Hair",
     "GreyscaleTexture": "Characters/Haircuts/LongBangs_Greyscale.png"
+  },
+    {
+    "HairType": "Long",
+    "RequiresGenericHaircut": true,
+    "Id": "LongBangsVolume",
+    "Name": "avatarCustomization.haircuts.LongBangsVolume.name",
+    "Model": "Characters/Haircuts/LongBangsVolume.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/LongBangsVolume.png",
+    "Variants": {
+      "Default": {
+        "Model": "Characters/Haircuts/LongBangsVolume.blockymodel",
+        "GreyscaleTexture": "Characters/Haircuts/LongBangsVolume.png",
+        "NameKey": "avatarCustomization.variants.default"
+      },
+      "Cowlick1": {
+        "Model": "Characters/Haircuts/LongBangsVolumeCowlick1.blockymodel",
+        "GreyscaleTexture": "Characters/Haircuts/LongBangsVolume.png",
+        "NameKey": "avatarCustomization.variants.haircuts.Cowlick01.name"
+      },
+      "Cowlick2": {
+        "Model": "Characters/Haircuts/LongBangsVolumeCowlick2.blockymodel",
+        "GreyscaleTexture": "Characters/Haircuts/LongBangsVolume.png",
+        "NameKey": "avatarCustomization.variants.haircuts.Cowlick02.name"
+      }
+    }
+  },
+    {
+    "HairType": "Long",
+    "RequiresGenericHaircut": false,
+    "Id": "LongStrand",
+    "Name": "avatarCustomization.haircuts.LongStrand.name",
+    "Model": "Characters/Haircuts/LongStrand.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/LongStrand.png",
+    "Variants": {
+      "Default": {
+        "Model": "Characters/Haircuts/LongStrand.blockymodel",
+        "GreyscaleTexture": "Characters/Haircuts/LongStrand.png",
+        "NameKey": "avatarCustomization.variants.default"
+      },
+      "Longer": {
+        "Model": "Characters/Haircuts/LongStrandAlt.blockymodel",
+        "GreyscaleTexture": "Characters/Haircuts/LongStrand.png",
+        "NameKey": "avatarCustomization.variants.haircuts.Longer.name"
+      }
+    }
   },
   {
     "HairType": "Short",
@@ -937,6 +1044,53 @@
     "GradientSet": "Hair",
     "GreyscaleTexture": "Characters/Haircuts/Magical_Pigtails_Greyscale.png"
   },
+      {
+    "HairType": "Long",
+    "RequiresGenericHaircut": true,
+    "Id": "ShortTwintails",
+    "Name": "avatarCustomization.haircuts.ShortTwintails.name",
+    "Model": "Characters/Haircuts/ShortTwintails.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/ShortTwintails.png",
+    "Variants": {
+      "Default": {
+        "Model": "Characters/Haircuts/ShortTwintails.blockymodel",
+        "GreyscaleTexture": "Characters/Haircuts/ShortTwintails.png",
+        "NameKey": "avatarCustomization.variants.haircuts.BangsMessy.name"
+      },
+      "StraightBangs": {
+        "Model": "Characters/Haircuts/ShortTwintails.blockymodel",
+        "GreyscaleTexture": "Characters/Haircuts/ShortTwintails_Bangs.png",
+        "NameKey": "avatarCustomization.variants.haircuts.BangsStraight.name"
+      }
+    }
+  },
+  {
+    "HairType": "Long",
+    "RequiresGenericHaircut": true,
+    "Id": "LongTwintails",
+    "Name": "avatarCustomization.haircuts.LongTwintails.name",
+    "Model": "Characters/Haircuts/LongTwintails.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/LongTwintails.png",
+    "Variants": {
+      "Default": {
+        "Model": "Characters/Haircuts/LongTwintails.blockymodel",
+        "GreyscaleTexture": "Characters/Haircuts/LongTwintails.png",
+        "NameKey": "avatarCustomization.variants.haircuts.BangsMessy.name"
+      },
+      "StraightBangs": {
+        "Model": "Characters/Haircuts/LongTwintails.blockymodel",
+        "GreyscaleTexture": "Characters/Haircuts/LongTwintails_Bangs.png",
+        "NameKey": "avatarCustomization.variants.haircuts.BangsStraight.name"
+      },
+      "SingleStrand": {
+        "Model": "Characters/Haircuts/LongTwintails.blockymodel",
+        "GreyscaleTexture": "Characters/Haircuts/LongTwintails_Strand.png",
+        "NameKey": "avatarCustomization.variants.haircuts.SingleStrand.name"
+      }
+    }
+  },
   {
     "HairType": "Short",
     "RequiresGenericHaircut": true,
@@ -956,18 +1110,21 @@
         "GreyscaleTexture": "Characters/Haircuts/PuffyBubbleBraids.png",
         "NameKey": "avatarCustomization.variants.haircuts.Hairstrand.name"
       },
-      "GoldBangles": {
-        "Model": "Characters/Haircuts/PuffyBubbleBraids_GoldBangle.blockymodel",
+      "FaceBraids": {
+        "Model": "Characters/Haircuts/PuffyBubbleBraidsFaceBraids.blockymodel",
         "GreyscaleTexture": "Characters/Haircuts/PuffyBubbleBraids.png",
-        "NameKey": "avatarCustomization.variants.haircuts.GoldenBangles.name"
+        "NameKey": "avatarCustomization.variants.haircuts.FaceBraids.name"
       }
     }
   },
   {
     "HairType": "Short",
     "RequiresGenericHaircut": true,
-    "Id": "SpikyMohawl",
+    "Id": "SpikyMohawk",
     "Name": "avatarCustomization.haircuts.SpikyMohawk.name",
+    "FallbackPartIds": [
+      "SpikyMohawl"
+    ],
     "Model": "Characters/Haircuts/SpikyMohawk.blockymodel",
     "GradientSet": "Hair",
     "GreyscaleTexture": "Characters/Haircuts/SpikyMohawk_Greyscale.png"
@@ -1105,5 +1262,59 @@
         "NameKey": "avatarCustomization.variants.haircuts.Messy.name"
       }
     }
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "Goblin_Pigtails",
+    "Name": "avatarCustomization.haircuts.Goblin_Pigtails.name",
+    "Model": "Characters/Haircuts/Goblin_Pigtails.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Goblin_Pigtails.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "Goblin_Short",
+    "Name": "avatarCustomization.haircuts.Goblin_Short.name",
+    "Model": "Characters/Haircuts/Goblin_Short.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Goblin_Short.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "Goblin_Windswept",
+    "Name": "avatarCustomization.haircuts.Goblin_Windswept.name",
+    "Model": "Characters/Haircuts/Goblin_Windswept.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Goblin_Windswept.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "Goblin_Messy",
+    "Name": "avatarCustomization.haircuts.Goblin_Messy.name",
+    "Model": "Characters/Haircuts/Goblin_Messy.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Goblin_Messy.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "Goblin_Topknot",
+    "Name": "avatarCustomization.haircuts.Goblin_Topknot.name",
+    "Model": "Characters/Haircuts/Goblin_Topknot.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Goblin_Topknot.png"
+  },
+  {
+    "HairType": "Short",
+    "RequiresGenericHaircut": true,
+    "Id": "Goblin_Shaggy",
+    "Name": "avatarCustomization.haircuts.Goblin_Shaggy.name",
+    "Model": "Characters/Haircuts/Goblin_Shaggy.blockymodel",
+    "GradientSet": "Hair",
+    "GreyscaleTexture": "Characters/Haircuts/Goblin_Shaggy.png"
   }
 ]

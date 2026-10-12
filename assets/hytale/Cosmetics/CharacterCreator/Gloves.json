@@ -89,7 +89,9 @@
   {
     "Id": "Hope_Of_Gaia_Gloves",
     "Name": "avatarCustomization.gloves.Hope_Of_Gaia_Gloves.name",
-    "FallbackPartIds": ["GaiaPure_Gloves"],
+    "FallbackPartIds": [
+      "GaiaPure_Gloves"
+    ],
     "Model": "Cosmetics/Gloves/GaiaPure_Gloves.blockymodel",
     "GreyscaleTexture": "Cosmetics/Gloves/GaiaPure_Gloves_Texture.png",
     "GradientSet": "Pastel_Cotton",
@@ -100,7 +102,9 @@
   {
     "Id": "Gloves_Void_Hero",
     "Name": "avatarCustomization.gloves.Void_Hero_Gloves.name",
-    "FallbackPartIds": ["LongDetailGloves_VoidHunter"],
+    "FallbackPartIds": [
+      "LongDetailGloves_VoidHunter"
+    ],
     "Model": "Cosmetics/Gloves/LongDetail_Gloves.blockymodel",
     "GreyscaleTexture": "Cosmetics/Gloves/LongDetail_Gloves_Textures/LongDetail_Gloves_Void_Hero_Texture.png",
     "GradientSet": "Fantasy_Cotton",
@@ -245,7 +249,7 @@
     "Name": "avatarCustomization.gloves.SpikedBracelets.name",
     "Model": "Cosmetics/Gloves/Spiked_Bracelets.blockymodel",
     "GreyscaleTexture": "Cosmetics/Gloves/Spiked_Bracelets.png",
-    "GradientSet": "Fantasy_Cotton_Dark",
+    "GradientSet": "Fantasy_Cotton",
     "Variants": {
       "Default": {
         "NameKey": "avatarCustomization.variants.default",
@@ -263,5 +267,184 @@
         "NameKey": "avatarCustomization.variants.right_arm.name"
       }
     }
+  },
+  {
+    "Id": "NetGloves",
+    "Name": "avatarCustomization.gloves.Fishnet_Gloves.name",
+    "Model": "Cosmetics/Gloves/UndershirtGloves.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Gloves/UndershirtGloves/Net_Gloves.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "Beaded_Bracelets",
+    "Name": "avatarCustomization.gloves.Beaded_Bracelet.name",
+    "Model": "Cosmetics/Gloves/UndershirtGloves.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Gloves/UndershirtGloves/Beaded_Bracelets.png",
+    "GradientSet": "Pastel_Cotton",
+    "Variants": {
+      "Left": {
+        "Model": "Cosmetics/Gloves/UndershirtGloves_Left.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Gloves/UndershirtGloves/Beaded_Bracelets_Single.png",
+        "NameKey": "avatarCustomization.variants.left_arm.name"
+      },
+      "Right": {
+        "Model": "Cosmetics/Gloves/UndershirtGloves_Right.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Gloves/UndershirtGloves/Beaded_Bracelets_Single.png",
+        "NameKey": "avatarCustomization.variants.right_arm.name"
+      },
+      "Both": {
+        "Model": "Cosmetics/Gloves/UndershirtGloves.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Gloves/UndershirtGloves/Beaded_Bracelets_Single.png",
+        "NameKey": "avatarCustomization.variants.style.both"
+      },
+      "Layered": {
+        "Model": "Cosmetics/Gloves/UndershirtGloves.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Gloves/UndershirtGloves/Beaded_Bracelets.png",
+        "NameKey": "avatarCustomization.variants.style.layered"
+      }
+    }
+  },
+  {
+    "Id": "Multicolored_Bracelets",
+    "Name": "avatarCustomization.gloves.Colorful_Beaded_Bracelet.name",
+    "Model": "Cosmetics/Gloves/UndershirtGloves.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Gloves/UndershirtGloves/Beaded_Bracelets_Colored.png",
+    "GradientSet": "Pastel_Cotton",
+    "Variants": {
+      "Left": {
+        "Model": "Cosmetics/Gloves/UndershirtGloves_Left.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Gloves/UndershirtGloves/Beaded_Bracelets_Colored.png",
+        "NameKey": "avatarCustomization.variants.left_arm.name"
+      },
+      "Right": {
+        "Model": "Cosmetics/Gloves/UndershirtGloves_Right.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Gloves/UndershirtGloves/Beaded_Bracelets_Colored.png",
+        "NameKey": "avatarCustomization.variants.right_arm.name"
+      },
+      "Both": {
+        "Model": "Cosmetics/Gloves/UndershirtGloves.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Gloves/UndershirtGloves/Beaded_Bracelets_Colored.png",
+        "NameKey": "avatarCustomization.variants.style.both"
+      },
+      "Layered": {
+        "Model": "Cosmetics/Gloves/UndershirtGloves.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Gloves/UndershirtGloves/Beaded_Bracelets_Colored_2.png",
+        "NameKey": "avatarCustomization.variants.style.layered"
+      }
+    }
+  },
+  {
+    "Id": "Studded_Bracelets",
+    "Name": "avatarCustomization.gloves.StuddedBracelets.name",
+    "Model": "Cosmetics/Gloves/Spiked_Bracelets.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Gloves/Studded_Bracelets.png",
+    "GradientSet": "Fantasy_Cotton",
+    "Variants": {
+      "Default": {
+        "NameKey": "avatarCustomization.variants.default",
+        "Model": "Cosmetics/Gloves/Studded_Bracelets.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Gloves/Studded_Bracelets.png"
+      },
+      "Left": {
+        "NameKey": "avatarCustomization.variants.left_arm.name",
+        "Model": "Cosmetics/Gloves/Studded_Bracelets_Left.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Gloves/Studded_Bracelets.png"
+      },
+      "Right": {
+        "Model": "Cosmetics/Gloves/Studded_Bracelets_Right.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Gloves/Studded_Bracelets.png",
+        "NameKey": "avatarCustomization.variants.right_arm.name"
+      },
+      "Layered": {
+        "NameKey": "avatarCustomization.variants.style.layered",
+        "Model": "Cosmetics/Gloves/Studded_Bracelets_Layered.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Gloves/Studded_Bracelets.png"
+      }
+    }
+  },
+  {
+    "Id": "ArmWarmers",
+    "Name": "avatarCustomization.gloves.Arm_Warmers.name",
+    "Model": "Cosmetics/Gloves/ArmWarmers.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Gloves/ArmWarmers.png",
+    "GradientSet": "Flashy_Synthetic",
+    "Variants": {
+      "Default": {
+        "Model": "Cosmetics/Gloves/ArmWarmers.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Gloves/ArmWarmers.png",
+        "Icon": "CharacterCreator/VariantIcons/Patterns/Plain.png",
+        "NameKey": "avatarCustomization.variants.default"
+      },
+      "BlackStripes": {
+        "Model": "Cosmetics/Gloves/ArmWarmers.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Gloves/ArmWarmers_BlackStripes.png",
+        "Icon": "CharacterCreator/VariantIcons/Patterns/BlackDoubleStripe.png",
+        "NameKey": "avatarCustomization.variants.pattern.striped_black"
+      }
+    }
+  },
+  {
+    "Id": "GoblinTrash_Gloves",
+    "Name": "avatarCustomization.gloves.TrashGloves.name",
+    "Model": "Cosmetics/Gloves/TrashGloves.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Gloves/TrashGloves.png",
+    "GradientSet": "Fantasy_Cotton_Dark",
+    "Entitlements": [
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "GoblinCostume_Gloves",
+    "Name": "avatarCustomization.gloves.GoblinCostume_Gloves.name",
+    "Model": "Cosmetics/Gloves/GoblinCostumeGloves.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Gloves/GoblinCostumeGloves.png",
+    "GradientSet": "Fantasy_Cotton",
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "GoblinPilot_Gloves",
+    "Name": "avatarCustomization.gloves.GoblinPilot_Gloves.name",
+    "Model": "Cosmetics/Gloves/FeatherGloves.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Gloves/FeatherGloves.png",
+    "GradientSet": "Faded_Leather",
+    "Entitlements": [
+      "cosmetics.chapter_1.boss"
+    ]
+  },
+  {
+    "Id": "GoblinMage_Gloves",
+    "Name": "avatarCustomization.gloves.Gloves_GoblinMage.name",
+    "Model": "Cosmetics/Gloves/GoblinMage_Gloves.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Gloves/GoblinMage_Gloves.png",
+    "GradientSet": "Rotten_Fabric",
+    "Entitlements": [
+      "cosmetics.chapter_1.boss"
+    ]
+  },
+  {
+    "Id": "GoblinRags_Gloves",
+    "Name": "avatarCustomization.gloves.Gloves_GoblinRags.name",
+    "Model": "Cosmetics/Gloves/GoblinRag_Gloves.blockymodel",
+    "Textures": {
+      "Default": {
+        "Texture": "Cosmetics/Gloves/GoblinRag_Gloves.png",
+        "BaseColor": [
+          "#b18b64"
+        ]
+      }
+    }
+  },
+  {
+    "Id": "GoblinThief_Bracelets",
+    "Name": "avatarCustomization.gloves.GoblinThief_Bracelets.name",
+    "Model": "Cosmetics/Gloves/GoblinThiefBracelet.blockymodel",
+    "GradientSet": "Fantasy_Cotton_Dark",
+    "GreyscaleTexture": "Cosmetics/Gloves/GoblinThiefBracelet.png",
+    "Entitlements": [
+      "game.founder"
+    ]
   }
 ]

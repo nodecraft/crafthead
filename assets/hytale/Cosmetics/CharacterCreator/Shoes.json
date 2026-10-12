@@ -259,18 +259,15 @@
     "GradientSet": "Colored_Cotton"
   },
   {
-    "Id": "BasicShoes_Buckle",
-    "Name": "avatarCustomization.shoes.BasicShoes_Buckle.name",
-    "Model": "Cosmetics/Shoes/Shoes.blockymodel",
-    "GreyscaleTexture": "Cosmetics/Shoes/Shoes_Textures/Shoes_Buckle_Greyscale.png",
-    "GradientSet": "Colored_Cotton"
-  },
-  {
-    "Id": "BasicShoes_Strap",
+    "Id": "MaryJanes",
     "Name": "avatarCustomization.shoes.BasicShoes_Strap.name",
-    "Model": "Cosmetics/Shoes/Shoes.blockymodel",
-    "GreyscaleTexture": "Cosmetics/Shoes/Shoes_Textures/Shoes_Strap_Greyscale.png",
-    "GradientSet": "Colored_Cotton"
+    "FallbackPartIds": [
+      "BasicShoes_Strap",
+      "BasicShoes_Buckle"
+    ],
+    "Model": "Cosmetics/Shoes/HeeledFlats.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/HeeledFlatsBuckle.png",
+    "GradientSet": "Fantasy_Cotton"
   },
   {
     "Id": "BasicShoes_Sandals",
@@ -282,7 +279,9 @@
   {
     "Id": "Boots_Voyager",
     "Name": "avatarCustomization.shoes.Boots_Voyager.name",
-    "FallbackPartIds": ["QuiltedBoots"],
+    "FallbackPartIds": [
+      "QuiltedBoots"
+    ],
     "Model": "Cosmetics/Shoes/QuiltedBoots.blockymodel",
     "GreyscaleTexture": "Cosmetics/Shoes/QuiltedBoots_Textures/QuiltedBoots_Texture.png",
     "GradientSet": "Colored_Cotton",
@@ -295,7 +294,9 @@
   {
     "Id": "Hope_Of_Gaia_Boots",
     "Name": "avatarCustomization.shoes.Hope_Of_Gaia_Boots.name",
-    "FallbackPartIds": ["GaiaPureBoots"],
+    "FallbackPartIds": [
+      "GaiaPureBoots"
+    ],
     "Model": "Cosmetics/Shoes/GaiaPureBoots.blockymodel",
     "GreyscaleTexture": "Cosmetics/Shoes/GaiaPureBoots_Texture.png",
     "GradientSet": "Ornamented_Metal",
@@ -534,5 +535,88 @@
     "Model": "Cosmetics/Shoes/Sneakers_Shaped.blockymodel",
     "GreyscaleTexture": "Cosmetics/Shoes/Shaped_Sneakers_Textures/Shaped_Sneakers.png",
     "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "GoblinTrash_Shoes",
+    "Name": "avatarCustomization.shoes.TrashShoes.name",
+    "Model": "Cosmetics/Shoes/TrashShoes.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/TrashShoes_Textures/TrashShoes.png",
+    "GradientSet": "Fantasy_Cotton_Dark",
+    "Entitlements": [
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "GoblinCostume_Feet",
+    "Name": "avatarCustomization.shoes.GoblinCostume_Feet.name",
+    "Model": "Cosmetics/Shoes/GoblinCostumeFeet.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/GoblinCostumeFeet_Textures/GoblinCostumeFeet.png",
+    "GradientSet": "Fantasy_Cotton",
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "GoblinPilot_Shoes",
+    "Name": "avatarCustomization.shoes.GoblinPilot_Shoes.name",
+    "Model": "Cosmetics/Shoes/PillowShoes.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/PillowShoes.png",
+    "GradientSet": "Pastel_Cotton",
+    "Entitlements": [
+      "cosmetics.chapter_1.boss"
+    ]
+  },
+  {
+    "Id": "GoblinMage_Boots",
+    "Name": "avatarCustomization.shoes.Boots_GoblinMage.name",
+    "Model": "Cosmetics/Shoes/GoblinMage_Boots.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/GoblinMage_Boots.png",
+    "GradientSet": "Rotten_Fabric",
+    "Entitlements": [
+      "cosmetics.chapter_1.boss"
+    ]
+  },
+  {
+    "Id": "GoblinRags_Boots",
+    "Name": "avatarCustomization.shoes.Boots_GoblinRags.name",
+    "Model": "Cosmetics/Shoes/GoblinRag_Boots.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/GoblinRag_Boots.png",
+    "GradientSet": "Rotten_Fabric"
+  },
+  {
+    "Id": "HeeledFlats",
+    "Name": "avatarCustomization.shoes.Heeled_Flats.name",
+    "Priority": -1,
+    "Model": "Cosmetics/Shoes/Heels.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/HeeledFlats.png",
+    "GradientSet": "Fantasy_Cotton"
+  },
+  {
+    "Id": "TallHeeledBoots",
+    "Name": "avatarCustomization.shoes.TallHeeledBoots.name",
+    "Priority": -1,
+    "Model": "Cosmetics/Shoes/TallHeeledBoots.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/TallHeeledBoots.png",
+    "GradientSet": "Faded_Leather",
+    "Variants": {
+      "Leather": {
+        "Model": "Cosmetics/Shoes/TallHeeledBoots.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Shoes/TallHeeledBootsLeather.png",
+        "NameKey": "avatarCustomization.variants.style.leather_accents"
+      },
+      "Black": {
+        "Model": "Cosmetics/Shoes/TallHeeledBoots.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Shoes/TallHeeledBoots_Black.png",
+        "NameKey": "avatarCustomization.variants.style.colored_accents"
+      }
+    }
+  },
+  {
+    "Id": "MaryJanes_Frilly",
+    "Name": "avatarCustomization.shoes.MaryJanes_Frilly.name",
+    "Model": "Cosmetics/Shoes/HeeledFlatsBow.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Shoes/HeeledFlatsBow.png",
+    "GradientSet": "Pastel_Cotton"
   }
 ]

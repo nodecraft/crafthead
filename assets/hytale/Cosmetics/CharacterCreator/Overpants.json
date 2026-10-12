@@ -1,38 +1,95 @@
 [
   {
-    "Id": "KneePads",
-    "Name": "avatarCustomization.overpants.KneePads.name",
-    "Model": "Cosmetics/Overpants/KneePads.blockymodel",
-    "GreyscaleTexture": "Cosmetics/Overpants/KneePads_Greyscale.png",
-    "GradientSet": "Ornamented_Metal"
+    "Id": "Socks_Frilly",
+    "Name": "avatarCustomization.overpants.ShortSocks_Frilly.name",
+    "Model": "Cosmetics/Overpants/Long_Socks.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overpants/Long_Socks_Textures/FrillySocks_Greyscale.png",
+    "GradientSet": "Pastel_Cotton"
+  },
+  {
+    "Id": "Socks_Plain",
+    "Name": "avatarCustomization.overpants.ShortSocks.name",
+    "Model": "Cosmetics/Overpants/Long_Socks.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overpants/Long_Socks_Textures/PlainSocks_Short_Greyscale.png",
+    "GradientSet": "Flashy_Synthetic"
+  },
+  {
+    "Id": "Medium_Socks_Plain",
+    "Name": "avatarCustomization.overpants.MediumSocks.name",
+    "Model": "Cosmetics/Overpants/Long_Socks.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overpants/Long_Socks_Textures/PlainSocks_Medium_Greyscale.png",
+    "GradientSet": "Flashy_Synthetic"
   },
   {
     "Id": "LongSocks_Plain",
     "Name": "avatarCustomization.overpants.LongSocks_Plain.name",
     "Model": "Cosmetics/Overpants/Long_Socks.blockymodel",
-    "GradientSet": "Colored_Cotton",
-    "GreyscaleTexture": "Cosmetics/Overpants/Long_Socks_Textures/PlainSocks_Greyscale.png"
+    "GreyscaleTexture": "Cosmetics/Overpants/Long_Socks_Textures/PlainSocks_Greyscale.png",
+    "GradientSet": "Flashy_Synthetic"
   },
   {
-    "Id": "LongSocks_BasicWrap",
-    "Name": "avatarCustomization.overpants.LongSocks_BasicWrap.name",
+    "Id": "Socks_School",
+    "Name": "avatarCustomization.overpants.ShortSocks_School.name",
     "Model": "Cosmetics/Overpants/Long_Socks.blockymodel",
-    "GreyscaleTexture": "Cosmetics/Overpants/Long_Socks_Textures/BasicWrap_Greyscale.png",
-    "GradientSet": "Colored_Cotton"
+    "GreyscaleTexture": "Cosmetics/Overpants/Long_Socks_Textures/SchoolSocks_Short_Greyscale.png",
+    "GradientSet": "Colored_Cotton",
+    "Variants": {
+      "Default": {
+        "Model": "Cosmetics/Overpants/Long_Socks.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overpants/Long_Socks_Textures/SchoolSocks_Short_Greyscale.png",
+        "NameKey": "avatarCustomization.variants.default"
+      },
+      "Inverted": {
+        "Model": "Cosmetics/Overpants/Long_Socks.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overpants/Long_Socks_Textures/SchoolSocks_Short_Greyscale_Inverted.png",
+        "NameKey": "avatarCustomization.variants.style.inverted"
+      }
+    }
+  },
+  {
+    "Id": "Medium_Socks_School",
+    "Name": "avatarCustomization.overpants.MediumSocks_School.name",
+    "Model": "Cosmetics/Overpants/Long_Socks.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overpants/Long_Socks_Textures/SchoolSocks_Medium_Greyscale.png",
+    "GradientSet": "Colored_Cotton",
+    "Variants": {
+      "Default": {
+        "Model": "Cosmetics/Overpants/Long_Socks.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overpants/Long_Socks_Textures/SchoolSocks_Medium_Greyscale.png",
+        "NameKey": "avatarCustomization.variants.default"
+      },
+      "Inverted": {
+        "Model": "Cosmetics/Overpants/Long_Socks.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overpants/Long_Socks_Textures/SchoolSocks_Medium_Greyscale_Inverted.png",
+        "NameKey": "avatarCustomization.variants.style.inverted"
+      }
+    }
   },
   {
     "Id": "LongSocks_School",
     "Name": "avatarCustomization.overpants.LongSocks_School.name",
     "Model": "Cosmetics/Overpants/Long_Socks.blockymodel",
     "GreyscaleTexture": "Cosmetics/Overpants/Long_Socks_Textures/SchoolSocks_Greyscale.png",
-    "GradientSet": "Colored_Cotton"
+    "GradientSet": "Colored_Cotton",
+    "Variants": {
+      "Default": {
+        "Model": "Cosmetics/Overpants/Long_Socks.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overpants/Long_Socks_Textures/SchoolSocks_Greyscale.png",
+        "NameKey": "avatarCustomization.variants.default"
+      },
+      "Inverted": {
+        "Model": "Cosmetics/Overpants/Long_Socks.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overpants/Long_Socks_Textures/SchoolSocks_Greyscale_Inverted.png",
+        "NameKey": "avatarCustomization.variants.style.inverted"
+      }
+    }
   },
   {
     "Id": "LongSocks_Striped",
     "Name": "avatarCustomization.overpants.LongSocks_Striped.name",
     "Model": "Cosmetics/Overpants/Long_Socks.blockymodel",
     "GreyscaleTexture": "Cosmetics/Overpants/Long_Socks_Textures/StripedSocks_Greyscale.png",
-    "GradientSet": "Colored_Cotton"
+    "GradientSet": "Flashy_Synthetic"
   },
   {
     "Id": "LongSocks_Bow",
@@ -57,5 +114,132 @@
         ]
       }
     }
+  },
+  {
+    "Id": "Tights_Stocking",
+    "Name": "avatarCustomization.overpants.Stockings_ThighHigh.name",
+    "Model": "Cosmetics/Overpants/Stockings.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overpants/Stocking_Textures/Stocking_Plain.png",
+    "GradientSet": "Faded_Leather",
+    "Variants": {
+      "Default": {
+        "Model": "Cosmetics/Overpants/Stockings.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overpants/Stocking_Textures/Stocking_Short_Plain.png",
+        "NameKey": "avatarCustomization.variants.default"
+      },
+      "Striped": {
+        "Model": "Cosmetics/Overpants/Stockings.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overpants/Stocking_Textures/Stocking_Short_Striped.png",
+        "NameKey": "avatarCustomization.variants.pattern.striped_horizontal"
+      },
+      "Hearts": {
+        "Model": "Cosmetics/Overpants/Stockings.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overpants/Stocking_Textures/Stocking_Short_Hearts.png",
+        "NameKey": "avatarCustomization.variants.pattern.hearts"
+      },
+      "VerticalStripes": {
+        "Model": "Cosmetics/Overpants/Stockings.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overpants/Stocking_Textures/Stocking_Short_Vertical_Stripes.png",
+        "NameKey": "avatarCustomization.variants.pattern.striped_vertical"
+      }
+    }
+  },
+  {
+    "Id": "Tights",
+    "Name": "avatarCustomization.overpants.Stockings.name",
+    "Model": "Cosmetics/Overpants/Stockings.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overpants/Stocking_Textures/Stocking_Plain.png",
+    "GradientSet": "Faded_Leather",
+    "Variants": {
+      "Default": {
+        "Model": "Cosmetics/Overpants/Stockings.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overpants/Stocking_Textures/Stocking_Plain.png",
+        "NameKey": "avatarCustomization.variants.default"
+      },
+      "Striped": {
+        "Model": "Cosmetics/Overpants/Stockings.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overpants/Stocking_Textures/Stocking_Striped.png",
+        "NameKey": "avatarCustomization.variants.pattern.striped_horizontal"
+      },
+      "Hearts": {
+        "Model": "Cosmetics/Overpants/Stockings.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overpants/Stocking_Textures/Stocking_Hearts.png",
+        "NameKey": "avatarCustomization.variants.pattern.hearts"
+      },
+      "VerticalStripes": {
+        "Model": "Cosmetics/Overpants/Stockings.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overpants/Stocking_Textures/Stocking_Vertical_Stripes.png",
+        "NameKey": "avatarCustomization.variants.pattern.striped_vertical"
+      }
+    }
+  },
+  {
+    "Id": "Tights_Net",
+    "Name": "avatarCustomization.overpants.Stockings_Fishnet.name",
+    "Model": "Cosmetics/Overpants/Stockings.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overpants/Stocking_Textures/Net_Stocking.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "KneePads",
+    "Name": "avatarCustomization.overpants.KneePads.name",
+    "Model": "Cosmetics/Overpants/KneePads.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overpants/KneePads_Greyscale.png",
+    "GradientSet": "Ornamented_Metal"
+  },
+  {
+    "Id": "LongSocks_BasicWrap",
+    "Name": "avatarCustomization.overpants.LongSocks_BasicWrap.name",
+    "Model": "Cosmetics/Overpants/Long_Socks.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overpants/Long_Socks_Textures/BasicWrap_Greyscale.png",
+    "GradientSet": "Colored_Cotton"
+  },
+  {
+    "Id": "LegWarmers",
+    "Name": "avatarCustomization.overpants.Leg_Warmers.name",
+    "Model": "Cosmetics/Overpants/Long_Socks.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overpants/LegWarmers.png",
+    "GradientSet": "Flashy_Synthetic",
+    "Variants": {
+      "Default": {
+        "Model": "Cosmetics/Overpants/Long_Socks.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overpants/Long_Socks_Textures/LegWarmers.png",
+        "NameKey": "avatarCustomization.variants.default",
+        "Icon": "CharacterCreator/VariantIcons/Patterns/Plain.png"
+      },
+      "BlackStripes": {
+        "Model": "Cosmetics/Overpants/Long_Socks.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Overpants/Long_Socks_Textures/LegWarmers_BlackStripes.png",
+        "NameKey": "avatarCustomization.variants.pattern.striped_black",
+        "Icon": "CharacterCreator/VariantIcons/Patterns/BlackDoubleStripe.png"
+      }
+    }
+  },
+  {
+    "Id": "ToiletPaper_Socks",
+    "Name": "avatarCustomization.overpants.ToiletPaper_Socks.name",
+    "Model": "Cosmetics/Overpants/ToiletPaperSocks.blockymodel",
+    "Textures": {
+      "Default": {
+        "Texture": "Cosmetics/Overpants/ToiletPaperSocks_Textures/ToiletPaperSocks.png",
+        "BaseColor": [
+          "#ece9e9"
+        ]
+      }
+    },
+    "Entitlements": [
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "Id": "GoblinThief_LegWraps",
+    "Name": "avatarCustomization.overpants.GoblinThief_LegWraps.name",
+    "Model": "Cosmetics/Overpants/GoblinWrapSocks.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Overpants/GoblinWrap_Socks.png",
+    "GradientSet": "Fantasy_Cotton_Dark",
+    "Entitlements": [
+      "game.founder"
+    ]
   }
 ]

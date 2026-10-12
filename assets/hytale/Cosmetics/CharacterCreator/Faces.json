@@ -114,11 +114,14 @@
     "GradientSet": "Skin"
   },
   {
-    "Name": "avatarCustomization.faces.Face_MakeUp_Eyeliner.name",
+    "Name": "avatarCustomization.faces.Face_MakeUp_Mascara.name",
+    "FallbackPartIds": [
+      "Face_MakeUp_HeavyEyeliner"
+    ],
     "Model": "Characters/Body_Attachments/Faces/Player_Face_Detached.blockymodel",
     "GreyscaleTexture": "Characters/Body_Attachments/Faces/Faces_Detached_Textures/MakeUp_Face10.png",
     "GradientSet": "Skin",
-    "Id": "Face_MakeUp_HeavyEyeliner"
+    "Id": "Face_MakeUp_Mascara"
   },
   {
     "Name": "avatarCustomization.faces.Face_MakeUp_Blush.name",
@@ -126,5 +129,47 @@
     "GreyscaleTexture": "Characters/Body_Attachments/Faces/Faces_Detached_Textures/MakeUp_Face11.png",
     "GradientSet": "Skin",
     "Id": "Face_Makeup_Blush"
+  },
+  {
+    "Name": "avatarCustomization.faces.Face_Eyelashes.name",
+    "Model": "Characters/Body_Attachments/Faces/Player_Face_Detached.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Faces/Faces_Detached_Textures/MakeUp_Face12.png",
+    "GradientSet": "Skin",
+    "Id": "Face_Eyelashes"
+  },
+  {
+    "Name": "avatarCustomization.faces.Face_Eyelashes_Silver.name",
+    "Model": "Characters/Body_Attachments/Faces/Player_Face_Detached.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Faces/Faces_Detached_Textures/MakeUp_WhiteLashes.png",
+    "GradientSet": "Skin",
+    "Id": "Face_Eyelashes_White"
+  },
+  {
+    "Name": "avatarCustomization.faces.Face_Eyelashes_Blond.name",
+    "Model": "Characters/Body_Attachments/Faces/Player_Face_Detached.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Faces/Faces_Detached_Textures/MakeUp_BlondLashes.png",
+    "GradientSet": "Skin",
+    "Id": "Face_Eyelashes_Blond"
+  },
+  {
+    "Name": "avatarCustomization.faces.Face_Eyelashes_Bottom.name",
+    "Model": "Characters/Body_Attachments/Faces/Player_Face_Detached.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Faces/Faces_Detached_Textures/MakeUp_Face_BottomLashes.png",
+    "GradientSet": "Skin",
+    "Id": "Face_Eyelashes_Bottom"
+  },
+  {
+    "Name": "avatarCustomization.faces.Face_Eyelashes_Top.name",
+    "Model": "Characters/Body_Attachments/Faces/Player_Face_Detached.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Faces/Faces_Detached_Textures/MakeUp_Face_TopLashes.png",
+    "GradientSet": "Skin",
+    "Id": "Face_Eyelashes_Top"
+  },
+  {
+    "Name": "avatarCustomization.faces.Face_Goblin.name",
+    "Model": "Characters/Body_Attachments/Faces/Player_Face_Detached.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Faces/Faces_Detached_Textures/Face_Goblin.png",
+    "GradientSet": "Skin",
+    "Id": "Face_Goblin"
   }
 ]

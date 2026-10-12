@@ -15,11 +15,25 @@
     "GradientSet": "Eyes_Gradient"
   },
   {
+    "Name": "avatarCustomization.eyes.Shiny_Eyes.name",
+    "Model": "Characters/Body_Attachments/Eyes/Eyes_Shiny.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Eyes/Eyes_Textures/Eyes_Shiny.png",
+    "GradientSet": "Eyes_Gradient",
+    "Id": "Shiny_Eyes"
+  },
+  {
     "Name": "avatarCustomization.eyes.Plain_Eyes.name",
     "Model": "Characters/Body_Attachments/Eyes/Eyes.blockymodel",
     "GreyscaleTexture": "Characters/Body_Attachments/Eyes/Eyes_Textures/Plain_Greyscale.png",
     "GradientSet": "Eyes_Gradient",
     "Id": "Plain_Eyes"
+  },
+  {
+    "Name": "avatarCustomization.eyes.Balanced_Square_Eyes.name",
+    "Model": "Characters/Body_Attachments/Eyes/Eyes_HalfPixel.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Eyes/Eyes_Textures/Eyes_Empty_Highlight.png",
+    "GradientSet": "Eyes_Gradient",
+    "Id": "Plain_Square_Eyes"
   },
   {
     "Name": "avatarCustomization.eyes.Almond_Eyes.name",
@@ -64,10 +78,17 @@
     "GradientSet": "Eyes_Gradient"
   },
   {
-    "Name": "avatarCustomization.eyes.Balanced_Square_Eyes.name",
-    "Model": "Characters/Body_Attachments/Eyes/Eyes_HalfPixel.blockymodel",
-    "GreyscaleTexture": "Characters/Body_Attachments/Eyes/Eyes_Textures/Plain_Square.png",
-    "GradientSet": "Eyes_Gradient",
-    "Id": "Plain_Square_Eyes"
+    "Id": "GlassyEyes",
+    "Name": "avatarCustomization.eyes.Glassy_Eyes.name",
+    "Model": "Characters/Body_Attachments/Eyes/Eyes_Glassy.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Eyes/Eyes_Textures/Black_Sclera.png",
+    "GradientSet": "Eyes_Gradient"
+  },
+  {
+    "Id": "Goblin_Eyes",
+    "Name": "avatarCustomization.eyes.Goblin_Eyes.name",
+    "Model": "Characters/Body_Attachments/Eyes/Eyes.blockymodel",
+    "GreyscaleTexture": "Characters/Body_Attachments/Eyes/Eyes_Textures/Goblin_Eye.png",
+    "GradientSet": "Eyes_Gradient"
   }
 ]
