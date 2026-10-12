@@ -95,6 +95,7 @@ pub fn render_hytale(
 		width,
 		height,
 		&renderer.tint_config,
+		&renderer.particles,
 	)
 	.map_err(|e| JsValue::from_str(&format!("Render error: {}", e)))?;
 

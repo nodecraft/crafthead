@@ -25,15 +25,19 @@ pub struct CosmeticDefinition {
 	pub textures: Option<HashMap<String, TextureVariant>>,
 	/// Head accessory type for hair culling: "Simple", "HalfCovering", "FullyCovering"
 	pub head_accessory_type: Option<String>,
-	/// Character part category to disable when this cosmetic is equipped (e.g., "Haircut")
-	pub disable_character_part_category: Option<String>,
+	/// Skin slots this cosmetic covers (e.g. "Haircut", "Ears", "EarAccessory", "Eyebrows")
+	pub hides_skin_properties: Option<Vec<String>>,
+	/// Mount point precedence: a part snaps to same-named mount points of higher-priority parts
+	pub priority: Option<i32>,
+	pub particles: Option<Vec<crate::particles::ModelParticle>>,
 }
 
 /// Texture variant with direct texture and base color
 #[derive(Debug, Clone, Deserialize)]
 #[serde(rename_all = "PascalCase")]
 pub struct TextureVariant {
-	pub texture: String,
+	/// Optional because shipped data contains empty entries (Pants.json Dungarees.ShortDungareesOneShoulder)
+	pub texture: Option<String>,
 	pub base_color: Option<Vec<String>>,
 }
 
@@ -330,7 +334,9 @@ mod tests {
 			variants: None,
 			textures: None,
 			head_accessory_type: None,
-			disable_character_part_category: None,
+			hides_skin_properties: None,
+			priority: None,
+			particles: None,
 		}
 	}
 
@@ -400,5 +406,19 @@ mod tests {
 		let res = resolve_part(&map, "OldId").unwrap();
 		assert_eq!(res.def.id, "Variant_Level_Target");
 		assert_eq!(res.forced_variant.as_deref(), Some("V1"));
+	}
+
+	#[test]
+	fn bundled_character_creator_data_loads() {
+		// Game updates change this schema; a single unparseable entry fails every 3D render.
+		let root = concat!(env!("CARGO_MANIFEST_DIR"), "/../../assets/hytale");
+		let provider = crate::asset_provider::FileAssetProvider::new(root);
+		let registry = CosmeticRegistry::load_from_provider(&provider, root).unwrap();
+
+		let blindfold = registry.face_accessories.get("Blindfold").unwrap();
+		assert_eq!(
+			blindfold.hides_skin_properties.as_deref(),
+			Some(&["Eyebrows".to_string()][..])
+		);
 	}
 }

@@ -15,6 +15,22 @@ import type { Readable } from 'node:stream';
 
 const ZIP_PATH = 'assets/Assets.zip';
 const OUTPUT_DIR = 'assets/hytale';
+// Bundled with the worker (tracked in git), unlike Common/ which goes to R2.
+const PARTICLE_MANIFEST_PATH = path.join(OUTPUT_DIR, 'Particles', 'CosmeticParticles.json');
+const PARTICLE_DEFINITION_PATTERN = 'Server/Particles/**/*.{particlesystem,particlespawner}';
+
+interface ParticleSystemJson {
+	Spawners?: { SpawnerId?: string; }[];
+}
+
+interface ParticleSpawnerJson {
+	Particle?: { Texture?: string; };
+}
+
+interface ParticleManifest {
+	Systems: Record<string, ParticleSystemJson>;
+	Spawners: Record<string, ParticleSpawnerJson>;
+}
 
 type Patchline = 'release' | 'pre-release';
 
@@ -111,6 +127,103 @@ function matchesPattern(filePath: string, patterns: string[]): boolean {
 }
 
 /**
+ * Visit every file entry in the zip, one at a time, so entries can be streamed without buffering the archive
+ */
+async function forEachZipEntry(
+	zipPath: string,
+	handleEntry: (zipfile: yauzl.ZipFile, entry: yauzl.Entry) => Promise<void>,
+): Promise<void> {
+	const zipfile = await openZip(zipPath, { lazyEntries: true });
+
+	zipfile.readEntry();
+	zipfile.on('entry', async (entry: yauzl.Entry) => {
+		if (!/\/$/.test(entry.fileName)) {
+			try {
+				await handleEntry(zipfile, entry);
+			} catch (error) {
+				console.error(`✗ Error processing ${entry.fileName}:`, error);
+			}
+		}
+		zipfile.readEntry();
+	});
+
+	await new Promise<void>((resolve, reject) => {
+		zipfile.on('end', () => {
+			resolve();
+		});
+		zipfile.on('error', (err) => {
+			reject(err);
+		});
+	});
+}
+
+async function extractEntry(zipfile: yauzl.ZipFile, entry: yauzl.Entry): Promise<void> {
+	const outputPath = path.join(OUTPUT_DIR, entry.fileName);
+	await fs.mkdir(path.dirname(outputPath), { recursive: true });
+	const readStream = await openReadStream(zipfile, entry);
+	await pipeline(readStream, createWriteStream(outputPath));
+	console.log(`✓ Extracted: ${entry.fileName}`);
+}
+
+async function readEntryText(zipfile: yauzl.ZipFile, entry: yauzl.Entry): Promise<string> {
+	const readStream = await openReadStream(zipfile, entry);
+	const chunks: Buffer[] = [];
+	// yauzl streams never settle under async iteration or stream/consumers, so collect via events.
+	await new Promise<void>((resolve, reject) => {
+		readStream.on('data', (chunk: Buffer) => chunks.push(chunk));
+		readStream.on('end', resolve);
+		readStream.on('error', reject);
+	});
+	return Buffer.concat(chunks).toString('utf8');
+}
+
+/**
+ * Build a manifest of the particle systems and spawners referenced by CharacterCreator cosmetics
+ */
+async function buildParticleManifest(
+	systems: Map<string, ParticleSystemJson>,
+	spawners: Map<string, ParticleSpawnerJson>,
+): Promise<ParticleManifest> {
+	const characterCreatorDir = path.join(OUTPUT_DIR, 'Cosmetics', 'CharacterCreator');
+	const manifest: ParticleManifest = { Systems: {}, Spawners: {} };
+
+	for (const fileName of await fs.readdir(characterCreatorDir)) {
+		if (!fileName.endsWith('.json')) {
+			continue;
+		}
+		const buffer = await fs.readFile(path.join(characterCreatorDir, fileName));
+		const content: unknown = JSON.parse(buffer.toString('utf8'));
+		if (!Array.isArray(content)) {
+			continue;
+		}
+		for (const definition of content as { Particles?: { SystemId?: string; }[]; }[]) {
+			for (const particle of definition.Particles ?? []) {
+				const systemId = particle.SystemId;
+				if (!systemId || manifest.Systems[systemId]) {
+					continue;
+				}
+				const system = systems.get(systemId);
+				if (!system) {
+					console.warn(`Particle system not found: ${systemId}`);
+					continue;
+				}
+				manifest.Systems[systemId] = system;
+				for (const { SpawnerId: spawnerId } of system.Spawners ?? []) {
+					const spawner = spawnerId ? spawners.get(spawnerId) : undefined;
+					if (spawnerId && spawner) {
+						manifest.Spawners[spawnerId] = spawner;
+					} else {
+						console.warn(`Particle spawner not found: ${spawnerId} (system ${systemId})`);
+					}
+				}
+			}
+		}
+	}
+
+	return manifest;
+}
+
+/**
  * Extract files from zip matching glob patterns
  */
 async function extractAssets(): Promise<void> {
@@ -152,77 +265,53 @@ async function extractAssets(): Promise<void> {
 	// Ensure output directory exists
 	await fs.mkdir(OUTPUT_DIR, { recursive: true });
 
-	// Validate glob patterns
-	if (GLOB_PATTERNS.length === 0) {
-		console.warn('Warning: No glob patterns defined. No files will be extracted.');
-		console.warn('Please add patterns to GLOB_PATTERNS array in the script.');
-		return;
-	}
-
 	console.log(`Opening zip file: ${zipPathToUse}`);
 	console.log(`Extracting files matching patterns: ${GLOB_PATTERNS.join(', ')}`);
 	console.log(`Output directory: ${OUTPUT_DIR}\n`);
 
-	// Open zip file
-	const zipfile = await openZip(zipPathToUse, { lazyEntries: true });
-
 	let extractedCount = 0;
-	let skippedCount = 0;
+	const particleSystems = new Map<string, ParticleSystemJson>();
+	const particleSpawners = new Map<string, ParticleSpawnerJson>();
 
-	// Process each entry in the zip
-	zipfile.readEntry();
-	zipfile.on('entry', async (entry: yauzl.Entry) => {
-		// Skip directories
-		if (/\/$/.test(entry.fileName)) {
-			zipfile.readEntry();
-			return;
-		}
-
-		// Check if entry matches any glob pattern
-		if (!matchesPattern(entry.fileName, GLOB_PATTERNS)) {
-			skippedCount++;
-			zipfile.readEntry();
-			return;
-		}
-
-		try {
-			// Determine output path
-			const outputPath = path.join(OUTPUT_DIR, entry.fileName);
-			const outputDir = path.dirname(outputPath);
-
-			// Create parent directories if needed
-			await fs.mkdir(outputDir, { recursive: true });
-
-			// Stream entry to output file
-			const readStream = await openReadStream(zipfile, entry);
-			const writeStream = createWriteStream(outputPath);
-
-			await pipeline(readStream, writeStream);
-
+	await forEachZipEntry(zipPathToUse, async (zipfile, entry) => {
+		if (matchesPattern(entry.fileName, GLOB_PATTERNS)) {
+			await extractEntry(zipfile, entry);
 			extractedCount++;
-			console.log(`✓ Extracted: ${entry.fileName}`);
-
-			// Read next entry
-			zipfile.readEntry();
-		} catch (error) {
-			console.error(`✗ Error extracting ${entry.fileName}:`, error);
-			zipfile.readEntry();
+		} else if (matchesPattern(entry.fileName, [PARTICLE_DEFINITION_PATTERN])) {
+			const json: unknown = JSON.parse(await readEntryText(zipfile, entry));
+			// Particle asset IDs are file names, so definitions are keyed by base name.
+			const [id, extension] = path.posix.basename(entry.fileName).split('.');
+			if (extension === 'particlesystem') {
+				particleSystems.set(id, json as ParticleSystemJson);
+			} else {
+				particleSpawners.set(id, json as ParticleSpawnerJson);
+			}
 		}
 	});
 
-	// Wait for zip processing to complete
-	await new Promise<void>((resolve, reject) => {
-		zipfile.on('end', () => {
-			resolve();
+	const manifest = await buildParticleManifest(particleSystems, particleSpawners);
+	await fs.mkdir(path.dirname(PARTICLE_MANIFEST_PATH), { recursive: true });
+	await fs.writeFile(PARTICLE_MANIFEST_PATH, `${JSON.stringify(manifest, null, '\t')}\n`);
+	console.log(`✓ Wrote ${PARTICLE_MANIFEST_PATH} (${Object.keys(manifest.Systems).length} systems)`);
+
+	// Particle textures are only known once the manifest is resolved, so they need a second pass.
+	const particleTextures = new Set<string>();
+	for (const spawner of Object.values(manifest.Spawners)) {
+		if (spawner.Particle?.Texture) {
+			particleTextures.add(`Common/${spawner.Particle.Texture}`);
+		}
+	}
+	if (particleTextures.size > 0) {
+		await forEachZipEntry(zipPathToUse, async (zipfile, entry) => {
+			if (particleTextures.has(normalizePath(entry.fileName))) {
+				await extractEntry(zipfile, entry);
+				extractedCount++;
+			}
 		});
-		zipfile.on('error', (err) => {
-			reject(err);
-		});
-	});
+	}
 
 	console.log('\nExtraction complete!');
 	console.log(`  Extracted: ${extractedCount} files`);
-	console.log(`  Skipped: ${skippedCount} files`);
 }
 
 // Run the extraction

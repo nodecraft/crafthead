@@ -216,11 +216,23 @@ export async function renderAvatar(incomingRequest: Request, request: CraftheadR
 				: `assets/Common/${assetPath}`;
 			return { providerPath, bytes: new Uint8Array(data) };
 		});
+		// Particles are decorative, so a missing texture should drop the effect rather than fail the whole render.
+		const particleAssetPromises = requiredAssets.particleTextures.map(async (assetPath) => {
+			try {
+				const data = await limit(() => readAssetFile(assetPath, env, ctx));
+				return { providerPath: `assets/${assetPath}`, bytes: new Uint8Array(data) };
+			} catch (error) {
+				console.warn(`Skipping particle texture ${assetPath}:`, error);
+				return null;
+			}
+		});
 
-		const results = await Promise.all(skinAssetPromises);
+		const results = await Promise.all([...skinAssetPromises, ...particleAssetPromises]);
 		for (const result of results) {
-			assetPaths.push(result.providerPath);
-			assetBytes.push(result.bytes);
+			if (result) {
+				assetPaths.push(result.providerPath);
+				assetBytes.push(result.bytes);
+			}
 		}
 
 		const viewType = mapRequestedKindToViewType(request.requested);

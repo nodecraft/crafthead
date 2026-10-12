@@ -1,7 +1,7 @@
 use crate::{
 	animation, camera,
 	cosmetic_attachment::{self, TintedFace},
-	cosmetics, models, renderer, scene, skin, texture,
+	cosmetics, models, particles, renderer, scene, skin, texture,
 };
 use std::collections::HashMap;
 use std::path::Path;
@@ -56,7 +56,6 @@ pub enum HeadAccessoryCulling {
 	None,          // Simple accessories - no culling
 	HalfCovering,  // Partial hair culling
 	FullyCovering, // Strict hair culling
-	DisableHair,   // Complete hair removal
 }
 
 pub struct BodyRenderer {
@@ -69,6 +68,8 @@ pub struct BodyRenderer {
 	pub player_texture_dimensions: (u32, u32),
 	pub active_head_accessory_culling: Option<HeadAccessoryCulling>,
 	pub hair_face_range: Option<(usize, usize)>, // (start_index, end_index) of hair faces
+	pub mount_points: cosmetic_attachment::MountPoints,
+	pub particles: Vec<particles::ParticleSprite>,
 }
 
 impl BodyRenderer {
@@ -112,6 +113,8 @@ impl BodyRenderer {
 			player_texture_dimensions,
 			active_head_accessory_culling: None,
 			hair_face_range: None,
+			mount_points: HashMap::new(),
+			particles: Vec::new(),
 		})
 	}
 
@@ -137,6 +140,8 @@ impl BodyRenderer {
 			player_texture_dimensions,
 			active_head_accessory_culling: None,
 			hair_face_range: None,
+			mount_points: HashMap::new(),
+			particles: Vec::new(),
 		})
 	}
 
@@ -319,7 +324,59 @@ impl BodyRenderer {
 
 		self.attach_base_body();
 		self.attach_from_skin_config(config, Some(asset_provider));
+		self.particles = self.snapshot_particles(config, asset_provider, asset_root);
 		Ok(())
+	}
+
+	fn snapshot_particles(
+		&self,
+		config: &skin::SkinConfig,
+		asset_provider: &dyn crate::asset_provider::AssetProvider,
+		asset_root: &str,
+	) -> Vec<particles::ParticleSprite> {
+		// Head accessories are the only cosmetics that ship particles so far.
+		let model_particles = config
+			.skin
+			.head_accessory
+			.as_deref()
+			.and_then(|id| {
+				cosmetics::resolve_part(&self.registry.head_accessories, id.split('.').next()?)
+			})
+			.and_then(|part| part.def.particles.as_deref());
+		let Some(model_particles) = model_particles else {
+			return Vec::new();
+		};
+		let manifest = asset_provider
+			.load_bytes(&format!("{}/{}", asset_root, particles::MANIFEST_PATH))
+			.ok()
+			.and_then(|bytes| serde_json::from_slice::<particles::ParticleManifest>(&bytes).ok());
+		let Some(manifest) = manifest else {
+			return Vec::new();
+		};
+		particles::snapshot(
+			model_particles,
+			&manifest,
+			&self.scene.nodes,
+			asset_provider,
+			asset_root,
+		)
+	}
+
+	fn hidden_skin_slots(&self, config: &skin::SkinConfig) -> Vec<String> {
+		[
+			(
+				config.skin.head_accessory.as_deref(),
+				&self.registry.head_accessories,
+			),
+			(
+				config.skin.face_accessory.as_deref(),
+				&self.registry.face_accessories,
+			),
+		]
+		.into_iter()
+		.filter_map(|(id, registry)| cosmetics::resolve_part(registry, id?.split('.').next()?))
+		.flat_map(|part| part.def.hides_skin_properties.clone().unwrap_or_default())
+		.collect()
 	}
 
 	fn attach_from_skin_config(
@@ -328,6 +385,9 @@ impl BodyRenderer {
 		asset_provider: Option<&dyn crate::asset_provider::AssetProvider>,
 	) {
 		let asset_provider = asset_provider;
+		let hidden_slots = self.hidden_skin_slots(config);
+		let is_hidden = |slot: &str| hidden_slots.iter().any(|s| s == slot);
+
 		// Filter out Head front face when Face cosmetic is present
 		if config.skin.face.is_some() {
 			self.faces.retain(|render_face| {
@@ -347,6 +407,7 @@ impl BodyRenderer {
 				&self.scene,
 				&mut self.faces,
 				&mut self.shapes,
+				&mut self.mount_points,
 				&self.tint_config,
 				asset_provider,
 			);
@@ -359,11 +420,17 @@ impl BodyRenderer {
 				&self.scene,
 				&mut self.faces,
 				&mut self.shapes,
+				&mut self.mount_points,
 				&self.tint_config,
 				asset_provider,
 			);
 		}
-		if let Some(ref fid) = config.skin.eyebrows {
+		if let Some(fid) = config
+			.skin
+			.eyebrows
+			.as_ref()
+			.filter(|_| !is_hidden("Eyebrows"))
+		{
 			cosmetic_attachment::attach_cosmetic_with_provider(
 				fid,
 				&self.registry.eyebrows,
@@ -371,6 +438,7 @@ impl BodyRenderer {
 				&self.scene,
 				&mut self.faces,
 				&mut self.shapes,
+				&mut self.mount_points,
 				&self.tint_config,
 				asset_provider,
 			);
@@ -383,6 +451,7 @@ impl BodyRenderer {
 				&self.scene,
 				&mut self.faces,
 				&mut self.shapes,
+				&mut self.mount_points,
 				&self.tint_config,
 				asset_provider,
 			);
@@ -397,12 +466,13 @@ impl BodyRenderer {
 					&self.scene,
 					&mut self.faces,
 					&mut self.shapes,
+					&mut self.mount_points,
 					&self.tint_config,
 					asset_provider,
 				);
 			}
 		}
-		if let Some(ref id) = config.skin.ears {
+		if let Some(id) = config.skin.ears.as_ref().filter(|_| !is_hidden("Ears")) {
 			cosmetic_attachment::attach_cosmetic_with_provider(
 				id,
 				&self.registry.ears,
@@ -410,13 +480,19 @@ impl BodyRenderer {
 				&self.scene,
 				&mut self.faces,
 				&mut self.shapes,
+				&mut self.mount_points,
 				&self.tint_config,
 				asset_provider,
 			);
 		}
 
 		// Haircut logic
-		if let Some(ref haircut_str) = config.skin.haircut {
+		if let Some(haircut_str) = config
+			.skin
+			.haircut
+			.as_ref()
+			.filter(|_| !is_hidden("Haircut"))
+		{
 			// Track face count before attaching hair
 			let hair_start_index = self.faces.len();
 
@@ -436,6 +512,7 @@ impl BodyRenderer {
 								&self.scene,
 								&mut self.faces,
 								&mut self.shapes,
+								&mut self.mount_points,
 								&self.tint_config,
 								asset_provider,
 							);
@@ -456,6 +533,7 @@ impl BodyRenderer {
 								&self.scene,
 								&mut self.faces,
 								&mut self.shapes,
+								&mut self.mount_points,
 								&self.tint_config,
 								asset_provider,
 							);
@@ -473,6 +551,7 @@ impl BodyRenderer {
 						&self.scene,
 						&mut self.faces,
 						&mut self.shapes,
+						&mut self.mount_points,
 						&self.tint_config,
 						asset_provider,
 					);
@@ -496,6 +575,7 @@ impl BodyRenderer {
 				&self.scene,
 				&mut self.faces,
 				&mut self.shapes,
+				&mut self.mount_points,
 				&self.tint_config,
 				asset_provider,
 			);
@@ -510,6 +590,7 @@ impl BodyRenderer {
 				&self.scene,
 				&mut self.faces,
 				&mut self.shapes,
+				&mut self.mount_points,
 				&self.tint_config,
 				asset_provider,
 			);
@@ -524,13 +605,19 @@ impl BodyRenderer {
 				&self.scene,
 				&mut self.faces,
 				&mut self.shapes,
+				&mut self.mount_points,
 				&self.tint_config,
 				asset_provider,
 			);
 		}
 
 		// Ear Accessory
-		if let Some(ref id_full) = config.skin.ear_accessory {
+		if let Some(id_full) = config
+			.skin
+			.ear_accessory
+			.as_ref()
+			.filter(|_| !is_hidden("EarAccessory"))
+		{
 			cosmetic_attachment::attach_cosmetic_with_provider(
 				id_full,
 				&self.registry.ear_accessories,
@@ -538,6 +625,7 @@ impl BodyRenderer {
 				&self.scene,
 				&mut self.faces,
 				&mut self.shapes,
+				&mut self.mount_points,
 				&self.tint_config,
 				asset_provider,
 			);
@@ -552,6 +640,7 @@ impl BodyRenderer {
 				&self.scene,
 				&mut self.faces,
 				&mut self.shapes,
+				&mut self.mount_points,
 				&self.tint_config,
 				asset_provider,
 			);
@@ -564,17 +653,12 @@ impl BodyRenderer {
 				cosmetics::resolve_part(&self.registry.head_accessories, cosmetic_id).map(|r| r.def)
 			{
 				// Determine culling mode from accessory definition
-				self.active_head_accessory_culling = Some(
-					if def.disable_character_part_category.as_deref() == Some("Haircut") {
-						HeadAccessoryCulling::DisableHair
-					} else if def.head_accessory_type.as_deref() == Some("FullyCovering") {
-						HeadAccessoryCulling::FullyCovering
-					} else if def.head_accessory_type.as_deref() == Some("HalfCovering") {
-						HeadAccessoryCulling::HalfCovering
-					} else {
-						HeadAccessoryCulling::None
-					},
-				);
+				self.active_head_accessory_culling =
+					Some(match def.head_accessory_type.as_deref() {
+						Some("FullyCovering") => HeadAccessoryCulling::FullyCovering,
+						Some("HalfCovering") => HeadAccessoryCulling::HalfCovering,
+						_ => HeadAccessoryCulling::None,
+					});
 			}
 
 			// Track face count before attaching to identify head accessory faces
@@ -587,6 +671,7 @@ impl BodyRenderer {
 				&self.scene,
 				&mut self.faces,
 				&mut self.shapes,
+				&mut self.mount_points,
 				&self.tint_config,
 				asset_provider,
 			);
@@ -679,6 +764,7 @@ impl BodyRenderer {
 				&self.scene,
 				&mut self.faces,
 				&mut self.shapes,
+				&mut self.mount_points,
 				&self.tint_config,
 				asset_provider,
 			);
@@ -693,6 +779,7 @@ impl BodyRenderer {
 				&self.scene,
 				&mut self.faces,
 				&mut self.shapes,
+				&mut self.mount_points,
 				&self.tint_config,
 				asset_provider,
 			);
@@ -707,6 +794,7 @@ impl BodyRenderer {
 				&self.scene,
 				&mut self.faces,
 				&mut self.shapes,
+				&mut self.mount_points,
 				&self.tint_config,
 				asset_provider,
 			);
@@ -721,6 +809,7 @@ impl BodyRenderer {
 				&self.scene,
 				&mut self.faces,
 				&mut self.shapes,
+				&mut self.mount_points,
 				&self.tint_config,
 				asset_provider,
 			);
@@ -735,6 +824,7 @@ impl BodyRenderer {
 				&self.scene,
 				&mut self.faces,
 				&mut self.shapes,
+				&mut self.mount_points,
 				&self.tint_config,
 				asset_provider,
 			);
@@ -744,10 +834,6 @@ impl BodyRenderer {
 		if let Some(ref culling_mode) = self.active_head_accessory_culling {
 			if let Some((hair_start, hair_end)) = self.hair_face_range {
 				match culling_mode {
-					HeadAccessoryCulling::DisableHair => {
-						// Remove ALL hair faces in the tracked range
-						self.faces.drain(hair_start..hair_end);
-					}
 					HeadAccessoryCulling::FullyCovering | HeadAccessoryCulling::HalfCovering => {
 						// Apply part-based culling only to hair faces
 						cosmetic_attachment::apply_hair_culling_to_range(
@@ -781,6 +867,7 @@ impl BodyRenderer {
 			output_width,
 			output_height,
 			&self.tint_config,
+			&self.particles,
 		)
 	}
 }
