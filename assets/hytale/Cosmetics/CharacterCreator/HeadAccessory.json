@@ -213,9 +213,22 @@
     "HeadAccessoryType": "HalfCovering",
     "Id": "WitchHat",
     "Name": "avatarCustomization.headaccessory.WitchHat.name",
-    "Model": "Cosmetics/Head/PointyHat.blockymodel",
-    "GreyscaleTexture": "Cosmetics/Head/StrawHat_Textures/WitchHat_Greyscale_Texture.png",
-    "GradientSet": "Fantasy_Cotton_Dark"
+    "Model": "Cosmetics/Head/WitchHat.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/WitchHat_Texture.png",
+    "GradientSet": "Fantasy_Cotton_Dark",
+    "Variants": {
+      "No_Buckle": {
+        "NameKey": "avatarCustomization.variants.headaccessory.WitchHat_No_Buckle.name",
+        "Model": "Cosmetics/Head/WitchHat.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Head/WitchHat_Texture.png",
+        "FallbackPartId": "WitchHat"
+      },
+      "Buckle": {
+        "NameKey": "avatarCustomization.variants.headaccessory.WitchHat_Buckle.name",
+        "Model": "Cosmetics/Head/WitchHat.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Head/WitchHat_Buckle_Texture.png"
+      }
+    }
   },
   {
     "HeadAccessoryType": "HalfCovering",
@@ -365,12 +378,19 @@
     "Id": "TopHat",
     "Name": "avatarCustomization.headaccessory.TopHat.name",
     "Model": "Cosmetics/Head/TopHat.blockymodel",
-    "Textures": {
-      "Red": {
-        "Texture": "Cosmetics/Head/TopHat_Red.png",
-        "BaseColor": [
-          "#9c1d1d"
-        ]
+    "GreyscaleTexture": "Cosmetics/Head/TopHat_Band_Greyscale.png",
+    "GradientSet": "Shiny_Fabric",
+    "Variants": {
+      "Band": {
+        "NameKey": "avatarCustomization.variants.headaccessory.TopHat_Band.name",
+        "Model": "Cosmetics/Head/TopHat.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Head/TopHat_Band_Greyscale.png",
+        "FallbackPartId": "TopHat"
+      },
+      "All": {
+        "NameKey": "avatarCustomization.variants.headaccessory.TopHat_All.name",
+        "Model": "Cosmetics/Head/TopHat.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Head/TopHat_Greyscale.png"
       }
     }
   },
@@ -406,7 +426,19 @@
     "HidesSkinProperties": [
       "Ears",
       "EarAccessory"
-    ]
+    ],
+    "Variants": {
+      "Default": {
+        "NameKey": "avatarCustomization.variants.default",
+        "Model": "Cosmetics/Head/LeatherCap.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Head/LeatherCap_texture.png"
+      },
+      "Inverted": {
+        "NameKey": "avatarCustomization.variants.style.inverted",
+        "Model": "Cosmetics/Head/LeatherCap.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Head/LeatherCap_alt.png"
+      }
+    }
   },
   {
     "HeadAccessoryType": "Simple",
@@ -432,8 +464,21 @@
     "GreyscaleTexture": "Cosmetics/Head/Head_Bandage_Textures/Head_Bandage_White.png",
     "GradientSet": "Fantasy_Cotton",
     "HidesSkinProperties": [
-      "Haircut"
-    ]
+      "Haircut",
+      "Ears",
+      "EarAccessory"
+    ],
+    "HeadAccessoryType": "FullyCovering"
+  },
+  {
+    "Id": "Bandage_Bandana",
+    "LiveConfigFlag": "enable_cosmetics_halloween_2026",
+    "Name": "avatarCustomization.headaccessory.BandageBandana.name",
+    "Model": "Cosmetics/Head/Bandage_Bandana.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/Head_Bandage_Textures/Head_Bandage_Bandana.png",
+    "GradientSet": "Fantasy_Cotton",
+    "IsDefaultAsset": false,
+    "HeadAccessoryType": "Simple"
   },
   {
     "HeadAccessoryType": "Simple",
@@ -851,21 +896,21 @@
       "game.founder"
     ],
     "Particles": [
-            {
-              "SystemId": "Cosmetic_Stink",
-              "TargetNodeName": "Head",
-              "Scale": 1,
-              "RotationOffset": {
-                    "Yaw": 0,
-                    "Pitch": 0,
-                    "Roll": 0
-              },
-              "PositionOffset": {
-                "Y": 0.3,
-                "Z": 0
-              }
-            }
-          ]
+      {
+        "SystemId": "Cosmetic_Stink",
+        "TargetNodeName": "Head",
+        "Scale": 1,
+        "RotationOffset": {
+          "Yaw": 0,
+          "Pitch": 0,
+          "Roll": 0
+        },
+        "PositionOffset": {
+          "Y": 0.3,
+          "Z": 0
+        }
+      }
+    ]
   },
   {
     "HeadAccessoryType": "FullyCovering",
@@ -876,11 +921,24 @@
     "GradientSet": "Fantasy_Cotton",
     "HidesSkinProperties": [
       "Ears",
-      "EarAccessory"
+      "EarAccessory",
+      "FaceAccessory"
     ],
     "Entitlements": [
       "game.founder"
-    ]
+    ],
+    "Variants": {
+      "Default": {
+        "Model": "Cosmetics/Head/GoblinCostumeHood.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Head/GoblinCostumeHood_Textures/GoblinCostumeHood_Zipped.png",
+        "NameKey": "avatarCustomization.variants.style.zipped_up"
+      },
+      "Unzipped": {
+        "Model": "Cosmetics/Head/GoblinCostumeHoodUnzipped.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Head/GoblinCostumeHood_Textures/GoblinCostumeHood_Texture.png",
+        "NameKey": "avatarCustomization.variants.style.unzipped"
+      }
+    }
   },
   {
     "HeadAccessoryType": "HalfCovering",
@@ -1009,6 +1067,375 @@
     "HidesSkinProperties": [
       "Ears",
       "EarAccessory"
+    ]
+  },
+  {
+    "HeadAccessoryType": "Simple",
+    "Id": "Horns_Large",
+    "LiveConfigFlag": "enable_cosmetics_halloween_2026",
+    "Name": "avatarCustomization.headaccessory.Horns_Large.name",
+    "Model": "Cosmetics/Head/Horns_Large.blockymodel",
+    "Textures": {
+      "Black": {
+        "Texture": "Cosmetics/Head/Horns_Large_Textures/Horns_Large_Black.png",
+        "BaseColor": [
+          "#2e2e36"
+        ]
+      },
+      "Red": {
+        "Texture": "Cosmetics/Head/Horns_Large_Textures/Horns_Large_Red.png",
+        "BaseColor": [
+          "#c33525"
+        ]
+      },
+      "Yellow": {
+        "Texture": "Cosmetics/Head/Horns_Large_Textures/Horns_Large_Yellow.png",
+        "BaseColor": [
+          "#c49a58"
+        ]
+      },
+      "White": {
+        "Texture": "Cosmetics/Head/Horns_Large_Textures/Horns_Large_White.png",
+        "BaseColor": [
+          "#ebc79e"
+        ]
+      },
+      "Brown": {
+        "Texture": "Cosmetics/Head/Horns_Large_Textures/Horns_Large_Brown.png",
+        "BaseColor": [
+          "#4b3930"
+        ]
+      },
+      "Purple": {
+        "Texture": "Cosmetics/Head/Horns_Large_Textures/Horns_Large_Purple.png",
+        "BaseColor": [
+          "#61479e"
+        ]
+      },
+      "Blue": {
+        "Texture": "Cosmetics/Head/Horns_Large_Textures/Horns_Large_Blue.png",
+        "BaseColor": [
+          "#1179ca"
+        ]
+      },
+      "Green": {
+        "Texture": "Cosmetics/Head/Horns_Large_Textures/Horns_Large_Green.png",
+        "BaseColor": [
+          "#1ea460"
+        ]
+      },
+      "Pink": {
+        "Texture": "Cosmetics/Head/Horns_Large_Textures/Horns_Large_Pink.png",
+        "BaseColor": [
+          "#dc486b"
+        ]
+      }
+    },
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "HeadAccessoryType": "Simple",
+    "Id": "Horns_Fairy",
+    "LiveConfigFlag": "enable_cosmetics_halloween_2026",
+    "Name": "avatarCustomization.headaccessory.Horns_Fairy.name",
+    "Model": "Cosmetics/Head/Horns_Fairy.blockymodel",
+    "Textures": {
+      "Purple": {
+        "Texture": "Cosmetics/Head/Horns_Fairy_Textures/Horns_Fairy_Purple.png",
+        "BaseColor": [
+          "#9776cd"
+        ]
+      },
+      "Pink": {
+        "Texture": "Cosmetics/Head/Horns_Fairy_Textures/Horns_Fairy_Pink.png",
+        "BaseColor": [
+          "#f7657c"
+        ]
+      },
+      "White": {
+        "Texture": "Cosmetics/Head/Horns_Fairy_Textures/Horns_Fairy_White.png",
+        "BaseColor": [
+          "#d3ebea"
+        ]
+      },
+      "Yellow": {
+        "Texture": "Cosmetics/Head/Horns_Fairy_Textures/Horns_Fairy_Yellow.png",
+        "BaseColor": [
+          "#fabe39"
+        ]
+      },
+      "Blue": {
+        "BaseColor": [
+          "#42a1ed"
+        ],
+        "Texture": "Cosmetics/Head/Horns_Fairy_Textures/Horns_Fairy_Blue.png"
+      }
+    },
+    "Entitlements": [
+      "game.founder"
+    ]
+  },
+  {
+    "HeadAccessoryType": "Simple",
+    "Id": "Horns_Small",
+    "LiveConfigFlag": "enable_cosmetics_halloween_2026",
+    "Name": "avatarCustomization.headaccessory.Horns_Small.name",
+    "Model": "Cosmetics/Head/Horns_Small.blockymodel",
+    "Textures": {
+      "Black": {
+        "Texture": "Cosmetics/Head/Horns_Small_Textures/Horns_Small_Black.png",
+        "BaseColor": [
+          "#2e2e36"
+        ]
+      },
+      "Red": {
+        "Texture": "Cosmetics/Head/Horns_Small_Textures/Horns_Small_Red.png",
+        "BaseColor": [
+          "#c33525"
+        ]
+      },
+      "Yellow": {
+        "Texture": "Cosmetics/Head/Horns_Small_Textures/Horns_Small_Yellow.png",
+        "BaseColor": [
+          "#c49a58"
+        ]
+      },
+      "White": {
+        "Texture": "Cosmetics/Head/Horns_Small_Textures/Horns_Small_White.png",
+        "BaseColor": [
+          "#ebc79e"
+        ]
+      },
+      "Brown": {
+        "Texture": "Cosmetics/Head/Horns_Small_Textures/Horns_Small_Brown.png",
+        "BaseColor": [
+          "#4b3930"
+        ]
+      },
+      "Purple": {
+        "Texture": "Cosmetics/Head/Horns_Small_Textures/Horns_Small_Purple.png",
+        "BaseColor": [
+          "#61479e"
+        ]
+      },
+      "Blue": {
+        "Texture": "Cosmetics/Head/Horns_Small_Textures/Horns_Small_Blue.png",
+        "BaseColor": [
+          "#1179ca"
+        ]
+      },
+      "Green": {
+        "Texture": "Cosmetics/Head/Horns_Small_Textures/Horns_Small_Green.png",
+        "BaseColor": [
+          "#1ea460"
+        ]
+      },
+      "Pink": {
+        "Texture": "Cosmetics/Head/Horns_Small_Textures/Horns_Small_Pink.png",
+        "BaseColor": [
+          "#dc486b"
+        ]
+      }
+    }
+  },
+  {
+    "HeadAccessoryType": "Simple",
+    "Id": "Horns_Medium",
+    "LiveConfigFlag": "enable_cosmetics_halloween_2026",
+    "Name": "avatarCustomization.headaccessory.Horns_Medium.name",
+    "Model": "Cosmetics/Head/Horns_Medium.blockymodel",
+    "Textures": {
+      "Black": {
+        "Texture": "Cosmetics/Head/Horns_Medium_Textures/Horns_Medium_Black.png",
+        "BaseColor": [
+          "#2e2e36"
+        ]
+      },
+      "Red": {
+        "Texture": "Cosmetics/Head/Horns_Medium_Textures/Horns_Medium_Red.png",
+        "BaseColor": [
+          "#c33525"
+        ]
+      },
+      "Yellow": {
+        "Texture": "Cosmetics/Head/Horns_Medium_Textures/Horns_Medium_Yellow.png",
+        "BaseColor": [
+          "#c49a58"
+        ]
+      },
+      "White": {
+        "Texture": "Cosmetics/Head/Horns_Medium_Textures/Horns_Medium_White.png",
+        "BaseColor": [
+          "#ebc79e"
+        ]
+      },
+      "Brown": {
+        "Texture": "Cosmetics/Head/Horns_Medium_Textures/Horns_Medium_Brown.png",
+        "BaseColor": [
+          "#4b3930"
+        ]
+      },
+      "Purple": {
+        "Texture": "Cosmetics/Head/Horns_Medium_Textures/Horns_Medium_Purple.png",
+        "BaseColor": [
+          "#61479e"
+        ]
+      },
+      "Blue": {
+        "Texture": "Cosmetics/Head/Horns_Medium_Textures/Horns_Medium_Blue.png",
+        "BaseColor": [
+          "#1179ca"
+        ]
+      },
+      "Green": {
+        "Texture": "Cosmetics/Head/Horns_Medium_Textures/Horns_Medium_Green.png",
+        "BaseColor": [
+          "#1ea460"
+        ]
+      },
+      "Pink": {
+        "Texture": "Cosmetics/Head/Horns_Medium_Textures/Horns_Medium_Pink.png",
+        "BaseColor": [
+          "#dc486b"
+        ]
+      }
+    }
+  },
+  {
+    "HeadAccessoryType": "Simple",
+    "Id": "Horns_Demonic",
+    "LiveConfigFlag": "enable_cosmetics_halloween_2026",
+    "Name": "avatarCustomization.headaccessory.Horns_Demonic.name",
+    "Model": "Cosmetics/Head/Horns_Demonic.blockymodel",
+    "Textures": {
+      "Black": {
+        "Texture": "Cosmetics/Head/Horns_Demonic_Textures/Horns_Demonic_Black.png",
+        "BaseColor": [
+          "#2e2e36"
+        ]
+      },
+      "Red": {
+        "Texture": "Cosmetics/Head/Horns_Demonic_Textures/Horns_Demonic_Red.png",
+        "BaseColor": [
+          "#c33525"
+        ]
+      },
+      "Yellow": {
+        "Texture": "Cosmetics/Head/Horns_Demonic_Textures/Horns_Demonic_Yellow.png",
+        "BaseColor": [
+          "#c49a58"
+        ]
+      },
+      "White": {
+        "Texture": "Cosmetics/Head/Horns_Demonic_Textures/Horns_Demonic_White.png",
+        "BaseColor": [
+          "#ebc79e"
+        ]
+      },
+      "Brown": {
+        "Texture": "Cosmetics/Head/Horns_Demonic_Textures/Horns_Demonic_Brown.png",
+        "BaseColor": [
+          "#4b3930"
+        ]
+      },
+      "Purple": {
+        "Texture": "Cosmetics/Head/Horns_Demonic_Textures/Horns_Demonic_Purple.png",
+        "BaseColor": [
+          "#61479e"
+        ]
+      },
+      "Blue": {
+        "Texture": "Cosmetics/Head/Horns_Demonic_Textures/Horns_Demonic_Blue.png",
+        "BaseColor": [
+          "#1179ca"
+        ]
+      },
+      "Green": {
+        "Texture": "Cosmetics/Head/Horns_Demonic_Textures/Horns_Demonic_Green.png",
+        "BaseColor": [
+          "#1ea460"
+        ]
+      },
+      "Pink": {
+        "Texture": "Cosmetics/Head/Horns_Demonic_Textures/Horns_Demonic_Pink.png",
+        "BaseColor": [
+          "#dc486b"
+        ]
+      }
+    },
+    "Entitlements": [
+      "game.deluxe",
+      "game.founder"
+    ]
+  },
+  {
+    "HeadAccessoryType": "FullyCovering",
+    "Id": "PumpkinMask",
+    "LiveConfigFlag": "enable_cosmetics_halloween_2026",
+    "Name": "avatarCustomization.headaccessory.PumpkinMask.name",
+    "Model": "Cosmetics/Head/PumpkinMask.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/PumpkinMask_Textures/PumpkinMask.png",
+    "HidesSkinProperties": [
+      "Ears",
+      "EarAccessory",
+      "FacialHair"
+    ],
+    "GradientSet": "Pastel_Cotton",
+    "Variants": {
+      "Default": {
+        "Model": "Cosmetics/Head/PumpkinMask.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Head/PumpkinMask_Textures/PumpkinMask.png",
+        "Icon": "CharacterCreator/VariantIcons/PumpkinMask/Face1.png",
+        "NameKey": "avatarCustomization.variants.face.1"
+      },
+      "Green": {
+        "Model": "Cosmetics/Head/PumpkinMask.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Head/PumpkinMask_Textures/PumpkinMask_Green.png",
+        "Icon": "CharacterCreator/VariantIcons/PumpkinMask/Face2.png",
+        "NameKey": "avatarCustomization.variants.face.2"
+      },
+      "Yellow": {
+        "Model": "Cosmetics/Head/PumpkinMask.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Head/PumpkinMask_Textures/PumpkinMask_Yellow.png",
+        "Icon": "CharacterCreator/VariantIcons/PumpkinMask/Face3.png",
+        "NameKey": "avatarCustomization.variants.face.3"
+      }
+    }
+  },
+  {
+    "HeadAccessoryType": "FullyCovering",
+    "Id": "ScarecrowMask",
+    "LiveConfigFlag": "enable_cosmetics_halloween_2026",
+    "Name": "avatarCustomization.headaccessory.ScarecrowMask.name",
+    "Model": "Cosmetics/Head/ScarecrowMask.blockymodel",
+    "HidesSkinProperties": [
+      "Ears",
+      "EarAccessory",
+      "Haircut",
+      "FacialHair",
+      "FaceAccessory"
+    ],
+    "GreyscaleTexture": "Cosmetics/Head/ScarecrowMask.png",
+    "GradientSet": "Colored_Cotton",
+    "Entitlements": [
+      "game.founder",
+      "game.deluxe"
+    ]
+  },
+  {
+    "HeadAccessoryType": "FullyCovering",
+    "Id": "Bat_Mask",
+    "LiveConfigFlag": "enable_cosmetics_halloween_2026",
+    "Name": "avatarCustomization.headaccessory.Bat_Mask.name",
+    "Model": "Cosmetics/Head/Bat_Mask.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Head/Bat_Mask_Texture.png",
+    "GradientSet": "Fantasy_Cotton",
+    "HidesSkinProperties": [
+      "Ears",
+      "EarAccessory",
+      "FaceAccessory"
     ]
   }
 ]

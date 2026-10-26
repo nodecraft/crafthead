@@ -397,7 +397,7 @@
     "Name": "avatarCustomization.overtops.PlainHoodie.name",
     "Model": "Cosmetics/Overtops/Hoodie.blockymodel",
     "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Long_Sleeve_Textures/Hoodie/Hoodie.png",
-    "GradientSet": "Fantasy_Cotton",
+    "GradientSet": "Colored_Cotton",
     "Variants": {
       "Default": {
         "Model": "Cosmetics/Overtops/Hoodie.blockymodel",
@@ -502,7 +502,7 @@
     "Name": "avatarCustomization.overtops.LongCardigan.name",
     "Model": "Cosmetics/Overtops/Overtops_Long_Waist_Sleeve.blockymodel",
     "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Long_Sleeve_Waist_Sleeve/Long_Cardigan_Greyscale.png",
-    "GradientSet": "Fantasy_Cotton",
+    "GradientSet": "Colored_Cotton",
     "Variants": {
       "Default": {
         "Model": "Cosmetics/Overtops/Overtops_Long_Waist_Sleeve.blockymodel",
@@ -583,7 +583,7 @@
     "Name": "avatarCustomization.overtops.PlainJersey.name",
     "Model": "Cosmetics/Overtops/Overtops_Long_Sleeve.blockymodel",
     "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Long_Sleeve_Textures/Plain_Jersey_Greyscale.png",
-    "GradientSet": "Fantasy_Cotton",
+    "GradientSet": "Colored_Cotton",
     "Id": "Sweater",
     "Variants": {
       "Default": {
@@ -987,7 +987,7 @@
     "Name": "avatarCustomization.overtops.Cardigan.name",
     "Model": "Cosmetics/Overtops/Overtops_Long_Waist_Sleeve.blockymodel",
     "GreyscaleTexture": "Cosmetics/Overtops/Overtops_Long_Sleeve_Waist_Sleeve/Cardigan_Greyscale.png",
-    "GradientSet": "Fantasy_Cotton",
+    "GradientSet": "Colored_Cotton",
     "Variants": {
       "Default": {
         "Model": "Cosmetics/Overtops/Overtops_Long_Waist_Sleeve.blockymodel",

@@ -526,5 +526,57 @@
     ],
     "Model": "Cosmetics/Capes/Cape_GoblinThief.blockymodel",
     "GreyscaleTexture": "Cosmetics/Capes/Cape_GoblinThief_Graffiti.png"
+  },
+  {
+    "Id": "Cape_Vampire",
+    "LiveConfigFlag": "enable_cosmetics_halloween_2026",
+    "Name": "avatarCustomization.capes.Cape_Vampire.name",
+    "Variants": {
+      "Neck_Piece": {
+        "NameKey": "avatarCustomization.variants.default",
+        "Model": "Cosmetics/Capes/Cape_Vampire.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Capes/Cape_Vampire.png"
+      },
+      "NoNeck": {
+        "NameKey": "avatarCustomization.variants.capes.no_neck",
+        "Model": "Cosmetics/Capes/Cape_Vampire_NoNeck.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Capes/Cape_Vampire.png"
+      }
+    },
+    "GradientSet": "Fantasy_Cotton",
+    "Entitlements": [
+      "game.founder"
+    ],
+    "Model": "Cosmetics/Capes/Cape_Vampire.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Capes/Cape_Vampire.png",
+    "Tags": [
+      "Fantasy"
+    ]
+  },
+  {
+    "Id": "Cape_BatWings",
+    "LiveConfigFlag": "enable_cosmetics_halloween_2026",
+    "Name": "avatarCustomization.capes.Cape_BatWings.name",
+    "Variants": {
+      "Neck_Piece": {
+        "NameKey": "avatarCustomization.variants.default",
+        "GreyscaleTexture": "Cosmetics/Capes/Cape_BatWings.png",
+        "Model": "Cosmetics/Capes/Cape_BatWings.blockymodel"
+      },
+      "NoNeck": {
+        "NameKey": "avatarCustomization.variants.capes.no_neck",
+        "Model": "Cosmetics/Capes/Cape_BatWings_NoNeck.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Capes/Cape_BatWings.png"
+      }
+    },
+    "GradientSet": "Fantasy_Cotton",
+    "Entitlements": [
+      "game.founder"
+    ],
+    "Model": "Cosmetics/Capes/Cape_BatWings.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Capes/Cape_BatWings.png",
+    "Tags": [
+      "Fantasy"
+    ]
   }
 ]
