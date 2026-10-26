@@ -588,7 +588,7 @@
     "Id": "HeeledFlats",
     "Name": "avatarCustomization.shoes.Heeled_Flats.name",
     "Priority": -1,
-    "Model": "Cosmetics/Shoes/Heels.blockymodel",
+    "Model": "Cosmetics/Shoes/HeeledFlats.blockymodel",
     "GreyscaleTexture": "Cosmetics/Shoes/HeeledFlats.png",
     "GradientSet": "Fantasy_Cotton"
   },

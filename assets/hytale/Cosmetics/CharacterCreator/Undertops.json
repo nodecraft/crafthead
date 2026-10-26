@@ -79,6 +79,30 @@
       }
     }
   },
+    {
+    "Id": "SleevelessButtonedShirt",
+    "Name": "avatarCustomization.undertops.Sleeveless_ButtonedShirt.name",
+    "Model": "Cosmetics/Undertops/LongSleeveShirtCollar_Sleeveless.blockymodel",
+    "GreyscaleTexture": "Cosmetics/Undertops/LongSleeveShirt_Textures/Sleeveless_ButtonedShirt.png",
+    "GradientSet": "Pastel_Cotton",
+    "Variants": {
+      "Default": {
+        "NameKey": "avatarCustomization.variants.default",
+        "Model": "Cosmetics/Undertops/LongSleeveShirtCollar_Sleeveless.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Undertops/LongSleeveShirt_Textures/ButtonedShirt.png"
+      },
+      "Striped": {
+        "NameKey": "avatarCustomization.variants.pattern.striped",
+        "Model": "Cosmetics/Undertops/LongSleeveShirtCollar_Sleeveless.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Undertops/LongSleeveShirt_Textures/ButtonedShirt_Striped.png"
+      },
+      "Grid": {
+        "NameKey": "avatarCustomization.variants.pattern.grid",
+        "Model": "Cosmetics/Undertops/LongSleeveShirtCollar_Sleeveless.blockymodel",
+        "GreyscaleTexture": "Cosmetics/Undertops/LongSleeveShirt_Textures/ButtonedShirt_Grid.png"
+      }
+    }
+  },
   {
     "Id": "HeartCamisole",
     "Name": "avatarCustomization.undertops.HeartCamisole.name",
@@ -312,7 +336,7 @@
     "Name": "avatarCustomization.undertops.Frilly_Shirt.name",
     "Model": "Cosmetics/Undertops/Tshirt.blockymodel",
     "GreyscaleTexture": "Cosmetics/Undertops/Tshirt_Textures/Frilly_Shirt.png",
-    "GradientSet": "Pastel_Cotton"
+    "GradientSet": "Colored_Cotton"
   },
   {
     "Name": "avatarCustomization.undertops.School_Ribbon_Shirt.name",
@@ -580,30 +604,6 @@
     "Model": "Cosmetics/Undertops/LongSleeveShirtAlt.blockymodel",
     "GreyscaleTexture": "Cosmetics/Undertops/LongSleeveShirt_Textures/ShortSleeveCropTop.png",
     "GradientSet": "Colored_Cotton"
-  },
-  {
-    "Id": "SleevelessButtonedShirt",
-    "Name": "avatarCustomization.undertops.Sleeveless_ButtonedShirt.name",
-    "Model": "Cosmetics/Undertops/LongSleeveShirtCollar_Sleeveless.blockymodel",
-    "GreyscaleTexture": "Cosmetics/Undertops/LongSleeveShirt_Textures/Sleeveless_ButtonedShirt.png",
-    "GradientSet": "Pastel_Cotton",
-    "Variants": {
-      "Default": {
-        "NameKey": "avatarCustomization.variants.default",
-        "Model": "Cosmetics/Undertops/LongSleeveShirtCollar_Sleeveless.blockymodel",
-        "GreyscaleTexture": "Cosmetics/Undertops/LongSleeveShirt_Textures/ButtonedShirt.png"
-      },
-      "Striped": {
-        "NameKey": "avatarCustomization.variants.pattern.striped",
-        "Model": "Cosmetics/Undertops/LongSleeveShirtCollar_Sleeveless.blockymodel",
-        "GreyscaleTexture": "Cosmetics/Undertops/LongSleeveShirt_Textures/ButtonedShirt_Striped.png"
-      },
-      "Grid": {
-        "NameKey": "avatarCustomization.variants.pattern.grid",
-        "Model": "Cosmetics/Undertops/LongSleeveShirtCollar_Sleeveless.blockymodel",
-        "GreyscaleTexture": "Cosmetics/Undertops/LongSleeveShirt_Textures/ButtonedShirt_Grid.png"
-      }
-    }
   },
   {
     "Id": "GoblinTrash_Tunic",

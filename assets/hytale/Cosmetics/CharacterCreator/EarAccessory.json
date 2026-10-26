@@ -79,6 +79,7 @@
     "Variants": {
       "Both": {
         "NameKey": "avatarCustomization.variants.earSide.both",
+        "FallbackPartId": "SilverHoopsBead",
         "Model": "Cosmetics/Head/SilverHoopsBead.blockymodel",
         "GreyscaleTexture": "Cosmetics/Head/SilverHoopsBead_Textures/SilverHoopBeads.png"
       },

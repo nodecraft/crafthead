@@ -344,7 +344,7 @@
     "Name": "avatarCustomization.pants.Frilly_Skirt.name",
     "Model": "Cosmetics/Overpants/Skirt.blockymodel",
     "GreyscaleTexture": "Cosmetics/Overpants/Skirt_Textures/Frilly_Greyscale.png",
-    "GradientSet": "Pastel_Cotton"
+    "GradientSet": "Colored_Cotton"
   },
   {
     "Name": "avatarCustomization.pants.Crinkled_Skirt.name",
