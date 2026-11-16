@@ -19,9 +19,6 @@ pub mod scene;
 pub mod skin;
 pub mod texture;
 
-#[cfg(feature = "wasm")]
-pub mod wasm;
-
 pub use error::Error;
 pub use error::Result;
 

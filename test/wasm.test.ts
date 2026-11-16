@@ -15,4 +15,8 @@ describe('wasm', async () => {
 		const skinBuf = new Uint8Array(0);
 		expect(() => mcavatar.get_rendered_image(skinBuf, 64, 'avatar', false, false, 'minecraft')).toThrowError();
 	});
+
+	it('should refuse a hytale render before its shared assets are loaded', async () => {
+		expect(() => mcavatar.render_hytale_3d(new Uint8Array(0), '{}', [], [], 'avatar', 64)).toThrowError(/load_hytale_context/);
+	});
 });

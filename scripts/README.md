@@ -1,8 +1,25 @@
 # Asset Upload Scripts
 
-This directory contains scripts for managing Hytale assets.
+This directory contains scripts for managing Hytale assets and benchmarking the renderers.
 
 ## Scripts
+
+### bench-wasm.ts
+Times the built WASM renderers outside of workerd (whose timers do not advance during CPU work) and writes every render to disk, so two builds can be compared for both speed and output.
+
+**Usage:**
+1. Extract the Hytale assets (see below); the Minecraft benchmarks run without them
+2. Render the Hytale scenarios natively. This prints per-stage timings and writes a manifest of the assets each skin needs:
+   ```bash
+   npm run bench:hytale -- target/bench/native
+   ```
+3. Build the WASM and benchmark it with the same scenarios:
+   ```bash
+   npm run build
+   npm run bench:wasm -- target/bench/wasm --manifest=target/bench/native/manifest.json
+   ```
+
+Leave out `--manifest` to benchmark only the Minecraft renderer. `--pkg=<dir>` benchmarks a saved copy of `pkg/` instead, and `--iterations=<n>` changes how many timed runs the reported median is taken from. Timings are also written to `timings.json` in the output directory.
 
 ### extract-hytale-assets.ts
 Extracts Hytale assets from the official Assets.zip file.

@@ -7,6 +7,8 @@
 	"main": "worker/index.js",
 	"type": "module",
 	"scripts": {
+		"bench:hytale": "cargo run --release --manifest-path src/hytale-skin-renderer/Cargo.toml --example render_bench --",
+		"bench:wasm": "node scripts/bench-wasm.ts",
 		"build": "wasm-pack build --release -t web",
 		"check-types": "npm run check-types:server",
 		"check-types:server": "tsc --noemit",

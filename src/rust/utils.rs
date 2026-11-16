@@ -1,5 +1,5 @@
 use cfg_if::cfg_if;
-use image::{imageops, DynamicImage, GenericImage, GenericImageView, Rgba};
+use image::{imageops, DynamicImage, GenericImage, GenericImageView, Rgba, RgbaImage};
 
 cfg_if! {
 	// When the `console_error_panic_hook` feature is enabled, we can call the
@@ -115,10 +115,140 @@ pub(crate) fn fast_overlay(bottom: &mut DynamicImage, top: &DynamicImage, x: u32
 	}
 }
 
+/// The source index sampled for each output index when scaling `source_len` up or down to `target_len`.
+fn nearest_source_indices(source_len: u32, target_len: u32) -> Vec<usize> {
+	// f32 on purpose: this has to round exactly like `image`'s resize does.
+	let ratio = source_len as f32 / target_len as f32;
+	(0..target_len)
+		.map(|target| {
+			let source = ((target as f32 + 0.5) * ratio).floor() as i64;
+			source.clamp(0, i64::from(source_len) - 1) as usize
+		})
+		.collect()
+}
+
+/// Nearest-neighbour scale to the largest size that fits `max_width` x `max_height` while
+/// keeping the aspect ratio.
+///
+/// Pixel-for-pixel the same as `DynamicImage::resize` with `FilterType::Nearest`, which is many
+/// times slower because it pushes every pixel through a general floating point convolution.
+pub(crate) fn scale_nearest(image: &RgbaImage, max_width: u32, max_height: u32) -> RgbaImage {
+	let (width, height) = image.dimensions();
+	let ratio = f64::min(
+		f64::from(max_width) / f64::from(width),
+		f64::from(max_height) / f64::from(height),
+	);
+	let scaled_width = ((f64::from(width) * ratio).round() as u32).max(1);
+	let scaled_height = ((f64::from(height) * ratio).round() as u32).max(1);
+	if width == 0 || height == 0 {
+		return RgbaImage::new(scaled_width, scaled_height);
+	}
+
+	let source_columns = nearest_source_indices(width, scaled_width);
+	let source_rows = nearest_source_indices(height, scaled_height);
+
+	let source = image.as_raw();
+	let row_len = scaled_width as usize * 4;
+	let mut scaled = Vec::with_capacity(row_len * scaled_height as usize);
+	let mut previous_source_row = None;
+	for source_row in source_rows {
+		if previous_source_row == Some(source_row) {
+			// Upscaling repeats each source row many times, so copy the row just written.
+			scaled.extend_from_within(scaled.len() - row_len..);
+		} else {
+			let row_start = source_row * width as usize * 4;
+			for &source_column in &source_columns {
+				let pixel_start = row_start + source_column * 4;
+				scaled.extend_from_slice(&source[pixel_start..pixel_start + 4]);
+			}
+		}
+		previous_source_row = Some(source_row);
+	}
+
+	RgbaImage::from_raw(scaled_width, scaled_height, scaled)
+		.expect("buffer is sized for the scaled dimensions")
+}
+
 #[cfg(test)]
 mod tests {
 	use super::*;
+	use image::imageops::FilterType;
 	use image::{Rgba, RgbaImage};
+
+	/// An image whose every pixel is distinct, so a wrongly sampled pixel always shows.
+	fn numbered_image(width: u32, height: u32) -> RgbaImage {
+		RgbaImage::from_fn(width, height, |x, y| {
+			Rgba([
+				x as u8,
+				y as u8,
+				(x * 7 + y * 13) as u8,
+				255 - (x + y) as u8,
+			])
+		})
+	}
+
+	fn reference_scale(image: &RgbaImage, max_width: u32, max_height: u32) -> RgbaImage {
+		DynamicImage::ImageRgba8(image.clone())
+			.resize(max_width, max_height, FilterType::Nearest)
+			.into_rgba8()
+	}
+
+	#[test]
+	fn test_nearest_source_indices_match_image_resize_at_every_length() {
+		// One-pixel-tall strips keep this cheap enough to cover every length a render can ask for.
+		for source_len in [8, 10, 14, 16, 32] {
+			let strip = numbered_image(source_len, 1);
+			for target_len in 1..=600 {
+				// The red channel of `numbered_image` is the source column.
+				let expected: Vec<usize> = DynamicImage::ImageRgba8(strip.clone())
+					.resize_exact(target_len, 1, FilterType::Nearest)
+					.into_rgba8()
+					.pixels()
+					.map(|pixel| usize::from(pixel[0]))
+					.collect();
+				assert_eq!(
+					nearest_source_indices(source_len, target_len),
+					expected,
+					"sampling differs scaling {} to {}",
+					source_len,
+					target_len
+				);
+			}
+		}
+	}
+
+	#[test]
+	fn test_scale_nearest_matches_image_resize_for_render_shapes() {
+		// (width, height) of everything that gets scaled: head, body, slim body, bust, slim bust, cape.
+		let shapes = [(8, 8), (16, 32), (14, 32), (16, 16), (14, 16), (10, 16)];
+		for (width, height) in shapes {
+			let image = numbered_image(width, height);
+			for size in [8, 9, 13, 16, 31, 64, 100, 180, 255, 300] {
+				for (max_width, max_height) in [(size, size), (size, size * 2)] {
+					let scaled = scale_nearest(&image, max_width, max_height);
+					let expected = reference_scale(&image, max_width, max_height);
+					assert_eq!(scaled.dimensions(), expected.dimensions());
+					assert!(
+						scaled == expected,
+						"{}x{} scaled into {}x{} differs",
+						width,
+						height,
+						max_width,
+						max_height
+					);
+				}
+			}
+		}
+	}
+
+	#[test]
+	fn test_scale_nearest_handles_empty_image() {
+		// A truncated skin can crop to nothing; the old resize returned a blank image, not a panic.
+		for (width, height) in [(0, 0), (0, 8), (8, 0)] {
+			let empty = RgbaImage::new(width, height);
+			assert!(scale_nearest(&empty, 64, 64) == reference_scale(&empty, 64, 64));
+		}
+	}
 
 	#[test]
 	fn test_is_image_region_transparent_to_minecraft_transparent() {

@@ -4,18 +4,13 @@ use image::RgbaImage;
 
 use super::math::barycentric_coords;
 
-/// A renderable face with screen coordinates (used internally for rendering)
-#[derive(Clone)]
-pub(crate) struct RenderFace {
+/// A face projected to screen space, after clipping (used internally for rendering)
+pub(crate) struct RenderFace<'a> {
 	pub screen_vertices: Vec<(f32, f32, f32)>, // (x, y, depth)
-	pub texture_face: String,
-	pub face_data: crate::geometry::Face,
-	pub shape: Option<crate::models::Shape>, // Store shape for texture layout access
-	pub part_index: usize,                   // Index to differentiate body parts for debug colors
-	pub node_name: Option<String>,           // Node name for tint mapping
-	pub texture: Option<std::sync::Arc<crate::texture::Texture>>, // Optional specific texture
-	pub tint_gradient: Option<std::sync::Arc<crate::texture::TintGradient>>, // Optional specific tint gradient
-	pub normal: Vec3, // Face normal for lighting
+	pub uvs: Vec<(f32, f32)>,                  // Per screen vertex
+	pub source: &'a super::RenderableFace,     // Shape, texture and tint are read from here
+	pub part_index: usize,                     // Index to differentiate body parts for debug colors
+	pub normal: Vec3,                          // Face normal for lighting
 }
 
 pub(crate) fn get_debug_color(face_name: &str, part_index: usize) -> image::Rgba<u8> {
@@ -54,7 +49,10 @@ pub(crate) fn render_face_to_image_debug(
 		return Ok(()); // Need at least 3 vertices for a triangle
 	}
 
-	let debug_color = get_debug_color(&render_face.texture_face, render_face.part_index);
+	let debug_color = get_debug_color(
+		&render_face.source.face.texture_face,
+		render_face.part_index,
+	);
 
 	// Render as triangles (quad = 2 triangles)
 	let vertices = &render_face.screen_vertices;

@@ -27,6 +27,7 @@ use std::sync::Arc;
 use debug::{render_face_to_image_debug, RenderFace};
 use face::render_face_to_image_tinted;
 use postprocess::apply_blur;
+use rasterizer::ShadeCache;
 
 /// Render a scene to a 2D image
 ///
@@ -208,124 +209,110 @@ fn render_scene_internal(
 	let vp_matrix = camera.view_projection_matrix(output_width, output_height);
 
 	for render_face in faces {
-		let (face, _transform, shape, node_name, specific_texture, specific_tint) = (
-			&render_face.face,
-			&render_face.transform,
-			&render_face.shape,
-			&render_face.node_name,
-			&render_face.texture,
-			&render_face.tint,
-		);
+		let face = &render_face.face;
+		let shape = render_face.shape.as_ref();
+
 		// Determine part index based on shape pointer (each unique shape = different body part)
-		let part_index = if let Some(ref s) = shape {
-			let shape_ptr = s as *const _ as usize;
-			*shape_to_index.entry(shape_ptr).or_insert_with(|| {
-				let idx = next_part_index;
-				next_part_index += 1;
-				idx
-			})
-		} else {
-			0
+		let part_index = match shape {
+			Some(s) if debug_mode => {
+				let shape_ptr = s as *const _ as usize;
+				*shape_to_index.entry(shape_ptr).or_insert_with(|| {
+					let idx = next_part_index;
+					next_part_index += 1;
+					idx
+				})
+			}
+			_ => 0,
 		};
 
 		// Clip face to frustum (returns clipped vertices in clip space)
-		if let Some(clipped_vertices) = clip::clip_face_to_frustum(face, &vp_matrix) {
-			// Extract face normal from first vertex for lighting
-			let face_normal = clipped_vertices[0].normal;
+		let Some(clipped_vertices) = clip::clip_face_to_frustum(face, &vp_matrix) else {
+			continue;
+		};
 
-			// Project clipped vertices to screen space
-			let mut screen_vertices = Vec::new();
-			let mut face_vertices_world = Vec::new();
+		// Only render if we have at least 3 vertices (triangle)
+		if clipped_vertices.len() < 3 {
+			continue;
+		}
 
-			for clip_vertex in &clipped_vertices {
-				// Perform perspective divide
-				let ndc = glam::Vec3::new(
-					clip_vertex.clip_pos.x / clip_vertex.clip_pos.w,
-					clip_vertex.clip_pos.y / clip_vertex.clip_pos.w,
-					clip_vertex.clip_pos.z / clip_vertex.clip_pos.w,
-				);
+		// Extract face normal from first vertex for lighting
+		let face_normal = clipped_vertices[0].normal;
 
-				// Convert to screen space
-				let screen_x = (ndc.x + 1.0) * 0.5 * output_width as f32;
-				let screen_y = (1.0 - ndc.y) * 0.5 * output_height as f32;
+		// Project clipped vertices to screen space
+		let mut screen_vertices = Vec::with_capacity(clipped_vertices.len());
+		let mut uvs = Vec::with_capacity(clipped_vertices.len());
 
-				// Calculate view-space depth for z-buffer
-				let world_pos_vec3 = Vector3 {
-					x: clip_vertex.world_pos.x,
-					y: clip_vertex.world_pos.y,
-					z: clip_vertex.world_pos.z,
-				};
-				let view_depth = camera.calculate_depth(world_pos_vec3);
+		for clip_vertex in &clipped_vertices {
+			// Perform perspective divide
+			let ndc = glam::Vec3::new(
+				clip_vertex.clip_pos.x / clip_vertex.clip_pos.w,
+				clip_vertex.clip_pos.y / clip_vertex.clip_pos.w,
+				clip_vertex.clip_pos.z / clip_vertex.clip_pos.w,
+			);
 
-				screen_vertices.push((screen_x, screen_y, view_depth));
+			// Convert to screen space
+			let screen_x = (ndc.x + 1.0) * 0.5 * output_width as f32;
+			let screen_y = (1.0 - ndc.y) * 0.5 * output_height as f32;
 
-				// Rebuild face vertex list for rendering
-				face_vertices_world.push(crate::geometry::Vertex {
-					position: clip_vertex.world_pos,
-					normal: glam::Vec3::ZERO, // Not used in rendering
-					uv: clip_vertex.uv,
-				});
-			}
+			// Calculate view-space depth for z-buffer
+			let world_pos_vec3 = Vector3 {
+				x: clip_vertex.world_pos.x,
+				y: clip_vertex.world_pos.y,
+				z: clip_vertex.world_pos.z,
+			};
+			let view_depth = camera.calculate_depth(world_pos_vec3);
 
-			// Only render if we have at least 3 vertices (triangle)
-			if screen_vertices.len() >= 3 {
-				// Backface culling (skip for double-sided shapes)
-				let is_double_sided = shape.as_ref().map_or(false, |s| s.double_sided);
+			screen_vertices.push((screen_x, screen_y, view_depth));
+			uvs.push(clip_vertex.uv);
+		}
 
-				if !is_double_sided {
-					// Check if winding is flipped due to negative stretch
-					// Odd number of negative axes = flipped winding
-					let winding_flipped = shape.as_ref().map_or(false, |s| {
-						let neg_count = [s.stretch.x < 0.0, s.stretch.y < 0.0, s.stretch.z < 0.0]
-							.iter()
-							.filter(|&&b| b)
-							.count();
-						neg_count % 2 == 1 // Odd count = flipped
-					});
+		// Backface culling (skip for double-sided shapes)
+		let is_double_sided = shape.is_some_and(|s| s.double_sided);
 
-					let (x0, y0, _) = screen_vertices[0];
-					let (x1, y1, _) = screen_vertices[1];
-					let (x2, y2, _) = screen_vertices[2];
+		if !is_double_sided {
+			// Check if winding is flipped due to negative stretch
+			// Odd number of negative axes = flipped winding
+			let winding_flipped = shape.is_some_and(|s| {
+				let neg_count = [s.stretch.x < 0.0, s.stretch.y < 0.0, s.stretch.z < 0.0]
+					.iter()
+					.filter(|&&b| b)
+					.count();
+				neg_count % 2 == 1 // Odd count = flipped
+			});
 
-					// Signed area via cross product (2D)
-					// Note: Screen Y points down (1.0 - ndc.y), so winding is reversed:
-					// Positive signed area = CW = back-facing (cull)
-					// Negative signed area = CCW = front-facing (keep)
-					let signed_area = (x1 - x0) * (y2 - y0) - (x2 - x0) * (y1 - y0);
+			let (x0, y0, _) = screen_vertices[0];
+			let (x1, y1, _) = screen_vertices[1];
+			let (x2, y2, _) = screen_vertices[2];
 
-					// If winding is flipped by negative stretch, invert the check
-					let is_backfacing = if winding_flipped {
-						signed_area < 0.0 // Flipped: negative = back-facing
-					} else {
-						signed_area > 0.0 // Normal: positive = back-facing
-					};
+			// Signed area via cross product (2D)
+			// Note: Screen Y points down (1.0 - ndc.y), so winding is reversed:
+			// Positive signed area = CW = back-facing (cull)
+			// Negative signed area = CCW = front-facing (keep)
+			let signed_area = (x1 - x0) * (y2 - y0) - (x2 - x0) * (y1 - y0);
 
-					if is_backfacing {
-						continue; // Skip back-facing triangle
-					}
-				}
+			// If winding is flipped by negative stretch, invert the check
+			let is_backfacing = if winding_flipped {
+				signed_area < 0.0 // Flipped: negative = back-facing
+			} else {
+				signed_area > 0.0 // Normal: positive = back-facing
+			};
 
-				let clipped_face = Face {
-					vertices: face_vertices_world,
-					texture_face: face.texture_face.clone(),
-				};
-
-				render_faces.push(RenderFace {
-					screen_vertices,
-					texture_face: face.texture_face.clone(),
-					face_data: clipped_face,
-					shape: shape.clone(),
-					part_index,
-					node_name: node_name.clone(),
-					texture: specific_texture.clone(),
-					tint_gradient: specific_tint.clone(),
-					normal: face_normal,
-				});
+			if is_backfacing {
+				continue; // Skip back-facing triangle
 			}
 		}
+
+		render_faces.push(RenderFace {
+			screen_vertices,
+			uvs,
+			source: render_face,
+			part_index,
+			normal: face_normal,
+		});
 	}
 
 	// Render each face
+	let mut shades = ShadeCache::default();
 	for render_face in &render_faces {
 		if debug_mode {
 			render_face_to_image_debug(&mut image, &mut depth_buffer, output_width, render_face)?;
@@ -336,9 +323,9 @@ fn render_scene_internal(
 				output_width,
 				render_face,
 				texture,
-				render_face.shape.as_ref(),
 				tint_config,
 				config,
+				&mut shades,
 			)?;
 		}
 	}

@@ -484,8 +484,13 @@ export function getRequiredAssetPaths(resolvedSkin: ResolvedSkin): {
 	};
 }
 
-// Pre-compute cosmetic JSON bytes at module load - these are static bundled files
-const COSMETIC_JSON_BYTES: { path: string; bytes: Uint8Array; }[] = (() => {
+/**
+ * Serialise the bundled cosmetic JSON for the WASM renderer.
+ *
+ * Only needed once per isolate (when the render context is loaded), so this is done on demand
+ * rather than at module load, where every isolate would pay for it even without Hytale traffic.
+ */
+export function getCosmeticJsonBytes(): { path: string; bytes: Uint8Array; }[] {
 	const encoder = new TextEncoder();
 	return COSMETIC_FILES.map(({ path, content }) => {
 		return {
@@ -493,10 +498,6 @@ const COSMETIC_JSON_BYTES: { path: string; bytes: Uint8Array; }[] = (() => {
 			bytes: encoder.encode(JSON.stringify(content)),
 		};
 	});
-})();
-
-export function getCosmeticJsonBytes(): { path: string; bytes: Uint8Array; }[] {
-	return COSMETIC_JSON_BYTES;
 }
 
 export function getCosmeticJson<T>(path: string): T {
