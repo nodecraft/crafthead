@@ -170,7 +170,8 @@ fn draw_char(image: &mut RgbaImage, c: char, x: i32, y: i32, scale: u32, color: 
 							let px = x + (col * scale as i32) + sx as i32;
 							let py = y + (row_idx as u32 * scale) as i32 + sy as i32;
 							if px >= 0
-								&& py >= 0 && (px as u32) < image.width()
+								&& py >= 0
+								&& (px as u32) < image.width()
 								&& (py as u32) < image.height()
 							{
 								image.put_pixel(px as u32, py as u32, color);

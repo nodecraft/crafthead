@@ -31,7 +31,8 @@ pub(crate) fn render_head_cube(skin: &DynamicImage, size: u32, armored: bool) ->
 			* Projection::translate(
 				x_offset + 7.5 * scale - 0.5,
 				(x_offset + 8.0 * scale) + z_offset - 0.5,
-			) * Projection::scale(scale, scale);
+			)
+			* Projection::scale(scale, scale);
 
 	let head_right_skew =
 		Projection::from_matrix([1.0, 0.0, 0.0, SKEW_A, SKEW_B, 0.0, 0.0, 0.0, 1.0]).unwrap()
@@ -147,10 +148,12 @@ mod tests {
 				* Projection::scale(scale, scale + (1.0 / 8.0));
 		let head_front_skew =
 			Projection::from_matrix([1.0, 0.0, 0.0, -SKEW_A, SKEW_B, SKEW_A, 0.0, 0.0, 1.0])
-				.unwrap() * Projection::translate(
-				x_offset + 7.5 * scale - 0.5,
-				(x_offset + 8.0 * scale) + z_offset - 0.5,
-			) * Projection::scale(scale, scale);
+				.unwrap()
+				* Projection::translate(
+					x_offset + 7.5 * scale - 0.5,
+					(x_offset + 8.0 * scale) + z_offset - 0.5,
+				)
+				* Projection::scale(scale, scale);
 		let head_right_skew =
 			Projection::from_matrix([1.0, 0.0, 0.0, SKEW_A, SKEW_B, 0.0, 0.0, 0.0, 1.0]).unwrap()
 				* Projection::translate(x_offset - (scale / 2.0), z_offset + scale)
