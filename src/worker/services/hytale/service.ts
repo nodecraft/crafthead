@@ -7,7 +7,6 @@ import { loadHytaleAssets } from './assets';
 import {
 	type SkinDefinition,
 	getCosmeticJson,
-	getCosmeticJsonBytes,
 	getRequiredAssetPaths,
 	resolveSkin,
 } from './cosmetic-registry';
@@ -203,11 +202,6 @@ export async function renderAvatar(incomingRequest: Request, request: CraftheadR
 			...requiredAssets.gradients,
 		];
 
-		for (const { path, bytes } of getCosmeticJsonBytes()) {
-			assetPaths.push(`assets/Common/${path}`);
-			assetBytes.push(bytes);
-		}
-
 		const limit = pLimit(12);
 		const skinAssetPromises = skinAssetPaths.map(async (assetPath) => {
 			const data = await limit(() => readAssetFile(assetPath, env, ctx));
@@ -270,8 +264,6 @@ export async function renderAvatar(incomingRequest: Request, request: CraftheadR
 		const skinConfigJson = JSON.stringify({ skin: profile?.skin ?? defaultSkin });
 
 		const imageData = render_hytale_3d(
-			assets.modelJson,
-			assets.animationJson,
 			assets.textureBytes,
 			skinConfigJson,
 			assetPaths,

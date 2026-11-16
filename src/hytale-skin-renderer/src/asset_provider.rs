@@ -52,6 +52,20 @@ impl MemoryAssetProvider {
 	}
 }
 
+/// Looks an asset up in `primary` first, then in `fallback`.
+pub struct LayeredAssetProvider<'a> {
+	pub primary: &'a dyn AssetProvider,
+	pub fallback: &'a dyn AssetProvider,
+}
+
+impl AssetProvider for LayeredAssetProvider<'_> {
+	fn load_bytes(&self, path: &str) -> Result<Vec<u8>> {
+		self.primary
+			.load_bytes(path)
+			.or_else(|_| self.fallback.load_bytes(path))
+	}
+}
+
 impl AssetProvider for MemoryAssetProvider {
 	fn load_bytes(&self, path: &str) -> Result<Vec<u8>> {
 		self.assets

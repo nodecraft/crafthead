@@ -2,13 +2,14 @@
 
 use crate::error::Result;
 use crate::models::{UvAngle, UvFace, UvOffset};
-use image::{DynamicImage, GenericImageView, Rgba};
+use image::{DynamicImage, GenericImageView, Rgba, RgbaImage};
 use std::path::Path;
 
 /// A loaded texture with dimensions
 #[derive(Debug, Clone)]
 pub struct Texture {
-	image: DynamicImage,
+	// Normalised to RGBA8 on load so per-pixel sampling never converts from the source format.
+	image: RgbaImage,
 	width: u32,
 	height: u32,
 }
@@ -16,24 +17,12 @@ pub struct Texture {
 impl Texture {
 	/// Load a texture from a file path
 	pub fn from_file(path: &std::path::Path) -> Result<Self> {
-		let image = image::open(path)?;
-		let (width, height) = image.dimensions();
-		Ok(Texture {
-			image,
-			width,
-			height,
-		})
+		Ok(Self::from_image(image::open(path)?))
 	}
 
 	/// Load a texture from memory (PNG bytes)
 	pub fn from_bytes(data: &[u8]) -> Result<Self> {
-		let image = image::load_from_memory(data)?;
-		let (width, height) = image.dimensions();
-		Ok(Texture {
-			image,
-			width,
-			height,
-		})
+		Ok(Self::from_image(image::load_from_memory(data)?))
 	}
 
 	/// Get texture dimensions
@@ -43,11 +32,12 @@ impl Texture {
 
 	/// Sample a pixel directly using absolute pixel coordinates
 	/// This avoids precision loss from UV normalization
+	#[inline]
 	pub fn sample_pixel(&self, x: f32, y: f32) -> Rgba<u8> {
 		// Use floor() to get the pixel index, clamped to valid range
 		let px = (x.floor() as i32).clamp(0, self.width as i32 - 1) as u32;
 		let py = (y.floor() as i32).clamp(0, self.height as i32 - 1) as u32;
-		self.image.get_pixel(px, py).clone()
+		*self.image.get_pixel(px, py)
 	}
 
 	/// Sample a pixel at UV coordinates (0.0 to 1.0 range)
@@ -60,7 +50,8 @@ impl Texture {
 		let x = (u_clamped * (self.width - 1) as f32).round() as u32;
 		let y = (v_clamped * (self.height - 1) as f32).round() as u32;
 
-		self.image
+		*self
+			.image
 			.get_pixel(x.min(self.width - 1), y.min(self.height - 1))
 	}
 
@@ -80,10 +71,10 @@ impl Texture {
 		let fx = x - x0 as f32;
 		let fy = y - y0 as f32;
 
-		let p00 = self.image.get_pixel(x0, y0);
-		let p10 = self.image.get_pixel(x1, y0);
-		let p01 = self.image.get_pixel(x0, y1);
-		let p11 = self.image.get_pixel(x1, y1);
+		let p00 = *self.image.get_pixel(x0, y0);
+		let p10 = *self.image.get_pixel(x1, y0);
+		let p01 = *self.image.get_pixel(x0, y1);
+		let p11 = *self.image.get_pixel(x1, y1);
 
 		// Alpha discontinuity handling: if mixing opaque and transparent, fallback to nearest
 		let alpha_threshold = 128;
@@ -94,7 +85,7 @@ impl Texture {
 		if has_opaque && has_transparent {
 			let nearest_x = if fx < 0.5 { x0 } else { x1 };
 			let nearest_y = if fy < 0.5 { y0 } else { y1 };
-			return self.image.get_pixel(nearest_x, nearest_y);
+			return *self.image.get_pixel(nearest_x, nearest_y);
 		}
 
 		let lerp = |a: u8, b: u8, t: f32| -> u8 { ((a as f32 * (1.0 - t)) + (b as f32 * t)) as u8 };
@@ -117,11 +108,12 @@ impl Texture {
 	pub fn get_pixel(&self, x: u32, y: u32) -> Rgba<u8> {
 		let x = x.min(self.width - 1);
 		let y = y.min(self.height - 1);
-		self.image.get_pixel(x, y)
+		*self.image.get_pixel(x, y)
 	}
 
 	/// Create a texture from an image (for testing and internal use)
 	pub fn from_image(image: DynamicImage) -> Self {
+		let image = image.into_rgba8();
 		let (width, height) = image.dimensions();
 		Texture {
 			image,
@@ -140,9 +132,40 @@ pub struct TintGradient {
 	pixels: Vec<Rgba<u8>>,
 	inverted: bool,
 	brightness: f32,
+	// Tinting runs per rendered pixel, so the colour for every grey level is resolved once up front.
+	by_grey: [Rgba<u8>; 256],
 }
 
 impl TintGradient {
+	fn new(pixels: Vec<Rgba<u8>>) -> Self {
+		let mut gradient = TintGradient {
+			pixels,
+			inverted: false,
+			brightness: 1.0,
+			by_grey: [Rgba([0, 0, 0, 0]); 256],
+		};
+		gradient.rebuild_grey_table();
+		gradient
+	}
+
+	fn rebuild_grey_table(&mut self) {
+		for grey in 0..=255u8 {
+			self.by_grey[grey as usize] = self.resolve_grey(grey);
+		}
+	}
+
+	fn resolve_grey(&self, grey: u8) -> Rgba<u8> {
+		let mut effective_grey = if self.inverted { 255 - grey } else { grey };
+
+		if self.brightness != 1.0 {
+			effective_grey = ((effective_grey as f32 * self.brightness)
+				.round()
+				.clamp(0.0, 255.0)) as u8;
+		}
+
+		self.lookup(effective_grey as f32 / 255.0)
+	}
+
 	pub fn from_file(path: &Path) -> Result<Self> {
 		let image = image::open(path)?;
 		Ok(Self::from_image(&image))
@@ -162,30 +185,19 @@ impl TintGradient {
 			pixels.push(image.get_pixel(x, y));
 		}
 
-		TintGradient {
-			pixels,
-			inverted: false,
-			brightness: 1.0,
-		}
+		Self::new(pixels)
 	}
 
 	pub fn solid(color: Rgba<u8>) -> Self {
-		TintGradient {
-			pixels: vec![color; 256],
-			inverted: false,
-			brightness: 1.0,
-		}
+		Self::new(vec![color; 256])
 	}
 
 	pub fn identity() -> Self {
-		let pixels: Vec<Rgba<u8>> = (0..=255)
-			.map(|i| Rgba([i as u8, i as u8, i as u8, 255]))
-			.collect();
-		TintGradient {
-			pixels,
-			inverted: false,
-			brightness: 1.0,
-		}
+		Self::new(
+			(0..=255)
+				.map(|i| Rgba([i as u8, i as u8, i as u8, 255]))
+				.collect(),
+		)
 	}
 
 	/// Create a gradient from a list of base colors
@@ -223,11 +235,7 @@ impl TintGradient {
 			pixels.push(Rgba([r, g, b, a]));
 		}
 
-		TintGradient {
-			pixels,
-			inverted: false,
-			brightness: 1.0,
-		}
+		Self::new(pixels)
 	}
 
 	pub fn from_hex_colors(hex_colors: &[String]) -> Self {
@@ -251,11 +259,13 @@ impl TintGradient {
 
 	pub fn with_inverted(mut self, inverted: bool) -> Self {
 		self.inverted = inverted;
+		self.rebuild_grey_table();
 		self
 	}
 
 	pub fn with_brightness(mut self, brightness: f32) -> Self {
 		self.brightness = brightness;
+		self.rebuild_grey_table();
 		self
 	}
 
@@ -271,16 +281,9 @@ impl TintGradient {
 	}
 
 	/// Lookup by integer greyscale value (0-255)
+	#[inline]
 	pub fn lookup_u8(&self, grey: u8) -> Rgba<u8> {
-		let mut effective_grey = if self.inverted { 255 - grey } else { grey };
-
-		if self.brightness != 1.0 {
-			effective_grey = ((effective_grey as f32 * self.brightness)
-				.round()
-				.clamp(0.0, 255.0)) as u8;
-		}
-
-		self.lookup(effective_grey as f32 / 255.0)
+		self.by_grey[grey as usize]
 	}
 
 	pub fn len(&self) -> usize {
@@ -490,11 +493,7 @@ mod tests {
 				img.put_pixel(x, y, pixel);
 			}
 		}
-		Texture {
-			image: image::DynamicImage::ImageRgba8(img),
-			width: 64,
-			height: 64,
-		}
+		Texture::from_image(image::DynamicImage::ImageRgba8(img))
 	}
 
 	#[test]
@@ -944,6 +943,20 @@ mod tests {
 		let above = gradient.lookup(1.5);
 		let at_one = gradient.lookup(1.0);
 		assert_eq!(above, at_one);
+	}
+
+	#[test]
+	fn test_tint_gradient_brightness_scales_the_lookup() {
+		let gradient = create_test_gradient();
+		let dimmed = create_test_gradient().with_brightness(0.5);
+
+		// Half brightness reads the gradient at half the grey level.
+		assert_eq!(dimmed.lookup_u8(200), gradient.lookup_u8(100));
+		assert_eq!(dimmed.lookup_u8(0), gradient.lookup_u8(0));
+
+		// Brightness is applied after inversion, and both can be changed on an existing gradient.
+		let inverted_dimmed = dimmed.with_inverted(true);
+		assert_eq!(inverted_dimmed.lookup_u8(55), gradient.lookup_u8(100));
 	}
 
 	#[test]

@@ -18,7 +18,7 @@ pub struct SceneNode {
 }
 
 /// Scene graph built from a blockymodel
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct SceneGraph {
 	pub nodes: Vec<SceneNode>,
 }

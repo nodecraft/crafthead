@@ -19,6 +19,19 @@ pub trait CameraProjection {
 	fn view_matrix(&self) -> Mat4;
 }
 
+/// Camera preset for a view type name ("headshot", "isometric_head", "player_bust",
+/// "full_body_front", "front_right" or "back_right"); unknown names get the headshot camera.
+pub fn for_view_type(view_type: &str) -> Box<dyn CameraProjection> {
+	match view_type {
+		"isometric_head" => Box::new(PerspectiveCamera::isometric_head()),
+		"player_bust" => Box::new(PerspectiveCamera::player_bust()),
+		"full_body_front" => Box::new(Camera::full_body_front()),
+		"front_right" => Box::new(Camera::front_right_view()),
+		"back_right" => Box::new(Camera::back_right_view()),
+		_ => Box::new(PerspectiveCamera::headshot()),
+	}
+}
+
 /// Camera configuration for orthographic projection
 pub struct Camera {
 	/// Camera position in world space

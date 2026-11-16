@@ -1,3 +1,4 @@
+use crate::asset_provider::{AssetProvider, LayeredAssetProvider};
 use crate::{
 	animation, camera,
 	cosmetic_attachment::{self, TintedFace},
@@ -128,12 +129,24 @@ impl BodyRenderer {
 		let pose = animation::sample_animation(&animation, 0.0);
 		let scene = scene::SceneGraph::from_blockymodel_with_pose(&model, &pose, None)?;
 
-		let tint_config = renderer::TintConfig::default();
-
-		Ok(Self {
+		Ok(Self::from_scene(
 			scene,
 			registry,
-			tint_config,
+			fallbacks,
+			player_texture_dimensions,
+		))
+	}
+
+	fn from_scene(
+		scene: scene::SceneGraph,
+		registry: Arc<cosmetics::CosmeticRegistry>,
+		fallbacks: HashMap<String, String>,
+		player_texture_dimensions: (u32, u32),
+	) -> Self {
+		Self {
+			scene,
+			registry,
+			tint_config: renderer::TintConfig::default(),
 			faces: Vec::new(),
 			shapes: Vec::new(),
 			fallbacks,
@@ -142,7 +155,7 @@ impl BodyRenderer {
 			hair_face_range: None,
 			mount_points: HashMap::new(),
 			particles: Vec::new(),
-		})
+		}
 	}
 
 	pub fn with_skin_config(
@@ -869,5 +882,101 @@ impl BodyRenderer {
 			&self.tint_config,
 			&self.particles,
 		)
+	}
+}
+
+/// Everything a render needs that does not depend on the skin being drawn.
+///
+/// Parsing the cosmetic registry and the player model costs more than a small render does,
+/// and both are identical for every request, so they are built once and reused.
+pub struct RenderContext {
+	registry: Arc<cosmetics::CosmeticRegistry>,
+	fallbacks: HashMap<String, String>,
+	scene: scene::SceneGraph,
+	shared_assets: Box<dyn AssetProvider>,
+	asset_root: String,
+}
+
+impl RenderContext {
+	/// `shared_assets` must hold the CharacterCreator JSON; it also backs every later render,
+	/// so it can carry any other asset that never changes (e.g. the particle manifest).
+	pub fn new(
+		model_json: &str,
+		animation_json: &str,
+		shared_assets: Box<dyn AssetProvider>,
+		asset_root: &str,
+	) -> crate::Result<Self> {
+		let registry = Arc::new(cosmetics::CosmeticRegistry::load_from_provider(
+			shared_assets.as_ref(),
+			asset_root,
+		)?);
+		let fallbacks = shared_assets
+			.load_bytes(&format!(
+				"{}/Cosmetics/CharacterCreator/HaircutFallbacks.json",
+				asset_root
+			))
+			.ok()
+			.and_then(|bytes| serde_json::from_slice(&bytes).ok())
+			.unwrap_or_default();
+
+		let model = models::parse_blockymodel(model_json)?;
+		let animation = models::parse_blockyanim(animation_json)?;
+		let pose = animation::sample_animation(&animation, 0.0);
+		let scene = scene::SceneGraph::from_blockymodel_with_pose(&model, &pose, None)?;
+
+		Ok(Self {
+			registry,
+			fallbacks,
+			scene,
+			shared_assets,
+			asset_root: asset_root.to_string(),
+		})
+	}
+
+	/// Build the posed body with every cosmetic of `skin_config_json` attached.
+	///
+	/// `assets` holds the models, textures and gradients this particular skin refers to.
+	pub fn dress(
+		&self,
+		skin_config_json: &str,
+		assets: &dyn AssetProvider,
+	) -> crate::Result<BodyRenderer> {
+		let skin_config = skin::SkinConfig::from_str(skin_config_json)?;
+		let mut body = BodyRenderer::from_scene(
+			self.scene.clone(),
+			Arc::clone(&self.registry),
+			self.fallbacks.clone(),
+			(256, 256),
+		);
+		let provider = LayeredAssetProvider {
+			primary: assets,
+			fallback: self.shared_assets.as_ref(),
+		};
+		body.apply_skin_with_provider(&skin_config, &provider, &self.asset_root)?;
+		Ok(body)
+	}
+
+	/// Render a skin to PNG bytes. Unknown view types fall back to the headshot camera.
+	pub fn render_png(
+		&self,
+		skin_config_json: &str,
+		base_texture_bytes: &[u8],
+		assets: &dyn AssetProvider,
+		view_type: &str,
+		width: u32,
+		height: u32,
+	) -> crate::Result<Vec<u8>> {
+		let body = self.dress(skin_config_json, assets)?;
+		let base_texture = texture::Texture::from_bytes(base_texture_bytes)?;
+		let image = renderer::render_scene_tinted(
+			&body.faces,
+			&base_texture,
+			camera::for_view_type(view_type).as_ref(),
+			width,
+			height,
+			&body.tint_config,
+			&body.particles,
+		)?;
+		crate::output::export_png_bytes(&image)
 	}
 }
